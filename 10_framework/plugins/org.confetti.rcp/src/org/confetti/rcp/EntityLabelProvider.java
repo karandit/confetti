@@ -1,6 +1,5 @@
 package org.confetti.rcp;
 
-
 import org.confetti.core.Entity;
 import org.eclipse.jface.viewers.LabelProvider;
 

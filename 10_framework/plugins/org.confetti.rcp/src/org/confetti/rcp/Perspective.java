@@ -16,10 +16,10 @@ public class Perspective implements IPerspectiveFactory {
 		layout.setEditorAreaVisible(false);
 
 		IFolderLayout folderLeft = layout.createFolder("entities", IPageLayout.LEFT, 0.30f, editorArea);
-		folderLeft.addView(TeachersView.ID);
 		folderLeft.addView(SubjectsView.ID);
+		folderLeft.addView(TeachersView.ID);
 		folderLeft.addView(StudentGroupsView.ID);
-//		folderLeft.addView(NavigationView.ID);
+		folderLeft.addView(RoomsView.ID);
 
 //		layout.addStandaloneView(NavigationView.ID, true, IPageLayout.LEFT, 0.25f, editorArea);
 		IFolderLayout folder = layout.createFolder("messages", IPageLayout.TOP, 0.5f, editorArea);

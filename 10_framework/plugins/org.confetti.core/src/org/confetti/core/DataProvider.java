@@ -4,10 +4,12 @@ import java.util.List;
 
 public interface DataProvider {
 
-	List<Teacher> getTeachers();
-
 	List<Subject> getSubjects();
 
+	List<Teacher> getTeachers();
+
 	List<StudentGroup> getStudentGroups();
+	
+	List<Room> getRooms();
 	
 }

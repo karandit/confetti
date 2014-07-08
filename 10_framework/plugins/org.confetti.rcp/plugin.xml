@@ -37,31 +37,40 @@
       </view>
       <view
             allowMultiple="false"
-            class="org.confetti.rcp.views.TeachersView"
+            class="org.confetti.rcp.views.SubjectsView"
             icon="icons/sample.gif"
-            id="org.eclipse.ui.tutorials.rcp.part3.teachersView"
-            name="Teachers"
+            id="org.confetti.rcp.subjectsView"
+            name="Subjects"
             restorable="true">
       </view>
       <view
             allowMultiple="false"
-            class="org.confetti.rcp.views.SubjectsView"
+            class="org.confetti.rcp.views.TeachersView"
             icon="icons/sample.gif"
-            id="org.eclipse.ui.tutorials.rcp.part3.subjectsView"
-            name="Subjects"
+            id="org.confetti.rcp.teachersView"
+            name="Teachers"
             restorable="true">
       </view>
       <view
             allowMultiple="false"
             class="org.confetti.rcp.views.StudentGroupsView"
             icon="icons/sample.gif"
-            id="org.eclipse.ui.tutorials.rcp.part3.studentGroupsView"
+            id="org.confetti.rcp.studentGroupsView"
             name="StudentGroups"
             restorable="true">
       </view>
       <view
             allowMultiple="false"
+            class="org.confetti.rcp.RoomsView"
+            icon="icons/sample.gif"
+            id="org.confetti.rcp.roomsView"
+            name="Rooms"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
             class="org.confetti.rcp.views.AssignmentsView"
+            icon="icons/sample2.gif"
             id="org.eclipse.ui.tutorials.rcp.part3.assignmentsView"
             name="Assignments"
             restorable="true">

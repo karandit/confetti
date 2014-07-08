@@ -16,7 +16,7 @@ import org.eclipse.ui.part.ViewPart;
 
 public class TeachersView extends ViewPart {
 
-	public static final String ID = "org.eclipse.ui.tutorials.rcp.part3.teachersView";
+	public static final String ID = "org.confetti.rcp.teachersView";
 	
 	private TableViewer viewer;
 	

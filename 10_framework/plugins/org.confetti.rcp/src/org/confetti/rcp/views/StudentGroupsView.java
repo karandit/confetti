@@ -16,7 +16,7 @@ import org.eclipse.ui.part.ViewPart;
 
 public class StudentGroupsView extends ViewPart {
 
-	public static final String ID = "org.eclipse.ui.tutorials.rcp.part3.studentGroupsView";
+	public static final String ID = "org.confetti.rcp.studentGroupsView";
 
 	private TreeViewer viewer;
 

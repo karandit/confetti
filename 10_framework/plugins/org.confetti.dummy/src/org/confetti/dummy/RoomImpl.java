@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.confetti.core.Assignment;
-import org.confetti.core.Teacher;
+import org.confetti.core.Room;
 
-public class TeacherImpl implements Teacher {
+public class RoomImpl implements Room{
 
 	private final String name;
 	private final List<Assignment> assignments = new ArrayList<>();
 	
-	public TeacherImpl(String name) {
+	public RoomImpl(String name) {
 		this.name = name;
 	}
-
+	
 	@Override
 	public String getName() {
 		return name;
@@ -30,4 +30,5 @@ public class TeacherImpl implements Teacher {
 		return assignments;
 	}
 
+	
 }

@@ -31,7 +31,7 @@ public class AssignmentsView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
-		addColumn(table, "#", 20);
+		addColumn(table, "#", 30);
 		addColumn(table, "Subject", 100);
 		addColumn(table, "Teacher", 100);
 		addColumn(table, "Student Group", 100);
@@ -82,7 +82,7 @@ public class AssignmentsView extends ViewPart {
 				case 1:	return assignment.getSubj().getName();
 				case 2:	return toStr(assignment.getTeachers());
 				case 3:	return toStr(assignment.getStudentGroups());
-				default : return "";
+				default : return assignment.getRoom().getName();
 			}
 		}
 
