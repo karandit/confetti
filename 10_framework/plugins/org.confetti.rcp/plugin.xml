@@ -61,7 +61,7 @@
       </view>
       <view
             allowMultiple="false"
-            class="org.confetti.rcp.RoomsView"
+            class="org.confetti.rcp.views.RoomsView"
             icon="icons/sample.gif"
             id="org.confetti.rcp.roomsView"
             name="Rooms"
@@ -71,8 +71,24 @@
             allowMultiple="false"
             class="org.confetti.rcp.views.AssignmentsView"
             icon="icons/sample2.gif"
-            id="org.eclipse.ui.tutorials.rcp.part3.assignmentsView"
+            id="org.confetti.rcp.assignmentsView"
             name="Assignments"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="org.confetti.rcp.views.ConstraintsView"
+            icon="icons/sample3.gif"
+            id="org.confetti.rcp.constraintsView"
+            name="Constraints"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
+            class="org.confetti.rcp.views.TimeTableView"
+            icon="icons/sample3.gif"
+            id="org.confetti.rcp.timeTableView"
+            name="TimeTable"
             restorable="true">
       </view>
    </extension>

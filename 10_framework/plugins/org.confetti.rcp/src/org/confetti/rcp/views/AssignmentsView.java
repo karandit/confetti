@@ -23,7 +23,7 @@ import org.eclipse.ui.part.ViewPart;
 
 public class AssignmentsView extends ViewPart {
 
-	public final static String ID = "org.eclipse.ui.tutorials.rcp.part3.assignmentsView";
+	public final static String ID = "org.confetti.rcp.assignmentsView";
 	
 	private TableViewer viewer;
 
@@ -31,11 +31,11 @@ public class AssignmentsView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
-		addColumn(table, "#", 30);
-		addColumn(table, "Subject", 100);
-		addColumn(table, "Teacher", 100);
-		addColumn(table, "Student Group", 100);
-		addColumn(table, "Room", 100);
+		addColumn(table, "#", 50);
+		addColumn(table, "Subject", 150);
+		addColumn(table, "Teacher", 150);
+		addColumn(table, "Student Group", 150);
+		addColumn(table, "Room", 150);
 		
 		viewer = new TableViewer(table);
 		viewer.setContentProvider(new ArrayContentProvider());
