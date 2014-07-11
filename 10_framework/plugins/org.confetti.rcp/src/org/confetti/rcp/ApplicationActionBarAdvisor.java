@@ -2,6 +2,7 @@ package org.confetti.rcp;
 
 import org.confetti.rcp.actions.MessagePopupAction;
 import org.confetti.rcp.actions.OpenViewAction;
+import org.confetti.rcp.actions.OpenWizardAction;
 import org.confetti.rcp.views.View;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.GroupMarker;
@@ -36,17 +37,14 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     private OpenViewAction openViewAction;
     private Action messagePopupAction;
     
+    private OpenWizardAction openWizardAction;
+    
 
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
     }
     
     protected void makeActions(final IWorkbenchWindow window) {
-        // Creates the actions and registers them.
-        // Registering is needed to ensure that key bindings work.
-        // The corresponding commands keybindings are defined in the plugin.xml file.
-        // Registering also provides automatic disposal of the actions when
-        // the window is closed.
 
         exitAction = ActionFactory.QUIT.create(window);
         register(exitAction);
@@ -62,6 +60,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         
         messagePopupAction = new MessagePopupAction("Open Message", window);
         register(messagePopupAction);
+        
+        openWizardAction = new OpenWizardAction();
+        register(openWizardAction);
     }
     
     protected void fillMenuBar(IMenuManager menuBar) {
@@ -90,5 +91,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         coolBar.add(new ToolBarContributionItem(toolbar, "main"));   
         toolbar.add(openViewAction);
         toolbar.add(messagePopupAction);
+        
+        toolbar.add(openWizardAction);
     }
 }
