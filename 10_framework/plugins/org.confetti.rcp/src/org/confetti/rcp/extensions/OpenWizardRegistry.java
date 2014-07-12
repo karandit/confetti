@@ -3,34 +3,35 @@ package org.confetti.rcp.extensions;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
-public enum DataProviderRegistry {
+public enum OpenWizardRegistry {
 
 	INSTANCE;
 
 	/** The name of extension-point which is worked up. */
-	private static final String DATAPROVIDER_EXTENSION_POINT = "org.confetti.rcp.dataProvider"; //$NON-NLS-1$
-	private List<DataProviderDescr> descriptors = null;
+	private static final String OPENWIZARD_EXTENSION_POINT = "org.confetti.rcp.openWizard"; //$NON-NLS-1$
+	private List<OpenWizardDescr> descriptors = null;
 	
-	public List<DataProviderDescr> getDataProviders() {
+	public List<OpenWizardDescr> getExtensions() {
 		if (descriptors == null) {
 			descriptors = loadDataProviders();
 		}
 		return descriptors;
 	}
 	
-	private List<DataProviderDescr> loadDataProviders() {
-		List<DataProviderDescr> res = new LinkedList<>();
+	private List<OpenWizardDescr> loadDataProviders() {
+		List<OpenWizardDescr> res = new LinkedList<>();
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 		if (registry == null) {
 			return res;
 		}
-		IExtensionPoint point = registry.getExtensionPoint(DATAPROVIDER_EXTENSION_POINT);
+		IExtensionPoint point = registry.getExtensionPoint(OPENWIZARD_EXTENSION_POINT);
 		if (point == null) {
 			return res;
 		}
@@ -38,7 +39,11 @@ public enum DataProviderRegistry {
 			if (null != extension) {
 				for (IConfigurationElement element : extension.getConfigurationElements()) {
 					if (null != element) {
-						res.add(createDataProviderDescr(element));
+						try {
+							res.add(createDescr(element));
+						} catch (CoreException e) {
+							//just ignore
+						}
 					}
 				}
 			}
@@ -46,9 +51,11 @@ public enum DataProviderRegistry {
 		return res;
 	}
 
-	private DataProviderDescr createDataProviderDescr(final IConfigurationElement element) {
+	private OpenWizardDescr createDescr(final IConfigurationElement element) throws CoreException {
 		String name = element.getAttribute("name");
-		return new DataProviderDescr(name);
+		OpenWizardFactory factory = (OpenWizardFactory) element.createExecutableExtension("factory");
+
+		return new OpenWizardDescr(name, factory);
 	}
 	
 }

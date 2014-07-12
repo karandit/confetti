@@ -28,7 +28,7 @@ public class RoomsView extends ViewPart {
 		viewer = new TableViewer(table);
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new EntityTableLabelProvider());
-		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getRooms());
+//		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getRooms());
 
 		getSite().setSelectionProvider(viewer);
 		

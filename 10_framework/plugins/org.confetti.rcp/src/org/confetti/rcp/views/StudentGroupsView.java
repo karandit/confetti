@@ -31,7 +31,7 @@ public class StudentGroupsView extends ViewPart {
 
 		viewer.setContentProvider(new StudentGroupContentProvider());
 		viewer.setLabelProvider(new EntityTableLabelProvider());
-		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getStudentGroups());
+//		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getStudentGroups());
 		 
 		getSite().setSelectionProvider(viewer);
 

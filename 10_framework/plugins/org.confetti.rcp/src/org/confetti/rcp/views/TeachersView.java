@@ -29,7 +29,7 @@ public class TeachersView extends ViewPart {
 		viewer = new TableViewer(table);
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new EntityTableLabelProvider());
-		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getTeachers());
+//		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getTeachers());
 
 		getSite().setSelectionProvider(viewer);
 		

@@ -2,7 +2,6 @@ package org.confetti.rcp;
 
 
 import org.confetti.core.DataProvider;
-import org.confetti.dummy.DataProviderImpl;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -58,7 +57,7 @@ public class Part3Plugin extends AbstractUIPlugin {
 	}
 	
 	private DataProvider createDummyModel() {
-		return new DataProviderImpl();
+		return null;
 	}
 
 	public DataProvider getDummyModel() {

@@ -28,7 +28,7 @@ public class SubjectsView extends ViewPart {
 		viewer = new TableViewer(table);
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new EntityTableLabelProvider());
-		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getSubjects());
+//		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getSubjects());
 
 		getSite().setSelectionProvider(viewer);
 		

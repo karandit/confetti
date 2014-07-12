@@ -3,7 +3,7 @@
 <schema targetNamespace="org.confetti.rcp" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.confetti.rcp" id="dataProvider" name="Data Provider"/>
+         <meta.schema plugin="org.confetti.rcp" id="openWizard" name="Open Wizard"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence minOccurs="1" maxOccurs="unbounded">
-            <element ref="wizardPage"/>
+            <element ref="openWizard"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,13 +47,23 @@
       </complexType>
    </element>
 
-   <element name="wizardPage">
+   <element name="openWizard">
       <complexType>
          <attribute name="name" type="string">
             <annotation>
                <documentation>
                   
                </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="factory" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.confetti.rcp.extensions.OpenWizardFactory"/>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>

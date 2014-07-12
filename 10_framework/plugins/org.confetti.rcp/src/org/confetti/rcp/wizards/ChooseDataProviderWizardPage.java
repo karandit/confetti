@@ -1,33 +1,45 @@
 package org.confetti.rcp.wizards;
 
-import java.util.List;
-
-import org.confetti.rcp.extensions.DataProviderDescr;
-import org.confetti.rcp.extensions.DataProviderRegistry;
+import org.confetti.rcp.extensions.OpenWizardDescr;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 public class ChooseDataProviderWizardPage extends WizardPage {
 	
-	public ChooseDataProviderWizardPage() {
+	private OpenWizardModel model;
+
+	public ChooseDataProviderWizardPage(OpenWizardModel model) {
 		super("chooseDataProvider");
+		this.model = model;
 		setTitle("Open");
 		setDescription("Choose a data provider");
 	}
 
 	@Override
 	public void createControl(Composite parent) {
-		List<DataProviderDescr> dataProviders = DataProviderRegistry.INSTANCE.getDataProviders(); 
-				
-		ListViewer dataProviderViewer = new ListViewer(parent);
-		dataProviderViewer.setContentProvider(new ArrayContentProvider());
-		dataProviderViewer.setInput(dataProviders);
-		GridDataFactory.fillDefaults().applyTo(dataProviderViewer.getControl());
+		ListViewer viewer = new ListViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		viewer.setContentProvider(new ArrayContentProvider());
+		GridDataFactory.fillDefaults().applyTo(viewer.getControl());
 		
-		setControl(dataProviderViewer.getControl());
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				setPageComplete(!event.getSelection().isEmpty());
+				IStructuredSelection sel = (IStructuredSelection) event.getSelection();
+				model.setSelectedExtension(sel.isEmpty() ? null : (OpenWizardDescr) sel.getFirstElement());
+			}
+		});
+		viewer.setInput(model.getExtensions());
+		setPageComplete(!viewer.getSelection().isEmpty());
+		
+		setControl(viewer.getControl());
 	}
-
+	
 }

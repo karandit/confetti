@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension
+         point="org.confetti.rcp.openWizard">
+      <openWizard
+            factory="org.confetti.dummy.openwizard.DummyOpenWizardFactory"
+            name="Dummy">
+      </openWizard>
+      <openWizard
+            factory="org.confetti.dummy.openwizard.YetAnotherDummyOpenWizardFactory"
+            name="Yet another dummy">
+      </openWizard>
+   </extension>
 
 </plugin>
