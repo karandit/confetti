@@ -26,27 +26,36 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 	private void init() {
-		addSubject("matek");
-		addSubject("magyar");
-		addSubject("info");
-		addTeacher("Tomi bá");
-		addTeacher("Jani bá");
-		addStudentGroup("evosoft");
-		addStudentGroup("elte");
-		addRoom("1/1 - O5/O5_1");
-		addRoom("0.802 - Bolyai");
+		SubjectImpl subjMatek = addSubject("Math");
+		addSubject("Literatute");
+		SubjectImpl subjInfo = addSubject("Computer science");
+		
+		TeacherImpl teacher1 = addTeacher("Smith");
+		addTeacher("Tailor");
+		
+		StudentGroupImpl group1721 = addStudentGroup("1721");
+		StudentGroupImpl group1721_1 = new StudentGroupImpl("1");
+		group1721.addChild(group1721_1);
+		group1721_1.addChild(new StudentGroupImpl("A"));
+		group1721_1.addChild(new StudentGroupImpl("B"));
+		group1721.addChild(new StudentGroupImpl("2"));
+
+		StudentGroupImpl group2 = addStudentGroup("1731");
+
+		RoomImpl room1 = addRoom("Room_1");
+		RoomImpl room2 = addRoom("Room_2");
 
 		new AssignmentImpl(
-				getSubjects().get(0), 
+				subjMatek, 
 				getTeachers(), 
-				Arrays.asList(getStudentGroups().get(0)), 
-				getRooms().get(1)
+				Arrays.<StudentGroup>asList(group1721), 
+				room2
 			);
 		new AssignmentImpl(
-				getSubjects().get(2), 
-				Arrays.asList(getTeachers().get(1)), 
-				Arrays.asList(getStudentGroups().get(1)), 
-				getRooms().get(0)
+				subjInfo, 
+				Arrays.<Teacher>asList(teacher1), 
+				Arrays.<StudentGroup>asList(group2), 
+				room1
 			);
 	}
 
@@ -71,20 +80,28 @@ public class DataProviderImpl implements DataProvider {
 		return rooms;
 	}
 
-	private void addSubject(String name) {
-		subjects.add(new SubjectImpl(name));
+	private SubjectImpl addSubject(String name) {
+		SubjectImpl subject = new SubjectImpl(name);
+		subjects.add(subject);
+		return subject;
 	}
 	
-	private void addTeacher(String name) {
-		teachers.add(new TeacherImpl(name));
+	private TeacherImpl addTeacher(String name) {
+		TeacherImpl teacher = new TeacherImpl(name);
+		teachers.add(teacher);
+		return teacher;
 	}
 
-	private void addStudentGroup(String name) {
-		studentGroups.add(new StudentGroupImpl(name));
+	private StudentGroupImpl addStudentGroup(String name) {
+		StudentGroupImpl studentGroup = new StudentGroupImpl(name);
+		studentGroups.add(studentGroup);
+		return studentGroup;
 	}
 
-	private void addRoom(String name) {
-		rooms.add(new RoomImpl(name));
+	private RoomImpl addRoom(String name) {
+		RoomImpl room = new RoomImpl(name);
+		rooms.add(room);
+		return room;
 	}
 
 }

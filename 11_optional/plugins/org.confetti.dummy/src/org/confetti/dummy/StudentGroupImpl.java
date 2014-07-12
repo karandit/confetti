@@ -23,9 +23,9 @@ public class StudentGroupImpl implements StudentGroup {
 		return name;
 	}
 
-	public StudentGroup addChild(StudentGroup child) {
+	public StudentGroupImpl addChild(StudentGroupImpl child) {
 		children.add(child);
-//		child.parent = this; //TODO:
+		child.parent = this;
 		return this;
 	}
 

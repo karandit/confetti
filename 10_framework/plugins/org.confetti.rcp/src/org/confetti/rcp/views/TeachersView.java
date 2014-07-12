@@ -1,14 +1,10 @@
 package org.confetti.rcp.views;
 
 
-import org.confetti.core.Teacher;
 import org.confetti.rcp.Part3Plugin;
 import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -32,7 +28,7 @@ public class TeachersView extends ViewPart {
 		
 		viewer = new TableViewer(table);
 		viewer.setContentProvider(new ArrayContentProvider());
-		viewer.setLabelProvider(new TeacherLabelProvider());
+		viewer.setLabelProvider(new EntityTableLabelProvider());
 		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getTeachers());
 
 		getSite().setSelectionProvider(viewer);
@@ -47,18 +43,4 @@ public class TeachersView extends ViewPart {
 		viewer.getControl().setFocus();
 	}
 
-	private static class TeacherLabelProvider extends LabelProvider implements ITableLabelProvider {
-
-		@Override public Image getColumnImage(Object element, int columnIndex) { return null; }
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-			Teacher teacher = (Teacher) element;
-			switch (columnIndex) {
-				case 0: return "1/4";
-				default: return teacher.getName();
-			}
-		}
-		
-	}
 }

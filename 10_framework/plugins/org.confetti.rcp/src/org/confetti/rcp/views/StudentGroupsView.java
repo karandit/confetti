@@ -2,13 +2,12 @@ package org.confetti.rcp.views;
 
 import java.util.List;
 
-
 import org.confetti.core.StudentGroup;
-import org.confetti.rcp.EntityLabelProvider;
 import org.confetti.rcp.Part3Plugin;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -23,11 +22,22 @@ public class StudentGroupsView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		 viewer.setContentProvider(new StudentGroupContentProvider());
-		 viewer.setLabelProvider(new EntityLabelProvider());
-		 viewer.setInput(Part3Plugin.getDefault().getDummyModel().getStudentGroups());
+		viewer.getTree().setHeaderVisible(true);
+		TreeViewerColumn coverage = new TreeViewerColumn(viewer, SWT.LEFT);
+		coverage.getColumn().setText("#");
+
+		TreeViewerColumn name = new TreeViewerColumn(viewer, SWT.LEFT);
+		name.getColumn().setText("Name");
+
+		viewer.setContentProvider(new StudentGroupContentProvider());
+		viewer.setLabelProvider(new EntityTableLabelProvider());
+		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getStudentGroups());
 		 
-		 getSite().setSelectionProvider(viewer);
+		getSite().setSelectionProvider(viewer);
+
+		coverage.getColumn().pack();	
+		name.getColumn().pack();	
+	
 	}
 
 	@Override
