@@ -31,5 +31,4 @@ public class OpenWizardAction extends Action {
 		dialog.open();
 	}
 
-	
 }

@@ -111,6 +111,36 @@
             categoryId="org.eclipse.ui.tutorials.rcp.part3.category"
             id="org.eclipse.ui.tutorials.rcp.part3.openMessage">
       </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.NewSubjectCommand"
+            description="New Subject"
+            id="org.confetti.rcp.commands.newSubjectCommand"
+            name="New Subject">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.NewTeacherCommand"
+            description="New Teacher"
+            id="org.confetti.rcp.commands.newTeacherCommand"
+            name="New Teacher">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.NewStudentGroupCommand"
+            description="New Student Group"
+            id="org.confetti.rcp.commands.newStudentGroupCommand"
+            name="New Student Group">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.NewRoomCommand"
+            description="New Room"
+            id="org.confetti.rcp.commands.newRoomCommand"
+            name="New Room">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.NewAssignmentCommand"
+            description="New Assignment"
+            id="org.confetti.rcp.commands.newAssignmentCommand"
+            name="New Assignment">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -143,6 +173,59 @@
                name="aboutText"
                value="RCP Tutorial 3&#x0A;Version 1.0.0&#x0A;by Ed Burnette&#x0A;&#x0A;For more information on Eclipse and the&#x0A;Rich Client Platform visit:&#x0A;http://www.eclipse.org&#x0A;&#x0A;Copyrights and other legal stuff goes here."/>
       </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.confetti.rcp.subjectsView">
+         <command
+               commandId="org.confetti.rcp.commands.newSubjectCommand"
+               icon="icons/sample2.gif"
+               label="New Subject"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.confetti.rcp.teachersView">
+         <command
+               commandId="org.confetti.rcp.commands.newTeacherCommand"
+               icon="icons/sample2.gif"
+               label="New Teacher"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.confetti.rcp.studentGroupsView">
+         <command
+               commandId="org.confetti.rcp.commands.newStudentGroupCommand"
+               icon="icons/sample2.gif"
+               label="New Student Group"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.confetti.rcp.roomsView">
+         <command
+               commandId="org.confetti.rcp.commands.newRoomCommand"
+               icon="icons/sample2.gif"
+               label="New Room"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.confetti.rcp.assignmentsView">
+         <command
+               commandId="org.confetti.rcp.commands.newAssignmentCommand"
+               icon="icons/sample2.gif"
+               label="New Assignment"
+               style="push">
+         </command>
+      </menuContribution>
    </extension>
 
 </plugin>

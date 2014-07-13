@@ -1,6 +1,7 @@
 package org.confetti.rcp;
 
 import org.confetti.rcp.actions.MessagePopupAction;
+import org.confetti.rcp.actions.NewWizardAction;
 import org.confetti.rcp.actions.OpenViewAction;
 import org.confetti.rcp.actions.OpenWizardAction;
 import org.confetti.rcp.views.View;
@@ -37,6 +38,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     private OpenViewAction openViewAction;
     private Action messagePopupAction;
     
+    private NewWizardAction newWizardAction;
     private OpenWizardAction openWizardAction;
     
 
@@ -61,8 +63,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         messagePopupAction = new MessagePopupAction("Open Message", window);
         register(messagePopupAction);
         
+        newWizardAction = new NewWizardAction();
+        register(newWizardAction);
+        
         openWizardAction = new OpenWizardAction();
         register(openWizardAction);
+        
     }
     
     protected void fillMenuBar(IMenuManager menuBar) {
@@ -89,9 +95,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     protected void fillCoolBar(ICoolBarManager coolBar) {
         IToolBarManager toolbar = new ToolBarManager(SWT.FLAT | SWT.RIGHT);
         coolBar.add(new ToolBarContributionItem(toolbar, "main"));   
-        toolbar.add(openViewAction);
-        toolbar.add(messagePopupAction);
+//        toolbar.add(openViewAction);
+//        toolbar.add(messagePopupAction);
         
+        toolbar.add(newWizardAction);
         toolbar.add(openWizardAction);
     }
 }
