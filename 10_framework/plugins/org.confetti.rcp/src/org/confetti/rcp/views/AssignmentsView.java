@@ -12,7 +12,9 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -25,10 +27,16 @@ public class AssignmentsView extends ViewPart {
 
 	public final static String ID = "org.confetti.rcp.assignmentsView";
 	
-	private TableViewer viewer;
-
 	@Override
 	public void createPartControl(Composite parent) {
+		SashForm form = new SashForm(parent, SWT.VERTICAL);
+		form.setLayout(new FillLayout());
+		createAssigmentsList(form);
+		createTimeTable(form);
+	}
+
+
+	private void createAssigmentsList(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
 		addColumn(table, "#", 50);
@@ -37,7 +45,7 @@ public class AssignmentsView extends ViewPart {
 		addColumn(table, "Student Group", 150);
 		addColumn(table, "Room", 150);
 		
-		viewer = new TableViewer(table);
+		final TableViewer viewer = new TableViewer(table);
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new AssignmentLabelProvider());
 		
@@ -66,6 +74,11 @@ public class AssignmentsView extends ViewPart {
 		column.setWidth(width);
 	}
 
+	private void createTimeTable(Composite parent) {
+//		KTable ktable = new KTable(parent, SWT.NONE);
+//		ktable.setModel(new TimeTableModel(ktable));
+	}
+
 	@Override
 	public void setFocus() {
 	}
@@ -79,12 +92,14 @@ public class AssignmentsView extends ViewPart {
 			Assignment assignment = (Assignment) element;
 			switch (columnIndex) {
 				case 0: return "1/4";
-				case 1:	return assignment.getSubj().getName();
+				case 1:	return getName(assignment.getSubj());
 				case 2:	return toStr(assignment.getTeachers());
 				case 3:	return toStr(assignment.getStudentGroups());
-				default : return assignment.getRoom().getName();
+				default : return getName(assignment.getRoom());
 			}
 		}
+
+		private static String getName(Entity ent) { return ent == null ? null : ent.getName(); }
 
 		private static <T extends Entity> String toStr(List<T> items) {
 			StringBuilder sb = new StringBuilder();
@@ -95,7 +110,7 @@ public class AssignmentsView extends ViewPart {
 				} else {
 					sb.append(", ");
 				}
-				sb.append(t.getName());
+				sb.append(getName(t));
 			}
 			return sb.toString();
 		}
