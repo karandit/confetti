@@ -13,8 +13,9 @@ public class EntityTableLabelProvider extends LabelProvider implements ITableLab
 	public String getColumnText(Object element, int columnIndex) {
 		Entity entity = (Entity) element;
 		switch (columnIndex) {
-		case 0: return "1/4";
-		default: return entity.getName();
+		case 0: return entity.getName();
+		case 1: return "1/4";
+		default: return "";
 		}
 	}
 }

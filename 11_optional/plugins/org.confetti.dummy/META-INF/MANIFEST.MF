@@ -4,8 +4,7 @@ Bundle-Name: Dummy
 Bundle-SymbolicName: org.confetti.dummy;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: org.confetti.core;bundle-version="1.0.0",
- org.confetti.rcp
+Require-Bundle: org.confetti.core;bundle-version="1.0.0"
 Export-Package: org.confetti.dummy
 Import-Package: org.eclipse.jface.dialogs,
  org.eclipse.jface.wizard,

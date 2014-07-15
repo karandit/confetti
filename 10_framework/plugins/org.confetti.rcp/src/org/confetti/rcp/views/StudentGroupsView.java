@@ -2,8 +2,9 @@ package org.confetti.rcp.views;
 
 import java.util.List;
 
+import org.confetti.core.DataProvider;
 import org.confetti.core.StudentGroup;
-import org.confetti.rcp.Part3Plugin;
+import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -11,63 +12,39 @@ import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.ViewPart;
+import org.eclipse.swt.widgets.TreeColumn;
 
-public class StudentGroupsView extends ViewPart {
+public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 
 	public static final String ID = "org.confetti.rcp.studentGroupsView";
 
-	private TreeViewer viewer;
+	@Override protected IContentProvider getContentProvider() 	{ return new StudentGroupContentProvider(); }
+	@Override protected Object getInput(DataProvider dp) 		{ return dp.getStudentGroups(); }
 
 	@Override
-	public void createPartControl(Composite parent) {
-		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+	protected TreeViewer createViewer(Composite parent) {
+		TreeViewer viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		viewer.getTree().setHeaderVisible(true);
-		TreeViewerColumn coverage = new TreeViewerColumn(viewer, SWT.LEFT);
-		coverage.getColumn().setText("#");
+		createColumn(viewer, "Name", 170);
+		createColumn(viewer, "#", 50);
 
-		TreeViewerColumn name = new TreeViewerColumn(viewer, SWT.LEFT);
-		name.getColumn().setText("Name");
+		return viewer;
+	}
 
-		viewer.setContentProvider(new StudentGroupContentProvider());
-		viewer.setLabelProvider(new EntityTableLabelProvider());
-//		viewer.setInput(Part3Plugin.getDefault().getDummyModel().getStudentGroups());
-		 
-		getSite().setSelectionProvider(viewer);
-
-		coverage.getColumn().pack();	
-		name.getColumn().pack();	
+	private void createColumn(TreeViewer viewer, String title, int width) {
+		TreeColumn name = new TreeViewerColumn(viewer, SWT.LEFT).getColumn();
+		name.setText(title);
+		name.setWidth(width);
+	}
 	
-	}
-
-	@Override
-	public void setFocus() {
-		viewer.getControl().setFocus();
-	}
-
 	class StudentGroupContentProvider implements IStructuredContentProvider, ITreeContentProvider {
-
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-		}
-
-		public void dispose() {
-		}
-
-		public Object[] getElements(Object parent) {
-			return ((List<?>) parent).toArray();
-		}
-
-		public Object getParent(Object child) {
-			return ((StudentGroup) child).getParent();
-		}
-
-		public Object[] getChildren(Object parent) {
-			return ((StudentGroup) parent).getChildren().toArray();
-		}
-
-		public boolean hasChildren(Object parent) {
-			return !((StudentGroup) parent).getChildren().isEmpty();
-		}
+		
+		@Override public void inputChanged(Viewer v, Object oldInput, Object newInput) 			{ }
+		@Override public void dispose() 														{ }
+		@Override public Object[] getElements(Object parent) 									{ return ((List<?>) parent).toArray(); }
+		@Override public Object getParent(Object child) 										{ return ((StudentGroup) child).getParent(); }
+		@Override public Object[] getChildren(Object parent) 									{ return ((StudentGroup) parent).getChildren().toArray(); }
+		@Override public boolean hasChildren(Object parent) 									{ return !((StudentGroup) parent).getChildren().isEmpty(); }
 	}
 
 }
