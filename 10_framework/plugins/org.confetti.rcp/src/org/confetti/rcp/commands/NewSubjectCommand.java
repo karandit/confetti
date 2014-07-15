@@ -1,15 +1,14 @@
 package org.confetti.rcp.commands;
 
+import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-public class NewSubjectCommand implements IHandler {
+public class NewSubjectCommand extends AbstractHandler {
 
 	public final static String ID = "org.confetti.rcp.commands.newSubjectCommand";
 
@@ -35,19 +34,6 @@ public class NewSubjectCommand implements IHandler {
 	@Override
 	public boolean isEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isHandled() {
-		return false;
-	}
-	
-	@Override
-	public void addHandlerListener(IHandlerListener handlerListener) {
-	}
-
-	@Override
-	public void removeHandlerListener(IHandlerListener handlerListener) {
 	}
 	
 	@Override

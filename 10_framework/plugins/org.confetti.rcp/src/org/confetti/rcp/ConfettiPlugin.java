@@ -1,7 +1,7 @@
 package org.confetti.rcp;
 
-
 import org.confetti.core.DataProvider;
+import org.confetti.observable.ObservableValue;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -9,18 +9,17 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class Part3Plugin extends AbstractUIPlugin {
+public class ConfettiPlugin extends AbstractUIPlugin {
 
 	//The shared instance.
-	private static Part3Plugin plugin;
-	private DataProvider dp;
+	private static ConfettiPlugin plugin;
+	private ObservableValue<DataProvider> dp = new ObservableValue<>();
 	
 	/**
 	 * The constructor.
 	 */
-	public Part3Plugin() {
+	public ConfettiPlugin() {
 		plugin = this;
-		dp = createDummyModel();
 	}
 
 	/**
@@ -41,7 +40,7 @@ public class Part3Plugin extends AbstractUIPlugin {
 	/**
 	 * Returns the shared instance.
 	 */
-	public static Part3Plugin getDefault() {
+	public static ConfettiPlugin getDefault() {
 		return plugin;
 	}
 
@@ -53,14 +52,10 @@ public class Part3Plugin extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui.tutorials.rcp.part3", path);
+		return AbstractUIPlugin.imageDescriptorFromPlugin("org.confetti.rcp", path);
 	}
 	
-	private DataProvider createDummyModel() {
-		return null;
-	}
-
-	public DataProvider getDummyModel() {
+	public ObservableValue<DataProvider> getDataProvider() {
 		return dp;
 	}
 }

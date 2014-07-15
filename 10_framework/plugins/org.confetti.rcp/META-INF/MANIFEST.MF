@@ -3,10 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Confetti RCP
 Bundle-SymbolicName: org.confetti.rcp;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: org.confetti.rcp.Part3Plugin
+Bundle-Activator: org.confetti.rcp.ConfettiPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.confetti.core;bundle-version="1.0.0"
+ org.confetti.core;bundle-version="1.0.0",
+ org.confetti.dummy;bundle-version="1.0.0"
 Eclipse-AutoStart: true
 Export-Package: org.confetti.rcp.extensions
