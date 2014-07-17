@@ -3,4 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Core
 Bundle-SymbolicName: org.confetti.core
 Bundle-Version: 1.0.0.qualifier
-Export-Package: org.confetti.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: org.confetti.core,
+ org.confetti.observable
