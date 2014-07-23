@@ -3,22 +3,25 @@ package org.confetti.xml.core;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.confetti.core.IRoom;
-
-@XmlType(name = "room_type")
-public class RoomXml implements IRoom {
+@XmlType(name = "room_type",
+propOrder = {"name", "building", "capacity"})
+public class RoomXml {
 
 	private String name;
 	private int capacity;
 	
-	@Override 
+	private String building;
+	
 	@XmlElement(name = "Name")
 	public String getName() 				{ return name; }
 	public void setName(String name) 		{ this.name = name; }
 	
-	@Override 
 	@XmlElement(name = "Capacity")
 	public int getCapacity() 				{ return capacity; }
 	public void setCapacity(int capacity) 	{ this.capacity = capacity; }
+	
+	@XmlElement(name = "Building")
+	public String getBuilding() 				{ return building; }
+	public void setBuilding(String building)	{ this.building = building; }
 
 }
