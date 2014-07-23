@@ -5,13 +5,15 @@ import org.eclipse.jface.wizard.Wizard;
 
 public class NewSubjectWizard extends Wizard {
 
+	private String[] lines;
+	
 	private NewSubjectInputWizardPage subjectInputPage;
 	private NewSubjectVerifyWizardPage subjectVerifyPage;
 	
 	public NewSubjectWizard() {
 		setWindowTitle("New Subject");
-		subjectInputPage = new NewSubjectInputWizardPage();
-		subjectVerifyPage = new NewSubjectVerifyWizardPage();
+		subjectInputPage = new NewSubjectInputWizardPage(lines);
+		subjectVerifyPage = new NewSubjectVerifyWizardPage(lines);
 	}
 
 	@Override
@@ -27,9 +29,11 @@ public class NewSubjectWizard extends Wizard {
 
 	@Override
 	public IWizardPage getNextPage(IWizardPage page) {
-		if (page.equals(subjectInputPage)) {
-			System.out.println(subjectInputPage.getText());
-		}
+//		if (page.equals(subjectInputPage)) {
+//			lines = subjectInputPage.getLines();
+//		} else {
+//			subjectVerifyPage = new NewSubjectVerifyWizardPage(lines);
+//		}
 		return super.getNextPage(page);
 	}
 
