@@ -14,3 +14,4 @@ Export-Package: org.confetti.dataprovider.xml,
  org.confetti.xml.core.space,
  org.confetti.xml.core.time
 Require-Bundle: org.confetti.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
