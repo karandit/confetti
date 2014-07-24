@@ -1,7 +1,5 @@
 package org.confetti.rcp.actions;
 
-import org.confetti.dummy.DataProviderImpl;
-import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchWindow;
 
@@ -22,6 +20,6 @@ public class TestAction1 extends Action {
 
     @Override
     public void run() {
-    	ConfettiPlugin.getDefault().getDataProvider().setValue(new DataProviderImpl());
+//    	ConfettiPlugin.getDefault().getDataProvider().setValue(new DataProviderImpl());
     }
 }
