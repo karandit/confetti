@@ -1,19 +1,18 @@
 package org.confetti.rcp.wizards;
 
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 
 public class NewSubjectWizard extends Wizard {
 
-	private String[] lines;
-	
 	private NewSubjectInputWizardPage subjectInputPage;
 	private NewSubjectVerifyWizardPage subjectVerifyPage;
 	
+	private final NewSubjectInputWizardModel mModel = new NewSubjectInputWizardModel();
+	
 	public NewSubjectWizard() {
 		setWindowTitle("New Subject");
-		subjectInputPage = new NewSubjectInputWizardPage(lines);
-		subjectVerifyPage = new NewSubjectVerifyWizardPage(lines);
+		subjectInputPage = new NewSubjectInputWizardPage(mModel);
+		subjectVerifyPage = new NewSubjectVerifyWizardPage(mModel);
 	}
 
 	@Override
@@ -27,14 +26,14 @@ public class NewSubjectWizard extends Wizard {
 		addPage(subjectVerifyPage);
 	}
 
-	@Override
-	public IWizardPage getNextPage(IWizardPage page) {
+//	@Override
+//	public IWizardPage getNextPage(IWizardPage page) {
 //		if (page.equals(subjectInputPage)) {
 //			lines = subjectInputPage.getLines();
 //		} else {
 //			subjectVerifyPage = new NewSubjectVerifyWizardPage(lines);
 //		}
-		return super.getNextPage(page);
-	}
+//		return super.getNextPage(page);
+//	}
 
 }
