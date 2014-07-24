@@ -1,5 +1,6 @@
 package org.confetti.xml;
 
+import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -15,6 +17,10 @@ import javax.xml.bind.SchemaOutputResolver;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+
+import org.xml.sax.SAXException;
 
 /**
  * Generic file access object to export/import objects in XML format via JAXB.
@@ -35,7 +41,7 @@ public abstract class GenericFAO<T> {
 	 *
 	 * @return the URL to the XML schema.
 	 */
-//	protected abstract URL getSchemaURL();
+	protected abstract URL getSchemaURL();
 
 	//--------------------------------- export methods -----------------------------------------------------------------
 	/**
@@ -52,8 +58,7 @@ public abstract class GenericFAO<T> {
 //			m.setSchema(getSchema());
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			m.marshal(item, outputStream);
-		} catch (final JAXBException //| SAXException  
-				e) {
+		} catch (final JAXBException e) { // | SAXException e) {
 			throw new FAOException(e);
 		}
 	}
@@ -96,17 +101,12 @@ public abstract class GenericFAO<T> {
 		try {
 			final JAXBContext context = getContext();
 			final Unmarshaller um = context.createUnmarshaller();
-			//ValidationEventCollector vec = new ValidationEventCollector();
-			//um.setEventHandler(vec);
-			//um.setSchema(getSchema());
+//			um.setSchema(getSchema());
 			@SuppressWarnings("unchecked")
 			T unmarshal = (T) um.unmarshal(inputStream);
-			//ValidationEvent[] events = vec.getEvents();
 			return unmarshal;
-		} catch (final JAXBException 
-				//| SAXException 
-				e
-				) {
+//		} catch (final JAXBException e) { 
+		} catch (final JAXBException e) { //| SAXException e ) {
 			throw new FAOException(e);
 		}
 	}
@@ -138,16 +138,16 @@ public abstract class GenericFAO<T> {
 	}
 
 	//--------------------------------- utility methods ----------------------------------------------------------------
-//	/**
-//	 * Instantiates a new schema.
-//	 *
-//	 * @return the newly created schema
-//	 * @throws SAXException if any exception occurred during the instantiation
-//	 */
-//	protected Schema getSchema() throws SAXException {
-//		final SchemaFactory sf = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI);
-//		return sf.newSchema(getSchemaURL());
-//	}
+	/**
+	 * Instantiates a new schema.
+	 *
+	 * @return the newly created schema
+	 * @throws SAXException if any exception occurred during the instantiation
+	 */
+	protected Schema getSchema() throws SAXException {
+		final SchemaFactory sf = SchemaFactory.newInstance(W3C_XML_SCHEMA_NS_URI);
+		return sf.newSchema(getSchemaURL());
+	}
 
 	/**
 	 * Saves the schema to to given file.

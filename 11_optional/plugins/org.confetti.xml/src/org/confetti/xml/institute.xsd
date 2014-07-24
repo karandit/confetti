@@ -1,0 +1,1445 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="ConstraintActivityPreferredRoom" type="preferredRoom_type"/>
+
+  <xs:element name="ConstraintActivityPreferredStartingTime" type="preferredStartingTime_type"/>
+
+  <xs:element name="ConstraintBasicCompulsorySpace" type="basicCompulsorySpace_type"/>
+
+  <xs:element name="ConstraintBasicCompulsoryTime" type="basicCompulsoryTime_type"/>
+
+  <xs:element name="ConstraintBreakTimes" type="breakTimes_type"/>
+
+  <xs:element name="constraintActivitiesEndStudentsDay" type="constraintActivitiesEndStudentsDay"/>
+
+  <xs:element name="constraintActivitiesMaxSimultaneousInSelectedTimeSlots" type="constraintActivitiesMaxSimultaneousInSelectedTimeSlots"/>
+
+  <xs:element name="constraintActivitiesNotOverlapping" type="constraintActivitiesNotOverlapping"/>
+
+  <xs:element name="constraintActivitiesOccupyMaxDifferentRooms" type="constraintActivitiesOccupyMaxDifferentRooms"/>
+
+  <xs:element name="constraintActivitiesOccupyMaxTimeSlotsFromSelection" type="constraintActivitiesOccupyMaxTimeSlotsFromSelection"/>
+
+  <xs:element name="constraintActivitiesPreferredStartingTimes" type="constraintActivitiesPreferredStartingTimes"/>
+
+  <xs:element name="constraintActivitiesPreferredTimeSlots" type="constraintActivitiesPreferredTimeSlots"/>
+
+  <xs:element name="constraintActivitiesSameRoomIfConsecutive" type="constraintActivitiesSameRoomIfConsecutive"/>
+
+  <xs:element name="constraintActivitiesSameStartingDay" type="constraintActivitiesSameStartingDay"/>
+
+  <xs:element name="constraintActivitiesSameStartingHour" type="constraintActivitiesSameStartingHour"/>
+
+  <xs:element name="constraintActivitiesSameStartingTime" type="constraintActivitiesSameStartingTime"/>
+
+  <xs:element name="constraintActivityEndsStudentsDay" type="constraintActivityEndsStudentsDay"/>
+
+  <xs:element name="constraintActivityPreferredRooms" type="constraintActivityPreferredRooms"/>
+
+  <xs:element name="constraintActivityPreferredStartingTimes" type="constraintActivityPreferredStartingTimes"/>
+
+  <xs:element name="constraintActivityPreferredTimeSlots" type="constraintActivityPreferredTimeSlots"/>
+
+  <xs:element name="constraintActivityTagPreferredRoom" type="constraintActivityTagPreferredRoom"/>
+
+  <xs:element name="constraintActivityTagPreferredRooms" type="constraintActivityTagPreferredRooms"/>
+
+  <xs:element name="constraintMaxDaysBetweenActivities" type="constraintMaxDaysBetweenActivities"/>
+
+  <xs:element name="constraintMinDaysBetweenActivities" type="constraintMinDaysBetweenActivities"/>
+
+  <xs:element name="constraintMinGapsBetweenActivities" type="constraintMinGapsBetweenActivities"/>
+
+  <xs:element name="constraintRoomNotAvailableTimes" type="constraintRoomNotAvailableTimes"/>
+
+  <xs:element name="constraintStudentsActivityTagMaxHoursContinuously" type="constraintStudentsActivityTagMaxHoursContinuously"/>
+
+  <xs:element name="constraintStudentsActivityTagMaxHoursDaily" type="constraintStudentsActivityTagMaxHoursDaily"/>
+
+  <xs:element name="constraintStudentsEarlyMaxBeginningsAtSecondHour" type="constraintStudentsEarlyMaxBeginningsAtSecondHour"/>
+
+  <xs:element name="constraintStudentsIntervalMaxDaysPerWeek" type="constraintStudentsIntervalMaxDaysPerWeek"/>
+
+  <xs:element name="constraintStudentsMaxBuildingChangesPerDay" type="constraintStudentsMaxBuildingChangesPerDay"/>
+
+  <xs:element name="constraintStudentsMaxBuildingChangesPerWeek" type="constraintStudentsMaxBuildingChangesPerWeek"/>
+
+  <xs:element name="constraintStudentsMaxGapsPerDay" type="constraintStudentsMaxGapsPerDay"/>
+
+  <xs:element name="constraintStudentsMaxGapsPerWeek" type="constraintStudentsMaxGapsPerWeek"/>
+
+  <xs:element name="constraintStudentsMaxHoursContinuously" type="constraintStudentsMaxHoursContinuously"/>
+
+  <xs:element name="constraintStudentsMaxHoursDaily" type="constraintStudentsMaxHoursDaily"/>
+
+  <xs:element name="constraintStudentsMinGapsBetweenBuildingChanges" type="constraintStudentsMinGapsBetweenBuildingChanges"/>
+
+  <xs:element name="constraintStudentsMinHoursDaily" type="constraintStudentsMinHoursDaily"/>
+
+  <xs:element name="constraintStudentsSetActivityTagMaxHoursContinuously" type="constraintStudentsSetActivityTagMaxHoursContinuously"/>
+
+  <xs:element name="constraintStudentsSetActivityTagMaxHoursDaily" type="constraintStudentsSetActivityTagMaxHoursDaily"/>
+
+  <xs:element name="constraintStudentsSetEarlyMaxBeginningsAtSecondHour" type="constraintStudentsSetEarlyMaxBeginningsAtSecondHour"/>
+
+  <xs:element name="constraintStudentsSetHomeRoom" type="constraintStudentsSetHomeRoom"/>
+
+  <xs:element name="constraintStudentsSetHomeRooms" type="constraintStudentsSetHomeRooms"/>
+
+  <xs:element name="constraintStudentsSetIntervalMaxDaysPerWeek" type="constraintStudentsSetIntervalMaxDaysPerWeek"/>
+
+  <xs:element name="constraintStudentsSetMaxBuildingChangesPerDay" type="constraintStudentsSetMaxBuildingChangesPerDay"/>
+
+  <xs:element name="constraintStudentsSetMaxBuildingChangesPerWeek" type="constraintStudentsSetMaxBuildingChangesPerWeek"/>
+
+  <xs:element name="constraintStudentsSetMaxGapsPerDay" type="constraintStudentsSetMaxGapsPerDay"/>
+
+  <xs:element name="constraintStudentsSetMaxGapsPerWeek" type="constraintStudentsSetMaxGapsPerWeek"/>
+
+  <xs:element name="constraintStudentsSetMaxHoursContinuously" type="constraintStudentsSetMaxHoursContinuously"/>
+
+  <xs:element name="constraintStudentsSetMaxHoursDaily" type="constraintStudentsSetMaxHoursDaily"/>
+
+  <xs:element name="constraintStudentsSetMinGapsBetweenBuildingChanges" type="constraintStudentsSetMinGapsBetweenBuildingChanges"/>
+
+  <xs:element name="constraintStudentsSetMinHoursDaily" type="constraintStudentsSetMinHoursDaily"/>
+
+  <xs:element name="constraintStudentsSetNotAvailableTimes" type="constraintStudentsSetNotAvailableTimes"/>
+
+  <xs:element name="constraintSubactivitiesPreferredStartingTimes" type="constraintSubactivitiesPreferredStartingTimes"/>
+
+  <xs:element name="constraintSubactivitiesPreferredTimeSlots" type="constraintSubactivitiesPreferredTimeSlots"/>
+
+  <xs:element name="constraintSubjectActivityTagPreferredRoom" type="constraintSubjectActivityTagPreferredRoom"/>
+
+  <xs:element name="constraintSubjectActivityTagPreferredRooms" type="constraintSubjectActivityTagPreferredRooms"/>
+
+  <xs:element name="constraintSubjectPreferredRoom" type="constraintSubjectPreferredRoom"/>
+
+  <xs:element name="constraintSubjectPreferredRooms" type="constraintSubjectPreferredRooms"/>
+
+  <xs:element name="constraintTeacherActivityTagMaxHoursContinuously" type="constraintTeacherActivityTagMaxHoursContinuously"/>
+
+  <xs:element name="constraintTeacherActivityTagMaxHoursDaily" type="constraintTeacherActivityTagMaxHoursDaily"/>
+
+  <xs:element name="constraintTeacherHomeRoom" type="constraintTeacherHomeRoom"/>
+
+  <xs:element name="constraintTeacherHomeRooms" type="constraintTeacherHomeRooms"/>
+
+  <xs:element name="constraintTeacherIntervalMaxDaysPerWeek" type="constraintTeacherIntervalMaxDaysPerWeek"/>
+
+  <xs:element name="constraintTeacherMaxBuildingChangesPerDay" type="constraintTeacherMaxBuildingChangesPerDay"/>
+
+  <xs:element name="constraintTeacherMaxBuildingChangesPerWeek" type="constraintTeacherMaxBuildingChangesPerWeek"/>
+
+  <xs:element name="constraintTeacherMaxDaysPerWeek" type="constraintTeacherMaxDaysPerWeek"/>
+
+  <xs:element name="constraintTeacherMaxGapsPerDay" type="constraintTeacherMaxGapsPerDay"/>
+
+  <xs:element name="constraintTeacherMaxGapsPerWeek" type="constraintTeacherMaxGapsPerWeek"/>
+
+  <xs:element name="constraintTeacherMaxHoursContinuously" type="constraintTeacherMaxHoursContinuously"/>
+
+  <xs:element name="constraintTeacherMaxHoursDaily" type="constraintTeacherMaxHoursDaily"/>
+
+  <xs:element name="constraintTeacherMinDaysPerWeek" type="constraintTeacherMinDaysPerWeek"/>
+
+  <xs:element name="constraintTeacherMinGapsBetweenBuildingChanges" type="constraintTeacherMinGapsBetweenBuildingChanges"/>
+
+  <xs:element name="constraintTeacherMinHoursDaily" type="constraintTeacherMinHoursDaily"/>
+
+  <xs:element name="constraintTeacherNotAvailableTimes" type="constraintTeacherNotAvailableTimes"/>
+
+  <xs:element name="constraintTeachersActivityTagMaxHoursContinuously" type="constraintTeachersActivityTagMaxHoursContinuously"/>
+
+  <xs:element name="constraintTeachersActivityTagMaxHoursDaily" type="constraintTeachersActivityTagMaxHoursDaily"/>
+
+  <xs:element name="constraintTeachersIntervalMaxDaysPerWeek" type="constraintTeachersIntervalMaxDaysPerWeek"/>
+
+  <xs:element name="constraintTeachersMaxBuildingChangesPerDay" type="constraintTeachersMaxBuildingChangesPerDay"/>
+
+  <xs:element name="constraintTeachersMaxBuildingChangesPerWeek" type="constraintTeachersMaxBuildingChangesPerWeek"/>
+
+  <xs:element name="constraintTeachersMaxDaysPerWeek" type="constraintTeachersMaxDaysPerWeek"/>
+
+  <xs:element name="constraintTeachersMaxGapsPerDay" type="constraintTeachersMaxGapsPerDay"/>
+
+  <xs:element name="constraintTeachersMaxGapsPerWeek" type="constraintTeachersMaxGapsPerWeek"/>
+
+  <xs:element name="constraintTeachersMaxHoursContinuously" type="constraintTeachersMaxHoursContinuously"/>
+
+  <xs:element name="constraintTeachersMaxHoursDaily" type="constraintTeachersMaxHoursDaily"/>
+
+  <xs:element name="constraintTeachersMinDaysPerWeek" type="constraintTeachersMinDaysPerWeek"/>
+
+  <xs:element name="constraintTeachersMinGapsBetweenBuildingChanges" type="constraintTeachersMinGapsBetweenBuildingChanges"/>
+
+  <xs:element name="constraintTeachersMinHoursDaily" type="constraintTeachersMinHoursDaily"/>
+
+  <xs:element name="constraintThreeActivitiesGrouped" type="constraintThreeActivitiesGrouped"/>
+
+  <xs:element name="constraintTwoActivitiesConsecutive" type="constraintTwoActivitiesConsecutive"/>
+
+  <xs:element name="constraintTwoActivitiesGrouped" type="constraintTwoActivitiesGrouped"/>
+
+  <xs:element name="constraintTwoActivitiesOrdered" type="constraintTwoActivitiesOrdered"/>
+
+  <xs:element name="fet" type="institute_type"/>
+
+  <xs:complexType name="institute_type">
+    <xs:sequence>
+      <xs:element name="Institution_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+      <xs:element name="Hours_List" type="hours_type" minOccurs="0"/>
+      <xs:element name="Days_List" type="days_type" minOccurs="0"/>
+      <xs:element name="Students_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Year" type="year_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Teachers_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Teacher" type="teacher_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Subjects_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Subject" type="subject_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Activity_Tags_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Activity_Tag" type="activitytag_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Activities_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Activity" type="activity_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Buildings_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Building" type="building_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Rooms_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="Room" type="room_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Time_Constraints_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element ref="ConstraintBasicCompulsoryTime"/>
+              <xs:element name="ConstraintTwoActivitiesConsecutive" type="constraintTwoActivitiesConsecutive"/>
+              <xs:element ref="ConstraintActivityPreferredStartingTime"/>
+              <xs:element name="ConstraintActivitiesPreferredStartingTimes" type="constraintActivitiesPreferredStartingTimes"/>
+              <xs:element name="ConstraintActivityPreferredStartingTimes" type="constraintActivityPreferredStartingTimes"/>
+              <xs:element ref="ConstraintBreakTimes"/>
+              <xs:element name="ConstraintStudentsEarlyMaxBeginningsAtSecondHour" type="constraintStudentsEarlyMaxBeginningsAtSecondHour"/>
+              <xs:element name="ConstraintStudentsSetActivityTagMaxHoursDaily" type="constraintStudentsSetActivityTagMaxHoursDaily"/>
+              <xs:element name="ConstraintStudentsSetActivityTagMaxHoursContinuously" type="constraintStudentsSetActivityTagMaxHoursContinuously"/>
+              <xs:element name="ConstraintStudentsMaxGapsPerWeek" type="constraintStudentsMaxGapsPerWeek"/>
+              <xs:element name="ConstraintMinDaysBetweenActivities" type="constraintMinDaysBetweenActivities"/>
+              <xs:element name="ConstraintMaxDaysBetweenActivities" type="constraintMaxDaysBetweenActivities"/>
+              <xs:element name="ConstraintTeacherNotAvailableTimes" type="constraintTeacherNotAvailableTimes"/>
+              <xs:element name="ConstraintTeacherMaxDaysPerWeek" type="constraintTeacherMaxDaysPerWeek"/>
+              <xs:element name="ConstraintTeachersMaxGapsPerWeek" type="constraintTeachersMaxGapsPerWeek"/>
+              <xs:element name="ConstraintTeacherMaxGapsPerWeek" type="constraintTeacherMaxGapsPerWeek"/>
+              <xs:element name="ConstraintTeachersMaxGapsPerDay" type="constraintTeachersMaxGapsPerDay"/>
+              <xs:element name="ConstraintTeachersMaxHoursDaily" type="constraintTeachersMaxHoursDaily"/>
+              <xs:element name="ConstraintTeachersMinHoursDaily" type="constraintTeachersMinHoursDaily"/>
+              <xs:element name="ConstraintTeacherMaxHoursContinuously" type="constraintTeacherMaxHoursContinuously"/>
+              <xs:element name="ConstraintActivitiesSameStartingTime" type="constraintActivitiesSameStartingTime"/>
+              <xs:element name="ConstraintActivitiesPreferredTimeSlots" type="constraintActivitiesPreferredTimeSlots"/>
+              <xs:element name="ConstraintStudentsSetNotAvailableTimes" type="constraintStudentsSetNotAvailableTimes"/>
+              <xs:element name="ConstraintTeacherIntervalMaxDaysPerWeek" type="constraintTeacherIntervalMaxDaysPerWeek"/>
+              <xs:element name="ConstraintTeacherMinHoursDaily" type="constraintTeacherMinHoursDaily"/>
+              <xs:element name="ConstraintTeacherMaxGapsPerDay" type="constraintTeacherMaxGapsPerDay"/>
+              <xs:element name="ConstraintActivityEndsStudentsDay" type="constraintActivityEndsStudentsDay"/>
+              <xs:element name="ConstraintStudentsSetMinHoursDaily" type="constraintStudentsSetMinHoursDaily"/>
+              <xs:element name="ConstraintStudentsSetMaxHoursDaily" type="constraintStudentsSetMaxHoursDaily"/>
+              <xs:element name="ConstraintStudentsSetMaxHoursContinuously" type="constraintStudentsSetMaxHoursContinuously"/>
+              <xs:element name="ConstraintTeacherMinDaysPerWeek" type="constraintTeacherMinDaysPerWeek"/>
+              <xs:element name="ConstraintTeacherMaxHoursDaily" type="constraintTeacherMaxHoursDaily"/>
+              <xs:element name="ConstraintTeachersActivityTagMaxHoursContinuously" type="constraintTeachersActivityTagMaxHoursContinuously"/>
+              <xs:element name="ConstraintTeachersActivityTagMaxHoursDaily" type="constraintTeachersActivityTagMaxHoursDaily"/>
+              <xs:element name="ConstraintActivitiesNotOverlapping" type="constraintActivitiesNotOverlapping"/>
+              <xs:element name="ConstraintTeachersMaxHoursContinuously" type="constraintTeachersMaxHoursContinuously"/>
+              <xs:element name="ConstraintTeachersMaxDaysPerWeek" type="constraintTeachersMaxDaysPerWeek"/>
+              <xs:element name="ConstraintStudentsActivityTagMaxHoursContinuously" type="constraintStudentsActivityTagMaxHoursContinuously"/>
+              <xs:element name="ConstraintStudentsSetMaxGapsPerWeek" type="constraintStudentsSetMaxGapsPerWeek"/>
+              <xs:element name="ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour" type="constraintStudentsSetEarlyMaxBeginningsAtSecondHour"/>
+              <xs:element name="ConstraintTeachersIntervalMaxDaysPerWeek" type="constraintTeachersIntervalMaxDaysPerWeek"/>
+              <xs:element name="ConstraintStudentsIntervalMaxDaysPerWeek" type="constraintStudentsIntervalMaxDaysPerWeek"/>
+              <xs:element name="ConstraintActivityPreferredTimeSlots" type="constraintActivityPreferredTimeSlots"/>
+              <xs:element name="ConstraintStudentsMaxHoursDaily" type="constraintStudentsMaxHoursDaily"/>
+              <xs:element name="ConstraintTwoActivitiesGrouped" type="constraintTwoActivitiesGrouped"/>
+              <xs:element name="ConstraintThreeActivitiesGrouped" type="constraintThreeActivitiesGrouped"/>
+              <xs:element name="ConstraintTeacherActivityTagMaxHoursDaily" type="constraintTeacherActivityTagMaxHoursDaily"/>
+              <xs:element name="ConstraintTeacherActivityTagMaxHoursContinuously" type="constraintTeacherActivityTagMaxHoursContinuously"/>
+              <xs:element name="ConstraintStudentsMaxGapsPerDay" type="constraintStudentsMaxGapsPerDay"/>
+              <xs:element name="ConstraintStudentsSetMaxGapsPerDay" type="constraintStudentsSetMaxGapsPerDay"/>
+              <xs:element name="ConstraintActivitiesSameStartingHour" type="constraintActivitiesSameStartingHour"/>
+              <xs:element name="ConstraintMinGapsBetweenActivities" type="constraintMinGapsBetweenActivities"/>
+              <xs:element name="ConstraintTwoActivitiesOrdered" type="constraintTwoActivitiesOrdered"/>
+              <xs:element name="ConstraintStudentsMaxHoursContinuously" type="constraintStudentsMaxHoursContinuously"/>
+              <xs:element name="ConstraintActivitiesSameStartingDay" type="constraintActivitiesSameStartingDay"/>
+              <xs:element name="ConstraintSubactivitiesPreferredTimeSlots" type="constraintSubactivitiesPreferredTimeSlots"/>
+              <xs:element name="ConstraintStudentsMinHoursDaily" type="constraintStudentsMinHoursDaily"/>
+              <xs:element name="ConstraintSubactivitiesPreferredStartingTimes" type="constraintSubactivitiesPreferredStartingTimes"/>
+              <xs:element name="ConstraintActivitiesEndStudentsDay" type="constraintActivitiesEndStudentsDay"/>
+              <xs:element name="ConstraintStudentsSetIntervalMaxDaysPerWeek" type="constraintStudentsSetIntervalMaxDaysPerWeek"/>
+              <xs:element name="ConstraintTeachersMinDaysPerWeek" type="constraintTeachersMinDaysPerWeek"/>
+              <xs:element name="ConstraintStudentsActivityTagMaxHoursDaily" type="constraintStudentsActivityTagMaxHoursDaily"/>
+              <xs:element name="ConstraintActivitiesOccupyMaxTimeSlotsFromSelection" type="constraintActivitiesOccupyMaxTimeSlotsFromSelection"/>
+              <xs:element name="ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots" type="constraintActivitiesMaxSimultaneousInSelectedTimeSlots"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Space_Constraints_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element ref="ConstraintBasicCompulsorySpace"/>
+              <xs:element ref="ConstraintActivityPreferredRoom"/>
+              <xs:element name="ConstraintRoomNotAvailableTimes" type="constraintRoomNotAvailableTimes"/>
+              <xs:element name="ConstraintSubjectPreferredRoom" type="constraintSubjectPreferredRoom"/>
+              <xs:element name="ConstraintSubjectPreferredRooms" type="constraintSubjectPreferredRooms"/>
+              <xs:element name="ConstraintTeacherHomeRoom" type="constraintTeacherHomeRoom"/>
+              <xs:element name="ConstraintStudentsSetHomeRoom" type="constraintStudentsSetHomeRoom"/>
+              <xs:element name="ConstraintActivityTagPreferredRooms" type="constraintActivityTagPreferredRooms"/>
+              <xs:element name="ConstraintTeachersMaxBuildingChangesPerDay" type="constraintTeachersMaxBuildingChangesPerDay"/>
+              <xs:element name="ConstraintTeacherMinGapsBetweenBuildingChanges" type="constraintTeacherMinGapsBetweenBuildingChanges"/>
+              <xs:element name="ConstraintTeachersMinGapsBetweenBuildingChanges" type="constraintTeachersMinGapsBetweenBuildingChanges"/>
+              <xs:element name="ConstraintStudentsSetMinGapsBetweenBuildingChanges" type="constraintStudentsSetMinGapsBetweenBuildingChanges"/>
+              <xs:element name="ConstraintSubjectActivityTagPreferredRoom" type="constraintSubjectActivityTagPreferredRoom"/>
+              <xs:element name="ConstraintSubjectActivityTagPreferredRooms" type="constraintSubjectActivityTagPreferredRooms"/>
+              <xs:element name="ConstraintTeacherHomeRooms" type="constraintTeacherHomeRooms"/>
+              <xs:element name="ConstraintActivityPreferredRooms" type="constraintActivityPreferredRooms"/>
+              <xs:element name="ConstraintActivityTagPreferredRoom" type="constraintActivityTagPreferredRoom"/>
+              <xs:element name="ConstraintStudentsMaxBuildingChangesPerDay" type="constraintStudentsMaxBuildingChangesPerDay"/>
+              <xs:element name="ConstraintStudentsMinGapsBetweenBuildingChanges" type="constraintStudentsMinGapsBetweenBuildingChanges"/>
+              <xs:element name="ConstraintStudentsSetMaxBuildingChangesPerDay" type="constraintStudentsSetMaxBuildingChangesPerDay"/>
+              <xs:element name="ConstraintStudentsSetMaxBuildingChangesPerWeek" type="constraintStudentsSetMaxBuildingChangesPerWeek"/>
+              <xs:element name="ConstraintTeachersMaxBuildingChangesPerWeek" type="constraintTeachersMaxBuildingChangesPerWeek"/>
+              <xs:element name="ConstraintStudentsMaxBuildingChangesPerWeek" type="constraintStudentsMaxBuildingChangesPerWeek"/>
+              <xs:element name="ConstraintTeacherMaxBuildingChangesPerDay" type="constraintTeacherMaxBuildingChangesPerDay"/>
+              <xs:element name="ConstraintTeacherMaxBuildingChangesPerWeek" type="constraintTeacherMaxBuildingChangesPerWeek"/>
+              <xs:element name="ConstraintActivitiesOccupyMaxDifferentRooms" type="constraintActivitiesOccupyMaxDifferentRooms"/>
+              <xs:element name="ConstraintActivitiesSameRoomIfConsecutive" type="constraintActivitiesSameRoomIfConsecutive"/>
+              <xs:element name="ConstraintStudentsSetHomeRooms" type="constraintStudentsSetHomeRooms"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="version" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="hours_type">
+    <xs:sequence>
+      <xs:element name="Number" type="xs:int"/>
+      <xs:element name="Name" type="hour_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="hour_type">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:complexType name="days_type">
+    <xs:sequence>
+      <xs:element name="Number" type="xs:int"/>
+      <xs:element name="Name" type="day_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="day_type">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:complexType name="year_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Students" type="xs:int" minOccurs="0"/>
+      <xs:element name="Group" type="group_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="group_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Students" type="xs:int" minOccurs="0"/>
+      <xs:element name="Subgroup" type="subgroup_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="subgroup_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Students" type="xs:int" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="teacher_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="subject_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="activitytag_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="activity_type">
+    <xs:sequence>
+      <xs:element name="Teacher" type="teacherref_type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Subject" type="subjectref_type" minOccurs="0"/>
+      <xs:element name="Activity_Tag" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Duration" type="xs:int" minOccurs="0"/>
+      <xs:element name="Total_Duration" type="xs:int" minOccurs="0"/>
+      <xs:element name="Id" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Group_Id" type="xs:int" minOccurs="0"/>
+      <xs:element name="Number_Of_Students" type="xs:int" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="teacherref_type">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="subjectref_type">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:complexType name="building_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="room_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Building" type="xs:string" minOccurs="0"/>
+      <xs:element name="Capacity" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="basicCompulsoryTime_type">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTwoActivitiesConsecutive">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="First_Activity_Id" type="xs:int"/>
+      <xs:element name="Second_Activity_Id" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="preferredStartingTime_type">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Id" type="xs:long"/>
+      <xs:element name="Preferred_Day" type="xs:string" minOccurs="0"/>
+      <xs:element name="Preferred_Hour" type="xs:string" minOccurs="0"/>
+      <xs:element name="Permanently_Locked" type="xs:boolean"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesPreferredStartingTimes">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Students_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Subject_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Preferred_Starting_Times" type="xs:int"/>
+      <xs:element name="Preferred_Starting_Time" type="preferredStartingTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="preferredStartingTimeXml">
+    <xs:sequence>
+      <xs:element name="Preferred_Starting_Day" type="xs:string" minOccurs="0"/>
+      <xs:element name="Preferred_Starting_Hour" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivityPreferredStartingTimes">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Id" type="xs:long"/>
+      <xs:element name="Number_of_Preferred_Starting_Times" type="xs:long"/>
+      <xs:element name="Preferred_Starting_Time" type="preferredStartingTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="breakTimes_type">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Break_Times" type="xs:int"/>
+      <xs:element name="Break_Time" type="breakTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="breakTimeXml">
+    <xs:sequence>
+      <xs:element name="Day" type="xs:string" minOccurs="0"/>
+      <xs:element name="Hour" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsEarlyMaxBeginningsAtSecondHour">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Beginnings_At_Second_Hour" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetActivityTagMaxHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Maximum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetActivityTagMaxHoursContinuously">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Maximum_Hours_Continuously" type="xs:int"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsMaxGapsPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Gaps" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintMinDaysBetweenActivities">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Consecutive_If_Same_Day" type="xs:boolean"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="MinDays" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintMaxDaysBetweenActivities">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="MaxDays" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherNotAvailableTimes">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Not_Available_Times" type="xs:int"/>
+      <xs:element name="Not_Available_Time" type="breakTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMaxDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Days_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMaxGapsPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Gaps" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMaxGapsPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Gaps" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMaxGapsPerDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Gaps" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMaxHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Maximum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMinHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Minimum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Allow_Empty_Days" type="xs:boolean"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMaxHoursContinuously">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Maximum_Hours_Continuously" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesSameStartingTime">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Subject" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesPreferredTimeSlots">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Students_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Subject_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Preferred_Time_Slots" type="xs:int"/>
+      <xs:element name="Preferred_Time_Slot" type="preferredTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="preferredTimeXml">
+    <xs:sequence>
+      <xs:element name="Preferred_Day" type="xs:string" minOccurs="0"/>
+      <xs:element name="Preferred_Hour" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetNotAvailableTimes">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Not_Available_Times" type="xs:int"/>
+      <xs:element name="Not_Available_Time" type="breakTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherIntervalMaxDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Interval_Start_Hour" type="xs:string" minOccurs="0"/>
+      <xs:element name="Interval_End_Hour" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Days_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMinHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Minimum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Allow_Empty_Days" type="xs:boolean"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMaxGapsPerDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Gaps" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivityEndsStudentsDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Id" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetMinHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Minimum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Allow_Empty_Days" type="xs:boolean"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetMaxHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Maximum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetMaxHoursContinuously">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Maximum_Hours_Continuously" type="xs:int"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMinDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Minimum_Days_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMaxHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Maximum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersActivityTagMaxHoursContinuously">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Tag_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Maximum_Hours_Continuously" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersActivityTagMaxHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Tag_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Maximum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesNotOverlapping">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Activities" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMaxHoursContinuously">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Maximum_Hours_Continuously" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMaxDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Days_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsActivityTagMaxHoursContinuously">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Tag" type="xs:string" minOccurs="0"/>
+      <xs:element name="Maximum_Hours_Continuously" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetMaxGapsPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Gaps" type="xs:int"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetEarlyMaxBeginningsAtSecondHour">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Beginnings_At_Second_Hour" type="xs:int"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersIntervalMaxDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Interval_Start_Hour" type="xs:string" minOccurs="0"/>
+      <xs:element name="Interval_End_Hour" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Days_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsIntervalMaxDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Interval_Start_Hour" type="xs:string" minOccurs="0"/>
+      <xs:element name="Interval_End_Hour" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Days_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivityPreferredTimeSlots">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Id" type="xs:long"/>
+      <xs:element name="Number_of_Preferred_Time_Slots" type="xs:int"/>
+      <xs:element name="Preferred_Time_Slot" type="preferredTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsMaxHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Maximum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTwoActivitiesGrouped">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="First_Activity_Id" type="xs:int"/>
+      <xs:element name="Second_Activity_Id" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintThreeActivitiesGrouped">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="First_Activity_Id" type="xs:int"/>
+      <xs:element name="Second_Activity_Id" type="xs:int"/>
+      <xs:element name="Third_Activity_Id" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherActivityTagMaxHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Maximum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherActivityTagMaxHoursContinuously">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Maximum_Hours_Continuously" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsMaxGapsPerDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Gaps" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetMaxGapsPerDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Gaps" type="xs:int"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesSameStartingHour">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintMinGapsBetweenActivities">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="MinGaps" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTwoActivitiesOrdered">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="First_Activity_Id" type="xs:int"/>
+      <xs:element name="Second_Activity_Id" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsMaxHoursContinuously">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Maximum_Hours_Continuously" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesSameStartingDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintSubactivitiesPreferredTimeSlots">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Component_Number" type="xs:int"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Students_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Subject_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Preferred_Time_Slots" type="xs:int"/>
+      <xs:element name="Preferred_Time_Slot" type="preferredTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsMinHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Minimum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Allow_Empty_Days" type="xs:boolean"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintSubactivitiesPreferredStartingTimes">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Component_Number" type="xs:int"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Students_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Subject_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Preferred_Starting_Times" type="xs:int"/>
+      <xs:element name="Preferred_Starting_Time" type="preferredStartingTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesEndStudentsDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Students_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Subject_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag_Name" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetIntervalMaxDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Interval_Start_Hour" type="xs:string" minOccurs="0"/>
+      <xs:element name="Interval_End_Hour" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Days_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMinDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Minimum_Days_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsActivityTagMaxHoursDaily">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Tag" type="xs:string" minOccurs="0"/>
+      <xs:element name="Maximum_Hours_Daily" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesOccupyMaxTimeSlotsFromSelection">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Number_of_Selected_Time_Slots" type="xs:int"/>
+      <xs:element name="Selected_Time_Slot" type="selectedTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Max_Number_of_Occupied_Time_Slots" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="selectedTimeXml">
+    <xs:sequence>
+      <xs:element name="Selected_Day" type="xs:string" minOccurs="0"/>
+      <xs:element name="Selected_Hour" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesMaxSimultaneousInSelectedTimeSlots">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Number_of_Selected_Time_Slots" type="xs:int"/>
+      <xs:element name="Selected_Time_Slot" type="selectedTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Max_Number_of_Simultaneous_Activities" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="basicCompulsorySpace_type">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="preferredRoom_type">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Id" type="xs:long"/>
+      <xs:element name="Room" type="xs:string" minOccurs="0"/>
+      <xs:element name="Permanently_Locked" type="xs:boolean"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintRoomNotAvailableTimes">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Room" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Not_Available_Times" type="xs:int"/>
+      <xs:element name="Not_Available_Time" type="breakTimeXml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintSubjectPreferredRoom">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Subject" type="xs:string" minOccurs="0"/>
+      <xs:element name="Room" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintSubjectPreferredRooms">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Subject" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Preferred_Rooms" type="xs:int"/>
+      <xs:element name="Preferred_Room" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherHomeRoom">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher" type="xs:string" minOccurs="0"/>
+      <xs:element name="Room" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetHomeRoom">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Room" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivityTagPreferredRooms">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Tag" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Preferred_Rooms" type="xs:int"/>
+      <xs:element name="Preferred_Room" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMaxBuildingChangesPerDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Building_Changes_Per_Day" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMinGapsBetweenBuildingChanges">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher" type="xs:string" minOccurs="0"/>
+      <xs:element name="Min_Gaps_Between_Building_Changes" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMinGapsBetweenBuildingChanges">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Min_Gaps_Between_Building_Changes" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetMinGapsBetweenBuildingChanges">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Min_Gaps_Between_Building_Changes" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintSubjectActivityTagPreferredRoom">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Subject" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag" type="xs:string" minOccurs="0"/>
+      <xs:element name="Room" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintSubjectActivityTagPreferredRooms">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Subject" type="xs:string" minOccurs="0"/>
+      <xs:element name="Activity_Tag" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Preferred_Rooms" type="xs:int"/>
+      <xs:element name="Preferred_Room" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherHomeRooms">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Preferred_Rooms" type="xs:int"/>
+      <xs:element name="Preferred_Room" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivityPreferredRooms">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Id" type="xs:long"/>
+      <xs:element name="Number_of_Preferred_Rooms" type="xs:int"/>
+      <xs:element name="Preferred_Room" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivityTagPreferredRoom">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Activity_Tag" type="xs:string" minOccurs="0"/>
+      <xs:element name="Room" type="xs:string" minOccurs="0"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsMaxBuildingChangesPerDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Building_Changes_Per_Day" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsMinGapsBetweenBuildingChanges">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Min_Gaps_Between_Building_Changes" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetMaxBuildingChangesPerDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Building_Changes_Per_Day" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetMaxBuildingChangesPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Building_Changes_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeachersMaxBuildingChangesPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Building_Changes_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsMaxBuildingChangesPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Building_Changes_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMaxBuildingChangesPerDay">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Building_Changes_Per_Day" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintTeacherMaxBuildingChangesPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Teacher" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Building_Changes_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesOccupyMaxDifferentRooms">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Max_Number_of_Different_Rooms" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintActivitiesSameRoomIfConsecutive">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsSetHomeRooms">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Number_of_Preferred_Rooms" type="xs:int"/>
+      <xs:element name="Preferred_Room" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
