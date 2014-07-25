@@ -12,11 +12,6 @@ public abstract class ModelableWizardPage<T> extends WizardPage {
 		mModel = model;
 	}
 
-	public ModelableWizardPage(String pageName, T model) {
-		super(pageName);
-		mModel = model;
-	}
-
 	public T getModel() {
 		return mModel;
 	}
