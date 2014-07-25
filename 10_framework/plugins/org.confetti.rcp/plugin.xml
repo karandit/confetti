@@ -164,8 +164,8 @@
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="org.eclipse.ui.tutorials.rcp.part3.application"
-            name="RCP Tutorial 3">
+            application="org.confetti.rcp.application"
+            name="Confetti">
          <property
                name="aboutImage"
                value="product_lg.gif"/>
