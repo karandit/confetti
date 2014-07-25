@@ -26,11 +26,11 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 	private void init() {
-		SubjectImpl subjMatek = addSubject("Math");
+		Subject subjMatek = addSubject("Math");
 		addSubject("Literatute");
-		SubjectImpl subjInfo = addSubject("Computer science");
+		Subject subjInfo = addSubject("Computer science");
 		
-		TeacherImpl teacher1 = addTeacher("Smith");
+		Teacher teacher1 = addTeacher("Smith");
 		addTeacher("Tailor");
 		
 		StudentGroupImpl group1721 = addStudentGroup("1721");
@@ -42,8 +42,8 @@ public class DataProviderImpl implements DataProvider {
 
 		StudentGroupImpl group2 = addStudentGroup("1731");
 
-		RoomImpl room1 = addRoom("Room_1");
-		RoomImpl room2 = addRoom("Room_2");
+		Room room1 = addRoom("Room_1");
+		Room room2 = addRoom("Room_2");
 
 		new AssignmentImpl(
 				subjMatek, 
@@ -79,26 +79,28 @@ public class DataProviderImpl implements DataProvider {
 	public List<Room> getRooms() {
 		return rooms;
 	}
-
-	private SubjectImpl addSubject(String name) {
+	
+	@Override
+	public Subject addSubject(String name) {
 		SubjectImpl subject = new SubjectImpl(name);
 		subjects.add(subject);
 		return subject;
 	}
-	
-	private TeacherImpl addTeacher(String name) {
+	@Override
+	public Teacher addTeacher(String name) {
 		TeacherImpl teacher = new TeacherImpl(name);
 		teachers.add(teacher);
 		return teacher;
 	}
 
-	private StudentGroupImpl addStudentGroup(String name) {
+	public  StudentGroupImpl addStudentGroup(String name) {
 		StudentGroupImpl studentGroup = new StudentGroupImpl(name);
 		studentGroups.add(studentGroup);
 		return studentGroup;
 	}
-
-	private RoomImpl addRoom(String name) {
+	
+	@Override
+	public Room addRoom(String name) {
 		RoomImpl room = new RoomImpl(name);
 		rooms.add(room);
 		return room;
