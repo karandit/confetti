@@ -1,66 +1,21 @@
 package org.confetti.rcp.commands;
 
-import org.confetti.rcp.wizards.IWizardPageNavigatable;
-import org.confetti.rcp.wizards.NewSubjectWizard;
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.IPageChangingListener;
-import org.eclipse.jface.dialogs.PageChangingEvent;
-import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
+import org.confetti.core.DataProvider;
+import org.confetti.core.Subject;
+import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.wizards.NewEntityWizardModel;
+import org.confetti.rcp.wizards.NewEntityWizardModel.EntityCreator;
 
-public class NewSubjectCommand extends AbstractHandler {
-
-	public final static String ID = "org.confetti.rcp.commands.newSubjectCommand";
+public class NewSubjectCommand extends AbstractNewEntityHandler<Subject> {
 
 	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-//		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-//		IInputValidator validator = new IInputValidator() {
-//			
-//			@Override
-//			public String isValid(String newText) {
-//				if ("doge".equals(newText)) {
-//					return null;
-//				}
-//				return "only doge allowed";
-//			}
-//		};
-//		InputDialog dialog = new InputDialog(shell, "New Subject", "Enter a unique name", "New subject", validator);
-//		dialog.open();
-		IWizard wizard = new NewSubjectWizard();
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		WizardDialog dialog = new WizardDialog(shell, wizard);
-		dialog.addPageChangingListener(new IPageChangingListener() {
-			
-			@Override
-			public void handlePageChanging(PageChangingEvent event) {
-				if (event.getCurrentPage() instanceof IWizardPageNavigatable) {
-					((IWizardPageNavigatable) event.getCurrentPage()).pageHid();
-				}
-				if (event.getTargetPage() instanceof IWizardPageNavigatable) {
-					((IWizardPageNavigatable) event.getTargetPage()).pageShowed();
-				}
-				
-			}
-		});
-		
-		
-		dialog.open();
-		
-		return null;
+	protected NewEntityWizardModel<Subject> createModel() {
+		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		return new NewEntityWizardModel<Subject>(
+				getNames(dp.getSubjects()),
+				new EntityCreator<Subject>() { @Override public Subject createEntity(String name) { return dp.addSubject(name); }}, 
+				"New Subject", 
+				"Every new line will be a new subject", 
+				"The following subjects will be added");
 	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-	
-	@Override
-	public void dispose() {
-	}
-
 }
