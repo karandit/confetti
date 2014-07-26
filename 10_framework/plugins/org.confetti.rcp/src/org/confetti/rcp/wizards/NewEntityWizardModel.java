@@ -1,5 +1,6 @@
 package org.confetti.rcp.wizards;
 
+import static org.confetti.rcp.wizards.NewEntityWizardModel.Problem.ALREADY_EXISTS;
 import static org.confetti.rcp.wizards.NewEntityWizardModel.Problem.DUPLICATED_NAME;
 import static org.confetti.rcp.wizards.NewEntityWizardModel.Problem.OK;
 
@@ -50,11 +51,21 @@ public class NewEntityWizardModel<T> {
 	public void addNames(List<String> names) {
 		mNamesAndProblems.clear();
 		for (String name : names) {
-			Problem state = mOriginalNames.contains(name) ? DUPLICATED_NAME : OK;
+			Problem state = mOriginalNames.contains(name) 
+					? ALREADY_EXISTS 
+					: isDuplicated(names, name) 
+						? DUPLICATED_NAME 
+						: OK;
 			mNamesAndProblems.add(new Tuple<>(name, state));
 		}
 	}
 
+	private boolean isDuplicated(List<String> names, String name) {
+		List<String> namesMinusName = names;
+		namesMinusName.remove(name);
+		return namesMinusName.contains(name);
+	}
+	
 	public String getWizardTitle() { return mWizardTitle; }
 	public String getAddNamePageDescription() { return mAddNamePageDescr; }
 	public String getVerifyNamePageDescription() { return mVerifyNamePageDescr; }
