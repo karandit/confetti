@@ -34,7 +34,7 @@ public class Tuple<T1, T2> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Tuple other = (Tuple) obj;
+		Tuple<?, ?> other = (Tuple<?, ?>) obj;
 		if (mT1 == null) {
 			if (other.mT1 != null)
 				return false;
