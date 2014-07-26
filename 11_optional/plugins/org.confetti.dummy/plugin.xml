@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <!--extension
+   <extension
          point="org.confetti.rcp.openWizard">
       <openWizard
-            factory="org.confetti.dummy.openwizard.DummyOpenWizardFactory"
-            name="Dummy">
+            name="Dummy"
+            wizard="org.confetti.dummy.openwizard.DummyOpenWizard">
       </openWizard>
       <openWizard
-            factory="org.confetti.dummy.openwizard.YetAnotherDummyOpenWizardFactory"
-            name="Yet another dummy">
+            name="Yet Another Dummy"
+            wizard="org.confetti.dummy.openwizard.YetAnotherDummyOpenWizard">
       </openWizard>
-   </extension-->
+   </extension>
 </plugin>
