@@ -1,40 +1,20 @@
 package org.confetti.rcp.commands;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.IHandlerListener;
+import org.confetti.core.DataProvider;
+import org.confetti.core.StudentGroup;
+import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.wizards.NewEntityWizardModel;
+import org.confetti.rcp.wizards.NewEntityWizardModel.EntityCreator;
 
-public class NewStudentGroupCommand implements IHandler {
-
-	public final static String ID = "org.confetti.rcp.commands.newStudentGroupCommand";
-	
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		//TODO
-		return null;
-	}
-	
-	@Override
-	public boolean isEnabled() {
-		return false;
-	}
+public class NewStudentGroupCommand extends AbstractNewEntityHandler<StudentGroup> {
 
 	@Override
-	public boolean isHandled() {
-		return false;
+	protected NewEntityWizardModel<StudentGroup> createModel() {
+		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		return new NewEntityWizardModel<StudentGroup>(getNames(dp.getStudentGroups()),
+				new EntityCreator<StudentGroup>() { @Override public StudentGroup createEntity(String name) { return null; }}, 
+				"New Student group", 
+				"Every new line will be a new student group", 
+				"The following student groups will be added");
 	}
-
-	@Override
-	public void addHandlerListener(IHandlerListener handlerListener) {
-	}
-	
-	@Override
-	public void removeHandlerListener(IHandlerListener handlerListener) {
-	}
-	
-	@Override
-	public void dispose() {
-	}
-
 }

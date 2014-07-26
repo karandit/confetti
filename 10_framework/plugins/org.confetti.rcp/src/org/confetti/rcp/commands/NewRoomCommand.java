@@ -1,40 +1,21 @@
 package org.confetti.rcp.commands;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.IHandlerListener;
+import org.confetti.core.DataProvider;
+import org.confetti.core.Room;
+import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.wizards.NewEntityWizardModel;
+import org.confetti.rcp.wizards.NewEntityWizardModel.EntityCreator;
 
-public class NewRoomCommand implements IHandler {
-
-	public final static String ID = "org.confetti.rcp.commands.newRoomCommand";
-	
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		//TODO
-		return null;
-	}
-	
-	@Override
-	public boolean isEnabled() {
-		return false;
-	}
+public class NewRoomCommand extends AbstractNewEntityHandler<Room> {
 
 	@Override
-	public boolean isHandled() {
-		return false;
+	protected NewEntityWizardModel<Room> createModel() {
+		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		return new NewEntityWizardModel<Room>(
+				getNames(dp.getRooms()), 
+				new EntityCreator<Room>() { @Override public Room createEntity(String name) { return dp.addRoom(name); }}, 
+				"New Room", 
+				"Every new line will be a new room", 
+				"The following rooms will be added");
 	}
-
-	@Override
-	public void addHandlerListener(IHandlerListener handlerListener) {
-	}
-	
-	@Override
-	public void removeHandlerListener(IHandlerListener handlerListener) {
-	}
-	
-	@Override
-	public void dispose() {
-	}
-
 }
