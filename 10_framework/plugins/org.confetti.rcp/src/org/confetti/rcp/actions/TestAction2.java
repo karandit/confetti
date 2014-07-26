@@ -1,5 +1,7 @@
 package org.confetti.rcp.actions;
 
+import org.confetti.core.DataProvider;
+import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchWindow;
 
@@ -22,6 +24,9 @@ public class TestAction2 extends Action {
 	}
 	
 	public void run() {
-//		ConfettiPlugin.getDefault().getDataProvider().setValue(new DataProviderImpl());
+		//dummy action for refreshing the views data
+		DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		ConfettiPlugin.getDefault().getDataProvider().setValue(null);
+		ConfettiPlugin.getDefault().getDataProvider().setValue(dp);
 	}
 }

@@ -1,40 +1,21 @@
 package org.confetti.rcp.commands;
 
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.IHandlerListener;
+import org.confetti.core.DataProvider;
+import org.confetti.core.Teacher;
+import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.wizards.NewEntityWizardModel;
+import org.confetti.rcp.wizards.NewEntityWizardModel.EntityCreator;
 
-public class NewTeacherCommand implements IHandler {
-
-	public final static String ID = "org.confetti.rcp.commands.newTeacherCommand";
-	
-	@Override
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		//TODO
-		return null;
-	}
-	
-	@Override
-	public boolean isEnabled() {
-		return false;
-	}
+public class NewTeacherCommand extends AbstractNewEntityHandler<Teacher> {
 
 	@Override
-	public boolean isHandled() {
-		return false;
-	}
-
-	@Override
-	public void addHandlerListener(IHandlerListener handlerListener) {
-	}
-	
-	@Override
-	public void removeHandlerListener(IHandlerListener handlerListener) {
-	}
-	
-	@Override
-	public void dispose() {
+	protected NewEntityWizardModel<Teacher> createModel() {
+		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		return new NewEntityWizardModel<Teacher>(getNames(dp.getTeachers()),
+				new EntityCreator<Teacher>() { @Override public Teacher createEntity(String name) { return dp.addTeacher(name); }}, 
+				"New Teacher", 
+				"Every new line will be a new teacher", 
+				"The following teachers will be added");
 	}
 
 }
