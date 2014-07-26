@@ -11,11 +11,12 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-public class InsertEntityNamesWizardPage extends ModelableWizardPage<NewEntityWizardModel> implements IWizardPageNavigatable {
+public class InsertEntityNamesWizardPage extends ModelableWizardPage<NewEntityWizardModel<?>> 
+implements IWizardPageNavigatable {
 
 	private Text text;
 	
-	public InsertEntityNamesWizardPage(NewEntityWizardModel model) {
+	public InsertEntityNamesWizardPage(NewEntityWizardModel<?> model) {
 		super("Input", "Names", null, model);
 		setDescription(model.getAddNamePageDescription());
 		setPageComplete(false);

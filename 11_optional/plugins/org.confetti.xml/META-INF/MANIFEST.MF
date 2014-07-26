@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Xml
-Bundle-SymbolicName: org.confetti.xml
+Bundle-SymbolicName: org.confetti.xml;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: xml.jar,
  lib/activation.jar,
@@ -13,5 +13,8 @@ Export-Package: org.confetti.dataprovider.xml,
  org.confetti.xml.core,
  org.confetti.xml.core.space,
  org.confetti.xml.core.time
-Require-Bundle: org.confetti.core
+Require-Bundle: org.confetti.core,
+ org.confetti.rcp,
+ org.eclipse.swt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: org.eclipse.jface.wizard

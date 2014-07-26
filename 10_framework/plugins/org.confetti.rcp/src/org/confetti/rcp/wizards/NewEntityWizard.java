@@ -1,14 +1,12 @@
 package org.confetti.rcp.wizards;
 
-import org.confetti.rcp.wizards.NewEntityWizardModel.Problem;
-import org.confetti.util.Tuple;
 import org.eclipse.jface.wizard.Wizard;
 
 public class NewEntityWizard extends Wizard {
 
-	private final NewEntityWizardModel mModel;
+	private final NewEntityWizardModel<?> mModel;
 	
-	public NewEntityWizard(final NewEntityWizardModel model) {
+	public NewEntityWizard(final NewEntityWizardModel<?> model) {
 		this.mModel = model;
 		setWindowTitle(model.getWizardTitle());
 	}

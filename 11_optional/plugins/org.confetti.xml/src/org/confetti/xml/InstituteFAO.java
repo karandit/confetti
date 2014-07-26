@@ -8,7 +8,7 @@ import org.confetti.xml.core.InstituteXml;
 public class InstituteFAO extends GenericFAO<InstituteXml> {
 
 	/** The classes bound by this FAO. */
-	private static final Class[] CLASSES = new Class[] {
+	private static final Class<?>[] CLASSES = new Class[] {
 		InstituteXml.class, 
 		};
 

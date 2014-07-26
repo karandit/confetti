@@ -148,6 +148,26 @@ public class XmlDataProvider implements DataProvider {
 	@Override public List<StudentGroup> getStudentGroups() 	{ return stdGroups; }
 	@Override public List<Room> getRooms() 					{ return rooms; }
 
+	@Override
+	public Subject addSubject(String name) {
+		SubjectImpl subjectImpl = new SubjectImpl(name);
+		subjects.add(subjectImpl);
+		return subjectImpl;
+	}
+	
+	@Override
+	public Teacher addTeacher(String name) {
+		TeacherImpl teacherImpl = new TeacherImpl(name);
+		teachers.add(teacherImpl);
+		return teacherImpl;
+	}
+	
+	@Override
+	public Room addRoom(String name) {
+		RoomImpl roomImpl = new RoomImpl(name);
+		rooms.add(roomImpl);
+		return roomImpl;
+	}
 	//----------------------------- helpers ----------------------------------------------------------------------------
 	private static File getFile(final String path) {
 //		URL uri = XmlDataProvider.class.getResource(path);
@@ -165,5 +185,6 @@ public class XmlDataProvider implements DataProvider {
 		}
 		return null;
 	}
+
 
 }

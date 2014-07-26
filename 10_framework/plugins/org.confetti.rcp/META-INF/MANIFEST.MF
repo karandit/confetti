@@ -8,5 +8,6 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.confetti.core;bundle-version="1.0.0"
-Eclipse-AutoStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.confetti.rcp.extensions
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

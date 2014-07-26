@@ -14,7 +14,6 @@ public class OpenWizard extends Wizard {
 	private ChooseDataProviderWizardPage chooserPage;
 	private Map<OpenWizardDescr, List<IWizardPage>> pageCache = new HashMap<>();
 	
-	
 	public OpenWizard(OpenWizardModel model) {
 		this.model = model;
 		setWindowTitle("Open");
@@ -44,17 +43,15 @@ public class OpenWizard extends Wizard {
 	}
 	
 	private List<IWizardPage> getPages(OpenWizardDescr descr) {
-		if (pageCache.containsKey(descr)) {
-			return pageCache.get(descr);
-		}
-		List<IWizardPage> pages = descr.getFactory().getPages();
-		pageCache.put(descr, pages);
-		return pages;
+//		if (pageCache.containsKey(descr)) {
+//			return pageCache.get(descr);
+//		}
+//		List<IWizardPage> pages = descr.getWizard().getPages();
+//		pageCache.put(descr, pages);
+//		return pages;
+		return null;
 	}
 
-	@Override
-	public boolean performFinish() {
-		return true;
-	}
+	@Override public boolean performFinish() { return true; }
 
 }
