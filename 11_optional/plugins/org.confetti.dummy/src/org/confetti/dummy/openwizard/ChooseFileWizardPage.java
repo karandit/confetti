@@ -12,6 +12,8 @@ import org.eclipse.swt.widgets.Label;
 
 public class ChooseFileWizardPage extends WizardPage {
 
+	private Label label;
+
 	protected ChooseFileWizardPage() {
 		super("Choose", "Choose an XML File", null);
 		setPageComplete(false);
@@ -21,7 +23,7 @@ public class ChooseFileWizardPage extends WizardPage {
 	public void createControl(Composite parent) {
 		final Composite compo = new Composite(parent, SWT.BORDER);
 		compo.setLayout(new GridLayout());
-		final Label label = new Label(compo, SWT.NONE);
+		label = new Label(compo, SWT.NONE);
 		label.setText("no file selected");
 		
 		Button browse = new Button(compo, SWT.NONE);
@@ -46,4 +48,8 @@ public class ChooseFileWizardPage extends WizardPage {
 		setControl(compo);
 	}
 
+	public String getPath() {
+		return label.getText();
+	}
+	
 }
