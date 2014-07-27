@@ -31,7 +31,6 @@ public class ChooseFileWizardPage extends WizardPage {
 		browse.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("pressed");
 				FileDialog fDialog = new FileDialog(compo.getShell(), SWT.NONE);
 				fDialog.setFilterNames(new String[] {"All Files (*.*)"});
 				fDialog.setFilterExtensions(new String[] {"*.*"});

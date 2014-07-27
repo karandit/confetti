@@ -2,6 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
    <extension-point id="openWizard" name="Open wizard" schema="schema/openWizard.exsd"/>
+   <extension-point id="newWizard" name="New Wizard" schema="schema/newWizard.exsd"/>
 
    <extension
          id="application"

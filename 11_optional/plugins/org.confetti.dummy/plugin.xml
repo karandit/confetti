@@ -12,4 +12,11 @@
             wizard="org.confetti.dummy.openwizard.YetAnotherDummyOpenWizard">
       </openWizard>
    </extension>
+   <extension
+         point="org.confetti.rcp.newWizard">
+      <newWizard
+            name="Dummy"
+            wizard="org.confetti.dummy.newwizard.DummyNewWizard">
+      </newWizard>
+   </extension>
 </plugin>
