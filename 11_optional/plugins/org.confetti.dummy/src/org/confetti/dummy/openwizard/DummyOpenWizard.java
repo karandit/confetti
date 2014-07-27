@@ -6,13 +6,12 @@ public class DummyOpenWizard extends Wizard {
 
 	@Override
 	public void addPages() {
-		addPage(new ChooseFileWizardPage("dummypage"));
+		addPage(new ChooseFileWizardPage());
 	}
 
 	@Override
 	public boolean performFinish() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

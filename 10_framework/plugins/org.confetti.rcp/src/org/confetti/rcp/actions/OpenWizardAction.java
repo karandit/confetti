@@ -51,6 +51,8 @@ public class OpenWizardAction extends Action {
 		IWizard wizard = selectedDescr.getWizard();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		watchWizardDialog(dialog);
+		//TODO: title doesn't showing
+		dialog.setTitle("Open...");
 		dialog.open();
 	}
 
