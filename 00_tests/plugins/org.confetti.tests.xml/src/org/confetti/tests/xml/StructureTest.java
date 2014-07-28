@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,14 +37,15 @@ public class StructureTest {
 	private static InstituteXml inst;
 	
 	@BeforeClass
-	public static void setUp() throws FAOException {
-		inst =  new InstituteFAO().importFrom(getFile("Hopwood.fet"));
+	public static void setUp() throws Exception {
+		try (InputStream is = openStream("Hopwood.fet")) {
+			inst =  new InstituteFAO().importFrom(is);
+		} 
 	}
 
-	private static File getFile(final String path) {
+	static InputStream openStream(final String path) throws IOException {
 		URL uri = StructureTest.class.getResource(path);
-		File file = new File(uri.getFile());
-		return file;
+		return uri.openStream();
 	}
 	
 	@Test
