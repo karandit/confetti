@@ -58,4 +58,9 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	public ObservableValue<DataProvider> getDataProvider() {
 		return dp;
 	}
+
+	public void setDp(ObservableValue<DataProvider> dp) {
+		this.dp = dp;
+	}
+	
 }
