@@ -2,6 +2,7 @@ package org.confetti.rcp;
 
 import org.confetti.core.DataProvider;
 import org.confetti.observable.ObservableValue;
+import org.confetti.observable.ValueMutator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -13,7 +14,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 
 	//The shared instance.
 	private static ConfettiPlugin plugin;
-	private ObservableValue<DataProvider> dp = new ObservableValue<>();
+	private ValueMutator<DataProvider> dpMutator = new ValueMutator<>();
 	
 	/**
 	 * The constructor.
@@ -56,11 +57,11 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	}
 	
 	public ObservableValue<DataProvider> getDataProvider() {
-		return dp;
+		return dpMutator.getObservableValue();
 	}
 
-	public void setDp(ObservableValue<DataProvider> dp) {
-		this.dp = dp;
+	public void setDataProvider(DataProvider value) {
+		dpMutator.setValue(value);
 	}
 	
 }

@@ -8,16 +8,18 @@ public class ObservableValue<T> {
 	private T value;
 	private List<ObservableListener<T>> listeners = new LinkedList<>();
 	
-	public T getValue() { return value; }
+	ObservableValue() {
+	}
 
-	//TODO : remove it, we need something else to hide this mutator
-	public void setValue(T newValue) {
+	void setValue(T newValue) {
 		if (!areEqual(newValue, value)) {
 			notifyListeners(value, newValue);
 			value = newValue;
 		}
 	}
-
+	
+	public T getValue() { return value; }
+	
 	public void attachListener(ObservableListener<T> listener) {
 		listeners.add(listener);
 	}
@@ -36,6 +38,5 @@ public class ObservableValue<T> {
 	private static <T> boolean areEqual(T valueA, T valueB) {
 		return valueB == null ? valueA == null : valueB.equals(valueA);
 	}
-
 
 }

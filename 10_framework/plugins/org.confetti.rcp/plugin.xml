@@ -24,20 +24,6 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            name="Message"
-            allowMultiple="true"
-            icon="icons/sample2.gif"
-            class="org.confetti.rcp.views.View"
-            id="org.eclipse.ui.tutorials.rcp.part3.view">
-      </view>
-      <view
-            name="Mailboxes"
-            allowMultiple="true"
-            icon="icons/sample3.gif"
-            class="org.confetti.rcp.views.NavigationView"
-            id="org.eclipse.ui.tutorials.rcp.part3.navigationView">
-      </view>
-      <view
             allowMultiple="false"
             class="org.confetti.rcp.views.SubjectsView"
             icon="icons/sample.gif"

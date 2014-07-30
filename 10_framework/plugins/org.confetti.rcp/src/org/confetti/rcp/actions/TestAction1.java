@@ -6,11 +6,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 public class TestAction1 extends Action {
 
-    private final IWorkbenchWindow window;
-
     public TestAction1(String text, IWorkbenchWindow window) {
         super(text);
-        this.window = window;
         // The id is used to refer to the action in a menu or toolbar
         setId(ICommandIds.CMD_OPEN_MESSAGE);
         // Associate the action with a pre-defined command, to allow key bindings.

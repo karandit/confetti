@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.wizard.IWizard;
 
 /**
  * @author Bubla Gabor
@@ -57,9 +56,9 @@ public enum NewWizardRegistry {
 
 	private NewWizardDescr createDescr(final IConfigurationElement element) throws CoreException {
 		String name = element.getAttribute("name");
-		IWizard wizard = (IWizard) element.createExecutableExtension("wizard");
+		NewWizardFactory factory = (NewWizardFactory) element.createExecutableExtension("factory");
 
-		return new NewWizardDescr(name, wizard);
+		return new NewWizardDescr(name, factory);
 	}
 	
 }

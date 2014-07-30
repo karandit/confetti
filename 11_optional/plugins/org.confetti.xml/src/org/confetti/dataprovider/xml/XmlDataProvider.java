@@ -12,7 +12,6 @@ import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
-import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.GroupXml;
@@ -98,9 +97,9 @@ public class XmlDataProvider implements DataProvider {
 	private List<Room> rooms = new LinkedList<>();
 
 	//----------------------------- constructors -----------------------------------------------------------------------
-	public XmlDataProvider() {
+	public XmlDataProvider(File file) {
 		try {
-			InstituteXml inst = new InstituteFAO().importFrom(getFile("Hopwood.fet"));
+			InstituteXml inst = new InstituteFAO().importFrom(file);
 			for (SubjectXml subj : inst.getSubjects()) {
 				subjects.add(new SubjectImpl(subj.getName()));
 			}
@@ -122,21 +121,21 @@ public class XmlDataProvider implements DataProvider {
 					}
 				}
 			}
-			for (ActivityXml act : inst.getActivities()) {
-				AssignmentImpl ass = new AssignmentImpl(findByName(subjects, act.getSubject().getName()));
-				for (String stGroupName : act.getStudents()) {
-					try {
-						ass.addStudentGroup(findByName(stdGroups, stGroupName));
-					} catch (Exception e) {
-						System.out.println(stGroupName);
-						System.out.println(e.getMessage());
-					}
-				}
-				for (TeacherRef teacherRef : act.getTeachers()) {
-					ass.addTeacher(findByName(teachers, teacherRef.getName()));
-				}
-			}
-		} catch (FAOException e) {
+//			for (ActivityXml act : inst.getActivities()) {
+//				AssignmentImpl ass = new AssignmentImpl(findByName(subjects, act.getSubject().getName()));
+//				for (String stGroupName : act.getStudents()) {
+//					try {
+//						ass.addStudentGroup(findByName(stdGroups, stGroupName));
+//					} catch (Exception e) {
+////						System.out.println(stGroupName);
+////						System.out.println(e.getMessage());
+//					}
+//				}
+//				for (TeacherRef teacherRef : act.getTeachers()) {
+//					ass.addTeacher(findByName(teachers, teacherRef.getName()));
+//				}
+//			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -169,13 +168,9 @@ public class XmlDataProvider implements DataProvider {
 		return roomImpl;
 	}
 	//----------------------------- helpers ----------------------------------------------------------------------------
-	private static File getFile(final String path) {
-//		URL uri = XmlDataProvider.class.getResource(path);
-//		File file = new File(uri.getFile());
-		File file = new File("d:\\04_work\\confetti\\00_tests\\plugins\\org.confetti.tests.xml\\resources\\org\\confetti\\tests\\xml\\Hopwood.fet");
-		
-		return file;
-	}
+//	private static InputStream openStream(final String path) throws IOException {
+//		return XmlDataProvider.class.getResource(path).openStream();
+//	}
 	
 	private static <T extends Entity> T findByName(List<T> items, String name) {
 		for (T item : items) {

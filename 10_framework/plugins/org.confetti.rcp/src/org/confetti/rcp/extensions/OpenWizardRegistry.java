@@ -9,7 +9,6 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.wizard.IWizard;
 
 public enum OpenWizardRegistry {
 
@@ -54,9 +53,9 @@ public enum OpenWizardRegistry {
 
 	private OpenWizardDescr createDescr(final IConfigurationElement element) throws CoreException {
 		String name = element.getAttribute("name");
-		IWizard wizard = (IWizard) element.createExecutableExtension("wizard");
+		OpenWizardFactory factory = (OpenWizardFactory) element.createExecutableExtension("factory");
 
-		return new OpenWizardDescr(name, wizard);
+		return new OpenWizardDescr(name, factory);
 	}
 	
 }

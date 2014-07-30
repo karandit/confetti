@@ -40,7 +40,7 @@ implements IWizardPageNavigatable {
 		getModel().addNames(extractNames(text.getText()));
 	}
 	
-	private List<String> extractNames(String text) {
+	private static List<String> extractNames(String text) {
 		String[] lines = text.split("\\r?\\n");
 		List<String> names = new ArrayList<>(Arrays.asList(lines));
 		names.removeAll(Arrays.asList(""));

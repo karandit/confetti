@@ -5,6 +5,7 @@ import static org.confetti.rcp.wizards.NewEntityWizardModel.Problem.DUPLICATED_N
 import static org.confetti.rcp.wizards.NewEntityWizardModel.Problem.OK;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.confetti.util.Tuple;
@@ -61,7 +62,7 @@ public class NewEntityWizardModel<T> {
 	}
 
 	private boolean isDuplicated(List<String> names, String name) {
-		List<String> namesMinusName = names;
+		List<String> namesMinusName = new LinkedList<>(names);
 		namesMinusName.remove(name);
 		return namesMinusName.contains(name);
 	}

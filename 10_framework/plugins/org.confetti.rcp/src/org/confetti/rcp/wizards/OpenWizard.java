@@ -1,8 +1,6 @@
 package org.confetti.rcp.wizards;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.confetti.rcp.extensions.OpenWizardDescr;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -12,7 +10,7 @@ public class OpenWizard extends Wizard {
 
 	private OpenWizardModel model;
 	private ChooseDataProviderWizardPage chooserPage;
-	private Map<OpenWizardDescr, List<IWizardPage>> pageCache = new HashMap<>();
+//	private Map<OpenWizardDescr, List<IWizardPage>> pageCache = new HashMap<>();
 	
 	public OpenWizard(OpenWizardModel model) {
 		this.model = model;
