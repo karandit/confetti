@@ -28,7 +28,7 @@ public class ChooseFileWizardPage extends WizardPage {
 		ffe.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				//TODO: fix it
+				//TODO: fix it. button click calls this
 				if (StringFieldEditor.VALUE.equals(event.getProperty())) {
 					setPageComplete(event.getNewValue() != null);
 					mModel.setFile(new File((String) event.getNewValue()));

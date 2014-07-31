@@ -8,8 +8,11 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class DummyWizardPage extends WizardPage {
 
-	protected DummyWizardPage() {
+	DummyNewWizardModel model;
+	
+	protected DummyWizardPage(DummyNewWizardModel model) {
 		super("DummyPage", "DummyPage", null);
+		this.model = model;
 		setPageComplete(false);
 	}
 

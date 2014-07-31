@@ -6,14 +6,19 @@ import org.eclipse.jface.wizard.Wizard;
 
 public class DummyNewWizard extends Wizard {
 
+	DummyNewWizardModel model = new DummyNewWizardModel();
+	
 	public DummyNewWizard(String instituteName, String comment, List<String> days, List<String> hours) {
-		//TODO: create a model and give it the parameters
 		super();
+		model.setInstituteName(instituteName);
+		model.setComment(comment);
+		model.setDays(days);
+		model.setHours(hours);
 	}
 
 	@Override
 	public void addPages() {
-		addPage(new DummyWizardPage());
+		addPage(new DummyWizardPage(model));
 	}
 	
 	@Override

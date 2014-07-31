@@ -7,6 +7,8 @@ import java.util.List;
 import org.confetti.rcp.extensions.NewWizardDescr;
 import org.confetti.rcp.extensions.NewWizardFactory;
 import org.confetti.rcp.extensions.NewWizardRegistry;
+import org.confetti.rcp.wizards.NewWizard;
+import org.confetti.rcp.wizards.NewWizardModel;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -27,6 +29,14 @@ public class NewWizardAction extends Action {
 	@Override
 	public void run() {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		//wizard for getting the Institute name, comment, List of days, List of hours
+		NewWizardModel model = new NewWizardModel();
+		WizardDialog dialog = new WizardDialog(shell, new NewWizard(model));
+		watchWizardDialog(dialog);
+		dialog.setTitle("New...");
+		dialog.open();
+		
+		//dialog with all the extensions
 		ListDialog dlg = new ListDialog(shell);
 		dlg.setContentProvider(new ArrayContentProvider());
 		dlg.setLabelProvider(new LabelProvider());
@@ -41,9 +51,10 @@ public class NewWizardAction extends Action {
 		if (selected == null || selected.length == 0) {
 			return;
 		}
+		//open the selected extension's wizard
 		NewWizardDescr selectedDescr = (NewWizardDescr) selected[0];
 		NewWizardFactory wizardFactory = selectedDescr.getWizardFactory();
-		WizardDialog dialog = new WizardDialog(shell, wizardFactory.createWizard("Test school", "kommentar :D", null, null));
+		dialog = new WizardDialog(shell, wizardFactory.createWizard(model.getInstituteName(), model.getComment(), model.getDays(), model.getHours()));
 		watchWizardDialog(dialog);
 		//TODO: title doesn't showing
 		dialog.setTitle("New...");
