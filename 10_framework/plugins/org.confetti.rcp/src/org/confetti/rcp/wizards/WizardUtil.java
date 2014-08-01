@@ -1,5 +1,6 @@
 package org.confetti.rcp.wizards;
 
+import org.confetti.rcp.wizards.pages.IWizardPageNavigatable;
 import org.eclipse.jface.dialogs.IPageChangingListener;
 import org.eclipse.jface.dialogs.PageChangingEvent;
 import org.eclipse.jface.wizard.WizardDialog;

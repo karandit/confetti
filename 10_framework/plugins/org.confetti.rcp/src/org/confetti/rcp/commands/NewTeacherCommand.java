@@ -3,8 +3,8 @@ package org.confetti.rcp.commands;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Teacher;
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.rcp.wizards.NewEntityWizardModel;
-import org.confetti.rcp.wizards.NewEntityWizardModel.EntityCreator;
+import org.confetti.rcp.wizards.models.NewEntityWizardModel;
+import org.confetti.rcp.wizards.models.NewEntityWizardModel.EntityCreator;
 
 public class NewTeacherCommand extends AbstractNewEntityHandler<Teacher> {
 

@@ -3,11 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Xml
 Bundle-SymbolicName: org.confetti.xml;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: xml.jar,
- lib/activation.jar,
+Bundle-ClassPath: lib/activation.jar,
  lib/jaxb-api.jar,
  lib/jaxb-impl.jar,
- lib/jsr173_1.0_api.jar
+ lib/jsr173_1.0_api.jar,
+ .
 Export-Package: org.confetti.dataprovider.xml,
  org.confetti.xml,
  org.confetti.xml.core,
