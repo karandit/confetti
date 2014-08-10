@@ -63,8 +63,6 @@ public class NewWizardAction extends Action {
 		
 		dialog = new WizardDialog(shell, wizardFactory.createWizard(model.getName(), model.getComment(), days, hours));
 		watchWizardDialog(dialog);
-		//TODO: title doesn't showing
-		dialog.setTitle("New...");
 		dialog.open();
 	}
 

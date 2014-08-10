@@ -72,6 +72,4 @@ public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntrie
 		return namesMinusName.contains(name);
 	}
 
-
-
 }

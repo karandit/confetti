@@ -16,9 +16,9 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="Part3 Perspective"
+            name="Default Perspective"
             class="org.confetti.rcp.Perspective"
-            id="org.eclipse.ui.tutorials.rcp.part3.perspective">
+            id="org.eclipse.ui.tutorials.rcp.defaultPerspective">
       </perspective>
    </extension>
    <extension
@@ -82,22 +82,6 @@
    </extension>
    <extension
          point="org.eclipse.ui.commands">
-      <category
-            name="Mail"
-            id="org.eclipse.ui.tutorials.rcp.part3.category">
-      </category>
-      <command
-            name="Open Mailbox"
-            description="Opens a mailbox"
-            categoryId="org.eclipse.ui.tutorials.rcp.part3.category"
-            id="org.eclipse.ui.tutorials.rcp.part3.open">
-      </command>
-      <command
-            name="Open Message Dialog"
-            description="Open a message dialog"
-            categoryId="org.eclipse.ui.tutorials.rcp.part3.category"
-            id="org.eclipse.ui.tutorials.rcp.part3.openMessage">
-      </command>
       <command
             defaultHandler="org.confetti.rcp.commands.NewSubjectCommand"
             description="New Subject"
@@ -131,16 +115,6 @@
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
-      <key
-            commandId="org.eclipse.ui.tutorials.rcp.part3.open"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="CTRL+2">
-      </key>
-      <key
-            commandId="org.eclipse.ui.tutorials.rcp.part3.openMessage"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="CTRL+3">
-      </key>
       <key
             commandId="org.eclipse.ui.file.exit"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"

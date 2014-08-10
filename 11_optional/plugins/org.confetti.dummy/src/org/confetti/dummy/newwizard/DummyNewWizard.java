@@ -10,6 +10,7 @@ public class DummyNewWizard extends Wizard {
 	
 	public DummyNewWizard(String instituteName, String comment, List<String> days, List<String> hours) {
 		super();
+		setWindowTitle("New Dummy TimeTable");
 		model.setInstituteName(instituteName);
 		model.setComment(comment);
 		model.setDays(days);
