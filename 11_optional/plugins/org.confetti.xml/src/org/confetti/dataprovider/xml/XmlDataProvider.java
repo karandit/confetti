@@ -7,7 +7,9 @@ import java.util.List;
 import org.confetti.core.Assignable;
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
+import org.confetti.core.Day;
 import org.confetti.core.Entity;
+import org.confetti.core.Hour;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
@@ -146,6 +148,10 @@ public class XmlDataProvider implements DataProvider {
 	@Override public List<Subject> getSubjects() 			{ return subjects; }
 	@Override public List<StudentGroup> getStudentGroups() 	{ return stdGroups; }
 	@Override public List<Room> getRooms() 					{ return rooms; }
+	//TODO
+	@Override public List<Day> getDays() 					{ return null; }
+	//TODO
+	@Override public List<Hour> getHours() 					{ return null; }
 
 	@Override
 	public Subject addSubject(String name) {
@@ -167,6 +173,18 @@ public class XmlDataProvider implements DataProvider {
 		rooms.add(roomImpl);
 		return roomImpl;
 	}
+	
+	@Override
+	public Day setDays(List<Day> days) {
+		//TODO
+		return null;
+	}
+	
+	@Override
+	public Hour setHours(List<Hour> hours) {
+		//TODO
+		return null;
+	}
 	//----------------------------- helpers ----------------------------------------------------------------------------
 //	private static InputStream openStream(final String path) throws IOException {
 //		return XmlDataProvider.class.getResource(path).openStream();
@@ -180,6 +198,5 @@ public class XmlDataProvider implements DataProvider {
 		}
 		return null;
 	}
-
 
 }
