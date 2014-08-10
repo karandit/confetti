@@ -57,6 +57,14 @@
       </view>
       <view
             allowMultiple="false"
+            class="org.confetti.rcp.views.EntitiesView"
+            icon="icons/sample.gif"
+            id="org.confetti.rcp.entitiesView"
+            name="Entities"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
             class="org.confetti.rcp.views.AssignmentsView"
             icon="icons/sample2.gif"
             id="org.confetti.rcp.assignmentsView"
