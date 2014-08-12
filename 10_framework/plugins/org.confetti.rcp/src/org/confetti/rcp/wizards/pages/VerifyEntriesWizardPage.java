@@ -1,6 +1,7 @@
-package org.confetti.rcp.wizards;
+package org.confetti.rcp.wizards.pages;
 
-import org.confetti.rcp.wizards.NewEntityWizardModel.Problem;
+import org.confetti.rcp.wizards.models.Problem;
+import org.confetti.rcp.wizards.models.VerifyEntriesModel;
 import org.confetti.util.Tuple;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -12,14 +13,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-public class VerifyEntityNamesWizardPage extends ModelableWizardPage<NewEntityWizardModel<?>> implements IWizardPageNavigatable {
+public class VerifyEntriesWizardPage extends ModelableWizardPage<VerifyEntriesModel> implements IWizardPageNavigatable {
 
 	private TableViewer tableViewer;
 	private Table table;
 
-	public VerifyEntityNamesWizardPage(NewEntityWizardModel<?> model) {
-		super("Verify", "Summary", null, model);
-		setDescription(model.getVerifyNamePageDescription());
+	public VerifyEntriesWizardPage(VerifyEntriesModel model) {
+		super("Verify", model.getVerifyEntriesPageTitle(), null, model);
+		setDescription(getModel().getVerifyEntriesPageDescription());
 	}
 
 	@Override
@@ -59,9 +60,9 @@ public class VerifyEntityNamesWizardPage extends ModelableWizardPage<NewEntityWi
 
 	@Override
 	public void pageShowed() {
-		tableViewer.setInput(getModel().getItems());
+		tableViewer.setInput(getModel().getResult());
 		boolean ok = true;
-		for (Tuple<String, Problem> item : getModel().getItems()) {
+		for (Tuple<String, Problem> item : getModel().getResult()) {
 			if (item.getSecond() != Problem.OK) {
 				ok = false;
 				break;

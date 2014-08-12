@@ -4,12 +4,15 @@
    <extension
          point="org.confetti.rcp.openWizard">
       <openWizard
-            name="Dummy"
-            wizard="org.confetti.dummy.openwizard.DummyOpenWizard">
+            factory="org.confetti.dummy.openwizard.DummyOpenWizardFactory"
+            name="Dummy">
       </openWizard>
-      <openWizard
-            name="Yet Another Dummy"
-            wizard="org.confetti.dummy.openwizard.YetAnotherDummyOpenWizard">
-      </openWizard>
+   </extension>
+   <extension
+         point="org.confetti.rcp.newWizard">
+      <newWizard
+            factory="org.confetti.dummy.newwizard.DummyNewWizardFactory"
+            name="Dummy">
+      </newWizard>
    </extension>
 </plugin>

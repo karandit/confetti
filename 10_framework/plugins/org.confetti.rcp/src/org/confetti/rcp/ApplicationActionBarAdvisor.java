@@ -4,7 +4,6 @@ import org.confetti.rcp.actions.NewWizardAction;
 import org.confetti.rcp.actions.OpenWizardAction;
 import org.confetti.rcp.actions.TestAction1;
 import org.confetti.rcp.actions.TestAction2;
-import org.confetti.rcp.views.View;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
@@ -59,7 +58,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         testAction1 = new TestAction1("TestAction1", window);
         register(testAction1);
         
-        testAction2 = new TestAction2("TestAction2", window,  View.ID);
+        testAction2 = new TestAction2("TestAction2", window);
         register(testAction2);
         
         newWizardAction = new NewWizardAction();

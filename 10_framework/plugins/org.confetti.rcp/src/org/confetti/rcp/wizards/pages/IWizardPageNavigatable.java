@@ -1,4 +1,4 @@
-package org.confetti.rcp.wizards;
+package org.confetti.rcp.wizards.pages;
 
 public interface IWizardPageNavigatable {
 	void pageShowed();

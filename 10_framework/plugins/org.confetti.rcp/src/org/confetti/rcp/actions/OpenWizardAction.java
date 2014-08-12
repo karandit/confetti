@@ -5,12 +5,12 @@ import static org.confetti.rcp.wizards.WizardUtil.watchWizardDialog;
 import java.util.List;
 
 import org.confetti.rcp.extensions.OpenWizardDescr;
+import org.confetti.rcp.extensions.OpenWizardFactory;
 import org.confetti.rcp.extensions.OpenWizardRegistry;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -48,9 +48,11 @@ public class OpenWizardAction extends Action {
 			return;
 		}
 		OpenWizardDescr selectedDescr = (OpenWizardDescr) selected[0];
-		IWizard wizard = selectedDescr.getWizard();
-		WizardDialog dialog = new WizardDialog(shell, wizard);
+		OpenWizardFactory wizardFactory = selectedDescr.getWizardFactory();
+		WizardDialog dialog = new WizardDialog(shell, wizardFactory.createWizard());
 		watchWizardDialog(dialog);
+		//TODO: title doesn't showing
+		dialog.setTitle("Open...");
 		dialog.open();
 	}
 

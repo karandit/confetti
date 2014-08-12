@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.confetti.core.Entity;
 import org.confetti.rcp.wizards.NewEntityWizard;
-import org.confetti.rcp.wizards.NewEntityWizardModel;
+import org.confetti.rcp.wizards.models.NewEntityWizardModel;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;

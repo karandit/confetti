@@ -1,18 +1,25 @@
 package org.confetti.dummy.openwizard;
 
+import org.confetti.dummy.DataProviderImpl;
+import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.wizard.Wizard;
 
 public class DummyOpenWizard extends Wizard {
 
+	public DummyOpenWizard() {
+		//TODO: create a model here
+		super();
+	}
+
 	@Override
 	public void addPages() {
-		addPage(new ChooseFileWizardPage("dummypage"));
+		addPage(new ChooseFileWizardPage());
 	}
 
 	@Override
 	public boolean performFinish() {
-		// TODO Auto-generated method stub
-		return false;
+		ConfettiPlugin.getDefault().setDataProvider(new DataProviderImpl());
+		return true;
 	}
 
 }

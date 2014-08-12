@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.confetti.core.DataProvider;
+import org.confetti.core.Day;
+import org.confetti.core.Hour;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
@@ -93,7 +95,7 @@ public class DataProviderImpl implements DataProvider {
 		return teacher;
 	}
 
-	public  StudentGroupImpl addStudentGroup(String name) {
+	public StudentGroupImpl addStudentGroup(String name) {
 		StudentGroupImpl studentGroup = new StudentGroupImpl(name);
 		studentGroups.add(studentGroup);
 		return studentGroup;
@@ -104,6 +106,30 @@ public class DataProviderImpl implements DataProvider {
 		RoomImpl room = new RoomImpl(name);
 		rooms.add(room);
 		return room;
+	}
+
+	@Override
+	public List<Day> getDays() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Hour> getHours() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Day setDays(List<Day> days) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Hour setHours(List<Hour> hours) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

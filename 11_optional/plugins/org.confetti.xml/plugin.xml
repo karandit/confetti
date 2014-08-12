@@ -4,8 +4,8 @@
    <extension
          point="org.confetti.rcp.openWizard">
       <openWizard
-            name="FET (by Liviu Lalescu)"
-            wizard="org.confetti.dataprovider.wizards.OpenXmlWizard">
+            factory="org.confetti.dataprovider.wizards.OpenXmlWizardFactory"
+            name="FET">
       </openWizard>
    </extension>
 

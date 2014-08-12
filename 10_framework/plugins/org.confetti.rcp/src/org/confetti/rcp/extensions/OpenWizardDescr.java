@@ -1,19 +1,20 @@
 package org.confetti.rcp.extensions;
 
-import org.eclipse.jface.wizard.IWizard;
-
+/**
+ * @author Bubla Gabor
+ */
 public class OpenWizardDescr {
 
 	private final String name;
-	private final IWizard wizard;
+	private final OpenWizardFactory wizardFactory;
 
-	public OpenWizardDescr(String name, IWizard wizard) {
+	public OpenWizardDescr(String name, OpenWizardFactory wizardFactory) {
 		this.name = name;
-		this.wizard = wizard;
+		this.wizardFactory = wizardFactory;
 	}
 
-	public IWizard getWizard() {
-		return wizard;
+	public OpenWizardFactory getWizardFactory() {
+		return wizardFactory;
 	}
 
 	public String getName() {

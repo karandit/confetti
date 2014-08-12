@@ -3,8 +3,8 @@ package org.confetti.rcp.commands;
 import org.confetti.core.DataProvider;
 import org.confetti.core.StudentGroup;
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.rcp.wizards.NewEntityWizardModel;
-import org.confetti.rcp.wizards.NewEntityWizardModel.EntityCreator;
+import org.confetti.rcp.wizards.models.NewEntityWizardModel;
+import org.confetti.rcp.wizards.models.NewEntityWizardModel.EntityCreator;
 
 public class NewStudentGroupCommand extends AbstractNewEntityHandler<StudentGroup> {
 

@@ -1,4 +1,4 @@
-package org.confetti.rcp.wizards;
+package org.confetti.rcp.wizards.pages;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;

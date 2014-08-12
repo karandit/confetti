@@ -1,6 +1,7 @@
-package org.confetti.rcp.wizards;
+package org.confetti.rcp.wizards.pages;
 
 import org.confetti.rcp.extensions.OpenWizardDescr;
+import org.confetti.rcp.wizards.models.OpenTimetableModel;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -13,9 +14,9 @@ import org.eclipse.swt.widgets.Composite;
 
 public class ChooseDataProviderWizardPage extends WizardPage {
 	
-	private OpenWizardModel model;
+	private OpenTimetableModel model;
 
-	public ChooseDataProviderWizardPage(OpenWizardModel model) {
+	public ChooseDataProviderWizardPage(OpenTimetableModel model) {
 		super("chooseDataProvider");
 		this.model = model;
 		setTitle("Open");

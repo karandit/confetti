@@ -1,7 +1,9 @@
 package org.confetti.tests.xml;
 
-import java.io.File;
-import java.net.URL;
+import static org.confetti.tests.xml.StructureTest.openStream;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
@@ -13,17 +15,14 @@ import org.junit.Test;
  */
 public class CompatibilityTest {
 
-	private static File getFile(final String path) {
-		URL uri = CompatibilityTest.class.getResource(path);
-		File file = new File(uri.getFile());
-		return file;
-	}
-
 	private static void importFet(final String path) throws FAOException {
-		InstituteXml inst = new InstituteFAO().importFrom(getFile(path));
-		System.out.println(inst.getVersion() + "\t" + inst.getName());
+		try (InputStream is = openStream(path)) {
+			InstituteXml  inst =  new InstituteFAO().importFrom(is);
+			System.out.println(inst.getVersion() + "\t" + inst.getName());
+		} catch (IOException e) {
+			throw new FAOException(e);
+		} 
 	}
-
 
 	@Test
 	public void test_all_constraints() throws FAOException {

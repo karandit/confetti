@@ -1,20 +1,20 @@
 package org.confetti.rcp.wizards;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.confetti.rcp.extensions.OpenWizardDescr;
+import org.confetti.rcp.wizards.models.OpenTimetableModel;
+import org.confetti.rcp.wizards.pages.ChooseDataProviderWizardPage;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 
-public class OpenWizard extends Wizard {
+public class OpenTimetableWizard extends Wizard {
 
-	private OpenWizardModel model;
+	private OpenTimetableModel model;
 	private ChooseDataProviderWizardPage chooserPage;
-	private Map<OpenWizardDescr, List<IWizardPage>> pageCache = new HashMap<>();
+//	private Map<OpenWizardDescr, List<IWizardPage>> pageCache = new HashMap<>();
 	
-	public OpenWizard(OpenWizardModel model) {
+	public OpenTimetableWizard(OpenTimetableModel model) {
 		this.model = model;
 		setWindowTitle("Open");
 		setForcePreviousAndNextButtons(true);

@@ -7,7 +7,6 @@ import org.confetti.rcp.views.StudentGroupsView;
 import org.confetti.rcp.views.SubjectsView;
 import org.confetti.rcp.views.TeachersView;
 import org.confetti.rcp.views.TimeTableView;
-import org.confetti.rcp.views.View;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
@@ -27,14 +26,11 @@ public class Perspective implements IPerspectiveFactory {
 		IFolderLayout folderConstraints = layout.createFolder("constraints", IPageLayout.BOTTOM, 0.60f, "entities");
 		folderConstraints.addView(ConstraintsView.ID);
 
-//		layout.addStandaloneView(NavigationView.ID, true, IPageLayout.LEFT, 0.25f, editorArea);
 		IFolderLayout folderAssignments = layout.createFolder("assignments", IPageLayout.RIGHT, 0.70f, editorArea);
-		folderAssignments.addPlaceholder(View.ID + ":*");
 		folderAssignments.addView(AssignmentsView.ID);
 		
 		IFolderLayout folderTimeTable = layout.createFolder("timetable", IPageLayout.BOTTOM, 0.50f, "assignments");
 		folderTimeTable.addView(TimeTableView.ID);
 
-//		layout.getViewLayout(NavigationView.ID).setCloseable(false);
 	}
 }

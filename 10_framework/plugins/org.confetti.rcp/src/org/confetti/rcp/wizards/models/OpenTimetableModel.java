@@ -1,15 +1,15 @@
-package org.confetti.rcp.wizards;
+package org.confetti.rcp.wizards.models;
 
 import java.util.List;
 
 import org.confetti.rcp.extensions.OpenWizardDescr;
 
-public class OpenWizardModel {
+public class OpenTimetableModel {
 
 	private List<OpenWizardDescr> extensions;
 	private OpenWizardDescr selectedExtension;
 
-	public OpenWizardModel(List<OpenWizardDescr> extensions) {
+	public OpenTimetableModel(List<OpenWizardDescr> extensions) {
 		this.extensions = extensions;
 	}
 

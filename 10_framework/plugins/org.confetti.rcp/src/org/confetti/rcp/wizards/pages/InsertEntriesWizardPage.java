@@ -1,24 +1,25 @@
-package org.confetti.rcp.wizards;
+package org.confetti.rcp.wizards.pages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.confetti.rcp.wizards.models.InsertEntriesModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-public class InsertEntityNamesWizardPage extends ModelableWizardPage<NewEntityWizardModel<?>> 
+public class InsertEntriesWizardPage extends ModelableWizardPage<InsertEntriesModel> 
 implements IWizardPageNavigatable {
 
 	private Text text;
 	
-	public InsertEntityNamesWizardPage(NewEntityWizardModel<?> model) {
-		super("Input", "Names", null, model);
-		setDescription(model.getAddNamePageDescription());
+	public InsertEntriesWizardPage(InsertEntriesModel model) {
+		super("Input", model.getInsertEntriesPageTitle(), null, model);
+		setDescription(getModel().getInsertEntriesPageDescription());
 		setPageComplete(false);
 	}
 
@@ -37,10 +38,10 @@ implements IWizardPageNavigatable {
 
 	@Override
 	public void pageHid() {
-		getModel().addNames(extractNames(text.getText()));
+		getModel().addEntries(extractNames(text.getText()));
 	}
 	
-	private List<String> extractNames(String text) {
+	private static List<String> extractNames(String text) {
 		String[] lines = text.split("\\r?\\n");
 		List<String> names = new ArrayList<>(Arrays.asList(lines));
 		names.removeAll(Arrays.asList(""));
