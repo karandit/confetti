@@ -15,7 +15,7 @@ public interface DataProvider {
 	Teacher addTeacher(String name);
 	//TODO: StudentGroup addStudentGroup(StudentGroup parent, String name);
 	Room addRoom(String name);
-	Day setDays(List<Day> days);
-	Hour setHours(List<Hour> hours);
+	void setDays(List<String> days);
+	void setHours(List<String> hours);
 	
 }

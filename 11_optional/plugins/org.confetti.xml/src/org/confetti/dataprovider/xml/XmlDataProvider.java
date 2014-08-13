@@ -175,15 +175,13 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	@Override
-	public Day setDays(List<Day> days) {
+	public void setDays(List<String> days) {
 		//TODO
-		return null;
 	}
 	
 	@Override
-	public Hour setHours(List<Hour> hours) {
+	public void setHours(List<String> hours) {
 		//TODO
-		return null;
 	}
 	//----------------------------- helpers ----------------------------------------------------------------------------
 //	private static InputStream openStream(final String path) throws IOException {

@@ -121,15 +121,13 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 	@Override
-	public Day setDays(List<Day> days) {
+	public void setDays(List<String> days) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
-	public Hour setHours(List<Hour> hours) {
+	public void setHours(List<String> hours) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
