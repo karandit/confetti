@@ -21,7 +21,7 @@ public abstract class AbstractEntityView<T extends StructuredViewer> extends Vie
 	public void createPartControl(Composite parent) {
 		viewer = createViewer(parent);
 		viewer.setContentProvider(getContentProvider());
-		viewer.setLabelProvider(new EntityTableLabelProvider());
+		viewer.setLabelProvider(getLabelProvider());
 		ObservableValue<DataProvider> dpObs = ConfettiPlugin.getDefault().getDataProvider();
 		dpObs.attachListener(new ObservableListener<DataProvider>() {
 			
@@ -34,11 +34,13 @@ public abstract class AbstractEntityView<T extends StructuredViewer> extends Vie
 		getSite().setSelectionProvider(viewer);
 		viewer.setInput(getNullSafeInput(dpObs.getValue()));
 	}
+
 	private Object getNullSafeInput(DataProvider newDp) {
 		return newDp == null ? null : getInput(newDp);
 	}
 
 	
+	protected EntityTableLabelProvider getLabelProvider() { return new EntityTableLabelProvider(); }
 	protected IContentProvider getContentProvider() { return new ArrayContentProvider(); }
 	@Override public void setFocus() { viewer.getControl().setFocus(); }
 	

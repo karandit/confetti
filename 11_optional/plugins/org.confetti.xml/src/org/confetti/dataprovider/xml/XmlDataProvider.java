@@ -145,7 +145,7 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
-	@Override public ObservableValue<String> getInstituteName() { return instName.getObservableValue(); }
+	@Override public ObservableValue<String> getName() { return instName.getObservableValue(); }
 	@Override public List<Teacher> getTeachers() 			{ return teachers; }
 	@Override public List<Subject> getSubjects() 			{ return subjects; }
 	@Override public List<StudentGroup> getStudentGroups() 	{ return stdGroups; }

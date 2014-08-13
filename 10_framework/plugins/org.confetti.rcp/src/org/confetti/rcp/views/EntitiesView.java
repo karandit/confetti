@@ -1,8 +1,18 @@
 package org.confetti.rcp.views;
 
+import java.util.List;
+
 import org.confetti.core.DataProvider;
+import org.confetti.core.Nameable;
+import org.confetti.core.StudentGroup;
+import org.confetti.observable.ObservableValue;
+import org.confetti.observable.ValueMutator;
+import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
@@ -30,10 +40,94 @@ public class EntitiesView extends AbstractEntityView<TreeViewer> {
 		name.setWidth(width);
 	}
 
-	@Override
-	protected Object getInput(DataProvider dp) {
-		// TODO Auto-generated method stub
-		return null;
+	@Override protected Object getInput(DataProvider dp) { return dp; }
+	@Override protected IContentProvider getContentProvider() { return new AllEntitiesContentProvider(); }
+
+	//----------------------------- helper classes ---------------------------------------------------------------------
+	enum Containers implements Nameable {
+		AllSubjects("All subjects") {
+			@Override public List<?> getChildren(DataProvider dp) { return dp.getSubjects(); }
+		},
+		AllTeachers("All teachers") {
+			@Override public List<?> getChildren(DataProvider dp) { return dp.getTeachers(); }
+		},
+		AllStudentGroups("All student groups") {
+			@Override public List<?> getChildren(DataProvider dp) { return dp.getStudentGroups(); }
+		},
+		AllRooms("All rooms") {
+			@Override public List<?> getChildren(DataProvider dp) { return dp.getRooms(); }
+		};
+		
+		private final ValueMutator<String> nameMut;
+		private Containers(final String name) {
+			nameMut = new ValueMutator<>(name);
+		}
+		@Override public ObservableValue<String> getName() { return nameMut.getObservableValue(); }
+		
+		public Object[] getChildrenAsArray(DataProvider dp) {
+			List<?> children = getChildren(dp);
+			return children.toArray(new Object[children.size()]); 
+		}
+		
+		public boolean hasChildren(DataProvider dp) { return !getChildren(dp).isEmpty(); }
+		protected abstract List<?> getChildren(DataProvider dp);
 	}
-	
+
+	class AllEntitiesContentProvider implements IStructuredContentProvider, ITreeContentProvider 
+	{
+		
+		private DataProvider dp;
+
+		@Override
+		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+			dp = (DataProvider) newInput;
+		}
+
+		@Override
+		public void dispose() {
+		}
+
+		@Override
+		public Object[] getElements(Object parent) {
+			return getChildren(parent);
+		}
+
+		@Override
+		public Object getParent(Object child) {
+			if (child instanceof DataProvider) {
+				return null;
+			}
+			return null;
+		}
+
+		@Override
+		public Object[] getChildren(Object parent) {
+			if (parent instanceof DataProvider) {
+				return Containers.values();
+			}
+			if (parent instanceof Containers) {
+				return ((Containers) parent).getChildrenAsArray(dp);
+			}
+			if (parent instanceof StudentGroup) {
+				List<StudentGroup> children = ((StudentGroup) parent).getChildren();
+				return children.toArray(new Object[children.size()]);
+			}
+			
+			return new Object[0];
+		}
+
+		@Override
+		public boolean hasChildren(Object parent) {
+			if (parent instanceof DataProvider) {
+				return true;
+			}
+			if (parent instanceof Containers) {
+				return ((Containers) parent).hasChildren(dp);
+			}
+			if (parent instanceof StudentGroup) {
+				return !((StudentGroup) parent).getChildren().isEmpty();
+			}
+			return false;
+		}
+	}
 }

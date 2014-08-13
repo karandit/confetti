@@ -2,12 +2,8 @@ package org.confetti.core;
 
 import java.util.List;
 
-import org.confetti.observable.ObservableValue;
+public interface DataProvider extends Nameable {
 
-public interface DataProvider {
-
-	ObservableValue<String> getInstituteName();
-	
 	List<Subject> getSubjects();
 	List<Teacher> getTeachers();
 	List<StudentGroup> getStudentGroups();

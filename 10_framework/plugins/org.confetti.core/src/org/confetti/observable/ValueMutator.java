@@ -6,6 +6,10 @@ public class ValueMutator<T> {
 	
 	public ValueMutator() {
 	}
+
+	public ValueMutator(T initialValue) {
+		observValue.setValue(initialValue);
+	}
 	
 	public ObservableValue<T> getObservableValue() {
 		return observValue;

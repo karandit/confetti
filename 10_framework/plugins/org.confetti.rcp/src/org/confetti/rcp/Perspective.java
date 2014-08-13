@@ -2,6 +2,7 @@ package org.confetti.rcp;
 
 import org.confetti.rcp.views.AssignmentsView;
 import org.confetti.rcp.views.ConstraintsView;
+import org.confetti.rcp.views.EntitiesView;
 import org.confetti.rcp.views.RoomsView;
 import org.confetti.rcp.views.StudentGroupsView;
 import org.confetti.rcp.views.SubjectsView;
@@ -22,6 +23,7 @@ public class Perspective implements IPerspectiveFactory {
 		folderEntities.addView(TeachersView.ID);
 		folderEntities.addView(StudentGroupsView.ID);
 		folderEntities.addView(RoomsView.ID);
+		folderEntities.addView(EntitiesView.ID);
 		
 		IFolderLayout folderConstraints = layout.createFolder("constraints", IPageLayout.BOTTOM, 0.60f, "entities");
 		folderConstraints.addView(ConstraintsView.ID);

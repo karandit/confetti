@@ -31,6 +31,7 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 	private void init() {
+		instName.setValue("Test institute");
 		Subject subjMatek = addSubject("Math");
 		addSubject("Literatute");
 		Subject subjInfo = addSubject("Computer science");
@@ -134,7 +135,7 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 	@Override
-	public ObservableValue<String> getInstituteName() {
+	public ObservableValue<String> getName() {
 		return instName.getObservableValue();
 	}
 
