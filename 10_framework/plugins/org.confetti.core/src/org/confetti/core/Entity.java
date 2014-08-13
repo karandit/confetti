@@ -1,5 +1,4 @@
 package org.confetti.core;
 
-public interface Entity {
-	String getName();
+public interface Entity extends Nameable {
 }

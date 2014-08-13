@@ -36,7 +36,7 @@ abstract class AbstractNewEntityHandler<T> extends AbstractHandler {
 	protected static List<String> getNames(List<? extends Entity> entities) {
 		List<String> names = new LinkedList<>();
 		for (Entity entity : entities) {
-			names.add(entity.getName());
+			names.add(entity.getName().getValue());
 		}
 		return names;
 	}

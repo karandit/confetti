@@ -99,7 +99,7 @@ public class AssignmentsView extends ViewPart {
 			}
 		}
 
-		private static String getName(Entity ent) { return ent == null ? null : ent.getName(); }
+		private static String getName(Entity ent) { return ent == null ? null : ent.getName().getValue(); }
 
 		private static <T extends Entity> String toStr(List<T> items) {
 			StringBuilder sb = new StringBuilder();

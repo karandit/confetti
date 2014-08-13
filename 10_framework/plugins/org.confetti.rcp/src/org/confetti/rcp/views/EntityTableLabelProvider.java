@@ -1,6 +1,5 @@
 package org.confetti.rcp.views;
 
-import org.confetti.core.Entity;
 import org.confetti.core.Nameable;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -14,8 +13,6 @@ public class EntityTableLabelProvider extends LabelProvider implements ITableLab
 	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof Nameable) {
 			return getTextByColumn(columnIndex, ((Nameable) element).getName().getValue());
-		} else if (element instanceof Entity) {
-			return getTextByColumn(columnIndex, ((Entity) element).getName());
 		} 
 		return null;
 	}

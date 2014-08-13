@@ -55,14 +55,15 @@ public class XmlDataProvider implements DataProvider {
 	
 	private static class EntityImpl implements Entity, Assignable {
 
-		private final String name;
+		private final ValueMutator<String> name;
+		
 		private final List<Assignment> assignments = new LinkedList<>();
 		
 		public EntityImpl(String name) {
-			this.name = name;
+			this.name = new ValueMutator<>(name);
 		}
 		
-		@Override public String getName() { return name; }
+		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
 		@Override public void addAssignment(Assignment assignment) 	{ assignments.add(assignment);} 
 		@Override public List<Assignment> getAssignments() 			{ return assignments; }
 	}
