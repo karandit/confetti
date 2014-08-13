@@ -14,14 +14,14 @@ import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
+import org.confetti.observable.ObservableValue;
+import org.confetti.observable.ValueMutator;
 import org.confetti.xml.InstituteFAO;
-import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.InstituteXml;
 import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubgroupXml;
 import org.confetti.xml.core.SubjectXml;
-import org.confetti.xml.core.TeacherRef;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
 
@@ -93,6 +93,7 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	//----------------------------- fields -----------------------------------------------------------------------------
+	private ValueMutator<String> instName = new ValueMutator<>();
 	private List<Teacher> teachers = new LinkedList<>();
 	private List<Subject> subjects = new LinkedList<>();
 	private List<StudentGroup> stdGroups = new LinkedList<>();
@@ -144,6 +145,7 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
+	@Override public ObservableValue<String> getInstituteName() { return instName.getObservableValue(); }
 	@Override public List<Teacher> getTeachers() 			{ return teachers; }
 	@Override public List<Subject> getSubjects() 			{ return subjects; }
 	@Override public List<StudentGroup> getStudentGroups() 	{ return stdGroups; }
@@ -153,6 +155,7 @@ public class XmlDataProvider implements DataProvider {
 	//TODO
 	@Override public List<Hour> getHours() 					{ return null; }
 
+	
 	@Override
 	public Subject addSubject(String name) {
 		SubjectImpl subjectImpl = new SubjectImpl(name);

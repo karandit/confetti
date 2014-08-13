@@ -11,6 +11,8 @@ import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
+import org.confetti.observable.ObservableValue;
+import org.confetti.observable.ValueMutator;
 
 public class DataProviderImpl implements DataProvider {
 
@@ -18,7 +20,8 @@ public class DataProviderImpl implements DataProvider {
 	private List<Teacher> teachers;
 	private List<StudentGroup> studentGroups;
 	private List<Room> rooms;
-
+	private ValueMutator<String> instName = new ValueMutator<>();
+	
 	public DataProviderImpl() {
 		this.subjects = new ArrayList<>();
 		this.teachers = new ArrayList<>();
@@ -128,6 +131,11 @@ public class DataProviderImpl implements DataProvider {
 	@Override
 	public void setHours(List<String> hours) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public ObservableValue<String> getInstituteName() {
+		return instName.getObservableValue();
 	}
 
 }
