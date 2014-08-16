@@ -1,6 +1,7 @@
 package org.confetti.observable;
 
 public class ListMutator<T> {
+	
 	private final ObservableList<T> observList = new ObservableList<>();
 	
 	public ListMutator() {
@@ -10,11 +11,12 @@ public class ListMutator<T> {
 		return observList;
 	}
 
-	public void addItem(T itemToAdd) {
-		//TODO: implement it
+	public void addItem(T item) {
+		observList.addItem(item);
 	}
 
-	public void removeItem(T itemToRemove) {
-		//TODO: implement it
+	public void removeItem(T item) {
+		observList.removeItem(item);
 	}
+	
 }

@@ -7,66 +7,151 @@ import org.junit.Test;
 
 public class ObservableValueTest {
 	
+	private boolean expectedBoolean;
+	private int counter;
+
 	@Test
 	public void should_NotifyListeners() {
 		ValueMutator<String> nameMut = new ValueMutator<>();
-		final boolean[] expected = new boolean[] {false};
+		expectedBoolean = false;
 		nameMut.getObservableValue().attachListener(new ObservableListener<String>() {
 			
 			@Override
 			public void valueChanged(String oldValue, String newValue) {
 				assertEquals("first value", newValue);
-				expected[0] = true;
+				expectedBoolean = true;
 			}
 		});
 		nameMut.setValue("first value");
-		assertTrue(expected[0]);
-		
+		assertTrue(expectedBoolean);
 	}
 
 	@Test
 	public void should_Not_NotifyListeners_AfterDetach() {
 		ValueMutator<String> nameMut = new ValueMutator<>();
-		final int[] counter = new int[] {0};
+		counter = 0;
 		ObservableListener<String> listener = new ObservableListener<String>() {
 			
 			@Override
 			public void valueChanged(String oldValue, String newValue) {
-				counter[0]++;
+				counter++;
 			}
 		};
 		
 		nameMut.getObservableValue().attachListener(listener);
 		nameMut.setValue("first value");
-		assertEquals(1, counter[0]);
+		assertEquals(1, counter);
 		nameMut.setValue("second value");
-		assertEquals(2, counter[0]);
+		assertEquals(2, counter);
 		
 		nameMut.getObservableValue().detachListener(listener);
 		
 		nameMut.setValue("third value");
-		assertEquals(2, counter[0]);
+		assertEquals(2, counter);
 	}
 
 	@Test
 	public void should_Notify_More_Listeners() {
-		//TODO:
+		ValueMutator<String> nameMut = new ValueMutator<>();
+		counter = 0;
+		ObservableListener<String> listener1 = new ObservableListener<String>() {
+			
+			@Override
+			public void valueChanged(String oldValue, String newValue) {
+				counter++;
+			}
+		};
+		ObservableListener<String> listener2 = new ObservableListener<String>() {
+			
+			@Override
+			public void valueChanged(String oldValue, String newValue) {
+				counter++;
+			}
+		};
+		
+		nameMut.getObservableValue().attachListener(listener1);
+		nameMut.getObservableValue().attachListener(listener2);
+		nameMut.setValue("first value");
+		assertEquals(2, counter);
 	}
 
 	@Test
 	public void should_NotNotify_Any_Listener_AfterDetachingAll() {
-		//TODO:
+		ValueMutator<String> nameMut = new ValueMutator<>();
+		counter = 0;
+		ObservableListener<String> listener1 = new ObservableListener<String>() {
+			
+			@Override
+			public void valueChanged(String oldValue, String newValue) {
+				counter++;
+			}
+		};
+		ObservableListener<String> listener2 = new ObservableListener<String>() {
+			
+			@Override
+			public void valueChanged(String oldValue, String newValue) {
+				counter++;
+			}
+		};
+		
+		nameMut.getObservableValue().attachListener(listener1);
+		nameMut.getObservableValue().attachListener(listener2);
+		nameMut.setValue("first value");
+		nameMut.getObservableValue().detachListener(listener1);
+		nameMut.getObservableValue().detachListener(listener2);
+		nameMut.setValue("second value");
+		assertEquals(2, counter);
 	}
 
 	@Test
 	public void should_NotNotify_DetachedListener_AfterDetaching() {
-		//TODO:
+		ValueMutator<String> nameMut = new ValueMutator<>();
+		counter = 0;
+		ObservableListener<String> listener1 = new ObservableListener<String>() {
+			
+			@Override
+			public void valueChanged(String oldValue, String newValue) {
+				counter++;
+			}
+		};
+		ObservableListener<String> listener2 = new ObservableListener<String>() {
+			
+			@Override
+			public void valueChanged(String oldValue, String newValue) {
+				counter++;
+			}
+		};
+		
+		nameMut.getObservableValue().attachListener(listener1);
+		nameMut.getObservableValue().attachListener(listener2);
+		nameMut.setValue("first value");
+		nameMut.getObservableValue().detachListener(listener1);
+		nameMut.setValue("second value");
+		assertEquals(3, counter);
 	}
 
 	@Test
 	public void should_NotNotify_WhenThereIs_NoChange() {
-		//TODO:
+		ValueMutator<String> nameMut = new ValueMutator<>();
+		counter = 0;
+		ObservableListener<String> listener1 = new ObservableListener<String>() {
+			
+			@Override
+			public void valueChanged(String oldValue, String newValue) {
+				counter++;
+			}
+		};
+		ObservableListener<String> listener2 = new ObservableListener<String>() {
+			
+			@Override
+			public void valueChanged(String oldValue, String newValue) {
+				counter++;
+			}
+		};
+		
+		nameMut.getObservableValue().attachListener(listener1);
+		nameMut.getObservableValue().attachListener(listener2);
+		assertEquals(0, counter);
 	}
-
 
 }

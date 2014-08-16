@@ -13,6 +13,22 @@ public class ObservableList<T> {
 
 	public List<T> getList() { return list; }
 	
+	void addItem(T item) {
+		if (!list.contains(item)) {
+			list.add(item);
+			notifyListeners(item, item);
+		}
+	}
+	
+	void removeItem(T item) {
+		if (list.contains(item)) {
+			while (list.contains(item)) {
+				list.remove(item);
+			}
+			notifyListeners(item, item);
+		}
+	}
+	
 	public void attachListener(ObservableListener<T> listener) {
 		listeners.add(listener);
 	}
@@ -26,6 +42,5 @@ public class ObservableList<T> {
 			listener.valueChanged(oldValue, newValue);
 		}
 	}
-	
 
 }

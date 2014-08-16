@@ -34,7 +34,6 @@ public class ObservableValue<T> {
 		}
 	}
 	
-
 	private static <T> boolean areEqual(T valueA, T valueB) {
 		return valueB == null ? valueA == null : valueB.equals(valueA);
 	}
