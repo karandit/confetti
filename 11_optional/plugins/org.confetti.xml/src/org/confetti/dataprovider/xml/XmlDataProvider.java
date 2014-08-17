@@ -14,6 +14,7 @@ import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
+import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 import org.confetti.xml.InstituteFAO;
@@ -96,7 +97,7 @@ public class XmlDataProvider implements DataProvider {
 	//----------------------------- fields -----------------------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
 	private List<Teacher> teachers = new LinkedList<>();
-	private List<Subject> subjects = new LinkedList<>();
+	private ListMutator<Subject> subjects = new ListMutator<>();
 	private List<StudentGroup> stdGroups = new LinkedList<>();
 	private List<Room> rooms = new LinkedList<>();
 
@@ -105,7 +106,7 @@ public class XmlDataProvider implements DataProvider {
 		try {
 			InstituteXml inst = new InstituteFAO().importFrom(file);
 			for (SubjectXml subj : inst.getSubjects()) {
-				subjects.add(new SubjectImpl(subj.getName()));
+				subjects.addItem(new SubjectImpl(subj.getName()));
 			}
 			for (TeacherXml teacher : inst.getTeachers()) {
 				teachers.add(new TeacherImpl(teacher.getName()));
@@ -146,9 +147,9 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
-	@Override public ObservableValue<String> getName() { return instName.getObservableValue(); }
+	@Override public ObservableValue<String> getName() 		{ return instName.getObservableValue(); }
 	@Override public List<Teacher> getTeachers() 			{ return teachers; }
-	@Override public List<Subject> getSubjects() 			{ return subjects; }
+	@Override public List<Subject> getSubjects() 			{ return subjects.getObservableList().getList(); }
 	@Override public List<StudentGroup> getStudentGroups() 	{ return stdGroups; }
 	@Override public List<Room> getRooms() 					{ return rooms; }
 	//TODO
@@ -160,7 +161,7 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public Subject addSubject(String name) {
 		SubjectImpl subjectImpl = new SubjectImpl(name);
-		subjects.add(subjectImpl);
+		subjects.addItem(subjectImpl);
 		return subjectImpl;
 	}
 	

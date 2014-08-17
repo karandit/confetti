@@ -11,23 +11,35 @@ import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
+import org.confetti.observable.ListMutator;
+import org.confetti.observable.ObservableListener;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
 public class DataProviderImpl implements DataProvider {
 
-	private List<Subject> subjects;
+//	private List<Subject> subjects;
+	private ListMutator<Subject> subjects;
 	private List<Teacher> teachers;
 	private List<StudentGroup> studentGroups;
 	private List<Room> rooms;
 	private ValueMutator<String> instName = new ValueMutator<>();
 	
 	public DataProviderImpl() {
-		this.subjects = new ArrayList<>();
+//		this.subjects = new ArrayList<>();
+		this.subjects = new ListMutator<>();
 		this.teachers = new ArrayList<>();
 		this.studentGroups = new ArrayList<>();
 		this.rooms = new ArrayList<>();
 		init();
+		this.subjects.getObservableList().attachListener(new ObservableListener<Subject>() {
+			
+			@Override
+			public void valueChanged(Subject oldValue, Subject newValue) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	private void init() {
@@ -73,7 +85,7 @@ public class DataProviderImpl implements DataProvider {
 
 	@Override
 	public List<Subject> getSubjects() {
-		return subjects;
+		return subjects.getObservableList().getList();
 	}
 
 	@Override
@@ -89,7 +101,7 @@ public class DataProviderImpl implements DataProvider {
 	@Override
 	public Subject addSubject(String name) {
 		SubjectImpl subject = new SubjectImpl(name);
-		subjects.add(subject);
+		subjects.addItem(subject);
 		return subject;
 	}
 	@Override
