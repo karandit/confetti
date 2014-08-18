@@ -6,6 +6,6 @@ public class RoomsView extends AbstractEntityTableView {
 
 	public static final String ID = "org.confetti.rcp.roomsView";
 
-	@Override protected Object getInput(DataProvider dp) { return dp.getRooms(); }
+	@Override protected Object getInput(DataProvider dp) { return dp.getRooms().getList(); }
 
 }

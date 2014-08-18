@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 /**
  * @author Bubla Gabor
  */
+//TODO : rename to AllView
 public class EntitiesView extends AbstractEntityView<TreeViewer> {
 
 	public static final String ID = "org.confetti.rcp.entitiesView";
@@ -46,16 +47,16 @@ public class EntitiesView extends AbstractEntityView<TreeViewer> {
 	//----------------------------- helper classes ---------------------------------------------------------------------
 	enum Containers implements Nameable {
 		AllSubjects("All subjects") {
-			@Override public List<?> getChildren(DataProvider dp) { return dp.getSubjects(); }
+			@Override public List<?> getChildren(DataProvider dp) { return dp.getSubjects().getList(); }
 		},
 		AllTeachers("All teachers") {
-			@Override public List<?> getChildren(DataProvider dp) { return dp.getTeachers(); }
+			@Override public List<?> getChildren(DataProvider dp) { return dp.getTeachers().getList(); }
 		},
 		AllStudentGroups("All student groups") {
-			@Override public List<?> getChildren(DataProvider dp) { return dp.getStudentGroups(); }
+			@Override public List<?> getChildren(DataProvider dp) { return dp.getStudentGroups().getList(); }
 		},
 		AllRooms("All rooms") {
-			@Override public List<?> getChildren(DataProvider dp) { return dp.getRooms(); }
+			@Override public List<?> getChildren(DataProvider dp) { return dp.getRooms().getList(); }
 		};
 		
 		private final ValueMutator<String> nameMut;

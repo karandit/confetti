@@ -8,7 +8,7 @@ public class SubjectsView extends AbstractEntityTableView {
 
 	@Override
 	protected Object getInput(DataProvider dp) {
-		return dp.getSubjects();
+		return dp.getSubjects().getList();
 	}
 
 }

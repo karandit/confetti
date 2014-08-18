@@ -11,7 +11,7 @@ public class NewTeacherCommand extends AbstractNewEntityHandler<Teacher> {
 	@Override
 	protected NewEntityWizardModel<Teacher> createModel() {
 		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-		return new NewEntityWizardModel<Teacher>(getNames(dp.getTeachers()),
+		return new NewEntityWizardModel<Teacher>(getNames(dp.getTeachers().getList()),
 				new EntityCreator<Teacher>() { @Override public Teacher createEntity(String name) { return dp.addTeacher(name); }}, 
 				"New Teacher", 
 				"Every new line will be a new teacher", 

@@ -9,7 +9,7 @@ public class TeachersView extends AbstractEntityTableView {
 
 	@Override
 	protected Object getInput(DataProvider dp) {
-		return dp.getTeachers();
+		return dp.getTeachers().getList();
 	}
 	
 

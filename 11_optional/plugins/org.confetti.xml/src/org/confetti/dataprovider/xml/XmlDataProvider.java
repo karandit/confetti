@@ -15,6 +15,7 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
+import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 import org.confetti.xml.InstituteFAO;
@@ -96,10 +97,12 @@ public class XmlDataProvider implements DataProvider {
 	
 	//----------------------------- fields -----------------------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
-	private List<Teacher> teachers = new LinkedList<>();
+	private ListMutator<Teacher> teachers = new ListMutator<>();
 	private ListMutator<Subject> subjects = new ListMutator<>();
-	private List<StudentGroup> stdGroups = new LinkedList<>();
-	private List<Room> rooms = new LinkedList<>();
+	private ListMutator<StudentGroup> stdGroups = new ListMutator<>();
+	private ListMutator<Room> rooms = new ListMutator<>();
+	private ListMutator<Day> days = new ListMutator<>();
+	private ListMutator<Hour> hours = new ListMutator<>();
 
 	//----------------------------- constructors -----------------------------------------------------------------------
 	public XmlDataProvider(File file) {
@@ -109,14 +112,14 @@ public class XmlDataProvider implements DataProvider {
 				subjects.addItem(new SubjectImpl(subj.getName()));
 			}
 			for (TeacherXml teacher : inst.getTeachers()) {
-				teachers.add(new TeacherImpl(teacher.getName()));
+				teachers.addItem(new TeacherImpl(teacher.getName()));
 			}
 			for (RoomXml room : inst.getRooms()) {
-				rooms.add(new RoomImpl(room.getName()));
+				rooms.addItem(new RoomImpl(room.getName()));
 			}
 			for (YearXml year : inst.getYears()) {
 				StudentGroupImpl studentGroup1 = new StudentGroupImpl(year.getName());
-				stdGroups.add(studentGroup1);
+				stdGroups.addItem(studentGroup1);
 				for (GroupXml group : year.getGroups()) {
 					StudentGroupImpl studentGroup2 = new StudentGroupImpl(group.getName());
 					studentGroup1.addChild(studentGroup2);
@@ -147,15 +150,13 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
-	@Override public ObservableValue<String> getName() 		{ return instName.getObservableValue(); }
-	@Override public List<Teacher> getTeachers() 			{ return teachers; }
-	@Override public List<Subject> getSubjects() 			{ return subjects.getObservableList().getList(); }
-	@Override public List<StudentGroup> getStudentGroups() 	{ return stdGroups; }
-	@Override public List<Room> getRooms() 					{ return rooms; }
-	//TODO
-	@Override public List<Day> getDays() 					{ return null; }
-	//TODO
-	@Override public List<Hour> getHours() 					{ return null; }
+	@Override public ObservableValue<String> getName() 					{ return instName.getObservableValue(); }
+	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
+	@Override public ObservableList<Subject> getSubjects() 				{ return subjects.getObservableList(); }
+	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stdGroups.getObservableList(); }
+	@Override public ObservableList<Room> getRooms() 					{ return rooms.getObservableList(); }
+	@Override public ObservableList<Day> getDays() 						{ return days.getObservableList(); }
+	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
 
 	
 	@Override
@@ -168,14 +169,14 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public Teacher addTeacher(String name) {
 		TeacherImpl teacherImpl = new TeacherImpl(name);
-		teachers.add(teacherImpl);
+		teachers.addItem(teacherImpl);
 		return teacherImpl;
 	}
 	
 	@Override
 	public Room addRoom(String name) {
 		RoomImpl roomImpl = new RoomImpl(name);
-		rooms.add(roomImpl);
+		rooms.addItem(roomImpl);
 		return roomImpl;
 	}
 	

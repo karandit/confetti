@@ -11,24 +11,27 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
+import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
 public class DataProviderImpl implements DataProvider {
 
-//	private List<Subject> subjects;
 	private ListMutator<Subject> subjects;
 	private ListMutator<Teacher> teachers;
 	private ListMutator<StudentGroup> studentGroups;
 	private ListMutator<Room> rooms;
+	private ListMutator<Day> days;
+	private ListMutator<Hour> hours;
 	private ValueMutator<String> instName = new ValueMutator<>();
 	
 	public DataProviderImpl() {
-//		this.subjects = new ArrayList<>();
 		this.subjects = new ListMutator<>();
 		this.teachers = new ListMutator<>();
 		this.studentGroups = new ListMutator<>();
 		this.rooms = new ListMutator<>();
+		this.days = new ListMutator<>();
+		this.hours = new ListMutator<>();
 		init();
 	}
 
@@ -55,7 +58,7 @@ public class DataProviderImpl implements DataProvider {
 
 		new AssignmentImpl(
 				subjMatek, 
-				getTeachers(), 
+				getTeachers().getList(), 
 				Arrays.<StudentGroup>asList(group1721), 
 				room2
 			);
@@ -68,25 +71,13 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 
-	@Override
-	public List<Teacher> getTeachers() {
-		return teachers.getObservableList().getList();
-	}
-
-	@Override
-	public List<Subject> getSubjects() {
-		return subjects.getObservableList().getList();
-	}
-
-	@Override
-	public List<StudentGroup> getStudentGroups() {
-		return studentGroups.getObservableList().getList();
-	}
-	
-	@Override
-	public List<Room> getRooms() {
-		return rooms.getObservableList().getList();
-	}
+	@Override public ObservableList<Teacher> getTeachers() { return teachers.getObservableList(); }
+	@Override public ObservableList<Subject> getSubjects() { return subjects.getObservableList(); }
+	@Override public ObservableList<StudentGroup> getStudentGroups() { return studentGroups.getObservableList(); }
+	@Override public ObservableList<Room> getRooms() { return rooms.getObservableList(); }
+	@Override public ObservableList<Day> getDays() { return days.getObservableList(); }
+	@Override public ObservableList<Hour> getHours() { return hours.getObservableList(); }
+	@Override public ObservableValue<String> getName() { return instName.getObservableValue(); }
 	
 	@Override
 	public Subject addSubject(String name) {
@@ -114,31 +105,7 @@ public class DataProviderImpl implements DataProvider {
 		return room;
 	}
 
-	@Override
-	public List<Day> getDays() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Hour> getHours() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setDays(List<String> days) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void setHours(List<String> hours) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public ObservableValue<String> getName() {
-		return instName.getObservableValue();
-	}
+	@Override public void setDays(List<String> days) {  }
+	@Override public void setHours(List<String> hours) {  }
 
 }

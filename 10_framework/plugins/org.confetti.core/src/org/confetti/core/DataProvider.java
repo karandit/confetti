@@ -2,14 +2,16 @@ package org.confetti.core;
 
 import java.util.List;
 
+import org.confetti.observable.ObservableList;
+
 public interface DataProvider extends Nameable {
 
-	List<Subject> getSubjects();
-	List<Teacher> getTeachers();
-	List<StudentGroup> getStudentGroups();
-	List<Room> getRooms();
-	List<Day> getDays();
-	List<Hour> getHours();
+	ObservableList<Subject> getSubjects();
+	ObservableList<Teacher> getTeachers();
+	ObservableList<StudentGroup> getStudentGroups();
+	ObservableList<Room> getRooms();
+	ObservableList<Day> getDays();
+	ObservableList<Hour> getHours();
 	
 	Subject addSubject(String name);
 	Teacher addTeacher(String name);

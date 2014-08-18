@@ -19,7 +19,7 @@ public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 	public static final String ID = "org.confetti.rcp.studentGroupsView";
 
 	@Override protected IContentProvider getContentProvider() 	{ return new StudentGroupContentProvider(); }
-	@Override protected Object getInput(DataProvider dp) 		{ return dp.getStudentGroups(); }
+	@Override protected Object getInput(DataProvider dp) 		{ return dp.getStudentGroups().getList(); }
 
 	@Override
 	protected TreeViewer createViewer(Composite parent) {
