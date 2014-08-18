@@ -1,5 +1,6 @@
 package org.confetti.observable;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,12 +12,12 @@ public class ObservableList<T> {
 	ObservableList() {
 	}
 
-	public List<T> getList() { return list; }
+	public List<T> getList() { return Collections.unmodifiableList(list); }
 	
 	void addItem(T item) {
 		if (!list.contains(item)) {
 			list.add(item);
-			notifyListeners(item, item);
+			notifyListeners(null, item);
 		}
 	}
 	
@@ -25,7 +26,7 @@ public class ObservableList<T> {
 			while (list.contains(item)) {
 				list.remove(item);
 			}
-			notifyListeners(item, item);
+			notifyListeners(item, null);
 		}
 	}
 	

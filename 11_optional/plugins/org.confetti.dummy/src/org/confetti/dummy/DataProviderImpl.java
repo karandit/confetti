@@ -1,6 +1,5 @@
 package org.confetti.dummy;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
-import org.confetti.observable.ObservableListener;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
@@ -20,26 +18,18 @@ public class DataProviderImpl implements DataProvider {
 
 //	private List<Subject> subjects;
 	private ListMutator<Subject> subjects;
-	private List<Teacher> teachers;
-	private List<StudentGroup> studentGroups;
-	private List<Room> rooms;
+	private ListMutator<Teacher> teachers;
+	private ListMutator<StudentGroup> studentGroups;
+	private ListMutator<Room> rooms;
 	private ValueMutator<String> instName = new ValueMutator<>();
 	
 	public DataProviderImpl() {
 //		this.subjects = new ArrayList<>();
 		this.subjects = new ListMutator<>();
-		this.teachers = new ArrayList<>();
-		this.studentGroups = new ArrayList<>();
-		this.rooms = new ArrayList<>();
+		this.teachers = new ListMutator<>();
+		this.studentGroups = new ListMutator<>();
+		this.rooms = new ListMutator<>();
 		init();
-		this.subjects.getObservableList().attachListener(new ObservableListener<Subject>() {
-			
-			@Override
-			public void valueChanged(Subject oldValue, Subject newValue) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 	}
 
 	private void init() {
@@ -80,7 +70,7 @@ public class DataProviderImpl implements DataProvider {
 
 	@Override
 	public List<Teacher> getTeachers() {
-		return teachers;
+		return teachers.getObservableList().getList();
 	}
 
 	@Override
@@ -90,12 +80,12 @@ public class DataProviderImpl implements DataProvider {
 
 	@Override
 	public List<StudentGroup> getStudentGroups() {
-		return studentGroups;
+		return studentGroups.getObservableList().getList();
 	}
 	
 	@Override
 	public List<Room> getRooms() {
-		return rooms;
+		return rooms.getObservableList().getList();
 	}
 	
 	@Override
@@ -107,20 +97,20 @@ public class DataProviderImpl implements DataProvider {
 	@Override
 	public Teacher addTeacher(String name) {
 		TeacherImpl teacher = new TeacherImpl(name);
-		teachers.add(teacher);
+		teachers.addItem(teacher);
 		return teacher;
 	}
 
 	public StudentGroupImpl addStudentGroup(String name) {
 		StudentGroupImpl studentGroup = new StudentGroupImpl(name);
-		studentGroups.add(studentGroup);
+		studentGroups.addItem(studentGroup);
 		return studentGroup;
 	}
 	
 	@Override
 	public Room addRoom(String name) {
 		RoomImpl room = new RoomImpl(name);
-		rooms.add(room);
+		rooms.addItem(room);
 		return room;
 	}
 
