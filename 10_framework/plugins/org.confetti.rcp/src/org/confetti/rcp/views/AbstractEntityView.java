@@ -27,18 +27,21 @@ public abstract class AbstractEntityView<T extends StructuredViewer> extends Vie
 			
 			@Override
 			public void valueChanged(DataProvider oldDp, DataProvider newDp) {
+				inputChanged(oldDp, newDp);
 				viewer.setInput(getNullSafeInput(newDp));
 			}
-
 		});
 		getSite().setSelectionProvider(viewer);
 		viewer.setInput(getNullSafeInput(dpObs.getValue()));
+		inputChanged(null, dpObs.getValue());
 	}
 
 	private Object getNullSafeInput(DataProvider newDp) {
 		return newDp == null ? null : getInput(newDp);
 	}
 
+	protected void inputChanged(DataProvider oldDp, DataProvider newdp) {
+	}
 	
 	protected EntityTableLabelProvider getLabelProvider() { return new EntityTableLabelProvider(); }
 	protected IContentProvider getContentProvider() { return new ArrayContentProvider(); }

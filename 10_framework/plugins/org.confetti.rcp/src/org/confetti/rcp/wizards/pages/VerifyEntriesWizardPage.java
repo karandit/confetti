@@ -21,6 +21,7 @@ public class VerifyEntriesWizardPage extends ModelableWizardPage<VerifyEntriesMo
 	public VerifyEntriesWizardPage(VerifyEntriesModel model) {
 		super("Verify", model.getVerifyEntriesPageTitle(), null, model);
 		setDescription(getModel().getVerifyEntriesPageDescription());
+		setPageComplete(false);
 	}
 
 	@Override
