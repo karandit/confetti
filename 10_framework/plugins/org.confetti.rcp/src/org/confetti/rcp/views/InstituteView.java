@@ -20,10 +20,9 @@ import org.eclipse.swt.widgets.TreeColumn;
 /**
  * @author Bubla Gabor
  */
-//TODO : rename to AllView
-public class EntitiesView extends AbstractEntityView<TreeViewer> {
+public class InstituteView extends AbstractEntityView<TreeViewer> {
 
-	public static final String ID = "org.confetti.rcp.entitiesView";
+	public static final String ID = "org.confetti.rcp.instituteView";
 
 	@Override
 	protected TreeViewer createViewer(Composite parent) {

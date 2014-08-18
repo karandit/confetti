@@ -57,10 +57,10 @@
       </view>
       <view
             allowMultiple="false"
-            class="org.confetti.rcp.views.EntitiesView"
+            class="org.confetti.rcp.views.InstituteView"
             icon="icons/sample.gif"
-            id="org.confetti.rcp.entitiesView"
-            name="Entities"
+            id="org.confetti.rcp.instituteView"
+            name="Institute"
             restorable="true">
       </view>
       <view
