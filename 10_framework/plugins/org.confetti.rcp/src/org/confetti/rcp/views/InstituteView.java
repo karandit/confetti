@@ -1,5 +1,7 @@
 package org.confetti.rcp.views;
 
+import static org.confetti.rcp.views.StudentGroupsView.createColumn;
+
 import java.util.List;
 
 import org.confetti.core.DataProvider;
@@ -11,11 +13,9 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TreeColumn;
 
 /**
  * @author Bubla Gabor
@@ -34,12 +34,6 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 		return viewer;
 	}
 	
-	private void createColumn(TreeViewer viewer, String title, int width) {
-		TreeColumn name = new TreeViewerColumn(viewer, SWT.LEFT).getColumn();
-		name.setText(title);
-		name.setWidth(width);
-	}
-
 	@Override protected Object getInput(DataProvider dp) { return dp; }
 	@Override protected IContentProvider getContentProvider() { return new AllEntitiesContentProvider(); }
 

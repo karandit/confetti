@@ -31,7 +31,7 @@ public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 		return viewer;
 	}
 
-	private void createColumn(TreeViewer viewer, String title, int width) {
+	static void createColumn(TreeViewer viewer, String title, int width) {
 		TreeColumn name = new TreeViewerColumn(viewer, SWT.LEFT).getColumn();
 		name.setText(title);
 		name.setWidth(width);
