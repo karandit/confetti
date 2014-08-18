@@ -91,6 +91,16 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
+            name="Test 1"
+            description="Test command 1"
+            id="org.confetti.rcp.actions.test1">
+      </command>
+      <command
+            name="Test 2"
+            description="Test command 2"
+            id="org.confetti.rcp.actions.test2">
+      </command>
+      <command
             defaultHandler="org.confetti.rcp.commands.NewSubjectCommand"
             description="New Subject"
             id="org.confetti.rcp.commands.newSubjectCommand"

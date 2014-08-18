@@ -14,9 +14,9 @@ public class TestAction2 extends Action {
 //		this.window = window;
         setText(text);
         // The id is used to refer to the action in a menu or toolbar
-		setId(ICommandIds.CMD_OPEN);
+		setId(ICommandIds.TEST2);
         // Associate the action with a pre-defined command, to allow key bindings.
-		setActionDefinitionId(ICommandIds.CMD_OPEN);
+		setActionDefinitionId(ICommandIds.TEST2);
 		setImageDescriptor(org.confetti.rcp.ConfettiPlugin.getImageDescriptor("/icons/sample2.gif"));
 	}
 	

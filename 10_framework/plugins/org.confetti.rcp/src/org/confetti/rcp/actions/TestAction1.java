@@ -9,9 +9,9 @@ public class TestAction1 extends Action {
     public TestAction1(String text, IWorkbenchWindow window) {
         super(text);
         // The id is used to refer to the action in a menu or toolbar
-        setId(ICommandIds.CMD_OPEN_MESSAGE);
+        setId(ICommandIds.TEST1);
         // Associate the action with a pre-defined command, to allow key bindings.
-        setActionDefinitionId(ICommandIds.CMD_OPEN_MESSAGE);
+        setActionDefinitionId(ICommandIds.TEST1);
         setImageDescriptor(org.confetti.rcp.ConfettiPlugin.getImageDescriptor("/icons/sample3.gif"));
     }
 
