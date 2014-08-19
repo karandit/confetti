@@ -15,7 +15,8 @@ public class NewTeacherCommand extends AbstractNewEntityHandler<Teacher> {
 				new EntityCreator<Teacher>() { @Override public Teacher createEntity(String name) { return dp.addTeacher(name); }}, 
 				"New Teacher", 
 				"Every new line will be a new teacher", 
-				"The following teachers will be added");
+				"The following teachers will be added",
+				ConfettiPlugin.IMG_BIG_TEACHER);
 	}
 
 }

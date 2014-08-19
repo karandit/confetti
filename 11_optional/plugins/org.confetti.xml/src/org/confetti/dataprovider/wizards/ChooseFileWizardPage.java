@@ -1,7 +1,10 @@
 package org.confetti.dataprovider.wizards;
 
+import static org.confetti.rcp.ConfettiPlugin.getImageDescriptor;
+
 import java.io.File;
 
+import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -15,7 +18,7 @@ public class ChooseFileWizardPage extends WizardPage {
 	private OpenXmlWizardModel mModel;
 
 	protected ChooseFileWizardPage(OpenXmlWizardModel model) {
-		super("Choose", "Choose an XML File", null);
+		super("Choose", "Choose an XML File", getImageDescriptor(ConfettiPlugin.IMG_BIG_ENGINE));
 		mModel = model;
 		setPageComplete(false);
 	}

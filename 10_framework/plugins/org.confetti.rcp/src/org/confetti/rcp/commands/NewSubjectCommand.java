@@ -16,6 +16,7 @@ public class NewSubjectCommand extends AbstractNewEntityHandler<Subject> {
 				new EntityCreator<Subject>() { @Override public Subject createEntity(String name) { return dp.addSubject(name); }}, 
 				"New Subject", 
 				"Every new line will be a new subject", 
-				"The following subjects will be added");
+				"The following subjects will be added",
+				ConfettiPlugin.IMG_BIG_SUBJECT);
 	}
 }

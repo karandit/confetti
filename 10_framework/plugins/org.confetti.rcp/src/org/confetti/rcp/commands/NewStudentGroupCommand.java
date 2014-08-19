@@ -15,6 +15,7 @@ public class NewStudentGroupCommand extends AbstractNewEntityHandler<StudentGrou
 				new EntityCreator<StudentGroup>() { @Override public StudentGroup createEntity(String name) { return null; }}, 
 				"New Student group", 
 				"Every new line will be a new student group", 
-				"The following student groups will be added");
+				"The following student groups will be added",
+				ConfettiPlugin.IMG_BIG_STUDENTGROUP);
 	}
 }
