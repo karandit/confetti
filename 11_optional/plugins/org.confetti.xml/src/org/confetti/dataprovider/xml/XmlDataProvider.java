@@ -19,7 +19,9 @@ import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 import org.confetti.xml.InstituteFAO;
+import org.confetti.xml.core.DayXml;
 import org.confetti.xml.core.GroupXml;
+import org.confetti.xml.core.HourXml;
 import org.confetti.xml.core.InstituteXml;
 import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubgroupXml;
@@ -95,6 +97,26 @@ public class XmlDataProvider implements DataProvider {
 		@Override public StudentGroup getParent() 			{ return null; }
 	}
 	
+	private static class DayImpl implements Day {
+
+		private final ValueMutator<String> name;
+		public DayImpl(String name) {
+			this.name = new ValueMutator<>(name);
+		}
+		
+		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
+	}
+
+	private static class HourImpl implements Hour {
+
+		private final ValueMutator<String> name;
+		public HourImpl(String name) {
+			this.name = new ValueMutator<>(name);
+		}
+		
+		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
+	}
+
 	//----------------------------- fields -----------------------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
 	private ListMutator<Teacher> teachers = new ListMutator<>();
@@ -128,6 +150,12 @@ public class XmlDataProvider implements DataProvider {
 						studentGroup2.addChild(studentGroup3);
 					}
 				}
+			}
+			for (DayXml day : inst.getDays().getDays()) {
+				days.addItem(new DayImpl(day.getName()));
+			}
+			for (HourXml hour : inst.getHours().getHours()) {
+				hours.addItem(new HourImpl(hour.getName()));
 			}
 //			for (ActivityXml act : inst.getActivities()) {
 //				AssignmentImpl ass = new AssignmentImpl(findByName(subjects, act.getSubject().getName()));
