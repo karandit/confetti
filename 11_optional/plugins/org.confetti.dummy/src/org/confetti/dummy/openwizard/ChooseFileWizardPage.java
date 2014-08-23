@@ -12,7 +12,7 @@ public class ChooseFileWizardPage extends WizardPage {
 	protected ChooseFileWizardPage() {
 		//TODO:create a model
 		super("Choose", "Choose an XML File", null);
-		setPageComplete(false);
+		setPageComplete(true);
 	}
 
 	@Override

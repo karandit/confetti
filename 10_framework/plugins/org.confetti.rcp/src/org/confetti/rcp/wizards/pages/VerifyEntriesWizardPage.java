@@ -74,5 +74,6 @@ public class VerifyEntriesWizardPage extends ModelableWizardPage<VerifyEntriesMo
 
 	@Override
 	public void pageHid() {
+//		setPageComplete(false);
 	}
 }

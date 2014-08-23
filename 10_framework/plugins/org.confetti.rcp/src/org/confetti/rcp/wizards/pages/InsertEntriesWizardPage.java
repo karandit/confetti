@@ -29,7 +29,6 @@ implements IWizardPageNavigatable {
 	public void createControl(Composite parent) {
 		text = new Text(parent, SWT.MULTI| SWT.BORDER | SWT.V_SCROLL);
 		text.addModifyListener(new ModifyListener() {
-			//TODO next,back bug fix
 			@Override public void modifyText(ModifyEvent e) { setPageComplete(!text.getText().isEmpty()); }
 		});
 		setControl(text);
@@ -37,6 +36,7 @@ implements IWizardPageNavigatable {
 
 	@Override
 	public void pageShowed() {
+		//TODO find alternative to setFocus() method , beacuse after text.setFocus(), the buttons are not clickable
 	}
 
 	@Override

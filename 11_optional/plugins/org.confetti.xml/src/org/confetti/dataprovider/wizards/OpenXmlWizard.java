@@ -13,6 +13,7 @@ public class OpenXmlWizard extends Wizard {
 	
 	@Override
 	public void addPages() {
+		setWindowTitle("Open");
 		addPage(new ChooseFileWizardPage(model));
 	}
 

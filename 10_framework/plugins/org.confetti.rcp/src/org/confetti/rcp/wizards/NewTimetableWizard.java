@@ -32,5 +32,4 @@ public class NewTimetableWizard extends Wizard {
 		return true;
 	}
 
-
 }
