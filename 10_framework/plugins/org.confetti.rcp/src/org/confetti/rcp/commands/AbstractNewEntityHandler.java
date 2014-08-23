@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.confetti.core.Entity;
+import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.wizards.NewEntityWizard;
 import org.confetti.rcp.wizards.models.NewEntityWizardModel;
 import org.eclipse.core.commands.AbstractHandler;
@@ -30,7 +31,7 @@ abstract class AbstractNewEntityHandler<T> extends AbstractHandler {
 
 	protected abstract NewEntityWizardModel<T> createModel();
 
-	@Override public boolean isEnabled() { return true; }
+	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
 	@Override public void dispose() { }
 	
 	protected static List<String> getNames(List<? extends Entity> entities) {
