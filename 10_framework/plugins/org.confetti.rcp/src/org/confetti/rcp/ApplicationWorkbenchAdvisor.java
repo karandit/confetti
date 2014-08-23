@@ -10,7 +10,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
  */
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 	
-	private static final String PERSPECTIVE_ID = "org.eclipse.ui.tutorials.rcp.part3.perspective";
+	private static final String PERSPECTIVE_ID = "org.confetti.rcp.defaultPerspective";
 
     public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         return new ApplicationWorkbenchWindowAdvisor(configurer);

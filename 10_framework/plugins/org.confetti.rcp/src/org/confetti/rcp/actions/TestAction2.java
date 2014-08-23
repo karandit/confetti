@@ -17,7 +17,7 @@ public class TestAction2 extends Action {
 		setId(ICommandIds.TEST2);
         // Associate the action with a pre-defined command, to allow key bindings.
 		setActionDefinitionId(ICommandIds.TEST2);
-		setImageDescriptor(org.confetti.rcp.ConfettiPlugin.getImageDescriptor("/icons/sample2.gif"));
+		setImageDescriptor(ConfettiPlugin.getImageDescriptor(ConfettiPlugin.IMG_SAMPLE2));
 	}
 	
 	public void run() {

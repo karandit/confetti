@@ -18,7 +18,7 @@
       <perspective
             name="Default Perspective"
             class="org.confetti.rcp.Perspective"
-            id="org.eclipse.ui.tutorials.rcp.defaultPerspective">
+            id="org.confetti.rcp.defaultPerspective">
       </perspective>
    </extension>
    <extension

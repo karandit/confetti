@@ -38,6 +38,11 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	public static final String IMG_BIG_DB				= "big_db";
 	public static final String IMG_BIG_ENGINE			= "big_engine";
 	
+	//TODO remove these sample icons
+	public static final String IMG_SAMPLE				= "sample";
+	public static final String IMG_SAMPLE2				= "sample2";
+	public static final String IMG_SAMPLE3				= "sample3";
+	
 	//The shared instance.
 	private static ConfettiPlugin plugin;
 	private ValueMutator<DataProvider> dpMutator = new ValueMutator<>();
@@ -93,6 +98,11 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 		registerImage(reg, IMG_BIG_FILE, 			"file-48.png"); //$NON-NLS-1$
 		registerImage(reg, IMG_BIG_DB, 				"db-48.png"); //$NON-NLS-1$
 		registerImage(reg, IMG_BIG_ENGINE, 			"engine-48.png"); //$NON-NLS-1$
+		
+		//TODO remove these sample icons
+		registerImage(reg, IMG_SAMPLE, 				"sample.gif"); //$NON-NLS-1$
+		registerImage(reg, IMG_SAMPLE2, 			"sample2.gif"); //$NON-NLS-1$
+		registerImage(reg, IMG_SAMPLE3, 			"sample3.gif"); //$NON-NLS-1$
 	}
 
 	/**

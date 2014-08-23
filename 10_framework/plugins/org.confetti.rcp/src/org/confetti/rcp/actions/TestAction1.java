@@ -1,5 +1,6 @@
 package org.confetti.rcp.actions;
 
+import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchWindow;
 
@@ -12,7 +13,7 @@ public class TestAction1 extends Action {
         setId(ICommandIds.TEST1);
         // Associate the action with a pre-defined command, to allow key bindings.
         setActionDefinitionId(ICommandIds.TEST1);
-        setImageDescriptor(org.confetti.rcp.ConfettiPlugin.getImageDescriptor("/icons/sample3.gif"));
+        setImageDescriptor(ConfettiPlugin.getImageDescriptor(ConfettiPlugin.IMG_SAMPLE3));
     }
 
     @Override
