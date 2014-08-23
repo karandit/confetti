@@ -130,6 +130,12 @@
             id="org.confetti.rcp.commands.newAssignmentCommand"
             name="New Assignment">
       </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.RenameEntityCommand"
+            description="Rename Entity"
+            id="org.confetti.rcp.renameEntityCommand"
+            name="Rename Entity">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -206,6 +212,15 @@
                commandId="org.confetti.rcp.commands.newAssignmentCommand"
                icon="icons/sample2.gif"
                label="New Assignment"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.confetti.rcp.subjectsView">
+         <command
+               commandId="org.confetti.rcp.renameEntityCommand"
+               label="Rename"
                style="push">
          </command>
       </menuContribution>

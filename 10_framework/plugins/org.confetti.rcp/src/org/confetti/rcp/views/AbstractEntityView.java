@@ -4,10 +4,12 @@ import org.confetti.core.DataProvider;
 import org.confetti.observable.ObservableListener;
 import org.confetti.observable.ObservableValue;
 import org.confetti.rcp.ConfettiPlugin;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.ViewPart;
 
 public abstract class AbstractEntityView<T extends StructuredViewer> extends ViewPart{
@@ -34,6 +36,13 @@ public abstract class AbstractEntityView<T extends StructuredViewer> extends Vie
 		getSite().setSelectionProvider(viewer);
 		viewer.setInput(getNullSafeInput(dpObs.getValue()));
 		inputChanged(null, dpObs.getValue());
+		
+		//create context menu
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(viewer.getControl());
+		viewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuManager, viewer);
+		getSite().setSelectionProvider(viewer);
 	}
 
 	private Object getNullSafeInput(DataProvider newDp) {
