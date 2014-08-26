@@ -1,8 +1,10 @@
 package org.confetti.dataprovider.xml;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.confetti.core.Assignable;
 import org.confetti.core.Assignment;
@@ -18,7 +20,9 @@ import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
+import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
+import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.DayXml;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.HourXml;
@@ -26,6 +30,7 @@ import org.confetti.xml.core.InstituteXml;
 import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubgroupXml;
 import org.confetti.xml.core.SubjectXml;
+import org.confetti.xml.core.TeacherRef;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
 
@@ -127,9 +132,11 @@ public class XmlDataProvider implements DataProvider {
 	private ListMutator<Hour> hours = new ListMutator<>();
 
 	//----------------------------- constructors -----------------------------------------------------------------------
-	public XmlDataProvider(File file) {
-		try {
-			InstituteXml inst = new InstituteFAO().importFrom(file);
+	public XmlDataProvider(File file) throws FAOException {
+		this(new InstituteFAO().importFrom(file));
+	}
+	
+	public XmlDataProvider(InstituteXml inst ) {
 			for (SubjectXml subj : inst.getSubjects()) {
 				subjects.addItem(new SubjectImpl(subj.getName()));
 			}
@@ -157,26 +164,34 @@ public class XmlDataProvider implements DataProvider {
 			for (HourXml hour : inst.getHours().getHours()) {
 				hours.addItem(new HourImpl(hour.getName()));
 			}
-//			for (ActivityXml act : inst.getActivities()) {
-//				AssignmentImpl ass = new AssignmentImpl(findByName(subjects, act.getSubject().getName()));
-//				for (String stGroupName : act.getStudents()) {
-//					try {
-//						ass.addStudentGroup(findByName(stdGroups, stGroupName));
-//					} catch (Exception e) {
-////						System.out.println(stGroupName);
-////						System.out.println(e.getMessage());
-//					}
-//				}
-//				for (TeacherRef teacherRef : act.getTeachers()) {
-//					ass.addTeacher(findByName(teachers, teacherRef.getName()));
-//				}
-//			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+			Iterable<Subject> allSubjects = subjects.getObservableList().getList();
+			Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
+			Map<String, StudentGroup> allStdGroups = collectStudentGroups(stdGroups.getObservableList().getList());
+			for (ActivityXml act : inst.getActivities()) {
+				AssignmentImpl ass = new AssignmentImpl(findByName(allSubjects, act.getSubject().getName()));
+				if (act.getStudents() != null) {
+					for (String stGroupName : act.getStudents()) {
+						ass.addStudentGroup(allStdGroups.get(stGroupName));
+					}
+				}
+				if (act.getTeachers() != null) {
+					for (TeacherRef teacherRef : act.getTeachers()) {
+						ass.addTeacher(findByName(allTeachers, teacherRef.getName()));
+					}
+				}
+			}
 	}
 	
+	private Map<String, StudentGroup> collectStudentGroups(Iterable<StudentGroup> list) {
+		Map<String, StudentGroup> res = new HashMap<>();
+		for (StudentGroup sg : list) {
+			res.put(sg.getName().getValue(), sg);
+			res.putAll(collectStudentGroups(sg.getChildren()));
+		}
+		return res;
+	}
+
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
 	@Override public ObservableValue<String> getName() 					{ return instName.getObservableValue(); }
 	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
@@ -222,9 +237,9 @@ public class XmlDataProvider implements DataProvider {
 //		return XmlDataProvider.class.getResource(path).openStream();
 //	}
 	
-	private static <T extends Entity> T findByName(List<T> items, String name) {
+	private static <T extends Entity> T findByName(Iterable<T> items, String name) {
 		for (T item : items) {
-			if (item.getName().equals(name)) {
+			if (item.getName().getValue().equals(name)) {
 				return item;
 			}
 		}
