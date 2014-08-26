@@ -34,7 +34,7 @@ abstract class AbstractNewEntityHandler<T> extends AbstractHandler {
 	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
 	@Override public void dispose() { }
 	
-	protected static List<String> getNames(List<? extends Entity> entities) {
+	protected static List<String> getNames(Iterable<? extends Entity> entities) {
 		List<String> names = new LinkedList<>();
 		for (Entity entity : entities) {
 			names.add(entity.getName().getValue());

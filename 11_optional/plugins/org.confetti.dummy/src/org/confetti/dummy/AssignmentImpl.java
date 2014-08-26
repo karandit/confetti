@@ -1,5 +1,6 @@
 package org.confetti.dummy;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.confetti.core.Assignment;
@@ -8,6 +9,8 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 
+import com.google.common.collect.Iterables;
+
 public class AssignmentImpl implements Assignment {
 
 	private final Subject subj;
@@ -15,9 +18,10 @@ public class AssignmentImpl implements Assignment {
 	private final List<StudentGroup> studentGroups;
 	private final Room room;
 
-	public AssignmentImpl(Subject subj, List<Teacher> teachers, List<StudentGroup> studentGroups, Room room) {
+	public AssignmentImpl(Subject subj, Iterable<Teacher> teachers, List<StudentGroup> studentGroups, Room room) {
 		this.subj = subj;
-		this.teachers = teachers;
+		this.teachers = new LinkedList<>();
+		Iterables.addAll(this.teachers, teachers);
 		this.studentGroups = studentGroups;
 		this.room = room;
 

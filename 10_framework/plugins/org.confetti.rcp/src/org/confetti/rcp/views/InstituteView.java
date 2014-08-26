@@ -17,6 +17,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.google.common.collect.Iterables;
+
 /**
  * @author Bubla Gabor
  */
@@ -40,16 +42,16 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 	//----------------------------- helper classes ---------------------------------------------------------------------
 	enum Containers implements Nameable {
 		AllSubjects("All subjects") {
-			@Override public List<?> getChildren(DataProvider dp) { return dp.getSubjects().getList(); }
+			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getSubjects().getList(); }
 		},
 		AllTeachers("All teachers") {
-			@Override public List<?> getChildren(DataProvider dp) { return dp.getTeachers().getList(); }
+			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getTeachers().getList(); }
 		},
 		AllStudentGroups("All student groups") {
-			@Override public List<?> getChildren(DataProvider dp) { return dp.getStudentGroups().getList(); }
+			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getStudentGroups().getList(); }
 		},
 		AllRooms("All rooms") {
-			@Override public List<?> getChildren(DataProvider dp) { return dp.getRooms().getList(); }
+			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getRooms().getList(); }
 		};
 		
 		private final ValueMutator<String> nameMut;
@@ -59,12 +61,11 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 		@Override public ObservableValue<String> getName() { return nameMut.getObservableValue(); }
 		
 		public Object[] getChildrenAsArray(DataProvider dp) {
-			List<?> children = getChildren(dp);
-			return children.toArray(new Object[children.size()]); 
+			return Iterables.toArray(getChildren(dp), Object.class);
 		}
 		
-		public boolean hasChildren(DataProvider dp) { return !getChildren(dp).isEmpty(); }
-		protected abstract List<?> getChildren(DataProvider dp);
+		public boolean hasChildren(DataProvider dp) { return !Iterables.isEmpty(getChildren(dp)); }
+		protected abstract Iterable<?> getChildren(DataProvider dp);
 	}
 
 	class AllEntitiesContentProvider implements IStructuredContentProvider, ITreeContentProvider 
