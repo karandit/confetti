@@ -1,5 +1,5 @@
 package org.confetti.core;
 
-public interface Hour extends Entity {
+public interface Hour extends Nameable {
 
 }

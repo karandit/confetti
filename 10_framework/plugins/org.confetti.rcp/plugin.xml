@@ -222,6 +222,19 @@
                commandId="org.confetti.rcp.renameEntityCommand"
                label="Rename"
                style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.confetti.core.Entity">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </visibleWhen>
          </command>
       </menuContribution>
    </extension>
