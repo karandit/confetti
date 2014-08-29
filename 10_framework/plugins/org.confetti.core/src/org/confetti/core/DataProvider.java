@@ -20,4 +20,7 @@ public interface DataProvider extends Nameable {
 	void setDays(List<String> days);
 	void setHours(List<String> hours);
 	
+	//TODO remove me
+	void rename(Entity entity, String newName);
+	
 }

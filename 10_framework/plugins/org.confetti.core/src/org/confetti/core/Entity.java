@@ -1,4 +1,4 @@
 package org.confetti.core;
 
-public interface Entity extends Nameable {
+public interface Entity extends Nameable, Assignable {
 }

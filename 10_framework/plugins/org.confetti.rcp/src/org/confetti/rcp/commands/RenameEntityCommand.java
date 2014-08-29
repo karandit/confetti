@@ -64,7 +64,7 @@ public class RenameEntityCommand extends AbstractHandler {
 	}
 	
 	private void changeName(Entity sel, String value) {
-		//TODO add core setter and rename sel with it
+		ConfettiPlugin.getDefault().getDataProvider().getValue().rename(sel, value);
 	}
 
 }

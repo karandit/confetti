@@ -75,6 +75,9 @@ public class XmlDataProvider implements DataProvider {
 		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
 		@Override public void addAssignment(Assignment assignment) 	{ assignments.add(assignment);} 
 		@Override public List<Assignment> getAssignments() 			{ return assignments; }
+		
+		public ValueMutator<String> getNameMutator() { return name; }
+
 	}
 	
 	private static class TeacherImpl extends EntityImpl implements Teacher {
@@ -110,6 +113,7 @@ public class XmlDataProvider implements DataProvider {
 		}
 		
 		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
+
 	}
 
 	private static class HourImpl implements Hour {
@@ -120,6 +124,7 @@ public class XmlDataProvider implements DataProvider {
 		}
 		
 		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
+
 	}
 
 	//----------------------------- fields -----------------------------------------------------------------------------
@@ -244,6 +249,11 @@ public class XmlDataProvider implements DataProvider {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public void rename(Entity entity, String newName) {
+		((EntityImpl) entity).getNameMutator().setValue(newName);
 	}
 
 }

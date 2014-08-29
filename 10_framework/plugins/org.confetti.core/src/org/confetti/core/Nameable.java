@@ -5,5 +5,5 @@ import org.confetti.observable.ObservableValue;
 public interface Nameable {
 	
 	ObservableValue<String> getName();
-
+	
 }

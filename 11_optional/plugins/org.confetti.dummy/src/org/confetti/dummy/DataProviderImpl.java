@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
+import org.confetti.core.Entity;
 import org.confetti.core.Hour;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
@@ -85,6 +86,7 @@ public class DataProviderImpl implements DataProvider {
 		subjects.addItem(subject);
 		return subject;
 	}
+	
 	@Override
 	public Teacher addTeacher(String name) {
 		TeacherImpl teacher = new TeacherImpl(name);
@@ -92,6 +94,7 @@ public class DataProviderImpl implements DataProvider {
 		return teacher;
 	}
 
+//	@Override
 	public StudentGroupImpl addStudentGroup(String name) {
 		StudentGroupImpl studentGroup = new StudentGroupImpl(name);
 		studentGroups.addItem(studentGroup);
@@ -107,5 +110,10 @@ public class DataProviderImpl implements DataProvider {
 
 	@Override public void setDays(List<String> days) {  }
 	@Override public void setHours(List<String> hours) {  }
+
+	@Override
+	public void rename(Entity entity, String newName) {
+		((EntityImpl) entity).getNameMutator().setValue(newName);
+	}
 
 }
