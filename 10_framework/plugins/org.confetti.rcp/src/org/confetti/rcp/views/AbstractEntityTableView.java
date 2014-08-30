@@ -17,6 +17,8 @@ import org.eclipse.swt.widgets.TableColumn;
 public abstract class AbstractEntityTableView<T extends Entity> extends AbstractEntityView<TableViewer> implements ObservableListener<T> {
 
 	private TableViewer tableViewer;
+	private ObservableListener<String> nameListener;
+	
 	protected TableViewer createViewer(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
@@ -25,6 +27,12 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		createColumn(table, "#", 50);
 		
 		tableViewer = new TableViewer(table);
+		nameListener = new ObservableListener<String>() {
+			@Override
+			public void valueChanged(Object src, String oldValue, String newValue) {
+				tableViewer.refresh(src, true);
+			}
+		};
 		return tableViewer;
 	}
 	
@@ -37,22 +45,39 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		if (oldDp != null) {
 			ObservableList<T> obsList = getObservableList(oldDp);
 			obsList.detachListener(this);
+			for (Entity entity : obsList.getList()) {
+				entity.getName().detachListener(nameListener);
+			}
 		}
 		if (newDp != null) {
 			ObservableList<T> obsList = getObservableList(newDp);
 			obsList.attachListener(this);
+			for (Entity entity : obsList.getList()) {
+				entity.getName().attachListener(nameListener);
+			}
 		}
 	}
 
 	@Override
 	public void valueChanged(Object src, T oldValue, T newValue) {
 		tableViewer.refresh();
+		if (oldValue != null) {
+			oldValue.getName().detachListener(nameListener);
+		}
+		if (newValue != null) {
+			newValue.getName().attachListener(nameListener);
+		}
 	}
 	
 	private void createColumn(Table table, String title, int width) {
 		TableColumn tc = new TableColumn(table, SWT.LEFT);
 		tc.setText(title);
 		tc.setWidth(width);
+	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
 	}
 	
 }

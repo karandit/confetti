@@ -23,7 +23,6 @@ public class ChooseFileWizardPage extends WizardPage {
 		ffe.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				System.out.println(event.getProperty() + "\t" + event.getOldValue() + "-->" + event.getNewValue());
 				setPageComplete(event.getNewValue() != null);
 			}
 		});
