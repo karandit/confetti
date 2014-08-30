@@ -14,7 +14,7 @@ public class EntityImpl implements Entity {
 	private final List<Assignment> assignments = new ArrayList<>();
 	
 	public EntityImpl(String name) {
-		this.name = new ValueMutator<>(name);
+		this.name = new ValueMutator<>(this, name);
 	}
 	
 	@Override

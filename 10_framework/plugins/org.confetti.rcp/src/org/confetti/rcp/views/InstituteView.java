@@ -56,7 +56,7 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 		
 		private final ValueMutator<String> nameMut;
 		private Containers(final String name) {
-			nameMut = new ValueMutator<>(name);
+			nameMut = new ValueMutator<>(this, name);
 		}
 		@Override public ObservableValue<String> getName() { return nameMut.getObservableValue(); }
 		

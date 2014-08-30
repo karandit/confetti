@@ -69,7 +69,7 @@ public class XmlDataProvider implements DataProvider {
 		private final List<Assignment> assignments = new LinkedList<>();
 		
 		public EntityImpl(String name) {
-			this.name = new ValueMutator<>(name);
+			this.name = new ValueMutator<>(this, name);
 		}
 		
 		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
@@ -109,7 +109,7 @@ public class XmlDataProvider implements DataProvider {
 
 		private final ValueMutator<String> name;
 		public DayImpl(String name) {
-			this.name = new ValueMutator<>(name);
+			this.name = new ValueMutator<>(this, name);
 		}
 		
 		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
@@ -120,7 +120,7 @@ public class XmlDataProvider implements DataProvider {
 
 		private final ValueMutator<String> name;
 		public HourImpl(String name) {
-			this.name = new ValueMutator<>(name);
+			this.name = new ValueMutator<>(this, name);
 		}
 		
 		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
@@ -253,7 +253,7 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void rename(Entity entity, String newName) {
-		((EntityImpl) entity).getNameMutator().setValue(newName);
+		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 
 }

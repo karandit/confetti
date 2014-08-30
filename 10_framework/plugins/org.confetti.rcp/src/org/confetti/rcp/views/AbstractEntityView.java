@@ -28,7 +28,7 @@ public abstract class AbstractEntityView<T extends StructuredViewer> extends Vie
 		dpObs.attachListener(new ObservableListener<DataProvider>() {
 			
 			@Override
-			public void valueChanged(DataProvider oldDp, DataProvider newDp) {
+			public void valueChanged(Object src, DataProvider oldDp, DataProvider newDp) {
 				inputChanged(oldDp, newDp);
 				viewer.setInput(getNullSafeInput(newDp));
 			}

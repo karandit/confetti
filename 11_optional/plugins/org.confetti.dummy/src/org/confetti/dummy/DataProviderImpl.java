@@ -37,7 +37,7 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 	private void init() {
-		instName.setValue("Test institute");
+		instName.setValue(this, "Test institute");
 		Subject subjMatek = addSubject("Math");
 		addSubject("Literatute");
 		Subject subjInfo = addSubject("Computer science");
@@ -113,7 +113,7 @@ public class DataProviderImpl implements DataProvider {
 
 	@Override
 	public void rename(Entity entity, String newName) {
-		((EntityImpl) entity).getNameMutator().setValue(newName);
+		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 
 }

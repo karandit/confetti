@@ -141,7 +141,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	}
 
 	public void setDataProvider(DataProvider value) {
-		dpMutator.setValue(value);
+		dpMutator.setValue(this, value);
 	}
 	
 }

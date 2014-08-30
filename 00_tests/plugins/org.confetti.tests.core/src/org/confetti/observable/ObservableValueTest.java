@@ -22,12 +22,12 @@ public class ObservableValueTest {
 		nameMut.getObservableValue().attachListener(new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				assertEquals("first value", newValue);
 				expectedBoolean.value = true;
 			}
 		});
-		nameMut.setValue("first value");
+		nameMut.setValue(null, "first value");
 		assertTrue(expectedBoolean.value);
 	}
 
@@ -38,20 +38,20 @@ public class ObservableValueTest {
 		ObservableListener<String> listener = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				counter.value++;
 			}
 		};
 		
 		nameMut.getObservableValue().attachListener(listener);
-		nameMut.setValue("first value");
+		nameMut.setValue(null, "first value");
 		assertEquals(1, counter.value);
-		nameMut.setValue("second value");
+		nameMut.setValue(null, "second value");
 		assertEquals(2, counter.value);
 		
 		nameMut.getObservableValue().detachListener(listener);
 		
-		nameMut.setValue("third value");
+		nameMut.setValue(null, "third value");
 		assertEquals(2, counter.value);
 	}
 
@@ -62,21 +62,21 @@ public class ObservableValueTest {
 		ObservableListener<String> listener1 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				counter.value++;
 			}
 		};
 		ObservableListener<String> listener2 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				counter.value++;
 			}
 		};
 		
 		nameMut.getObservableValue().attachListener(listener1);
 		nameMut.getObservableValue().attachListener(listener2);
-		nameMut.setValue("first value");
+		nameMut.setValue(null, "first value");
 		assertEquals(2, counter.value);
 	}
 
@@ -87,24 +87,24 @@ public class ObservableValueTest {
 		ObservableListener<String> listener1 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				counter.value++;
 			}
 		};
 		ObservableListener<String> listener2 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				counter.value++;
 			}
 		};
 		
 		nameMut.getObservableValue().attachListener(listener1);
 		nameMut.getObservableValue().attachListener(listener2);
-		nameMut.setValue("first value");
+		nameMut.setValue(null, "first value");
 		nameMut.getObservableValue().detachListener(listener1);
 		nameMut.getObservableValue().detachListener(listener2);
-		nameMut.setValue("second value");
+		nameMut.setValue(null, "second value");
 		assertEquals(2, counter.value);
 	}
 
@@ -115,23 +115,23 @@ public class ObservableValueTest {
 		ObservableListener<String> listener1 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				counter.value++;
 			}
 		};
 		ObservableListener<String> listener2 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				counter.value++;
 			}
 		};
 		
 		nameMut.getObservableValue().attachListener(listener1);
 		nameMut.getObservableValue().attachListener(listener2);
-		nameMut.setValue("first value");
+		nameMut.setValue(null, "first value");
 		nameMut.getObservableValue().detachListener(listener1);
-		nameMut.setValue("second value");
+		nameMut.setValue(null, "second value");
 		assertEquals(3, counter.value);
 	}
 
@@ -142,14 +142,14 @@ public class ObservableValueTest {
 		ObservableListener<String> listener1 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				counter.value++;
 			}
 		};
 		ObservableListener<String> listener2 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				counter.value++;
 			}
 		};

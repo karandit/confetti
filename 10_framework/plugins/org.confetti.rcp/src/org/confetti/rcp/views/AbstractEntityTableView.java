@@ -45,7 +45,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 	}
 
 	@Override
-	public void valueChanged(T oldValue, T newValue) {
+	public void valueChanged(Object src, T oldValue, T newValue) {
 		tableViewer.refresh();
 	}
 	

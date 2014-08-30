@@ -1,5 +1,5 @@
 package org.confetti.observable;
 
 public interface ObservableListener<T> {
-	void valueChanged(T oldValue, T newValue);
+	void valueChanged(Object src, T oldValue, T newValue);
 }

@@ -22,7 +22,7 @@ public class ObservableListTest {
 		listMut.getObservableList().attachListener(new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				if (oldValue == null) {
 					counterAdd.value++;
 				} else if (newValue == null) {
@@ -49,7 +49,7 @@ public class ObservableListTest {
 		ObservableListener<String> listener = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				if (oldValue == null) {
 					counterAdd.value++;
 				} else if (newValue == null) {
@@ -76,7 +76,7 @@ public class ObservableListTest {
 		ObservableListener<String> listener1 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				if (oldValue == null) {
 					counterAdd.value++;
 				} else if (newValue == null) {
@@ -87,7 +87,7 @@ public class ObservableListTest {
 		ObservableListener<String> listener2 = new ObservableListener<String>() {
 			
 			@Override
-			public void valueChanged(String oldValue, String newValue) {
+			public void valueChanged(Object src, String oldValue, String newValue) {
 				if (oldValue == null) {
 					counterAdd.value++;
 				} else if (newValue == null) {

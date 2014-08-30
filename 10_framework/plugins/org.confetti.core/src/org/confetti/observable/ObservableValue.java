@@ -11,9 +11,9 @@ public class ObservableValue<T> {
 	ObservableValue() {
 	}
 
-	void setValue(T newValue) {
+	void setValue(Object src, T newValue) {
 		if (!areEqual(newValue, value)) {
-			notifyListeners(value, newValue);
+			notifyListeners(src, value, newValue);
 			value = newValue;
 		}
 	}
@@ -28,9 +28,9 @@ public class ObservableValue<T> {
 		listeners.remove(listener);
 	}
 	
-	private void notifyListeners(T oldValue, T newValue) {
+	private void notifyListeners(Object src, T oldValue, T newValue) {
 		for (ObservableListener<T> listener : listeners) {
-			listener.valueChanged(oldValue, newValue);
+			listener.valueChanged(src, oldValue, newValue);
 		}
 	}
 	

@@ -7,15 +7,15 @@ public class ValueMutator<T> {
 	public ValueMutator() {
 	}
 
-	public ValueMutator(T initialValue) {
-		observValue.setValue(initialValue);
+	public ValueMutator(Object src, T initialValue) {
+		observValue.setValue(src, initialValue);
 	}
 	
 	public ObservableValue<T> getObservableValue() {
 		return observValue;
 	}
 
-	public void setValue(T newValue) {
-		observValue.setValue(newValue);
+	public void setValue(Object src, T newValue) {
+		observValue.setValue(src, newValue);
 	}
 }

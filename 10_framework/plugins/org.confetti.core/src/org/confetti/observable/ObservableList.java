@@ -39,7 +39,8 @@ public class ObservableList<T> {
 	
 	private void notifyListeners(T oldValue, T newValue) {
 		for (ObservableListener<T> listener : listeners) {
-			listener.valueChanged(oldValue, newValue);
+			//TODO replace it in the future with useful source
+			listener.valueChanged(null, oldValue, newValue);
 		}
 	}
 
