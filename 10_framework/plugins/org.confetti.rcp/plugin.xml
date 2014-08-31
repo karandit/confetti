@@ -136,6 +136,12 @@
             id="org.confetti.rcp.renameEntityCommand"
             name="Rename Entity">
       </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.DeleteEntityCommand"
+            description="Delete Entity"
+            id="org.confetti.rcp.deleteEntityCommand"
+            name="Delete Entity">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -236,6 +242,24 @@
                   </with>
                </visibleWhen>
          </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <instanceof
+                           value="org.confetti.core.Entity">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -243,6 +267,24 @@
          <command
                commandId="org.confetti.rcp.renameEntityCommand"
                label="Rename"
+               style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.confetti.core.Entity">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+         </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
                style="push">
                <visibleWhen
                      checkEnabled="false">
@@ -280,6 +322,24 @@
                   </with>
                </visibleWhen>
          </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <instanceof
+                           value="org.confetti.core.Entity">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -302,6 +362,24 @@
                   </with>
                </visibleWhen>
          </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <instanceof
+                           value="org.confetti.core.Entity">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
       </menuContribution>
       <menuContribution
             allPopups="false"
@@ -323,6 +401,24 @@
                      </iterate>
                   </with>
                </visibleWhen>
+         </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <instanceof
+                           value="org.confetti.core.Entity">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
          </command>
       </menuContribution>
    </extension>
