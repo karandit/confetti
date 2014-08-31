@@ -69,7 +69,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		}
 	}
 	
-	private void createColumn(Table table, String title, int width) {
+	public static void createColumn(Table table, String title, int width) {
 		TableColumn tc = new TableColumn(table, SWT.LEFT);
 		tc.setText(title);
 		tc.setWidth(width);

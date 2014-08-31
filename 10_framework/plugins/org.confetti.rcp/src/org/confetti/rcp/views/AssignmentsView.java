@@ -2,9 +2,9 @@ package org.confetti.rcp.views;
 
 import java.util.List;
 
-import org.confetti.core.Assignable;
 import org.confetti.core.Assignment;
 import org.confetti.core.Entity;
+import org.confetti.observable.ObservableListener;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -17,7 +17,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
@@ -27,6 +26,9 @@ public class AssignmentsView extends ViewPart {
 
 	public final static String ID = "org.confetti.rcp.assignmentsView";
 	
+	private static TableViewer tableViewer;
+	private ObservableListener<String> nameListener;
+	
 	@Override
 	public void createPartControl(Composite parent) {
 		SashForm form = new SashForm(parent, SWT.VERTICAL);
@@ -35,43 +37,44 @@ public class AssignmentsView extends ViewPart {
 		createTimeTable(form);
 	}
 
-
 	private void createAssigmentsList(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
-		addColumn(table, "#", 50);
-		addColumn(table, "Subject", 150);
-		addColumn(table, "Teacher", 150);
-		addColumn(table, "Student Group", 150);
-		addColumn(table, "Room", 150);
+		AbstractEntityTableView.createColumn(table, "#", 50);
+		AbstractEntityTableView.createColumn(table, "Subject", 150);
+		AbstractEntityTableView.createColumn(table, "Teacher", 150);
+		AbstractEntityTableView.createColumn(table, "Student Group", 150);
+		AbstractEntityTableView.createColumn(table, "Room", 150);
 		
-		final TableViewer viewer = new TableViewer(table);
-		viewer.setContentProvider(new ArrayContentProvider());
-		viewer.setLabelProvider(new AssignmentLabelProvider());
+		tableViewer = new TableViewer(table);
+		tableViewer.setContentProvider(new ArrayContentProvider());
+		tableViewer.setLabelProvider(new AssignmentLabelProvider());
+		
+		nameListener = new ObservableListener<String>() {
+			@Override
+			public void valueChanged(Object src, String oldValue, String newValue) {
+				tableViewer.refresh();
+			}
+		};
 		
 		ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
 		selectionService.addSelectionListener(new ISelectionListener() {
-			
 			@Override
 			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 				if (!selection.isEmpty()) { 
 					IStructuredSelection strSel = (IStructuredSelection) selection;
 					Object first = strSel.getFirstElement();
-					if (first instanceof Assignable) {
-						Assignable source = (Assignable) first;
-						viewer.setInput(source.getAssignments());
+					if (first instanceof Entity) {
+						Entity source = (Entity) first;
+						//TODO detach the listener somewhere? :/
+						source.getName().attachListener(nameListener);
+						tableViewer.setInput(source.getAssignments());
 					}
 				} else {
-					viewer.setInput(null);
+					tableViewer.setInput(null);
 				}
 			}
 		});
-	}
-
-	private void addColumn(Table table, String name, int width) {
-		TableColumn column = new TableColumn(table, SWT.LEFT);
-		column.setText(name);
-		column.setWidth(width);
 	}
 
 	private void createTimeTable(Composite parent) {
@@ -115,4 +118,5 @@ public class AssignmentsView extends ViewPart {
 			return sb.toString();
 		}
 	}
+	
 }
