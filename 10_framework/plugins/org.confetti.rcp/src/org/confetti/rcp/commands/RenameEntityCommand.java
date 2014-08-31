@@ -31,8 +31,8 @@ public class RenameEntityCommand extends AbstractHandler {
 	    if (!selection.toString().equals("<empty selection>") && selection != null && selection instanceof IStructuredSelection) {
 	      IStructuredSelection strucSelection = (IStructuredSelection) selection;
 //	      for (Iterator<ObservableValue<Entity>> iterator = strucSelection.iterator(); iterator.hasNext();) {
-//	        ObservableValue<Entity> element = iterator.next();
-//	        System.out.println(element.getValue().getName());
+//	    	  ObservableValue<Entity> element = iterator.next();
+//	    	  System.out.println(element.getValue().getName());
 //	      }
 	      final Entity sel = (Entity) strucSelection.getFirstElement();
 	      InputDialog inputDialog = new InputDialog(Display.getDefault().getActiveShell(), "Rename", "Please enter a new name", sel.getName().getValue(), new IInputValidator() {

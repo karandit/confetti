@@ -107,6 +107,21 @@ public class DataProviderImpl implements DataProvider {
 		rooms.addItem(room);
 		return room;
 	}
+	
+	@Override
+	public void removeSubject(Subject subject) {
+		subjects.removeItem(subject);
+	}
+	
+	@Override
+	public void removeTeacher(Teacher teacher) {
+		teachers.removeItem(teacher);
+	}
+	
+	@Override
+	public void removeRoom(Room room) {
+		rooms.removeItem(room);
+	}
 
 	@Override public void setDays(List<String> days) {  }
 	@Override public void setHours(List<String> hours) {  }

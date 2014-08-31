@@ -228,6 +228,10 @@ public class XmlDataProvider implements DataProvider {
 		return roomImpl;
 	}
 	
+	@Override public void removeSubject(Subject subject) 	{ subjects.removeItem(subject); }
+	@Override public void removeTeacher(Teacher teacher) 	{ teachers.removeItem(teacher); }
+	@Override public void removeRoom(Room room)          	{ rooms.removeItem(room); }
+	
 	@Override
 	public void setDays(List<String> days) {
 		//TODO
@@ -237,6 +241,12 @@ public class XmlDataProvider implements DataProvider {
 	public void setHours(List<String> hours) {
 		//TODO
 	}
+	
+	@Override
+	public void rename(Entity entity, String newName) {
+		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
+	}
+	
 	//----------------------------- helpers ----------------------------------------------------------------------------
 //	private static InputStream openStream(final String path) throws IOException {
 //		return XmlDataProvider.class.getResource(path).openStream();
@@ -249,11 +259,6 @@ public class XmlDataProvider implements DataProvider {
 			}
 		}
 		return null;
-	}
-	
-	@Override
-	public void rename(Entity entity, String newName) {
-		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 
 }
