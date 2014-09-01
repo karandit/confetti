@@ -11,6 +11,7 @@ import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
+import org.confetti.core.EntityVisitor;
 import org.confetti.core.Hour;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
@@ -62,7 +63,7 @@ public class XmlDataProvider implements DataProvider {
 		@Override public Room getRoom() { return null; }
 	}
 	
-	private static class EntityImpl implements Entity, Assignable {
+	private static abstract class EntityImpl implements Entity, Assignable {
 
 		private final ValueMutator<String> name;
 		
@@ -82,14 +83,29 @@ public class XmlDataProvider implements DataProvider {
 	
 	private static class TeacherImpl extends EntityImpl implements Teacher {
 		public TeacherImpl(String name) { super(name); }
+
+		@Override
+		public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
+			return visitor.visitTeacher(this, param);
+		}
 	}
 
 	private static class SubjectImpl extends EntityImpl implements Subject {
 		public SubjectImpl(String name) { super(name); }
+
+		@Override
+		public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
+			return visitor.visitSubject(this, param);
+		}
 	}
 
 	private static class RoomImpl extends EntityImpl implements Room {
 		public RoomImpl(String name) { super(name); }
+
+		@Override
+		public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
+			return visitor.visitRoom(this, param);
+		}
 	}
 
 	private static class StudentGroupImpl extends EntityImpl implements StudentGroup {
@@ -103,6 +119,11 @@ public class XmlDataProvider implements DataProvider {
 		public void addChild(StudentGroup child) 			{ children.add(child); }
 		@Override public List<StudentGroup> getChildren() 	{ return children; }
 		@Override public StudentGroup getParent() 			{ return null; }
+
+		@Override
+		public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
+			return visitor.visitStudentGroup(this, param);
+		}
 	}
 	
 	private static class DayImpl implements Day {

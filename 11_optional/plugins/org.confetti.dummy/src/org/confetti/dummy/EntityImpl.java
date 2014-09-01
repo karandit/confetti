@@ -8,7 +8,7 @@ import org.confetti.core.Entity;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
-public class EntityImpl implements Entity {
+public abstract class EntityImpl implements Entity {
 
 	private final ValueMutator<String> name;
 	private final List<Assignment> assignments = new ArrayList<>();

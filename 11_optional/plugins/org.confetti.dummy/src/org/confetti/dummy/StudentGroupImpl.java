@@ -3,6 +3,7 @@ package org.confetti.dummy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.confetti.core.EntityVisitor;
 import org.confetti.core.StudentGroup;
 
 public class StudentGroupImpl extends EntityImpl implements StudentGroup {
@@ -28,6 +29,11 @@ public class StudentGroupImpl extends EntityImpl implements StudentGroup {
 	@Override
 	public StudentGroup getParent() {
 		return parent;
+	}
+	
+	@Override
+	public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
+		return visitor.visitStudentGroup(this, param);
 	}
 
 }
