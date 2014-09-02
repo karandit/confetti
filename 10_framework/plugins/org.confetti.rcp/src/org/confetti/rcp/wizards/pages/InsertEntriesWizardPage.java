@@ -1,5 +1,7 @@
 package org.confetti.rcp.wizards.pages;
 
+import static org.confetti.rcp.ConfettiPlugin.getImageDescriptor;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -18,7 +20,7 @@ implements IWizardPageNavigatable {
 	private Text text;
 	
 	public InsertEntriesWizardPage(InsertEntriesModel model) {
-		super("Input", model.getInsertEntriesPageTitle(), null, model);
+		super("Input", model.getInsertEntriesPageTitle(), getImageDescriptor(model.getInsertEntriesPageImageKey()), model);
 		setDescription(getModel().getInsertEntriesPageDescription());
 		setPageComplete(false);
 	}
@@ -34,6 +36,7 @@ implements IWizardPageNavigatable {
 
 	@Override
 	public void pageShowed() {
+		//TODO find alternative to setFocus() method , beacuse after text.setFocus(), the buttons are not clickable
 	}
 
 	@Override

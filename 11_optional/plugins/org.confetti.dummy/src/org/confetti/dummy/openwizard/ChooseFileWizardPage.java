@@ -12,7 +12,7 @@ public class ChooseFileWizardPage extends WizardPage {
 	protected ChooseFileWizardPage() {
 		//TODO:create a model
 		super("Choose", "Choose an XML File", null);
-		setPageComplete(false);
+		setPageComplete(true);
 	}
 
 	@Override
@@ -23,7 +23,6 @@ public class ChooseFileWizardPage extends WizardPage {
 		ffe.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				System.out.println(event.getProperty() + "\t" + event.getOldValue() + "-->" + event.getNewValue());
 				setPageComplete(event.getNewValue() != null);
 			}
 		});

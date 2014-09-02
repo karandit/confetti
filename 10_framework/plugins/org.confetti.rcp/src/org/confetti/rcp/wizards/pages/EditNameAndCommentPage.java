@@ -1,5 +1,7 @@
 package org.confetti.rcp.wizards.pages;
 
+import static org.confetti.rcp.ConfettiPlugin.getImageDescriptor;
+
 import org.confetti.rcp.wizards.models.EditNameAndCommentModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -20,7 +22,7 @@ implements IWizardPageNavigatable {
 	private Text txtComment;
 	
 	public EditNameAndCommentPage(EditNameAndCommentModel model) {
-		super("pageName", "Name", null, model);
+		super("pageName", "Name", getImageDescriptor(model.getImageKey()), model);
 		setDescription("Set the name and the comment");
 		setPageComplete(false);
 	}

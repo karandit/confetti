@@ -1,5 +1,5 @@
 package org.confetti.core;
 
-public interface Teacher extends Entity, Assignable {
+public interface Teacher extends Entity {
 
 }

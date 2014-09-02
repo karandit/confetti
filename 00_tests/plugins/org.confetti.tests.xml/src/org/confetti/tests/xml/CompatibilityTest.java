@@ -5,6 +5,7 @@ import static org.confetti.tests.xml.StructureTest.openStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.confetti.dataprovider.xml.XmlDataProvider;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.InstituteXml;
@@ -18,6 +19,7 @@ public class CompatibilityTest {
 	private static void importFet(final String path) throws FAOException {
 		try (InputStream is = openStream(path)) {
 			InstituteXml  inst =  new InstituteFAO().importFrom(is);
+			new XmlDataProvider(inst);
 			System.out.println(inst.getVersion() + "\t" + inst.getName());
 		} catch (IOException e) {
 			throw new FAOException(e);

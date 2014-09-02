@@ -9,5 +9,6 @@ public interface EditNameAndCommentModel {
 	void setName(String name);
 	String getComment();
 	void setComment(String comment);
+	String getImageKey();
 
 }

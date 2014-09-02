@@ -1,34 +1,17 @@
 package org.confetti.dummy;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.confetti.core.Assignment;
+import org.confetti.core.EntityVisitor;
 import org.confetti.core.Room;
 
-public class RoomImpl implements Room{
+public class RoomImpl extends EntityImpl implements Room {
 
-	private final String name;
-	private final List<Assignment> assignments = new ArrayList<>();
-	
 	public RoomImpl(String name) {
-		this.name = name;
+		super(name);
 	}
 	
 	@Override
-	public String getName() {
-		return name;
+	public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
+		return visitor.visitRoom(this, param);
 	}
-
-	@Override
-	public void addAssignment(Assignment assignment) {
-		assignments.add(assignment);
-	}
-
-	@Override
-	public List<Assignment> getAssignments() {
-		return assignments;
-	}
-
 	
 }

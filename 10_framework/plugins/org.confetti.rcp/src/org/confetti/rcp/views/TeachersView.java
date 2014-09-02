@@ -1,16 +1,14 @@
 package org.confetti.rcp.views;
 
-
 import org.confetti.core.DataProvider;
+import org.confetti.core.Teacher;
+import org.confetti.observable.ObservableList;
 
-public class TeachersView extends AbstractEntityTableView {
+public class TeachersView extends AbstractEntityTableView<Teacher> {
 
 	public static final String ID = "org.confetti.rcp.teachersView";
 
-	@Override
-	protected Object getInput(DataProvider dp) {
-		return dp.getTeachers();
-	}
+	@Override protected ObservableList<Teacher> getObservableList(DataProvider dp) { return dp.getTeachers(); }
 	
 
 }

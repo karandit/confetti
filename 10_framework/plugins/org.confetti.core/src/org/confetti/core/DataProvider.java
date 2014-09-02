@@ -2,20 +2,31 @@ package org.confetti.core;
 
 import java.util.List;
 
-public interface DataProvider {
+import org.confetti.observable.ObservableList;
 
-	List<Subject> getSubjects();
-	List<Teacher> getTeachers();
-	List<StudentGroup> getStudentGroups();
-	List<Room> getRooms();
-	List<Day> getDays();
-	List<Hour> getHours();
+public interface DataProvider extends Nameable {
+
+	ObservableList<Subject> getSubjects();
+	ObservableList<Teacher> getTeachers();
+	ObservableList<StudentGroup> getStudentGroups();
+	ObservableList<Room> getRooms();
+	ObservableList<Day> getDays();
+	ObservableList<Hour> getHours();
 	
 	Subject addSubject(String name);
 	Teacher addTeacher(String name);
 	//TODO: StudentGroup addStudentGroup(StudentGroup parent, String name);
 	Room addRoom(String name);
-	Day setDays(List<Day> days);
-	Hour setHours(List<Hour> hours);
+	
+	void removeSubject(Subject subject);
+	void removeTeacher(Teacher teacher);
+	//TODO: void removeStudentGroup(StudentGroup studentGroup);
+	void removeRoom(Room room);
+	
+	void setDays(List<String> days);
+	void setHours(List<String> hours);
+	
+	//TODO remove me
+	void rename(Entity entity, String newName);
 	
 }

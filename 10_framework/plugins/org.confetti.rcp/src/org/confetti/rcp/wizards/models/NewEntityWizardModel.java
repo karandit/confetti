@@ -24,20 +24,24 @@ public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntrie
 	private final List<Tuple<String, Problem>> mNamesAndProblems = new ArrayList<>();
 	private final List<String> mOriginalNames;
 	private final EntityCreator<T> mCreator;
+	private String mImageKey;
 	
 	//------------------------ constructors ----------------------------------------------------------------------------
 	public NewEntityWizardModel(final List<String> originalNames, EntityCreator<T> creator,
-			final String wizardTitle, final String addNamePageDescr, final String verifyNamePageDescr) {
+			final String wizardTitle, final String addNamePageDescr, final String verifyNamePageDescr,
+			final String imageKey) {
 		this.mOriginalNames = originalNames;
 		this.mCreator = creator;
 		this.mWizardTitle = wizardTitle;
 		this.mAddNamePageDescr = addNamePageDescr;
 		this.mVerifyNamePageDescr = verifyNamePageDescr;
+		this.mImageKey = imageKey;
 	}
 
 	//------------------------ InsertEntriesModel ----------------------------------------------------------------------
 	@Override public String getInsertEntriesPageDescription() 	{ return mAddNamePageDescr; }
 	@Override public String getInsertEntriesPageTitle() 		{ return "Names"; }
+	@Override public String getInsertEntriesPageImageKey() 		{ return mImageKey; }
 
 	@Override
 	public void addEntries(List<String> names) {

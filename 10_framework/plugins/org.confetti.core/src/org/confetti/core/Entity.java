@@ -1,7 +1,5 @@
 package org.confetti.core;
 
-public interface Entity {
-	
-	public String getName();
-	
+public interface Entity extends Nameable, Assignable {
+	<R, P> R accept(EntityVisitor<R, P> visitor, P param);
 }

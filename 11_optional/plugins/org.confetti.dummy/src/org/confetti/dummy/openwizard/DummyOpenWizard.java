@@ -9,6 +9,7 @@ public class DummyOpenWizard extends Wizard {
 	public DummyOpenWizard() {
 		//TODO: create a model here
 		super();
+		setWindowTitle("Open");
 	}
 
 	@Override

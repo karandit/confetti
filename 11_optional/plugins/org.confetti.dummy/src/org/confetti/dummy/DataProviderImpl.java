@@ -1,33 +1,43 @@
 package org.confetti.dummy;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
+import org.confetti.core.Entity;
 import org.confetti.core.Hour;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
+import org.confetti.observable.ListMutator;
+import org.confetti.observable.ObservableList;
+import org.confetti.observable.ObservableValue;
+import org.confetti.observable.ValueMutator;
 
 public class DataProviderImpl implements DataProvider {
 
-	private List<Subject> subjects;
-	private List<Teacher> teachers;
-	private List<StudentGroup> studentGroups;
-	private List<Room> rooms;
-
+	private ListMutator<Subject> subjects;
+	private ListMutator<Teacher> teachers;
+	private ListMutator<StudentGroup> studentGroups;
+	private ListMutator<Room> rooms;
+	private ListMutator<Day> days;
+	private ListMutator<Hour> hours;
+	private ValueMutator<String> instName = new ValueMutator<>();
+	
 	public DataProviderImpl() {
-		this.subjects = new ArrayList<>();
-		this.teachers = new ArrayList<>();
-		this.studentGroups = new ArrayList<>();
-		this.rooms = new ArrayList<>();
+		this.subjects = new ListMutator<>();
+		this.teachers = new ListMutator<>();
+		this.studentGroups = new ListMutator<>();
+		this.rooms = new ListMutator<>();
+		this.days = new ListMutator<>();
+		this.hours = new ListMutator<>();
 		init();
 	}
 
 	private void init() {
+		instName.setValue(this, "Test institute");
 		Subject subjMatek = addSubject("Math");
 		addSubject("Literatute");
 		Subject subjInfo = addSubject("Computer science");
@@ -49,7 +59,7 @@ public class DataProviderImpl implements DataProvider {
 
 		new AssignmentImpl(
 				subjMatek, 
-				getTeachers(), 
+				getTeachers().getList(), 
 				Arrays.<StudentGroup>asList(group1721), 
 				room2
 			);
@@ -62,74 +72,63 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 
-	@Override
-	public List<Teacher> getTeachers() {
-		return teachers;
-	}
-
-	@Override
-	public List<Subject> getSubjects() {
-		return subjects;
-	}
-
-	@Override
-	public List<StudentGroup> getStudentGroups() {
-		return studentGroups;
-	}
-	
-	@Override
-	public List<Room> getRooms() {
-		return rooms;
-	}
+	@Override public ObservableList<Teacher> getTeachers() { return teachers.getObservableList(); }
+	@Override public ObservableList<Subject> getSubjects() { return subjects.getObservableList(); }
+	@Override public ObservableList<StudentGroup> getStudentGroups() { return studentGroups.getObservableList(); }
+	@Override public ObservableList<Room> getRooms() { return rooms.getObservableList(); }
+	@Override public ObservableList<Day> getDays() { return days.getObservableList(); }
+	@Override public ObservableList<Hour> getHours() { return hours.getObservableList(); }
+	@Override public ObservableValue<String> getName() { return instName.getObservableValue(); }
 	
 	@Override
 	public Subject addSubject(String name) {
 		SubjectImpl subject = new SubjectImpl(name);
-		subjects.add(subject);
+		subjects.addItem(subject);
 		return subject;
 	}
+	
 	@Override
 	public Teacher addTeacher(String name) {
 		TeacherImpl teacher = new TeacherImpl(name);
-		teachers.add(teacher);
+		teachers.addItem(teacher);
 		return teacher;
 	}
 
+//	@Override
 	public StudentGroupImpl addStudentGroup(String name) {
 		StudentGroupImpl studentGroup = new StudentGroupImpl(name);
-		studentGroups.add(studentGroup);
+		studentGroups.addItem(studentGroup);
 		return studentGroup;
 	}
 	
 	@Override
 	public Room addRoom(String name) {
 		RoomImpl room = new RoomImpl(name);
-		rooms.add(room);
+		rooms.addItem(room);
 		return room;
 	}
-
+	
 	@Override
-	public List<Day> getDays() {
-		// TODO Auto-generated method stub
-		return null;
+	public void removeSubject(Subject subject) {
+		subjects.removeItem(subject);
+	}
+	
+	@Override
+	public void removeTeacher(Teacher teacher) {
+		teachers.removeItem(teacher);
+	}
+	
+	@Override
+	public void removeRoom(Room room) {
+		rooms.removeItem(room);
 	}
 
-	@Override
-	public List<Hour> getHours() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	@Override public void setDays(List<String> days) {  }
+	@Override public void setHours(List<String> hours) {  }
 
 	@Override
-	public Day setDays(List<Day> days) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Hour setHours(List<Hour> hours) {
-		// TODO Auto-generated method stub
-		return null;
+	public void rename(Entity entity, String newName) {
+		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 
 }

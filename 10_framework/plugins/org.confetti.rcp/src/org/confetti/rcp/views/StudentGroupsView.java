@@ -19,7 +19,7 @@ public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 	public static final String ID = "org.confetti.rcp.studentGroupsView";
 
 	@Override protected IContentProvider getContentProvider() 	{ return new StudentGroupContentProvider(); }
-	@Override protected Object getInput(DataProvider dp) 		{ return dp.getStudentGroups(); }
+	@Override protected Object getInput(DataProvider dp) 		{ return dp.getStudentGroups().getList(); }
 
 	@Override
 	protected TreeViewer createViewer(Composite parent) {
@@ -31,7 +31,7 @@ public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 		return viewer;
 	}
 
-	private void createColumn(TreeViewer viewer, String title, int width) {
+	static void createColumn(TreeViewer viewer, String title, int width) {
 		TreeColumn name = new TreeViewerColumn(viewer, SWT.LEFT).getColumn();
 		name.setText(title);
 		name.setWidth(width);

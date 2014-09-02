@@ -9,7 +9,7 @@ package org.confetti.rcp.actions;
  */
 public interface ICommandIds {
 
-    public static final String CMD_OPEN = "org.eclipse.ui.tutorials.rcp.part3.open";
-    public static final String CMD_OPEN_MESSAGE = "org.eclipse.ui.tutorials.rcp.part3.openMessage";
+    public static final String TEST1 = "org.confetti.rcp.actions.test1";
+    public static final String TEST2 = "org.confetti.rcp.actions.test2";
     
 }

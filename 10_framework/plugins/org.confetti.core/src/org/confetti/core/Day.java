@@ -1,5 +1,5 @@
 package org.confetti.core;
 
-public interface Day extends Entity {
+public interface Day extends Nameable {
 
 }

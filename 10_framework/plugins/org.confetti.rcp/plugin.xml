@@ -18,15 +18,23 @@
       <perspective
             name="Default Perspective"
             class="org.confetti.rcp.Perspective"
-            id="org.eclipse.ui.tutorials.rcp.defaultPerspective">
+            id="org.confetti.rcp.defaultPerspective">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.views">
       <view
             allowMultiple="false"
+            class="org.confetti.rcp.views.InstituteView"
+            icon="icons/University-16-fill.png"
+            id="org.confetti.rcp.instituteView"
+            name="Institute"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="false"
             class="org.confetti.rcp.views.SubjectsView"
-            icon="icons/sample.gif"
+            icon="icons/subject-16-fill.png"
             id="org.confetti.rcp.subjectsView"
             name="Subjects"
             restorable="true">
@@ -34,7 +42,7 @@
       <view
             allowMultiple="false"
             class="org.confetti.rcp.views.TeachersView"
-            icon="icons/sample.gif"
+            icon="icons/teacher-16-fill.png"
             id="org.confetti.rcp.teachersView"
             name="Teachers"
             restorable="true">
@@ -42,7 +50,7 @@
       <view
             allowMultiple="false"
             class="org.confetti.rcp.views.StudentGroupsView"
-            icon="icons/sample.gif"
+            icon="icons/studentgroup-16-fill.png"
             id="org.confetti.rcp.studentGroupsView"
             name="StudentGroups"
             restorable="true">
@@ -50,23 +58,15 @@
       <view
             allowMultiple="false"
             class="org.confetti.rcp.views.RoomsView"
-            icon="icons/sample.gif"
+            icon="icons/room-16-fill.png"
             id="org.confetti.rcp.roomsView"
             name="Rooms"
             restorable="true">
       </view>
       <view
             allowMultiple="false"
-            class="org.confetti.rcp.views.EntitiesView"
-            icon="icons/sample.gif"
-            id="org.confetti.rcp.entitiesView"
-            name="Entities"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="false"
             class="org.confetti.rcp.views.AssignmentsView"
-            icon="icons/sample2.gif"
+            icon="icons/sample.gif"
             id="org.confetti.rcp.assignmentsView"
             name="Assignments"
             restorable="true">
@@ -90,6 +90,16 @@
    </extension>
    <extension
          point="org.eclipse.ui.commands">
+      <command
+            name="Test 1"
+            description="Test command 1"
+            id="org.confetti.rcp.actions.test1">
+      </command>
+      <command
+            name="Test 2"
+            description="Test command 2"
+            id="org.confetti.rcp.actions.test2">
+      </command>
       <command
             defaultHandler="org.confetti.rcp.commands.NewSubjectCommand"
             description="New Subject"
@@ -119,6 +129,18 @@
             description="New Assignment"
             id="org.confetti.rcp.commands.newAssignmentCommand"
             name="New Assignment">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.RenameEntityCommand"
+            description="Rename Entity"
+            id="org.confetti.rcp.renameEntityCommand"
+            name="Rename Entity">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.DeleteEntityCommand"
+            description="Delete Entity"
+            id="org.confetti.rcp.deleteEntityCommand"
+            name="Delete Entity">
       </command>
    </extension>
    <extension
@@ -197,6 +219,206 @@
                icon="icons/sample2.gif"
                label="New Assignment"
                style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.confetti.rcp.instituteView">
+         <command
+               commandId="org.confetti.rcp.renameEntityCommand"
+               label="Rename"
+               style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.confetti.core.Entity">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+         </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <instanceof
+                           value="org.confetti.core.Entity">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.confetti.rcp.subjectsView">
+         <command
+               commandId="org.confetti.rcp.renameEntityCommand"
+               label="Rename"
+               style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.confetti.core.Entity">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+         </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
+               style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.confetti.core.Entity">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.confetti.rcp.teachersView">
+         <command
+               commandId="org.confetti.rcp.renameEntityCommand"
+               label="Rename"
+               style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.confetti.core.Entity">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+         </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <instanceof
+                           value="org.confetti.core.Entity">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.confetti.rcp.studentGroupsView">
+         <command
+               commandId="org.confetti.rcp.renameEntityCommand"
+               label="Rename"
+               style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.confetti.core.Entity">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+         </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <instanceof
+                           value="org.confetti.core.Entity">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.confetti.rcp.roomsView">
+         <command
+               commandId="org.confetti.rcp.renameEntityCommand"
+               label="Rename"
+               style="push">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.confetti.core.Entity">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+         </command>
+         <command
+               commandId="org.confetti.rcp.deleteEntityCommand"
+               label="Delete"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <instanceof
+                           value="org.confetti.core.Entity">
+                     </instanceof>
+                  </iterate>
+               </with>
+            </visibleWhen>
          </command>
       </menuContribution>
    </extension>
