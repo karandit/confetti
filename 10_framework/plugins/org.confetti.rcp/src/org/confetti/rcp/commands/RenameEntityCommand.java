@@ -1,5 +1,8 @@
 package org.confetti.rcp.commands;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
 import org.confetti.core.EntityVisitor;
@@ -29,81 +32,65 @@ public class RenameEntityCommand extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchPage activePage = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-		final String viewId = activePage.getActivePart().getSite().getId();
 		ISelection selection = activePage.getSelection();
-	    if (!selection.toString().equals("<empty selection>") && selection != null && selection instanceof IStructuredSelection) {
-	      IStructuredSelection strucSelection = (IStructuredSelection) selection;
-//	      for (Iterator<ObservableValue<Entity>> iterator = strucSelection.iterator(); iterator.hasNext();) {
-//	    	  ObservableValue<Entity> element = iterator.next();
-//	    	  System.out.println(element.getValue().getName());
-//	      }
-	      final Entity sel = (Entity) strucSelection.getFirstElement();
-	      InputDialog inputDialog = new InputDialog(Display.getDefault().getActiveShell(), "Rename", "Please enter a new name", sel.getName().getValue(), new IInputValidator() {
-	    	  @Override
-	    	  public String isValid(String newText) {
-	    		  if (newText.isEmpty()) {
-	    			  return "Name must be at least 1 character!";
-	    		  } else if (!isUnique(viewId, sel, newText)) {
-	    			  return "New name is not unique!";
-	    		  }
-	    		  return null;
-	    	  }
-	      });
-	      int button = inputDialog.open();
-	      if (button == Window.OK) {
-	    	  changeName(sel, inputDialog.getValue());
-	      }
+	    if (selection == null || selection.isEmpty() || !(selection instanceof IStructuredSelection)) {
+	    	return null;
 	    }
-	    
+		IStructuredSelection strucSelection = (IStructuredSelection) selection;
+		final Entity sel = (Entity) strucSelection.getFirstElement();
+		InputDialog inputDialog = new InputDialog(Display.getDefault().getActiveShell(), "Rename", "Please enter a new name", sel.getName().getValue(), 
+				new IInputValidator() {
+					@Override
+					public String isValid(String newText) {
+						if (newText.isEmpty()) {
+							return "Name must be at least 1 character!";
+						}
+						if (!isUnique(sel, newText)) {
+							return "New name is not unique!";
+						}
+						return null;
+					}
+				});
+		int button = inputDialog.open();
+		if (button == Window.OK) {
+			DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+			dp.rename(sel, inputDialog.getValue());
+		}
 		return null;
 	}
 
-	protected boolean isUnique(String viewId, Entity sel, String newText) {
+	protected boolean isUnique(Entity sel, String newText) {
 		DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-		ObservableList<? extends Entity> allEntities = sel.accept(GetAllVisitor.INSTANCE, dp);
-		if (allEntities == null) {
-			return false;
-		}
-		return containsName(newText, allEntities.getList());
+		Set<String> allNames = sel.accept(GetAllNamesVisitor.INSTANCE, dp);
+		return !allNames.contains(newText);
 	}
 
-	private boolean containsName(String newText, Iterable<? extends Entity> list) {
-		for (Entity element : list) {
-			if (newText.equals(element.getName().getValue())) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-	private void changeName(Entity sel, String value) {
-		ConfettiPlugin.getDefault().getDataProvider().getValue().rename(sel, value);
-	}
-
-	private enum GetAllVisitor implements EntityVisitor<ObservableList<? extends Entity>, DataProvider> {
+	private enum GetAllNamesVisitor implements EntityVisitor<Set<String>, DataProvider> {
 
 		INSTANCE;
 		
-		@Override
-		public ObservableList<? extends Entity> visitSubject(Subject subject, DataProvider dp) {
-			return dp.getSubjects();
-		}
-
-		@Override
-		public ObservableList<? extends Entity> visitTeacher(Teacher teacher, DataProvider dp) {
-			return dp.getTeachers();
-		}
-
-		@Override
-		public ObservableList<? extends Entity> visitStudentGroup(StudentGroup studentGroup, DataProvider dp) {
-			return dp.getStudentGroups();
-		}
-
-		@Override
-		public ObservableList<? extends Entity> visitRoom(Room room, DataProvider dp) {
-			return dp.getRooms();
-		}
+		@Override public Set<String> visitSubject(Subject subject, DataProvider dp) 				{ return getNames(dp.getSubjects()); }
+		@Override public Set<String> visitTeacher(Teacher teacher, DataProvider dp) 				{ return getNames(dp.getTeachers()); }
+		@Override public Set<String> visitRoom(Room room, DataProvider dp) 							{ return getNames(dp.getRooms()); }
+		@Override public Set<String> visitStudentGroup(StudentGroup studentGroup, DataProvider dp) 	{ return collectNames(dp.getStudentGroups().getList()); }
 		
+		private Set<String> getNames(ObservableList<? extends Entity> entities) {
+			Set<String> names = new HashSet<>();
+			for (Entity entity : entities.getList()) {
+				names.add(entity.getName().getValue());
+			}
+			return names;
+		}
+
+		private Set<String> collectNames(Iterable<StudentGroup> groups) {
+			Set<String> names = new HashSet<>();
+			for (StudentGroup studentGroup : groups) {
+				names.add(studentGroup.getName().getValue());
+				names.addAll(collectNames(studentGroup.getChildren()));
+			}
+			return names;
+		}
+
 	}
 	
 }
