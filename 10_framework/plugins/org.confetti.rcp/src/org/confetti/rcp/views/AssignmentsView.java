@@ -80,6 +80,7 @@ public class AssignmentsView extends ViewPart {
 	private void createTimeTable(Composite parent) {
 //		KTable ktable = new KTable(parent, SWT.NONE);
 //		ktable.setModel(new TimeTableModel(ktable));
+		
 	}
 
 	@Override

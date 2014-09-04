@@ -1,9 +1,11 @@
 package org.confetti.rcp.views;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.confetti.core.DataProvider;
 import org.confetti.core.StudentGroup;
+import org.confetti.observable.ObservableList;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -39,12 +41,21 @@ public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 	
 	class StudentGroupContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 		
-		@Override public void inputChanged(Viewer v, Object oldInput, Object newInput) 			{ }
-		@Override public void dispose() 														{ }
-		@Override public Object[] getElements(Object parent) 									{ return ((List<?>) parent).toArray(); }
-		@Override public Object getParent(Object child) 										{ return ((StudentGroup) child).getParent(); }
-		@Override public Object[] getChildren(Object parent) 									{ return ((StudentGroup) parent).getChildren().toArray(); }
-		@Override public boolean hasChildren(Object parent) 									{ return !((StudentGroup) parent).getChildren().isEmpty(); }
+		@Override public void inputChanged(Viewer v, Object oldInput, Object newInput) 	{ }
+		@Override public void dispose() 												{ }
+		@Override public Object[] getElements(Object parent) 							{ return ((List<?>) parent).toArray(); }
+		@Override public Object getParent(Object child) 								{ return ((StudentGroup) child).getParent(); }
+		@Override public boolean hasChildren(Object parent) 							{ return !((StudentGroup) parent).getChildren().getList().iterator().hasNext(); }
+		@Override
+		public Object[] getChildren(Object parent) {
+			ObservableList<StudentGroup> children = ((StudentGroup) parent).getChildren();
+			List<StudentGroup> childrenList = new LinkedList<>();
+			for (StudentGroup child : children.getList()) {
+				childrenList.add(child);
+			}
+			return childrenList.toArray(new Object[childrenList.size()]);
+//			return childrenList.toArray();
+		}
 	}
 
 }

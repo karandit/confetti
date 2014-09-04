@@ -86,7 +86,7 @@ public class RenameEntityCommand extends AbstractHandler {
 			Set<String> names = new HashSet<>();
 			for (StudentGroup studentGroup : groups) {
 				names.add(studentGroup.getName().getValue());
-				names.addAll(collectNames(studentGroup.getChildren()));
+				names.addAll(collectNames(studentGroup.getChildren().getList()));
 			}
 			return names;
 		}

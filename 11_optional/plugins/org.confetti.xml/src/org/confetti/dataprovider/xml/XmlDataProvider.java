@@ -110,14 +110,14 @@ public class XmlDataProvider implements DataProvider {
 
 	private static class StudentGroupImpl extends EntityImpl implements StudentGroup {
 		
-		private final List<StudentGroup> children = new LinkedList<>();
+		private final ListMutator<StudentGroup> children = new ListMutator<>();
 		
 		public StudentGroupImpl(String name) {
 			super(name);
 		}
 
-		public void addChild(StudentGroup child) 			{ children.add(child); }
-		@Override public List<StudentGroup> getChildren() 	{ return children; }
+		public void addChild(StudentGroup child) 			{ children.addItem(child); }
+		@Override public ObservableList<StudentGroup> getChildren() 	{ return children.getObservableList(); }
 		@Override public StudentGroup getParent() 			{ return null; }
 
 		@Override
@@ -213,7 +213,7 @@ public class XmlDataProvider implements DataProvider {
 		Map<String, StudentGroup> res = new HashMap<>();
 		for (StudentGroup sg : list) {
 			res.put(sg.getName().getValue(), sg);
-			res.putAll(collectStudentGroups(sg.getChildren()));
+			res.putAll(collectStudentGroups(sg.getChildren().getList()));
 		}
 		return res;
 	}
@@ -240,6 +240,12 @@ public class XmlDataProvider implements DataProvider {
 		TeacherImpl teacherImpl = new TeacherImpl(name);
 		teachers.addItem(teacherImpl);
 		return teacherImpl;
+	}
+	
+	@Override
+	public StudentGroup addStudentGroup(StudentGroup parent, String name) {
+		//TODO
+		return null;
 	}
 	
 	@Override

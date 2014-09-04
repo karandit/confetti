@@ -45,14 +45,14 @@ public class DataProviderImpl implements DataProvider {
 		Teacher teacher1 = addTeacher("Smith");
 		addTeacher("Tailor");
 		
-		StudentGroupImpl group1721 = addStudentGroup("1721");
+		StudentGroupImpl group1721 = (StudentGroupImpl) addStudentGroup(null, "1721");
 		StudentGroupImpl group1721_1 = new StudentGroupImpl("1");
 		group1721.addChild(group1721_1);
 		group1721_1.addChild(new StudentGroupImpl("A"));
 		group1721_1.addChild(new StudentGroupImpl("B"));
 		group1721.addChild(new StudentGroupImpl("2"));
 
-		StudentGroupImpl group2 = addStudentGroup("1731");
+		StudentGroupImpl group2 = (StudentGroupImpl) addStudentGroup(null, "1731");
 
 		Room room1 = addRoom("Room_1");
 		Room room2 = addRoom("Room_2");
@@ -94,10 +94,16 @@ public class DataProviderImpl implements DataProvider {
 		return teacher;
 	}
 
-//	@Override
-	public StudentGroupImpl addStudentGroup(String name) {
+	@Override
+	public StudentGroup addStudentGroup(StudentGroup parent, String name) {
 		StudentGroupImpl studentGroup = new StudentGroupImpl(name);
-		studentGroups.addItem(studentGroup);
+		if (parent == null) {
+			studentGroups.addItem(studentGroup);
+			return studentGroup;
+		}
+		StudentGroupImpl parentImpl = (StudentGroupImpl) parent;
+		parentImpl.addChild(studentGroup);
+		studentGroup.setParent(parentImpl);
 		return studentGroup;
 	}
 	

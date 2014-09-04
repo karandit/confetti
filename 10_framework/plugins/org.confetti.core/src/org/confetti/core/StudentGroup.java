@@ -1,11 +1,10 @@
 package org.confetti.core;
 
-import java.util.List;
+import org.confetti.observable.ObservableList;
 
 public interface StudentGroup extends Entity {
 
-	List<StudentGroup> getChildren();
-
+	ObservableList<StudentGroup> getChildren();
 	StudentGroup getParent();
 	
 }
