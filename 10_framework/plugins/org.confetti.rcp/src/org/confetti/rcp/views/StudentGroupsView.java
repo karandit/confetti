@@ -1,11 +1,9 @@
 package org.confetti.rcp.views;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.confetti.core.DataProvider;
 import org.confetti.core.StudentGroup;
-import org.confetti.observable.ObservableList;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -15,6 +13,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
+
+import com.google.common.collect.Iterables;
 
 public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 
@@ -45,17 +45,8 @@ public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 		@Override public void dispose() 												{ }
 		@Override public Object[] getElements(Object parent) 							{ return ((List<?>) parent).toArray(); }
 		@Override public Object getParent(Object child) 								{ return ((StudentGroup) child).getParent(); }
-		@Override public boolean hasChildren(Object parent) 							{ return !((StudentGroup) parent).getChildren().getList().iterator().hasNext(); }
-		@Override
-		public Object[] getChildren(Object parent) {
-			ObservableList<StudentGroup> children = ((StudentGroup) parent).getChildren();
-			List<StudentGroup> childrenList = new LinkedList<>();
-			for (StudentGroup child : children.getList()) {
-				childrenList.add(child);
-			}
-			return childrenList.toArray(new Object[childrenList.size()]);
-//			return childrenList.toArray();
-		}
+		@Override public boolean hasChildren(Object parent) 							{ return ((StudentGroup) parent).getChildren().getList().iterator().hasNext(); }
+		@Override public Object[] getChildren(Object parent)							{ return Iterables.toArray(((StudentGroup) parent).getChildren().getList(), StudentGroup.class); }
 	}
 
 }

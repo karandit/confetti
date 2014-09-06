@@ -2,13 +2,9 @@ package org.confetti.rcp.views;
 
 import static org.confetti.rcp.views.StudentGroupsView.createColumn;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.confetti.core.DataProvider;
 import org.confetti.core.Nameable;
 import org.confetti.core.StudentGroup;
-import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -106,14 +102,7 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 				return ((Containers) parent).getChildrenAsArray(dp);
 			}
 			if (parent instanceof StudentGroup) {
-				ObservableList<StudentGroup> children = ((StudentGroup) parent).getChildren();
-				List<StudentGroup> childrenList = new LinkedList<>();
-				for (StudentGroup child : children.getList()) {
-					childrenList.add(child);
-				}
-				return childrenList.toArray();
-//				List<StudentGroup> children = ((StudentGroup) parent).getChildren();
-//				return children.toArray(new Object[children.size()]);
+				return Iterables.toArray(((StudentGroup) parent).getChildren().getList(), StudentGroup.class);
 			}
 			
 			return new Object[0];
@@ -128,7 +117,7 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 				return ((Containers) parent).hasChildren(dp);
 			}
 			if (parent instanceof StudentGroup) {
-				return !((StudentGroup) parent).getChildren().getList().iterator().hasNext();
+				return ((StudentGroup) parent).getChildren().getList().iterator().hasNext();
 			}
 			return false;
 		}
