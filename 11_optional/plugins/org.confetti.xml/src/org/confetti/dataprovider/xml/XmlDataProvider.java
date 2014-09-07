@@ -44,23 +44,23 @@ public class XmlDataProvider implements DataProvider {
 	private static class AssignmentImpl implements Assignment {
 
 		private final Subject subj;
-		private final List<Room> rooms = new LinkedList<>();
-		private final List<Teacher> teachers = new LinkedList<>();
-		private final List<StudentGroup> stGroups = new LinkedList<>();
+		private final ListMutator<Room> rooms = new ListMutator<>();
+		private final ListMutator<Teacher> teachers = new ListMutator<>();
+		private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
 		
 		public AssignmentImpl(Subject subj) {
 			this.subj = subj;
 			subj.addAssignment(this);
 		}
 
-		public void addTeacher(Teacher teacher) 			{ teachers.add(teacher); teacher.addAssignment(this);} 
-		public void addRoom(Room room) 			{ rooms.add(room); room.addAssignment(this);} 
-		public void addStudentGroup(StudentGroup group) 	{ stGroups.add(group); group.addAssignment(this);} 
+		public void addTeacher(Teacher teacher) 			{ teachers.addItem(teacher); teacher.addAssignment(this);} 
+		public void addRoom(Room room) 						{ rooms.addItem(room); room.addAssignment(this);} 
+		public void addStudentGroup(StudentGroup group) 	{ stGroups.addItem(group); group.addAssignment(this);} 
 		
-		@Override public Subject getSubj() { return subj; }
-		@Override public List<Teacher> getTeachers() { return teachers; }
-		@Override public List<StudentGroup> getStudentGroups() { return stGroups; }
-		@Override public Room getRoom() { return null; }
+		@Override public Subject getSubject() 								{ return subj; }
+		@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
+		@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stGroups.getObservableList(); }
+		@Override public Room getRoom() 									{ return null; }
 	}
 	
 	private static abstract class EntityImpl implements Entity, Assignable {

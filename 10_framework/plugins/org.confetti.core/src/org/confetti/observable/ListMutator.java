@@ -2,9 +2,13 @@ package org.confetti.observable;
 
 public class ListMutator<T> {
 	
-	private final ObservableList<T> observList = new ObservableList<>();
+	private ObservableList<T> observList = new ObservableList<>();
 	
 	public ListMutator() {
+	}
+	
+	public ListMutator(ObservableList<T> observList) {
+		this.observList = observList;
 	}
 
 	public ObservableList<T> getObservableList() {

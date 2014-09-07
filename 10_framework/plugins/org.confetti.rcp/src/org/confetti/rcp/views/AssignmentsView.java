@@ -1,7 +1,5 @@
 package org.confetti.rcp.views;
 
-import java.util.List;
-
 import org.confetti.core.Assignment;
 import org.confetti.core.Entity;
 import org.confetti.observable.ObservableListener;
@@ -96,16 +94,16 @@ public class AssignmentsView extends ViewPart {
 			Assignment assignment = (Assignment) element;
 			switch (columnIndex) {
 				case 0: return "1/4";
-				case 1:	return getName(assignment.getSubj());
-				case 2:	return toStr(assignment.getTeachers());
-				case 3:	return toStr(assignment.getStudentGroups());
+				case 1:	return getName(assignment.getSubject());
+				case 2:	return toStr(assignment.getTeachers().getList());
+				case 3:	return toStr(assignment.getStudentGroups().getList());
 				default : return getName(assignment.getRoom());
 			}
 		}
 
 		private static String getName(Entity ent) { return ent == null ? null : ent.getName().getValue(); }
 
-		private static <T extends Entity> String toStr(List<T> items) {
+		private static <T extends Entity> String toStr(Iterable<T> items) {
 			StringBuilder sb = new StringBuilder();
 			boolean first = true;
 			for (T t : items) {

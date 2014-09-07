@@ -1,6 +1,5 @@
 package org.confetti.dummy;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.confetti.core.DataProvider;
@@ -57,18 +56,17 @@ public class DataProviderImpl implements DataProvider {
 		Room room1 = addRoom("Room_1");
 		Room room2 = addRoom("Room_2");
 
-		new AssignmentImpl(
-				subjMatek, 
-				getTeachers().getList(), 
-				Arrays.<StudentGroup>asList(group1721), 
-				room2
-			);
-		new AssignmentImpl(
-				subjInfo, 
-				Arrays.<Teacher>asList(teacher1), 
-				Arrays.<StudentGroup>asList(group2), 
-				room1
-			);
+		//creating dummy assignment1
+		ListMutator<StudentGroup> tmpStudentGroups = new ListMutator<>();
+		tmpStudentGroups.addItem(group1721);
+		new AssignmentImpl( subjMatek, getTeachers(), tmpStudentGroups.getObservableList(), room2 );
+		
+		//creating dummy assignment2
+		ListMutator<Teacher> tmpTeachers = new ListMutator<>();
+		tmpTeachers.addItem(teacher1);
+		ListMutator<StudentGroup> tmpStudentGroups2 = new ListMutator<>();
+		tmpStudentGroups2.addItem(group2);
+		new AssignmentImpl( subjInfo, tmpTeachers.getObservableList(), tmpStudentGroups2.getObservableList(), room1 );
 	}
 
 
