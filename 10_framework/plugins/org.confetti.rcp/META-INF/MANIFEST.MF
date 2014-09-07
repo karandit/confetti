@@ -13,3 +13,5 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.confetti.rcp,
  org.confetti.rcp.extensions
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ClassPath: lib/de.kupzog.ktable_2.2.0.jar,
+ .
