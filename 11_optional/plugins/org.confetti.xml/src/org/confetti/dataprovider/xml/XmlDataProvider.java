@@ -2,7 +2,6 @@ package org.confetti.dataprovider.xml;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,16 +65,15 @@ public class XmlDataProvider implements DataProvider {
 	private static abstract class EntityImpl implements Entity, Assignable {
 
 		private final ValueMutator<String> name;
-		
-		private final List<Assignment> assignments = new LinkedList<>();
+		private final ListMutator<Assignment> assignments = new ListMutator<>();
 		
 		public EntityImpl(String name) {
 			this.name = new ValueMutator<>(this, name);
 		}
 		
 		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
-		@Override public void addAssignment(Assignment assignment) 	{ assignments.add(assignment);} 
-		@Override public List<Assignment> getAssignments() 			{ return assignments; }
+		@Override public void addAssignment(Assignment assignment) 	{ assignments.addItem(assignment);} 
+		@Override public ObservableList<Assignment> getAssignments() 			{ return assignments.getObservableList(); }
 		
 		public ValueMutator<String> getNameMutator() { return name; }
 

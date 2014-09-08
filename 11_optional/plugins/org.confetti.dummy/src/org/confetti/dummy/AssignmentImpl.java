@@ -11,21 +11,25 @@ import org.confetti.observable.ObservableList;
 public class AssignmentImpl implements Assignment {
 
 	private final Subject subj;
-	private final ListMutator<Teacher> teachers;
-	private final ListMutator<StudentGroup> studentGroups;
+	private final ListMutator<Teacher> teachers = new ListMutator<>();
+	private final ListMutator<StudentGroup> studentGroups = new ListMutator<>();
 	private final Room room;
 
-	public AssignmentImpl(Subject subj, ObservableList<Teacher> teachers, ObservableList<StudentGroup> studentGroups, Room room) {
+	public AssignmentImpl(Subject subj, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups, Room room) {
 		this.subj = subj;
-		this.teachers = new ListMutator<>(teachers);
-		this.studentGroups = new ListMutator<>(studentGroups);
+		for (Teacher teacher : teachers) {
+			this.teachers.addItem(teacher);
+		}
+		for (StudentGroup studentGroup : studentGroups) {
+			this.studentGroups.addItem(studentGroup);
+		}
 		this.room = room;
 
 		subj.addAssignment(this);
-		for (Teacher teacher : teachers.getList()) {
+		for (Teacher teacher : teachers) {
 			teacher.addAssignment(this);
 		}
-		for (StudentGroup studentGroup : studentGroups.getList()) {
+		for (StudentGroup studentGroup : studentGroups) {
 			studentGroup.addAssignment(this);
 		}
 		room.addAssignment(this);

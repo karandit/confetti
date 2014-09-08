@@ -1,5 +1,8 @@
 package org.confetti.rcp.views;
 
+import static com.google.common.collect.Iterables.isEmpty;
+import static com.google.common.collect.Iterables.toArray;
+
 import java.util.List;
 
 import org.confetti.core.DataProvider;
@@ -13,8 +16,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
-
-import com.google.common.collect.Iterables;
 
 public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 
@@ -45,8 +46,8 @@ public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 		@Override public void dispose() 												{ }
 		@Override public Object[] getElements(Object parent) 							{ return ((List<?>) parent).toArray(); }
 		@Override public Object getParent(Object child) 								{ return ((StudentGroup) child).getParent(); }
-		@Override public boolean hasChildren(Object parent) 							{ return ((StudentGroup) parent).getChildren().getList().iterator().hasNext(); }
-		@Override public Object[] getChildren(Object parent)							{ return Iterables.toArray(((StudentGroup) parent).getChildren().getList(), StudentGroup.class); }
+		@Override public boolean hasChildren(Object parent) 							{ return !isEmpty(((StudentGroup) parent).getChildren().getList()); }
+		@Override public Object[] getChildren(Object parent)							{ return toArray(((StudentGroup) parent).getChildren().getList(), StudentGroup.class); }
 	}
 
 }

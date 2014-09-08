@@ -66,7 +66,7 @@ public class AssignmentsView extends ViewPart {
 						Entity source = (Entity) first;
 						//TODO detach the listener somewhere? :/
 						source.getName().attachListener(nameListener);
-						tableViewer.setInput(source.getAssignments());
+						tableViewer.setInput(source.getAssignments().getList());
 					}
 				} else {
 					tableViewer.setInput(null);

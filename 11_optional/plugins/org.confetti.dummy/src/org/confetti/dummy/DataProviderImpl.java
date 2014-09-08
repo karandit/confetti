@@ -59,14 +59,14 @@ public class DataProviderImpl implements DataProvider {
 		//creating dummy assignment1
 		ListMutator<StudentGroup> tmpStudentGroups = new ListMutator<>();
 		tmpStudentGroups.addItem(group1721);
-		new AssignmentImpl( subjMatek, getTeachers(), tmpStudentGroups.getObservableList(), room2 );
+		new AssignmentImpl(subjMatek, getTeachers().getList(), tmpStudentGroups.getObservableList().getList(), room2);
 		
 		//creating dummy assignment2
 		ListMutator<Teacher> tmpTeachers = new ListMutator<>();
 		tmpTeachers.addItem(teacher1);
 		ListMutator<StudentGroup> tmpStudentGroups2 = new ListMutator<>();
 		tmpStudentGroups2.addItem(group2);
-		new AssignmentImpl( subjInfo, tmpTeachers.getObservableList(), tmpStudentGroups2.getObservableList(), room1 );
+		new AssignmentImpl(subjInfo, tmpTeachers.getObservableList().getList(), tmpStudentGroups2.getObservableList().getList(), room1);
 	}
 
 
