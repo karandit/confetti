@@ -20,6 +20,8 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
+import de.kupzog.ktable.KTable;
+
 public class AssignmentsView extends ViewPart {
 
 	public final static String ID = "org.confetti.rcp.assignmentsView";
@@ -76,9 +78,10 @@ public class AssignmentsView extends ViewPart {
 	}
 
 	private void createTimeTable(Composite parent) {
-//		KTable ktable = new KTable(parent, SWT.NONE);
-//		ktable.setModel(new TimeTableModel(ktable));
-		
+		KTable ktable = new KTable(parent, SWT.NONE);
+		TimeTableModel model = new TimeTableModel(ktable);
+		ktable.setModel(model);
+		model.initialize();
 	}
 
 	@Override
