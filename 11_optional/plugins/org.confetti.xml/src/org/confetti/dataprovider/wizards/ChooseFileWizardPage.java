@@ -18,8 +18,9 @@ public class ChooseFileWizardPage extends WizardPage {
 	private OpenXmlWizardModel mModel;
 
 	protected ChooseFileWizardPage(OpenXmlWizardModel model) {
-		super("Choose", "Choose an XML File", getImageDescriptor(ConfettiPlugin.IMG_BIG_FILE));
+		super("Choose", "FET", getImageDescriptor(ConfettiPlugin.IMG_BIG_FILE));
 		mModel = model;
+		setDescription("Choose a FET file");
 		setPageComplete(false);
 	}
 

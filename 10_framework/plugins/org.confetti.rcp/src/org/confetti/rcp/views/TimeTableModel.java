@@ -13,12 +13,23 @@ import de.kupzog.ktable.renderers.FixedCellRenderer;
  */
 public class TimeTableModel extends KTableNoScrollModel {
 
-	private final static String[] DAYS = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"}; 
+	private static final String[] DEFAULT_DAYS = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+	private static final String[] DEFAULT_HOURS = new String[] {"08 :00 - 08:45", "09 :00 - 09:45", "10 :00 - 10:45", "11 :00 - 11:45"};
+
+	private final String[] days;
+	private final String[] hours;
+	
 	public static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
 	protected static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
 	
 	public TimeTableModel(KTable table) {
+		this(table, DEFAULT_DAYS, DEFAULT_HOURS);
+	}
+
+	public TimeTableModel(KTable table, String[] days, String[] hours) {
 		super(table);
+		this.days = days;
+		this.hours = hours;
 	}
 
 	@Override public int getFixedHeaderColumnCount() 							{ return 1; }
@@ -26,13 +37,13 @@ public class TimeTableModel extends KTableNoScrollModel {
 	@Override public int getFixedSelectableColumnCount() 						{ return 0; }
 	@Override public int getFixedSelectableRowCount() 							{ return 0; }
 
-	@Override public int doGetColumnCount() 									{ return 6; }
-	@Override public int doGetRowCount() 										{ return 10; }
+	@Override public int doGetColumnCount() 									{ return 1 + days.length; }
+	@Override public int doGetRowCount() 										{ return 1 + hours.length; }
 
 	@Override public int getInitialColumnWidth(int arg0) 						{ return 60; }
-	@Override public int getInitialRowHeight(int arg0) 							{ return 36; }
+	@Override public int getInitialRowHeight(int row) 							{ return row == 0 ? 24: 36; }
 	@Override public int getRowHeightMinimum() 									{ return 36; }
-
+	
 	@Override public boolean isColumnResizable(int arg0) 						{ return false; }
 	@Override public boolean isRowResizable(int arg0) 							{ return false; }
 
@@ -44,14 +55,12 @@ public class TimeTableModel extends KTableNoScrollModel {
 		switch (row) {
 			case 0:	switch (col) {
 				case 0: 	return "";
-				default: 	return DAYS[(col -1) % 5];
+				default: 	return days[col -1];
 			}
 			default: switch (col) {
-				case 0: return (7 + row) +": 00";
-				default: return row + ":" + col;
+				case 0: return hours[row - 1];
+				default: return "";
 			}
 		}
-		 
 	}
-
 }
