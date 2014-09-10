@@ -40,12 +40,12 @@ public class TimeTableModel extends KTableNoScrollModel {
 	@Override public int doGetColumnCount() 									{ return 1 + days.length; }
 	@Override public int doGetRowCount() 										{ return 1 + hours.length; }
 
-	@Override public int getInitialColumnWidth(int arg0) 						{ return 60; }
+	@Override public int getInitialColumnWidth(int col) 						{ return 60; }
 	@Override public int getInitialRowHeight(int row) 							{ return row == 0 ? 24: 36; }
 	@Override public int getRowHeightMinimum() 									{ return 36; }
 	
-	@Override public boolean isColumnResizable(int arg0) 						{ return false; }
-	@Override public boolean isRowResizable(int arg0) 							{ return false; }
+	@Override public boolean isColumnResizable(int col) 						{ return false; }
+	@Override public boolean isRowResizable(int row) 							{ return false; }
 
 	@Override public KTableCellEditor doGetCellEditor(int arg0, int arg1) 		{ return null; }
 	@Override public KTableCellRenderer doGetCellRenderer(int col, int row) 	{ return (row == 0 || col == 0) ? FIXED_RENDERER : RENDERER; }
