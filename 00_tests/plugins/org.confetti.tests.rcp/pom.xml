@@ -10,6 +10,6 @@
 	</parent>
 
 	<artifactId>org.confetti.tests.rcp</artifactId>
-	<packaging>eclipse-test-plugin</packaging>
+	<packaging>eclipse-plugin</packaging>
 
 </project>
