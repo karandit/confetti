@@ -6,7 +6,7 @@ public class ListMutator<T> {
 	
 	public ListMutator() {
 	}
-
+	
 	public ObservableList<T> getObservableList() {
 		return observList;
 	}

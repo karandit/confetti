@@ -79,14 +79,6 @@
             name="Constraints"
             restorable="true">
       </view>
-      <view
-            allowMultiple="false"
-            class="org.confetti.rcp.views.TimeTableView"
-            icon="icons/sample3.gif"
-            id="org.confetti.rcp.timeTableView"
-            name="TimeTable"
-            restorable="true">
-      </view>
    </extension>
    <extension
          point="org.eclipse.ui.commands">

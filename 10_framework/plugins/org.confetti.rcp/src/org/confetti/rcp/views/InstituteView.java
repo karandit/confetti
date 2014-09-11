@@ -1,8 +1,8 @@
 package org.confetti.rcp.views;
 
+import static com.google.common.collect.Iterables.isEmpty;
+import static com.google.common.collect.Iterables.toArray;
 import static org.confetti.rcp.views.StudentGroupsView.createColumn;
-
-import java.util.List;
 
 import org.confetti.core.DataProvider;
 import org.confetti.core.Nameable;
@@ -16,8 +16,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-
-import com.google.common.collect.Iterables;
 
 /**
  * @author Bubla Gabor
@@ -61,10 +59,10 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 		@Override public ObservableValue<String> getName() { return nameMut.getObservableValue(); }
 		
 		public Object[] getChildrenAsArray(DataProvider dp) {
-			return Iterables.toArray(getChildren(dp), Object.class);
+			return toArray(getChildren(dp), Object.class);
 		}
 		
-		public boolean hasChildren(DataProvider dp) { return !Iterables.isEmpty(getChildren(dp)); }
+		public boolean hasChildren(DataProvider dp) { return !isEmpty(getChildren(dp)); }
 		protected abstract Iterable<?> getChildren(DataProvider dp);
 	}
 
@@ -104,8 +102,7 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 				return ((Containers) parent).getChildrenAsArray(dp);
 			}
 			if (parent instanceof StudentGroup) {
-				List<StudentGroup> children = ((StudentGroup) parent).getChildren();
-				return children.toArray(new Object[children.size()]);
+				return toArray(((StudentGroup) parent).getChildren().getList(), StudentGroup.class);
 			}
 			
 			return new Object[0];
@@ -120,7 +117,7 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 				return ((Containers) parent).hasChildren(dp);
 			}
 			if (parent instanceof StudentGroup) {
-				return !((StudentGroup) parent).getChildren().isEmpty();
+				return !isEmpty(((StudentGroup) parent).getChildren().getList());
 			}
 			return false;
 		}

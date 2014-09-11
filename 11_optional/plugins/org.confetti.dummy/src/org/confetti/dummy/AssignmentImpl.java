@@ -1,28 +1,28 @@
 package org.confetti.dummy;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.confetti.core.Assignment;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
-
-import com.google.common.collect.Iterables;
+import org.confetti.observable.ListMutator;
+import org.confetti.observable.ObservableList;
 
 public class AssignmentImpl implements Assignment {
 
 	private final Subject subj;
-	private final List<Teacher> teachers;
-	private final List<StudentGroup> studentGroups;
+	private final ListMutator<Teacher> teachers = new ListMutator<>();
+	private final ListMutator<StudentGroup> studentGroups = new ListMutator<>();
 	private final Room room;
 
-	public AssignmentImpl(Subject subj, Iterable<Teacher> teachers, List<StudentGroup> studentGroups, Room room) {
+	public AssignmentImpl(Subject subj, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups, Room room) {
 		this.subj = subj;
-		this.teachers = new LinkedList<>();
-		Iterables.addAll(this.teachers, teachers);
-		this.studentGroups = studentGroups;
+		for (Teacher teacher : teachers) {
+			this.teachers.addItem(teacher);
+		}
+		for (StudentGroup studentGroup : studentGroups) {
+			this.studentGroups.addItem(studentGroup);
+		}
 		this.room = room;
 
 		subj.addAssignment(this);
@@ -35,16 +35,19 @@ public class AssignmentImpl implements Assignment {
 		room.addAssignment(this);
 	}
 
-	public Subject getSubj() {
+	@Override
+	public Subject getSubject() {
 		return subj;
 	}
 
-	public List<Teacher> getTeachers() {
-		return teachers;
+	@Override
+	public ObservableList<Teacher> getTeachers() {
+		return teachers.getObservableList();
 	}
 
-	public List<StudentGroup> getStudentGroups() {
-		return studentGroups;
+	@Override
+	public ObservableList<StudentGroup> getStudentGroups() {
+		return studentGroups.getObservableList();
 	}
 
 	@Override

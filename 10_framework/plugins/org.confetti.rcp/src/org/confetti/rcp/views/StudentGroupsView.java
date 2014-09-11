@@ -1,5 +1,8 @@
 package org.confetti.rcp.views;
 
+import static com.google.common.collect.Iterables.isEmpty;
+import static com.google.common.collect.Iterables.toArray;
+
 import java.util.List;
 
 import org.confetti.core.DataProvider;
@@ -39,12 +42,12 @@ public class StudentGroupsView extends AbstractEntityView<TreeViewer> {
 	
 	class StudentGroupContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 		
-		@Override public void inputChanged(Viewer v, Object oldInput, Object newInput) 			{ }
-		@Override public void dispose() 														{ }
-		@Override public Object[] getElements(Object parent) 									{ return ((List<?>) parent).toArray(); }
-		@Override public Object getParent(Object child) 										{ return ((StudentGroup) child).getParent(); }
-		@Override public Object[] getChildren(Object parent) 									{ return ((StudentGroup) parent).getChildren().toArray(); }
-		@Override public boolean hasChildren(Object parent) 									{ return !((StudentGroup) parent).getChildren().isEmpty(); }
+		@Override public void inputChanged(Viewer v, Object oldInput, Object newInput) 	{ }
+		@Override public void dispose() 												{ }
+		@Override public Object[] getElements(Object parent) 							{ return ((List<?>) parent).toArray(); }
+		@Override public Object getParent(Object child) 								{ return ((StudentGroup) child).getParent(); }
+		@Override public boolean hasChildren(Object parent) 							{ return !isEmpty(((StudentGroup) parent).getChildren().getList()); }
+		@Override public Object[] getChildren(Object parent)							{ return toArray(((StudentGroup) parent).getChildren().getList(), StudentGroup.class); }
 	}
 
 }

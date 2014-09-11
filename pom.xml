@@ -8,6 +8,7 @@
 	<modules>
 		<!--module>./11_optional/plugins/org.confetti.dummy</module-->
 		<module>./00_tests/plugins/org.confetti.tests.core</module>
+		<module>./00_tests/plugins/org.confetti.tests.rcp</module>
 		<module>./00_tests/plugins/org.confetti.tests.xml</module>
 		<module>./10_framework/plugins/org.confetti.core</module>
 		<module>./10_framework/plugins/org.confetti.rcp</module>

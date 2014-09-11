@@ -1,10 +1,10 @@
 package org.confetti.core;
 
-import java.util.List;
+import org.confetti.observable.ObservableList;
 
 public interface Assignable {
 
 	void addAssignment(Assignment assignment);
-	List<Assignment> getAssignments();
+	ObservableList<Assignment> getAssignments();
 	
 }

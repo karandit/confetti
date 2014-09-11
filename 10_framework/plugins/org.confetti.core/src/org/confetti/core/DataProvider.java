@@ -15,7 +15,7 @@ public interface DataProvider extends Nameable {
 	
 	Subject addSubject(String name);
 	Teacher addTeacher(String name);
-	//TODO: StudentGroup addStudentGroup(StudentGroup parent, String name);
+	StudentGroup addStudentGroup(StudentGroup parent, String name);
 	Room addRoom(String name);
 	
 	void removeSubject(Subject subject);

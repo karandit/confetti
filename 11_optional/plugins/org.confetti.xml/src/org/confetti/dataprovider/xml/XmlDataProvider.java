@@ -2,7 +2,6 @@ package org.confetti.dataprovider.xml;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,38 +43,37 @@ public class XmlDataProvider implements DataProvider {
 	private static class AssignmentImpl implements Assignment {
 
 		private final Subject subj;
-		private final List<Room> rooms = new LinkedList<>();
-		private final List<Teacher> teachers = new LinkedList<>();
-		private final List<StudentGroup> stGroups = new LinkedList<>();
+		private final ListMutator<Room> rooms = new ListMutator<>();
+		private final ListMutator<Teacher> teachers = new ListMutator<>();
+		private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
 		
 		public AssignmentImpl(Subject subj) {
 			this.subj = subj;
 			subj.addAssignment(this);
 		}
 
-		public void addTeacher(Teacher teacher) 			{ teachers.add(teacher); teacher.addAssignment(this);} 
-		public void addRoom(Room room) 			{ rooms.add(room); room.addAssignment(this);} 
-		public void addStudentGroup(StudentGroup group) 	{ stGroups.add(group); group.addAssignment(this);} 
+		public void addTeacher(Teacher teacher) 			{ teachers.addItem(teacher); teacher.addAssignment(this);} 
+		public void addRoom(Room room) 						{ rooms.addItem(room); room.addAssignment(this);} 
+		public void addStudentGroup(StudentGroup group) 	{ stGroups.addItem(group); group.addAssignment(this);} 
 		
-		@Override public Subject getSubj() { return subj; }
-		@Override public List<Teacher> getTeachers() { return teachers; }
-		@Override public List<StudentGroup> getStudentGroups() { return stGroups; }
-		@Override public Room getRoom() { return null; }
+		@Override public Subject getSubject() 								{ return subj; }
+		@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
+		@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stGroups.getObservableList(); }
+		@Override public Room getRoom() 									{ return null; }
 	}
 	
 	private static abstract class EntityImpl implements Entity, Assignable {
 
 		private final ValueMutator<String> name;
-		
-		private final List<Assignment> assignments = new LinkedList<>();
+		private final ListMutator<Assignment> assignments = new ListMutator<>();
 		
 		public EntityImpl(String name) {
 			this.name = new ValueMutator<>(this, name);
 		}
 		
 		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
-		@Override public void addAssignment(Assignment assignment) 	{ assignments.add(assignment);} 
-		@Override public List<Assignment> getAssignments() 			{ return assignments; }
+		@Override public void addAssignment(Assignment assignment) 	{ assignments.addItem(assignment);} 
+		@Override public ObservableList<Assignment> getAssignments() 			{ return assignments.getObservableList(); }
 		
 		public ValueMutator<String> getNameMutator() { return name; }
 
@@ -110,14 +108,14 @@ public class XmlDataProvider implements DataProvider {
 
 	private static class StudentGroupImpl extends EntityImpl implements StudentGroup {
 		
-		private final List<StudentGroup> children = new LinkedList<>();
+		private final ListMutator<StudentGroup> children = new ListMutator<>();
 		
 		public StudentGroupImpl(String name) {
 			super(name);
 		}
 
-		public void addChild(StudentGroup child) 			{ children.add(child); }
-		@Override public List<StudentGroup> getChildren() 	{ return children; }
+		public void addChild(StudentGroup child) 			{ children.addItem(child); }
+		@Override public ObservableList<StudentGroup> getChildren() 	{ return children.getObservableList(); }
 		@Override public StudentGroup getParent() 			{ return null; }
 
 		@Override
@@ -213,7 +211,7 @@ public class XmlDataProvider implements DataProvider {
 		Map<String, StudentGroup> res = new HashMap<>();
 		for (StudentGroup sg : list) {
 			res.put(sg.getName().getValue(), sg);
-			res.putAll(collectStudentGroups(sg.getChildren()));
+			res.putAll(collectStudentGroups(sg.getChildren().getList()));
 		}
 		return res;
 	}
@@ -240,6 +238,12 @@ public class XmlDataProvider implements DataProvider {
 		TeacherImpl teacherImpl = new TeacherImpl(name);
 		teachers.addItem(teacherImpl);
 		return teacherImpl;
+	}
+	
+	@Override
+	public StudentGroup addStudentGroup(StudentGroup parent, String name) {
+		//TODO
+		return null;
 	}
 	
 	@Override

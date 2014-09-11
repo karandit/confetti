@@ -1,5 +1,12 @@
 package org.confetti.rcp.views;
 
+import static org.confetti.rcp.ConfettiPlugin.IMG_SMALL_ROOM;
+import static org.confetti.rcp.ConfettiPlugin.IMG_SMALL_STUDENTGROUP;
+import static org.confetti.rcp.ConfettiPlugin.IMG_SMALL_SUBJECT;
+import static org.confetti.rcp.ConfettiPlugin.IMG_SMALL_TEACHER;
+
+import org.confetti.core.Entity;
+import org.confetti.core.EntityVisitor;
 import org.confetti.core.Nameable;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
@@ -13,6 +20,16 @@ import org.eclipse.swt.graphics.Image;
 
 public class EntityTableLabelProvider extends LabelProvider implements ITableLabelProvider {
 
+	private enum GetImageKeyVisitor implements EntityVisitor<String, Void> {
+		
+		INSTANCE;
+
+		@Override public String visitSubject(Subject subject, Void p) 		{ return IMG_SMALL_SUBJECT; }
+		@Override public String visitTeacher(Teacher teacher, Void p) 		{ return IMG_SMALL_TEACHER; }
+		@Override public String visitStudentGroup(StudentGroup sG, Void p)  { return IMG_SMALL_STUDENTGROUP; }
+		@Override public String visitRoom(Room room, Void p) 				{ return IMG_SMALL_ROOM; }
+	}
+	
 	@Override public Image getColumnImage(Object element, int columnIndex) { 
 		ImageRegistry imageRegistry = ConfettiPlugin.getDefault().getImageRegistry();
 		switch (columnIndex) {
@@ -22,15 +39,9 @@ public class EntityTableLabelProvider extends LabelProvider implements ITableLab
 	}
 
 	private String getImageKey(Object element) {
-		if (element instanceof Subject) {
-			return ConfettiPlugin.IMG_SMALL_SUBJECT;
-		} else if (element instanceof Teacher) {
-			return ConfettiPlugin.IMG_SMALL_TEACHER;
-		} else if (element instanceof StudentGroup) {
-			return ConfettiPlugin.IMG_SMALL_STUDENTGROUP;
-		} else if (element instanceof Room) {
-			return ConfettiPlugin.IMG_SMALL_ROOM;
-		} 
+		if (element instanceof Entity) {
+			return ((Entity) element).accept(GetImageKeyVisitor.INSTANCE, null);
+		}
 		return null;
 	}
 	 	

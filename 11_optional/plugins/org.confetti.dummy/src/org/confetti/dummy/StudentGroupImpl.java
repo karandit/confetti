@@ -1,14 +1,13 @@
 package org.confetti.dummy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.confetti.core.EntityVisitor;
 import org.confetti.core.StudentGroup;
+import org.confetti.observable.ListMutator;
+import org.confetti.observable.ObservableList;
 
 public class StudentGroupImpl extends EntityImpl implements StudentGroup {
 
-	private final List<StudentGroup> children = new ArrayList<>();
+	private final ListMutator<StudentGroup> children = new ListMutator<>();
 	private StudentGroup parent;
 
 	public StudentGroupImpl(String name) {
@@ -16,14 +15,18 @@ public class StudentGroupImpl extends EntityImpl implements StudentGroup {
 	}
 	
 	public StudentGroupImpl addChild(StudentGroupImpl child) {
-		children.add(child);
+		children.addItem(child);
 		child.parent = this;
 		return this;
 	}
+	
+	public void setParent(StudentGroupImpl parent) {
+		this.parent = parent;
+	}
 
 	@Override
-	public List<StudentGroup> getChildren() {
-		return children;
+	public ObservableList<StudentGroup> getChildren() {
+		return children.getObservableList();
 	}
 
 	@Override

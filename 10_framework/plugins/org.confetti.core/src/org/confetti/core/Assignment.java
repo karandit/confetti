@@ -1,12 +1,12 @@
 package org.confetti.core;
 
-import java.util.List;
+import org.confetti.observable.ObservableList;
 
 public interface Assignment {
 
-	Subject getSubj();
-	List<Teacher> getTeachers();
-	List<StudentGroup> getStudentGroups();
+	Subject getSubject();
+	ObservableList<Teacher> getTeachers();
+	ObservableList<StudentGroup> getStudentGroups();
 	Room getRoom();
 	
 }

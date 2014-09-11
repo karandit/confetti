@@ -1,6 +1,5 @@
 package org.confetti.dummy;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.confetti.core.DataProvider;
@@ -45,30 +44,29 @@ public class DataProviderImpl implements DataProvider {
 		Teacher teacher1 = addTeacher("Smith");
 		addTeacher("Tailor");
 		
-		StudentGroupImpl group1721 = addStudentGroup("1721");
+		StudentGroupImpl group1721 = (StudentGroupImpl) addStudentGroup(null, "1721");
 		StudentGroupImpl group1721_1 = new StudentGroupImpl("1");
 		group1721.addChild(group1721_1);
 		group1721_1.addChild(new StudentGroupImpl("A"));
 		group1721_1.addChild(new StudentGroupImpl("B"));
 		group1721.addChild(new StudentGroupImpl("2"));
 
-		StudentGroupImpl group2 = addStudentGroup("1731");
+		StudentGroupImpl group2 = (StudentGroupImpl) addStudentGroup(null, "1731");
 
 		Room room1 = addRoom("Room_1");
 		Room room2 = addRoom("Room_2");
 
-		new AssignmentImpl(
-				subjMatek, 
-				getTeachers().getList(), 
-				Arrays.<StudentGroup>asList(group1721), 
-				room2
-			);
-		new AssignmentImpl(
-				subjInfo, 
-				Arrays.<Teacher>asList(teacher1), 
-				Arrays.<StudentGroup>asList(group2), 
-				room1
-			);
+		//creating dummy assignment1
+		ListMutator<StudentGroup> tmpStudentGroups = new ListMutator<>();
+		tmpStudentGroups.addItem(group1721);
+		new AssignmentImpl(subjMatek, getTeachers().getList(), tmpStudentGroups.getObservableList().getList(), room2);
+		
+		//creating dummy assignment2
+		ListMutator<Teacher> tmpTeachers = new ListMutator<>();
+		tmpTeachers.addItem(teacher1);
+		ListMutator<StudentGroup> tmpStudentGroups2 = new ListMutator<>();
+		tmpStudentGroups2.addItem(group2);
+		new AssignmentImpl(subjInfo, tmpTeachers.getObservableList().getList(), tmpStudentGroups2.getObservableList().getList(), room1);
 	}
 
 
@@ -94,10 +92,16 @@ public class DataProviderImpl implements DataProvider {
 		return teacher;
 	}
 
-//	@Override
-	public StudentGroupImpl addStudentGroup(String name) {
+	@Override
+	public StudentGroup addStudentGroup(StudentGroup parent, String name) {
 		StudentGroupImpl studentGroup = new StudentGroupImpl(name);
-		studentGroups.addItem(studentGroup);
+		if (parent == null) {
+			studentGroups.addItem(studentGroup);
+			return studentGroup;
+		}
+		StudentGroupImpl parentImpl = (StudentGroupImpl) parent;
+		parentImpl.addChild(studentGroup);
+		studentGroup.setParent(parentImpl);
 		return studentGroup;
 	}
 	
