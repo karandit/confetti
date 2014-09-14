@@ -16,7 +16,7 @@ public class FETEngineWizardPage extends WizardPage {
 	protected FETEngineWizardPage(String pageName) {
 		super("Generate", "FET", getImageDescriptor(ConfettiPlugin.IMG_BIG_ENGINE));
 		setDescription("description");
-		setPageComplete(false);
+		setPageComplete(true);
 	}
 
 	@Override
