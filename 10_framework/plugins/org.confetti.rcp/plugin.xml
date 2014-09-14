@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="openWizard" name="Open wizard" schema="schema/openWizard.exsd"/>
    <extension-point id="newWizard" name="New Wizard" schema="schema/newWizard.exsd"/>
+   <extension-point id="engineWizard" name="Engine Wizard" schema="schema/engineWizard.exsd"/>
 
    <extension
          id="application"
