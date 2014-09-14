@@ -62,7 +62,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.confetti.rcp.extensions.GenerateWizardFactory"/>
+                  <meta.attribute kind="java" basedOn=":org.confetti.rcp.extensions.EngineWizardFactory"/>
                </appInfo>
             </annotation>
          </attribute>
