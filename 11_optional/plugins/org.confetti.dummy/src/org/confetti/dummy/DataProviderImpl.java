@@ -37,6 +37,18 @@ public class DataProviderImpl implements DataProvider {
 
 	private void init() {
 		instName.setValue(this, "Test institute");
+		
+		days.addItem(new DayImpl("monday"));
+		days.addItem(new DayImpl("tuesday"));
+		days.addItem(new DayImpl("wednesday"));
+		days.addItem(new DayImpl("thursday"));
+		days.addItem(new DayImpl("friday"));
+		hours.addItem(new HourImpl("8:00"));
+		hours.addItem(new HourImpl("10:00"));
+		hours.addItem(new HourImpl("12:00"));
+		hours.addItem(new HourImpl("14:00"));
+		hours.addItem(new HourImpl("16:00"));
+		
 		Subject subjMatek = addSubject("Math");
 		addSubject("Literatute");
 		Subject subjInfo = addSubject("Computer science");

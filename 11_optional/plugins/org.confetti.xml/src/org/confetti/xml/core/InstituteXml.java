@@ -1,5 +1,6 @@
 package org.confetti.xml.core;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -123,10 +124,21 @@ public class InstituteXml {
 	private List<TeacherXml> teachers;
 	private List<BuildingXml> buildings;
 	private List<RoomXml> rooms;
-	private List<ActivityTagXml> activityTags;
+	private List<ActivityTagXml> activityTags = new LinkedList<>();
 	private List<ActivityXml> activities;
 	private List<TimeConstraint> timeConstraints;
 	private List<SpaceConstraint> spaceConstraints;
+	
+	// --------------- constructors ------------------------------------------------------------------------------------
+	
+	InstituteXml() {
+	}
+	
+	public InstituteXml(String name, String version, String comment) {
+		this.name = name;
+		this.version = version;
+		this.comment = comment;
+	}
 	
 	// --------------- getters and setters -----------------------------------------------------------------------------
 	@XmlAttribute(name = "version")

@@ -11,7 +11,7 @@ public class FETEngineWizardFactory implements EngineWizardFactory {
 	
 	@Override
 	public IWizard createWizard(DataProvider dp) {
-		return new FETEngineWizard();
+		return new FETEngineWizard(dp);
 	}
 
 }

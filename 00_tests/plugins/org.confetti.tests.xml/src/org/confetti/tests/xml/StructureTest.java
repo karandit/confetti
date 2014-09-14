@@ -297,7 +297,7 @@ public class StructureTest {
 	}
 
 	private static RoomXml mockRoom(final String name, final int cap) {
-		return new RoomXml() {
+		return new RoomXml(name) {
 			@Override public String getName() { return name; }
 			@Override public int getCapacity() { return cap; }
 		};

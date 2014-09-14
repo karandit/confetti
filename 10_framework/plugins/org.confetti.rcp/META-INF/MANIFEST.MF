@@ -13,7 +13,8 @@ Bundle-ActivationPolicy: lazy
 Export-Package: de.kupzog.ktable,
  org.confetti.rcp,
  org.confetti.rcp.extensions,
- org.confetti.rcp.views
+ org.confetti.rcp.views,
+ org.confetti.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ClassPath: .,
  lib/KTable.jar

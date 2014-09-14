@@ -11,6 +11,15 @@ public class HourXml {
 
 	// --------------- fields ------------------------------------------------------------------------------------------
 	private String name;
+
+	// --------------- constructors ------------------------------------------------------------------------------------
+	HourXml() {
+	}
+	
+	public HourXml(String name) {
+		this.name = name;
+	}
+
 	// --------------- getters and setters -----------------------------------------------------------------------------
 	@XmlValue
 	public String getName() 				{ return name; }

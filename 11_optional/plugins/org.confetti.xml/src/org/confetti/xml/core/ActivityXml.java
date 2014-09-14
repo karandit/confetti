@@ -1,12 +1,20 @@
 package org.confetti.xml.core;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.transform;
+
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.confetti.core.Assignment;
+import org.confetti.core.StudentGroup;
+import org.confetti.core.Teacher;
 import org.confetti.xml.internal.WSLongAdapter;
+
+import com.google.common.base.Function;
 
 /**
  * @author Bubla Gabor
@@ -20,13 +28,29 @@ public class ActivityXml {
 	private SubjectRef subject;
 	private List<String> activityTag;
 	private List<String> students;
-	private Integer duration;
-	private Integer totalDuration;
+	private Integer duration = 1;
+	private Integer totalDuration = 1;
 	private Long id;
-	private Integer activityGroupId;
-	private Integer nrOfStudents;
-	private boolean active;
-	private String comments;
+	private Integer activityGroupId = 0;
+	private Integer nrOfStudents = 1;
+	private boolean active = true;
+	private String comments = "";
+	
+	ActivityXml() {
+	}
+	
+	public ActivityXml(Long id, Assignment assignment) {
+		this.id = id;
+		this.subject = new SubjectRef(assignment.getSubject().getName().getValue());
+		Iterable<Teacher> teachersIt = assignment.getTeachers().getList();
+		this.teacher = transform(newArrayList(teachersIt), new Function<Teacher, TeacherRef>() {
+			@Override public TeacherRef apply(Teacher teacher) { return new TeacherRef(teacher); }
+		});
+		Iterable<StudentGroup> studentGroupsIt = assignment.getStudentGroups().getList();
+		this.students = transform(newArrayList(studentGroupsIt), new Function<StudentGroup, String>() {
+			@Override public String apply(StudentGroup sG) { return sG.getName().getValue(); }
+		});
+	}
 	
 //	@XmlID
 	@XmlElement(name = "Id")
