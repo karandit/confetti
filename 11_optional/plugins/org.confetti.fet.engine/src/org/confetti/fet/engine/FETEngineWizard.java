@@ -23,7 +23,6 @@ import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
-import org.confetti.observable.ObservableList;
 import org.confetti.util.Tuple;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
@@ -111,25 +110,27 @@ public class FETEngineWizard extends Wizard {
 		spaceConstraints.add(new ConstraintBasicCompulsorySpace());
 		inst.setSpaceConstraints(spaceConstraints);
 		
-		inst.setSubjects(convert(dp.getSubjects(), new Func<Subject, SubjectXml>() {
-			@Override public SubjectXml apply(Subject t1) { return new SubjectXml(t1.getName().getValue()); }
+		//Transforming Subjects, Teachers, StudentGroups, Rooms, Days, Hours for FET
+		inst.setSubjects(transform(newArrayList(dp.getSubjects().getList()), new Function<Subject, SubjectXml>() {
+			@Override public SubjectXml apply(Subject subj) { return new SubjectXml(subj.getName().getValue()); }
 		}));
-		inst.setTeachers(convert(dp.getTeachers(), new Func<Teacher, TeacherXml>() {
-			@Override public TeacherXml apply(Teacher t1) { return new TeacherXml(t1.getName().getValue()); }
+		inst.setTeachers(transform(newArrayList(dp.getTeachers().getList()), new Function<Teacher, TeacherXml>() {
+			@Override public TeacherXml apply(Teacher teacher) { return new TeacherXml(teacher.getName().getValue()); }
 		}));
-		inst.setYears(convert(dp.getStudentGroups(), new Func<StudentGroup, YearXml>() {
+		inst.setYears(transform(newArrayList(dp.getStudentGroups().getList()), new Function<StudentGroup, YearXml>() {
 			@Override public YearXml apply(StudentGroup sG) { return new YearXml(sG); }
 		}));
-		inst.setRooms(convert(dp.getRooms(), new Func<Room, RoomXml>() {
-			@Override public RoomXml apply(Room t1) { return new RoomXml(t1.getName().getValue()); }
+		inst.setRooms(transform(newArrayList(dp.getRooms().getList()), new Function<Room, RoomXml>() {
+			@Override public RoomXml apply(Room room) { return new RoomXml(room.getName().getValue()); }
 		}));
-		inst.setDays(new DaysXml(convert(dp.getDays(), new Func<Day, DayXml>() {
-			@Override public DayXml apply(Day t1) { return new DayXml(t1.getName().getValue()); }
+		inst.setDays(new DaysXml(transform(newArrayList(dp.getDays().getList()), new Function<Day, DayXml>() {
+			@Override public DayXml apply(Day day) { return new DayXml(day.getName().getValue()); }
 		})));
-		inst.setHours(new HoursXml(convert(dp.getHours(), new Func<Hour, HourXml>() {
-			@Override public HourXml apply(Hour t1) { return new HourXml(t1.getName().getValue()); }
+		inst.setHours(new HoursXml(transform(newArrayList(dp.getHours().getList()), new Function<Hour, HourXml>() {
+			@Override public HourXml apply(Hour hour) { return new HourXml(hour.getName().getValue()); }
 		})));
 		
+		//Transforming Assignments for FET
 		Set<Assignment> assignments = new HashSet<>();
 		for (Subject subj : dp.getSubjects().getList()) {
 			assignments.addAll(Sets.newHashSet(subj.getAssignments().getList()));
@@ -151,17 +152,4 @@ public class FETEngineWizard extends Wizard {
 		return new Tuple<>(inst, tuples);
 	}
 
-	private <T1,T2> List<T2> convert(ObservableList<T1> inp, Func<T1,T2> f) {
-		List<T2> results = new LinkedList<>();
-		for (T1 t1 : inp.getList()) {
-			T2 t2 = f.apply(t1);
-			results.add(t2);
-		}
-		return results;
-	}
-	
-	private static interface Func<T1,T2> {
-		T2 apply(T1 t1);
-	}
-	
 }
