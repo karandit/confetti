@@ -43,9 +43,9 @@ public class XmlDataProvider implements DataProvider {
 	private static class AssignmentImpl implements Assignment {
 
 		private final Subject subj;
-		private final ListMutator<Room> rooms = new ListMutator<>();
 		private final ListMutator<Teacher> teachers = new ListMutator<>();
 		private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
+		
 		
 		public AssignmentImpl(Subject subj) {
 			this.subj = subj;
@@ -53,7 +53,6 @@ public class XmlDataProvider implements DataProvider {
 		}
 
 		public void addTeacher(Teacher teacher) 			{ teachers.addItem(teacher); teacher.addAssignment(this);} 
-		public void addRoom(Room room) 						{ rooms.addItem(room); room.addAssignment(this);} 
 		public void addStudentGroup(StudentGroup group) 	{ stGroups.addItem(group); group.addAssignment(this);} 
 		
 		@Override public Subject getSubject() 								{ return subj; }
@@ -154,6 +153,7 @@ public class XmlDataProvider implements DataProvider {
 	private ListMutator<Room> rooms = new ListMutator<>();
 	private ListMutator<Day> days = new ListMutator<>();
 	private ListMutator<Hour> hours = new ListMutator<>();
+	private ListMutator<Assignment> assignments = new ListMutator<>();
 
 	//----------------------------- constructors -----------------------------------------------------------------------
 	public XmlDataProvider(File file) throws FAOException {
@@ -224,6 +224,7 @@ public class XmlDataProvider implements DataProvider {
 	@Override public ObservableList<Room> getRooms() 					{ return rooms.getObservableList(); }
 	@Override public ObservableList<Day> getDays() 						{ return days.getObservableList(); }
 	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
+	@Override public ObservableList<Assignment> getAssignments() 		{ return assignments.getObservableList(); }
 
 	
 	@Override
@@ -265,6 +266,18 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public void setHours(List<String> hours) {
 		//TODO
+	}
+	
+	@Override
+	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
+		AssignmentImpl assignment = new AssignmentImpl(subject);
+		for (Teacher teacher : teachers) {
+			assignment.addTeacher(teacher);
+		}
+		for (StudentGroup studentGroup : studentGroups) {
+			assignment.addStudentGroup(studentGroup);
+		}
+		return assignment;
 	}
 	
 	@Override
