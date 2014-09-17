@@ -8,5 +8,4 @@ Require-Bundle: org.confetti.rcp,
  org.eclipse.ui,
  org.confetti.xml,
  com.google.guava
-Export-Package: org.confetti.fet.engine.solution;x-friends:="org.confetti.tests.fet.engine"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

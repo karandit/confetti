@@ -9,6 +9,7 @@ Bundle-ClassPath: lib/activation.jar,
  lib/jsr173_1.0_api.jar,
  .
 Export-Package: org.confetti.dataprovider.xml,
+ org.confetti.fet.engine.solution;x-friends:="org.confetti.tests.fet.engine",
  org.confetti.xml,
  org.confetti.xml.core,
  org.confetti.xml.core.space,
