@@ -1,13 +1,8 @@
 package org.confetti.rcp.views;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
-import org.confetti.core.Nameable;
-import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -33,18 +28,18 @@ public class AssignmentsView extends ViewPart {
 
 	public final static String ID = "org.confetti.rcp.assignmentsView";
 	
-	private TableViewer tableViewer;
-	private ObservableListener<String> nameListener;
+//	private ObservableListener<String> nameListener;
 	
 	@Override
 	public void createPartControl(Composite parent) {
 		SashForm form = new SashForm(parent, SWT.VERTICAL);
 		form.setLayout(new FillLayout());
-		createAssigmentsList(form);
-		createTimeTable(form);
+		TableViewer tableViewer = createAssigmentsList(form);
+		KTable ktable = createTimeTable(form);
+		assignListener(tableViewer, ktable);
 	}
 
-	private void createAssigmentsList(Composite parent) {
+	private TableViewer createAssigmentsList(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
 		AbstractEntityTableView.createColumn(table, "#", 50);
@@ -53,17 +48,20 @@ public class AssignmentsView extends ViewPart {
 		AbstractEntityTableView.createColumn(table, "Student Group", 150);
 		AbstractEntityTableView.createColumn(table, "Room", 150);
 		
-		tableViewer = new TableViewer(table);
+		TableViewer tableViewer = new TableViewer(table);
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer.setLabelProvider(new AssignmentLabelProvider());
 		
-		nameListener = new ObservableListener<String>() {
-			@Override
-			public void valueChanged(Object src, String oldValue, String newValue) {
-				tableViewer.refresh();
-			}
-		};
-		
+//		nameListener = new ObservableListener<String>() {
+//			@Override
+//			public void valueChanged(Object src, String oldValue, String newValue) {
+//				tableViewer.refresh();
+//			}
+//		};
+		return tableViewer;
+	}
+
+	private void assignListener(final TableViewer tableViewer, final KTable ktable) {
 		ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
 		selectionService.addSelectionListener(new ISelectionListener() {
 			@Override
@@ -74,8 +72,9 @@ public class AssignmentsView extends ViewPart {
 					if (first instanceof Entity) {
 						Entity source = (Entity) first;
 						//TODO detach the listener somewhere? :/
-						source.getName().attachListener(nameListener);
+//						source.getName().attachListener(nameListener);
 						tableViewer.setInput(source.getAssignments().getList());
+						assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), source);
 						return;
 					}
 				}
@@ -84,36 +83,29 @@ public class AssignmentsView extends ViewPart {
 		});
 	}
 
-	private TimeTableModel createTimeTable(Composite parent) {
+	private KTable createTimeTable(Composite parent) {
 		final KTable ktable = new KTable(parent, SWT.NONE);
 		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 
-		final TimeTableModel model = new TimeTableModel(ktable);
-		ktable.setModel(model);
-		model.initialize();
+		assignModel(ktable, null, null);
 		
 		ConfettiPlugin.getDefault().getDataProvider().attachListener(new ObservableListener<DataProvider>() {
 			@Override
 			public void valueChanged(Object src, DataProvider oldValue, DataProvider newValue) {
 				if (newValue != null) {
-					TimeTableModel newModel = new TimeTableModel(ktable, 
-							getNames(newValue.getDays()), getNames(newValue.getHours()));
-					ktable.setModel(newModel);
-					newModel.initialize();
+					assignModel(ktable, newValue, null);
 				}
 			}
 		});
-		return model;
+		return ktable;
 	}
 
-	private String[] getNames(ObservableList<? extends Nameable> items) {
-		List<String> names = new ArrayList<>();
-		for (Nameable nameable : items.getList()) {
-			names.add(nameable.getName().getValue());
-		}
-		return names.toArray(new String[names.size()]);
+	private void assignModel(final KTable ktable, DataProvider dp, Entity ent) {
+		final TimeTableModel model = new TimeTableModel(ktable, dp, ent);
+		ktable.setModel(model);
+		model.initialize();
 	}
-	
+
 	@Override
 	public void setFocus() {
 	}
