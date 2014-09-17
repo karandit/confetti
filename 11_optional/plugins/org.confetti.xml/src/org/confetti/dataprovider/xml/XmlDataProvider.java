@@ -13,6 +13,7 @@ import org.confetti.core.Entity;
 import org.confetti.core.EntityVisitor;
 import org.confetti.core.Hour;
 import org.confetti.core.Room;
+import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
@@ -154,6 +155,7 @@ public class XmlDataProvider implements DataProvider {
 	private ListMutator<Day> days = new ListMutator<>();
 	private ListMutator<Hour> hours = new ListMutator<>();
 	private ListMutator<Assignment> assignments = new ListMutator<>();
+	private ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 
 	//----------------------------- constructors -----------------------------------------------------------------------
 	public XmlDataProvider(File file) throws FAOException {
@@ -225,7 +227,7 @@ public class XmlDataProvider implements DataProvider {
 	@Override public ObservableList<Day> getDays() 						{ return days.getObservableList(); }
 	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		{ return assignments.getObservableList(); }
-
+	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override
 	public Subject addSubject(String name) {
@@ -278,6 +280,11 @@ public class XmlDataProvider implements DataProvider {
 			assignment.addStudentGroup(studentGroup);
 		}
 		return assignment;
+	}
+	
+	@Override
+	public void setSolution(Iterable<SolutionSlot> solution) {
+		this.solution.setValue(this, solution);
 	}
 	
 	@Override

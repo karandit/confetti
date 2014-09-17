@@ -8,6 +8,7 @@ import org.confetti.core.Day;
 import org.confetti.core.Entity;
 import org.confetti.core.Hour;
 import org.confetti.core.Room;
+import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
@@ -26,6 +27,7 @@ public class DataProviderImpl implements DataProvider {
 	private ListMutator<Day> days;
 	private ListMutator<Hour> hours;
 	private ListMutator<Assignment> assignments;
+	private ValueMutator<Iterable<SolutionSlot>> solution;
 	
 	public DataProviderImpl() {
 		this.subjects = new ListMutator<>();
@@ -35,6 +37,7 @@ public class DataProviderImpl implements DataProvider {
 		this.days = new ListMutator<>();
 		this.hours = new ListMutator<>();
 		this.assignments = new ListMutator<>();
+		this.solution = new ValueMutator<>();
 		init();
 	}
 
@@ -93,6 +96,7 @@ public class DataProviderImpl implements DataProvider {
 	@Override public ObservableList<Day> getDays() 						{ return days.getObservableList(); }
 	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		{ return assignments.getObservableList(); }
+	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override
 	public Subject addSubject(String name) {
@@ -136,6 +140,11 @@ public class DataProviderImpl implements DataProvider {
 		AssignmentImpl assignment = new AssignmentImpl(subject, teachers, studentGroups);
 		assignments.addItem(assignment);
 		return assignment;
+	}
+	
+	@Override
+	public void setSolution(Iterable<SolutionSlot> solution) {
+		this.solution.setValue(this, solution);
 	}
 	
 	@Override
