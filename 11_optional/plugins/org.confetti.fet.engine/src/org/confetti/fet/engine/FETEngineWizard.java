@@ -10,19 +10,27 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
+import org.confetti.core.Nameable;
 import org.confetti.core.Room;
+import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
+import org.confetti.fet.engine.solution.ResultActivityXML;
+import org.confetti.fet.engine.solution.SolutionFAO;
+import org.confetti.fet.engine.solution.SolutionXML;
+import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.util.Tuple;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
@@ -65,7 +73,8 @@ public class FETEngineWizard extends Wizard {
 	public boolean performFinish() {
 		try {
 			List<String> command = new ArrayList<>();
-			command.add("d:\\Apps\\fet-5.22.0\\fet-cl.exe");
+//			command.add("d:\\Apps\\fet-5.22.0\\fet-cl.exe");
+			command.add("d:\\Gabor\\fet\\fet-5.22.0\\fet-cl.exe");
 			ProcessBuilder builder = new ProcessBuilder(command);
 			
 			Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res = createInstitueXml(mDataProvider);
@@ -88,15 +97,41 @@ public class FETEngineWizard extends Wizard {
 		      System.out.println(line);
 		    }
 		    
-//		    File solutionFile = new File(resultsDir, "\\timetables\\input\\input_activities.xml");
-//		    SolutionXML solution = new SolutionFAO().importFrom(solutionFile);
-//		    System.out.println("The result activities size: " + solution.getActivities().size());
+		    File solutionFile = new File(resultsDir, "\\timetables\\input\\input_activities.xml");
+		    SolutionXML solution = new SolutionFAO().importFrom(solutionFile);
 		    
+		    final Map<String, Room> mapRooms = convertToMap(mDataProvider.getRooms().getList());
+		    final Map<String, Day> mapDays = convertToMap(mDataProvider.getDays().getList());
+		    final Map<String, Hour> mapHours = convertToMap(mDataProvider.getHours().getList());
+		    final Map<String, Assignment> mapAssignments = new HashMap<>();
+		    for (Tuple<Long, Assignment> tuple : res.getSecond()) {
+		    	//TODO: check if the id is not too long, because it could add a comma
+		    	mapAssignments.put(tuple.getFirst().toString(), tuple.getSecond()); 
+		    }
+		    Iterable<SolutionSlot> dpSolution = transform(solution.getActivities(), new Function<ResultActivityXML, SolutionSlot>() {
+				@Override
+				public SolutionSlot apply(ResultActivityXML act) {
+			    	Assignment assignment = mapAssignments.get(act.getId());
+			    	Day day = mapDays.get(act.getDay());
+			    	Hour hour = mapHours.get(act.getHour());
+			    	Room room = mapRooms.get(act.getRoom());
+					return new SolutionSlot(assignment, day, hour, room);
+				}
+			});
+			ConfettiPlugin.getDefault().getDataProvider().getValue().setSolution(dpSolution);
 		    return true;
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private <T extends Nameable> Map<String, T> convertToMap(Iterable<T> items) {
+		final Map<String, T> map = new HashMap<>();
+		for (T item : items) {
+			map.put(item.getName().getValue(), item);
+		}
+		return map;
 	}
 
 	private Tuple<InstituteXml, List<Tuple<Long, Assignment>>> createInstitueXml(DataProvider dp) {
@@ -135,13 +170,13 @@ public class FETEngineWizard extends Wizard {
 		for (Subject subj : dp.getSubjects().getList()) {
 			assignments.addAll(Sets.newHashSet(subj.getAssignments().getList()));
 		}
-		final long[] counter = new long[] {1};
-		List<Tuple<Long, Assignment>> tuples = transform(newArrayList(assignments), new Function<Assignment, Tuple<Long, Assignment>>() {
-			@Override
-			public Tuple<Long, Assignment> apply(Assignment assignment) {
-				return new Tuple<Long, Assignment>(counter[0]++, assignment);
-			}
-		});
+		
+		long counter = 1;
+		List<Tuple<Long, Assignment>> tuples = new LinkedList<>();
+		for (Assignment assignment : assignments) {
+			tuples.add(new Tuple<Long, Assignment>(counter++, assignment));
+		}
+		
 		inst.setActivities(transform(tuples, new Function<Tuple<Long, Assignment>, ActivityXml>() {
 			@Override
 			public ActivityXml apply(Tuple<Long, Assignment> tuple) {
