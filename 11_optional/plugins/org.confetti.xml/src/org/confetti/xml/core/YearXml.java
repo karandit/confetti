@@ -6,6 +6,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.confetti.core.StudentGroup;
+
 /**
  * @author Bubla Gabor
  */
@@ -13,8 +15,18 @@ import javax.xml.bind.annotation.XmlType;
 public class YearXml {
 
 	private String name;
-	private Integer nrOfStudents;
+	private Integer nrOfStudents = 1;
 	private List<GroupXml> groups = new ArrayList<>();
+	
+	YearXml() {
+	}
+	
+	public YearXml(StudentGroup sG) {
+		this.name = sG.getName().getValue();
+		for (StudentGroup child : sG.getChildren().getList()) {
+			groups.add(new GroupXml(child.getName().getValue(), child.getChildren().getList()));
+		}
+	}
 	
 	@XmlElement(name = "Name")
 	public String getName() 							{ return name; }

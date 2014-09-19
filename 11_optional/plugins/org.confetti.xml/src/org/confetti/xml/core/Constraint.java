@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlTransient
 public abstract class Constraint {
 	
-	private double weight;
-	private boolean active;
-	private String comment;
+	private double weight = 100.0;
+	private boolean active = true;
+	private String comment = "";
 	
 	@XmlElement(name = "Weight_Percentage")
 	public double getWeight() { return weight; }

@@ -14,6 +14,14 @@ public class DaysXml {
 	private int numbers;
 	private List<DayXml> days;
 
+	DaysXml() {
+	}
+	
+	public DaysXml(List<DayXml> days) {
+		this.days = days;
+		this.numbers = days.size();
+	}
+	
 	@XmlElement(name = "Number")
 	public int getNumbers() 				{ return numbers; }
 	public void setNumbers(int numbers) 	{ this.numbers = numbers; }

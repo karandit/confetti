@@ -13,26 +13,23 @@ public class AssignmentImpl implements Assignment {
 	private final Subject subj;
 	private final ListMutator<Teacher> teachers = new ListMutator<>();
 	private final ListMutator<StudentGroup> studentGroups = new ListMutator<>();
-	private final Room room;
 
-	public AssignmentImpl(Subject subj, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups, Room room) {
-		this.subj = subj;
+	public AssignmentImpl(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
+		this.subj = subject;
 		for (Teacher teacher : teachers) {
 			this.teachers.addItem(teacher);
 		}
 		for (StudentGroup studentGroup : studentGroups) {
 			this.studentGroups.addItem(studentGroup);
 		}
-		this.room = room;
 
-		subj.addAssignment(this);
+		subject.addAssignment(this);
 		for (Teacher teacher : teachers) {
 			teacher.addAssignment(this);
 		}
 		for (StudentGroup studentGroup : studentGroups) {
 			studentGroup.addAssignment(this);
 		}
-		room.addAssignment(this);
 	}
 
 	@Override
@@ -52,7 +49,7 @@ public class AssignmentImpl implements Assignment {
 
 	@Override
 	public Room getRoom() {
-		return room;
+		return null;
 	}
 
 }

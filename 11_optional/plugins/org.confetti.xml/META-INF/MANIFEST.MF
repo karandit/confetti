@@ -9,6 +9,7 @@ Bundle-ClassPath: lib/activation.jar,
  lib/jsr173_1.0_api.jar,
  .
 Export-Package: org.confetti.dataprovider.xml,
+ org.confetti.fet.engine.solution,
  org.confetti.xml,
  org.confetti.xml.core,
  org.confetti.xml.core.space,
@@ -16,6 +17,7 @@ Export-Package: org.confetti.dataprovider.xml,
 Require-Bundle: org.confetti.core,
  org.confetti.rcp,
  org.eclipse.swt,
- org.eclipse.ui
+ org.eclipse.ui,
+ com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.eclipse.jface.wizard

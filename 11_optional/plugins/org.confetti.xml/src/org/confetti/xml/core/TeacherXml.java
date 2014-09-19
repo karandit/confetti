@@ -7,6 +7,13 @@ import javax.xml.bind.annotation.XmlType;
 public class TeacherXml {
 
 	private String name;
+	
+	TeacherXml() {
+	}
+	
+	public TeacherXml(String name) {
+		this.name = name;
+	}
 
 //	@XmlID
 	@XmlElement(name = "Name")

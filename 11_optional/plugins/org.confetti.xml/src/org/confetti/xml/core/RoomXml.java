@@ -12,6 +12,13 @@ public class RoomXml {
 	
 	private String building;
 	
+	RoomXml() {
+	}
+	
+	public RoomXml(String name) {
+		this.name = name;
+	}
+	
 	@XmlElement(name = "Name")
 	public String getName() 				{ return name; }
 	public void setName(String name) 		{ this.name = name; }

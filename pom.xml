@@ -10,10 +10,12 @@
 		<module>./00_tests/plugins/org.confetti.tests.core</module>
 		<module>./00_tests/plugins/org.confetti.tests.rcp</module>
 		<module>./00_tests/plugins/org.confetti.tests.xml</module>
+		<module>./00_tests/plugins/org.confetti.tests.fet.engine</module>
 		<module>./10_framework/plugins/org.confetti.core</module>
 		<module>./10_framework/plugins/org.confetti.rcp</module>
 		<module>./10_framework/features/org.confetti.feature.rcp</module>
 		<module>./11_optional/plugins/org.confetti.xml</module>
+		<module>./11_optional/plugins/org.confetti.fet.engine</module>
 	</modules>
 
 	<properties>

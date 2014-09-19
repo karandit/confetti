@@ -10,7 +10,14 @@ import javax.xml.bind.annotation.XmlType;
 public class SubgroupXml {
 
 	private String name;
-	private Integer nrOfStudents;
+	private Integer nrOfStudents = 1;
+	
+	SubgroupXml() {
+	}
+
+	public SubgroupXml(String name) {
+		this.name = name;
+	}
 	
 	@XmlElement(name = "Name")
 	public String getName() 				{ return name; }

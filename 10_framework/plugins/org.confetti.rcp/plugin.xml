@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="openWizard" name="Open wizard" schema="schema/openWizard.exsd"/>
    <extension-point id="newWizard" name="New Wizard" schema="schema/newWizard.exsd"/>
+   <extension-point id="engineWizard" name="Engine Wizard" schema="schema/engineWizard.exsd"/>
 
    <extension
          id="application"
@@ -133,6 +134,11 @@
             description="Delete Entity"
             id="org.confetti.rcp.deleteEntityCommand"
             name="Delete Entity">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.GenerateTimetableCommand"
+            id="org.confetti.rcp.generateCommand"
+            name="Generate Timetable">
       </command>
    </extension>
    <extension
@@ -412,6 +418,46 @@
                </with>
             </visibleWhen>
          </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="Timetable">
+            <command
+                  commandId="org.confetti.rcp.commands.newSubjectCommand"
+                  icon="icons/subject-16-fill.png"
+                  label="New Subject"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.commands.newTeacherCommand"
+                  icon="icons/teacher-16-fill.png"
+                  label="New Teacher"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.commands.newStudentGroupCommand"
+                  icon="icons/studentgroup-16-fill.png"
+                  label="New Student Group"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.commands.newRoomCommand"
+                  icon="icons/room-16-fill.png"
+                  label="New Room"
+                  style="push">
+            </command>
+            <separator
+                  name="org.confetti.rcp.separator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.confetti.rcp.generateCommand"
+                  label="Generate"
+                  style="push">
+            </command>
+         </menu>
       </menuContribution>
    </extension>
 

@@ -38,7 +38,9 @@ public class NewWizardAction extends Action {
 		WizardDialog dialog = new WizardDialog(shell, new NewTimetableWizard(model));
 		watchWizardDialog(dialog);
 		dialog.setTitle("New...");
-		dialog.open();
+		if (Window.OK != dialog.open()) {
+			return;
+		}
 		
 		//dialog with all the extensions
 		ListDialog dlg = new ListDialog(shell);

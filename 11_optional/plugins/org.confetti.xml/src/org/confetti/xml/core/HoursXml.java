@@ -14,6 +14,14 @@ public class HoursXml {
 	private int numbers;
 	private List<HourXml> hours;
 	
+	HoursXml() {
+	}
+	
+	public HoursXml(List<HourXml> hours) {
+		this.hours = hours;
+		this.numbers = hours.size();
+	}
+	
 	@XmlElement(name = "Number")
 	public int getNumbers() 					{ return numbers; }
 	public void setNumbers(int numbers) 		{ this.numbers = numbers; }

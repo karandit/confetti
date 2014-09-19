@@ -2,11 +2,13 @@ package org.confetti.dummy;
 
 import java.util.List;
 
+import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
 import org.confetti.core.Hour;
 import org.confetti.core.Room;
+import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
@@ -17,13 +19,15 @@ import org.confetti.observable.ValueMutator;
 
 public class DataProviderImpl implements DataProvider {
 
+	private ValueMutator<String> instName = new ValueMutator<>();
 	private ListMutator<Subject> subjects;
 	private ListMutator<Teacher> teachers;
 	private ListMutator<StudentGroup> studentGroups;
 	private ListMutator<Room> rooms;
 	private ListMutator<Day> days;
 	private ListMutator<Hour> hours;
-	private ValueMutator<String> instName = new ValueMutator<>();
+	private ListMutator<Assignment> assignments;
+	private ValueMutator<Iterable<SolutionSlot>> solution;
 	
 	public DataProviderImpl() {
 		this.subjects = new ListMutator<>();
@@ -32,11 +36,25 @@ public class DataProviderImpl implements DataProvider {
 		this.rooms = new ListMutator<>();
 		this.days = new ListMutator<>();
 		this.hours = new ListMutator<>();
+		this.assignments = new ListMutator<>();
+		this.solution = new ValueMutator<>();
 		init();
 	}
 
 	private void init() {
 		instName.setValue(this, "Test institute");
+		
+		days.addItem(new DayImpl("monday"));
+		days.addItem(new DayImpl("tuesday"));
+		days.addItem(new DayImpl("wednesday"));
+		days.addItem(new DayImpl("thursday"));
+		days.addItem(new DayImpl("friday"));
+		hours.addItem(new HourImpl("8:00"));
+		hours.addItem(new HourImpl("10:00"));
+		hours.addItem(new HourImpl("12:00"));
+		hours.addItem(new HourImpl("14:00"));
+		hours.addItem(new HourImpl("16:00"));
+		
 		Subject subjMatek = addSubject("Math");
 		addSubject("Literatute");
 		Subject subjInfo = addSubject("Computer science");
@@ -53,30 +71,32 @@ public class DataProviderImpl implements DataProvider {
 
 		StudentGroupImpl group2 = (StudentGroupImpl) addStudentGroup(null, "1731");
 
-		Room room1 = addRoom("Room_1");
-		Room room2 = addRoom("Room_2");
+		addRoom("Room_1");
+		addRoom("Room_2");
 
 		//creating dummy assignment1
 		ListMutator<StudentGroup> tmpStudentGroups = new ListMutator<>();
 		tmpStudentGroups.addItem(group1721);
-		new AssignmentImpl(subjMatek, getTeachers().getList(), tmpStudentGroups.getObservableList().getList(), room2);
+		addAssignment(subjMatek, getTeachers().getList(), tmpStudentGroups.getObservableList().getList());
 		
 		//creating dummy assignment2
 		ListMutator<Teacher> tmpTeachers = new ListMutator<>();
 		tmpTeachers.addItem(teacher1);
 		ListMutator<StudentGroup> tmpStudentGroups2 = new ListMutator<>();
 		tmpStudentGroups2.addItem(group2);
-		new AssignmentImpl(subjInfo, tmpTeachers.getObservableList().getList(), tmpStudentGroups2.getObservableList().getList(), room1);
+		addAssignment(subjInfo, tmpTeachers.getObservableList().getList(), tmpStudentGroups2.getObservableList().getList());
 	}
 
-
-	@Override public ObservableList<Teacher> getTeachers() { return teachers.getObservableList(); }
-	@Override public ObservableList<Subject> getSubjects() { return subjects.getObservableList(); }
-	@Override public ObservableList<StudentGroup> getStudentGroups() { return studentGroups.getObservableList(); }
-	@Override public ObservableList<Room> getRooms() { return rooms.getObservableList(); }
-	@Override public ObservableList<Day> getDays() { return days.getObservableList(); }
-	@Override public ObservableList<Hour> getHours() { return hours.getObservableList(); }
-	@Override public ObservableValue<String> getName() { return instName.getObservableValue(); }
+	//-----------------DataProvider's API-------------------------------------------------------------------------------
+	@Override public ObservableValue<String> getName() 					{ return instName.getObservableValue(); }
+	@Override public ObservableList<Subject> getSubjects() 				{ return subjects.getObservableList(); }
+	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
+	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return studentGroups.getObservableList(); }
+	@Override public ObservableList<Room> getRooms()					{ return rooms.getObservableList(); }
+	@Override public ObservableList<Day> getDays() 						{ return days.getObservableList(); }
+	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
+	@Override public ObservableList<Assignment> getAssignments() 		{ return assignments.getObservableList(); }
+	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override
 	public Subject addSubject(String name) {
@@ -112,6 +132,21 @@ public class DataProviderImpl implements DataProvider {
 		return room;
 	}
 	
+	@Override public void setDays(List<String> days) {  }
+	@Override public void setHours(List<String> hours) {  }
+	
+	@Override
+	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
+		AssignmentImpl assignment = new AssignmentImpl(subject, teachers, studentGroups);
+		assignments.addItem(assignment);
+		return assignment;
+	}
+	
+	@Override
+	public void setSolution(Iterable<SolutionSlot> solution) {
+		this.solution.setValue(this, solution);
+	}
+	
 	@Override
 	public void removeSubject(Subject subject) {
 		subjects.removeItem(subject);
@@ -126,9 +161,6 @@ public class DataProviderImpl implements DataProvider {
 	public void removeRoom(Room room) {
 		rooms.removeItem(room);
 	}
-
-	@Override public void setDays(List<String> days) {  }
-	@Override public void setHours(List<String> hours) {  }
 
 	@Override
 	public void rename(Entity entity, String newName) {

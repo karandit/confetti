@@ -10,6 +10,12 @@ import javax.xml.bind.annotation.XmlValue;
 public class SubjectRef {
 	// --------------- fields ------------------------------------------------------------------------------------------
 	private String name;
+	// --------------- constructor -------------------------------------------------------------------------------------
+	SubjectRef() {
+	}
+	public SubjectRef(String name) {
+		this.name = name;
+	}
 	// --------------- getters and setters -----------------------------------------------------------------------------
 	@XmlValue
 	public String getName() 				{ return name; }

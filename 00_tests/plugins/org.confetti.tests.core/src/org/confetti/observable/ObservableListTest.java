@@ -10,10 +10,6 @@ public class ObservableListTest {
 		public int value = 0;
 	}
 	
-	private static class BooleanWrapper {
-		public boolean value = false;
-	}
-	
 	@Test
 	public void should_NotifyListeners() {
 		ListMutator<String> listMut = new ListMutator<>();

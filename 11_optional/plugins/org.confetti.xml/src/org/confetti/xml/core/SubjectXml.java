@@ -7,6 +7,13 @@ import javax.xml.bind.annotation.XmlType;
 public class SubjectXml {
 
 	private String name;
+	
+	SubjectXml() {
+	}
+	
+	public SubjectXml(String name) {
+		this.name = name;
+	}
 
 //	@XmlID
 	@XmlElement(name = "Name")
