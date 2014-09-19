@@ -17,6 +17,7 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -44,6 +45,10 @@ public class GenerateTimetableCommand extends AbstractHandler {
 				AbstractEntityTableView.createColumn(table, "Name", 150);
 				AbstractEntityTableView.createColumn(table, "Author", 100);
 				return createDialogArea;
+			}
+			@Override 
+			protected int getTableStyle() {
+				return super.getTableStyle() | SWT.FULL_SELECTION;
 			}
 		};
 		dlg.setTitle("Generate Timetable");
