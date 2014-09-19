@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ import org.confetti.xml.core.space.ConstraintBasicCompulsorySpace;
 import org.confetti.xml.core.space.SpaceConstraint;
 import org.confetti.xml.core.time.ConstraintBasicCompulsoryTime;
 import org.confetti.xml.core.time.TimeConstraint;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 
 import com.google.common.base.Function;
@@ -72,11 +75,18 @@ public class FETEngineWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		try {
+			URL fetClUrl = FETEngineWizard.class.getResource("COPYING");
+			if (fetClUrl == null) {
+				MessageDialog.openWarning(this.getShell(), "Warning", "Unfortunatelly FET client not found.");
+				return true;
+			}
+			//Executable
+			URL fileURL = FileLocator.toFileURL(fetClUrl);
+			String executable = new File(new File(fileURL.getFile()).getParentFile(), "fet-cl").toString();
 			List<String> command = new ArrayList<>();
-//			command.add("d:\\Apps\\fet-5.22.0\\fet-cl.exe");
-			command.add("d:\\Gabor\\fet\\fet-5.22.0\\fet-cl.exe");
-			ProcessBuilder builder = new ProcessBuilder(command);
+			command.add(executable);
 			
+			//Input file
 			Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res = createInstitueXml(mDataProvider);
 			InstituteXml inst = res.getFirst();
 			Path tmpDir = Files.createTempDirectory("confetti");
@@ -84,11 +94,12 @@ public class FETEngineWizard extends Wizard {
 			new InstituteFAO().exportTo(inst, inputFile);
 			command.add("--inputfile=" + inputFile.toString());
 			
+			//Output dir
 			File resultsDir = new File(tmpDir.toFile(), "results");
 			Files.createDirectory(resultsDir.toPath());
 			command.add("--outputdir=" + resultsDir.toString());
 			
-			final Process process = builder.start();
+			final Process process = new ProcessBuilder(command).start();
 		    InputStream is = process.getInputStream();
 		    InputStreamReader isr = new InputStreamReader(is);
 		    BufferedReader br = new BufferedReader(isr);
@@ -121,8 +132,9 @@ public class FETEngineWizard extends Wizard {
 			ConfettiPlugin.getDefault().getDataProvider().getValue().setSolution(dpSolution);
 		    return true;
 		} catch (Throwable e) {
+			MessageDialog.openError(this.getShell(), "Error", e.getLocalizedMessage());
 			e.printStackTrace();
-			return false;
+			return true;
 		}
 	}
 
@@ -174,7 +186,7 @@ public class FETEngineWizard extends Wizard {
 		long counter = 1;
 		List<Tuple<Long, Assignment>> tuples = new LinkedList<>();
 		for (Assignment assignment : assignments) {
-			tuples.add(new Tuple<Long, Assignment>(counter++, assignment));
+			tuples.add(new Tuple<>(counter++, assignment));
 		}
 		
 		inst.setActivities(transform(tuples, new Function<Tuple<Long, Assignment>, ActivityXml>() {

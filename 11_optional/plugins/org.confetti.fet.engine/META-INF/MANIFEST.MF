@@ -7,5 +7,6 @@ Require-Bundle: org.confetti.rcp,
  org.confetti.core,
  org.eclipse.ui,
  org.confetti.xml,
- com.google.guava
+ com.google.guava,
+ org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
