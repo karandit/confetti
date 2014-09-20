@@ -30,9 +30,6 @@ import de.kupzog.ktable.renderers.FixedCellRenderer;
  */
 public class TimeTableModel extends KTableNoScrollModel {
 
-	private static final String[] DEFAULT_DAYS = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-	private static final String[] DEFAULT_HOURS = new String[] {"08 :00 - 08:45", "09 :00 - 09:45", "10 :00 - 10:45", "11 :00 - 11:45"};
-
 	private final String[] days;
 	private final String[] hours;
 	private final Assignment[][] assignments;
@@ -50,32 +47,26 @@ public class TimeTableModel extends KTableNoScrollModel {
 
 	public TimeTableModel(KTable table, DataProvider dp, Entity entity) {
 		super(table);
-		if (dp == null) {
-			this.days = DEFAULT_DAYS; 
-			this.hours = DEFAULT_HOURS;
-			this.assignments = new Assignment[days.length + 1][hours.length + 1];
- 		} else {
- 			this.days = toArray(getNames(dp.getDays())); 
- 			this.hours = toArray(getNames(dp.getHours()));
-			this.assignments = new Assignment[days.length + 1][hours.length + 1];
- 			if (dp.getSolution().getValue() != null) {
- 				Map<Assignment, SolutionSlot> assignmentSolutionSlot = new HashMap<>();
- 				for (SolutionSlot slot : dp.getSolution().getValue()) {
-					assignmentSolutionSlot.put(slot.getAssignment(), slot);
+		this.days = toArray(getNames(dp.getDays())); 
+		this.hours = toArray(getNames(dp.getHours()));
+		this.assignments = new Assignment[days.length + 1][hours.length + 1];
+		if (entity != null && dp.getSolution().getValue() != null) {
+			Map<Assignment, SolutionSlot> assignmentSolutionSlot = new HashMap<>();
+			for (SolutionSlot slot : dp.getSolution().getValue()) {
+				assignmentSolutionSlot.put(slot.getAssignment(), slot);
+			}
+			ArrayList<Day> daysArr = Lists.newArrayList(dp.getDays().getList());
+			ArrayList<Hour> hoursArr = Lists.newArrayList(dp.getHours().getList());
+			
+			for (Assignment ass : entity.getAssignments().getList()) {
+				if (assignmentSolutionSlot.containsKey(ass)) {
+					SolutionSlot foundSolutionSlot = assignmentSolutionSlot.get(ass);
+					int day =  daysArr.indexOf(foundSolutionSlot.getDay());
+					int hour = hoursArr.indexOf(foundSolutionSlot.getHour());
+					this.assignments[day + 1][hour + 1] = ass;
 				}
- 				ArrayList<Day> daysArr = Lists.newArrayList(dp.getDays().getList());
- 				ArrayList<Hour> hoursArr = Lists.newArrayList(dp.getHours().getList());
- 				
- 				for (Assignment ass : entity.getAssignments().getList()) {
-					if (assignmentSolutionSlot.containsKey(ass)) {
-						SolutionSlot foundSolutionSlot = assignmentSolutionSlot.get(ass);
-						int day =  daysArr.indexOf(foundSolutionSlot.getDay());
-						int hour = hoursArr.indexOf(foundSolutionSlot.getHour());
-						assignments[day + 1][hour + 1] = ass;
-					}
-				}
- 			}
- 		}
+			}
+		}
 	}
 
 	@Override public int getFixedHeaderColumnCount() 							{ return 1; }
@@ -96,8 +87,9 @@ public class TimeTableModel extends KTableNoScrollModel {
 	@Override public KTableCellEditor doGetCellEditor(int arg0, int arg1) 		{ return null; }
 	@Override public KTableCellRenderer doGetCellRenderer(int col, int row) 	{ return (row == 0 || col == 0) ? FIXED_RENDERER : RENDERER; }
 	
-	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 		{ } 
-	@Override public Object doGetContentAt(int col, int row) { 
+	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 		{ }
+	@Override
+	public Object doGetContentAt(int col, int row) { 
 		switch (row) {
 			case 0:	switch (col) {
 				case 0: 	return "";

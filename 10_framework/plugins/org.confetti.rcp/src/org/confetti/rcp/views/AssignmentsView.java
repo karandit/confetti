@@ -23,6 +23,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 import de.kupzog.ktable.KTable;
+import de.kupzog.ktable.KTableNoScrollModel;
 
 public class AssignmentsView extends ViewPart {
 
@@ -60,6 +61,23 @@ public class AssignmentsView extends ViewPart {
 //		};
 		return tableViewer;
 	}
+	
+	private KTable createTimeTable(Composite parent) {
+		final KTable ktable = new KTable(parent, SWT.NONE);
+		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+		
+		assignModel(ktable, null, null);
+		
+		ConfettiPlugin.getDefault().getDataProvider().attachListener(new ObservableListener<DataProvider>() {
+			@Override
+			public void valueChanged(Object src, DataProvider oldValue, DataProvider newValue) {
+				if (newValue != null) {
+					assignModel(ktable, newValue, null);
+				}
+			}
+		});
+		return ktable;
+	}
 
 	private void assignListener(final TableViewer tableViewer, final KTable ktable) {
 		ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
@@ -79,29 +97,20 @@ public class AssignmentsView extends ViewPart {
 					}
 				}
 				tableViewer.setInput(null);
+				assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
 			}
 		});
-	}
-
-	private KTable createTimeTable(Composite parent) {
-		final KTable ktable = new KTable(parent, SWT.NONE);
-		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-
-		assignModel(ktable, null, null);
-		
-		ConfettiPlugin.getDefault().getDataProvider().attachListener(new ObservableListener<DataProvider>() {
-			@Override
-			public void valueChanged(Object src, DataProvider oldValue, DataProvider newValue) {
-				if (newValue != null) {
-					assignModel(ktable, newValue, null);
-				}
-			}
-		});
-		return ktable;
 	}
 
 	private void assignModel(final KTable ktable, DataProvider dp, Entity ent) {
-		final TimeTableModel model = new TimeTableModel(ktable, dp, ent);
+		final KTableNoScrollModel model;
+		if (dp == null) {
+			model = new TimeTableNotAvailableModel(ktable);
+			ktable.setModel(model);
+			model.initialize();
+			return;
+		}
+		model = new TimeTableModel(ktable, dp, ent);
 		ktable.setModel(model);
 		model.initialize();
 	}
