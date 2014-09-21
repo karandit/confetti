@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -108,7 +109,10 @@ public class FETEngineWizard extends Wizard {
 		      System.out.println(line);
 		    }
 		    
-		    File solutionFile = new File(resultsDir, "\\timetables\\input\\input_activities.xml");
+		    
+		    File solutionFile  = Paths.get(resultsDir.getAbsolutePath(), 
+		    							"timetables", "input", "input_activities.xml")
+		    							.toFile();
 		    SolutionXML solution = new SolutionFAO().importFrom(solutionFile);
 		    
 		    final Map<String, Room> mapRooms = convertToMap(mDataProvider.getRooms().getList());
