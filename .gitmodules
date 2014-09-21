@@ -1,0 +1,9 @@
+[submodule "11_optional/plugins/org.confetti.fet.engine.linux"]
+	path = 11_optional/plugins/org.confetti.fet.engine.linux
+	url = https://github.com/karandit/confetti-engine-fet-linux.git
+[submodule "11_optional/plugins/org.confetti.fet.engine.win32"]
+	path = 11_optional/plugins/org.confetti.fet.engine.win32
+	url = https://github.com/karandit/confetti-engine-fet-win32.git
+[submodule "11_optional/plugins/org.confetti.fet.engine.osx"]
+	path = 11_optional/plugins/org.confetti.fet.engine.osx
+	url = https://github.com/karandit/confetti-engine-fet-osx.git
