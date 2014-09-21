@@ -3,6 +3,7 @@ package org.confetti.rcp.views;
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
+import org.confetti.core.Subject;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -92,7 +93,11 @@ public class AssignmentsView extends ViewPart {
 						//TODO detach the listener somewhere? :/
 //						source.getName().attachListener(nameListener);
 						tableViewer.setInput(source.getAssignments().getList());
-						assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), source);
+						if (source instanceof Subject) {
+							assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
+						} else {
+							assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), source);
+						}
 						return;
 					}
 				}

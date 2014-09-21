@@ -111,6 +111,10 @@ public class TimeTableModel extends KTableNoScrollModel {
 		}
 	}
 	
+	private String[] toArray(List<String> names) {
+		return names.toArray(new String[names.size()]);
+	}
+	
 	private List<String> getNames(ObservableList<? extends Nameable> items) {
 		List<String> names = new ArrayList<>();
 		for (Nameable nameable : items.getList()) {
@@ -119,7 +123,4 @@ public class TimeTableModel extends KTableNoScrollModel {
 		return names;
 	}
 	
-	private String[] toArray(List<String> names) {
-		return names.toArray(new String[names.size()]);
-	}
 }
