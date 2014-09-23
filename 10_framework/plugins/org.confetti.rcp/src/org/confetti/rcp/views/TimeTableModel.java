@@ -11,9 +11,14 @@ import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
+import org.confetti.core.EntityVisitor;
 import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
+import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
+import org.confetti.core.StudentGroup;
+import org.confetti.core.Subject;
+import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
 
 import com.google.common.collect.Lists;
@@ -32,6 +37,7 @@ public class TimeTableModel extends KTableNoScrollModel {
 
 	private final String[] days;
 	private final String[] hours;
+	private final Entity entity;
 	private final Assignment[][] assignments;
 	
 	public static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
@@ -49,6 +55,7 @@ public class TimeTableModel extends KTableNoScrollModel {
 		super(table);
 		this.days = toArray(getNames(dp.getDays())); 
 		this.hours = toArray(getNames(dp.getHours()));
+		this.entity = entity;
 		this.assignments = new Assignment[days.length + 1][hours.length + 1];
 		if (entity != null && dp.getSolution().getValue() != null) {
 			Map<Assignment, SolutionSlot> assignmentSolutionSlot = new HashMap<>();
@@ -93,17 +100,14 @@ public class TimeTableModel extends KTableNoScrollModel {
 		switch (row) {
 			case 0:	switch (col) {
 				case 0: 	return "";
-				default: 	return days[col -1];
+				default: 	return days[col - 1];
 			}
 			default: switch (col) {
 				case 0: return hours[row - 1];
 				default: 
 					if (assignments[col][row] instanceof Assignment) {
 						Assignment ass = (Assignment) assignments[col][row];
-						return ass.getSubject().getName().getValue() 
-								+ "\n" + getNames(ass.getTeachers())
-								+ "\n" + getNames(ass.getStudentGroups());
-								
+						return this.entity.accept(GetCellInfoVisitor.INSTANCE, ass);
 					} else {
 						return "";
 					}
@@ -115,12 +119,25 @@ public class TimeTableModel extends KTableNoScrollModel {
 		return names.toArray(new String[names.size()]);
 	}
 	
-	private List<String> getNames(ObservableList<? extends Nameable> items) {
+	private static List<String> getNames(ObservableList<? extends Nameable> items) {
 		List<String> names = new ArrayList<>();
 		for (Nameable nameable : items.getList()) {
 			names.add(nameable.getName().getValue());
 		}
 		return names;
+	}
+	
+	private enum GetCellInfoVisitor implements EntityVisitor<String, Assignment> {
+		INSTANCE;
+
+		@Override public String visitSubject(Subject subject, Assignment ass) { return null; }
+		@Override public String visitTeacher(Teacher teacher, Assignment ass) { 
+			return ass.getSubject().getName().getValue() + "\n" + getNames(ass.getStudentGroups());
+		}
+		@Override public String visitStudentGroup(StudentGroup studentGroup, Assignment ass) { 
+			return ass.getSubject().getName().getValue() + "\n" + getNames(ass.getTeachers());
+		}
+		@Override public String visitRoom(Room room, Assignment ass) { return null; }
 	}
 	
 }
