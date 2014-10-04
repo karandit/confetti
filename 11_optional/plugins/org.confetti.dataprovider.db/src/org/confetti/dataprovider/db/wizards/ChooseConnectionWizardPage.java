@@ -24,7 +24,7 @@ public class ChooseConnectionWizardPage extends WizardPage {
 	@Override
 	public void createControl(Composite parent) {
 		final Composite compo = new Composite(parent, SWT.NONE);
-		this.model.setConnection("");
+		this.model.setConnection(null);
 		setControl(compo);
 	}
 
