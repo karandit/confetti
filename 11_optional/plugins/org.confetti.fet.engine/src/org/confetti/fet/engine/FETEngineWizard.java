@@ -108,6 +108,7 @@ public class FETEngineWizard extends Wizard {
 		      System.out.println(line);
 		    }
 		    
+		    //Reading in the solution file
 		    File solutionFile = new File(resultsDir, "\\timetables\\input\\input_activities.xml");
 		    SolutionXML solution = new SolutionFAO().importFrom(solutionFile);
 		    
