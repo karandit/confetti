@@ -1,5 +1,6 @@
 package org.confetti.dataprovider.db.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ public class StudentGroupDb extends AbstractEntityDb {
     private static final long serialVersionUID = 1L;
     
     private InstituteDb institute;
-    private Set<AssignmentDb> assignments;
+    private Set<AssignmentDb> assignments = new HashSet<>();
 	
     StudentGroupDb() {
     }

@@ -7,7 +7,7 @@ import org.confetti.dataprovider.db.ConnectionDescriptor;
 /**
  * @author Gabor Bubla
  */
-public class CreateDatabaseWizardModel {
+public class CreateDatabaseWizardModel implements ChooseConnectionModel {
 
 	private final String instituteName;
 	private final String comment;

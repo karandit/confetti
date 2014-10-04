@@ -10,9 +10,6 @@ import org.eclipse.jface.wizard.IWizard;
  */
 public class CreateDatabaseWizardFactory implements NewWizardFactory {
 
-	public CreateDatabaseWizardFactory() {
-	}
-
 	@Override
 	public IWizard createWizard(String instituteName, String comment, List<String> days, List<String> hours) {
 		return new CreateDatabaseWizard(instituteName, comment, days, hours);

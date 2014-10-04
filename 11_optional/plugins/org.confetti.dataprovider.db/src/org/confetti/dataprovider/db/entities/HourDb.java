@@ -4,10 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
-
 
 /**
  * @author Gabor Bubla
@@ -30,6 +30,7 @@ public class HourDb extends AbstractEntityDb {
 
     @ManyToOne
     @JoinColumn(name = "inst_fk")
+    @OrderColumn(name = "hour_index")
     @ForeignKey(name = "fk_hour_inst")
     public InstituteDb getInstitute() { return institute; }
     public void setInstitute(InstituteDb institute) { this.institute = institute; }

@@ -12,9 +12,9 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class ChooseConnectionWizardPage extends WizardPage {
 
-	private final CreateDatabaseWizardModel model;
+	private final ChooseConnectionModel model;
 
-	public ChooseConnectionWizardPage(CreateDatabaseWizardModel model) {
+	public ChooseConnectionWizardPage(ChooseConnectionModel model) {
 		super("Choose", "Database", getImageDescriptor(ConfettiPlugin.IMG_BIG_DB));
 		this.model = model;
 		setDescription("Choose a connection");

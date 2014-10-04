@@ -24,7 +24,6 @@ public class CreateDatabaseWizard extends Wizard {
 	
 	@Override
 	public void addPages() {
-		super.addPages();
 		addPage(new ChooseConnectionWizardPage(model));
 	}
 

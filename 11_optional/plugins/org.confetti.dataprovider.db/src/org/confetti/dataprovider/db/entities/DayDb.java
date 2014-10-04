@@ -3,6 +3,7 @@ package org.confetti.dataprovider.db.entities;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ForeignKey;
@@ -28,6 +29,7 @@ public class DayDb extends AbstractEntityDb {
 
     @ManyToOne
     @JoinColumn(name = "inst_fk")
+    @OrderColumn(name = "day_index")
     @ForeignKey(name = "fk_day_inst")
     public InstituteDb getInstitute() { return institute; }
     public void setInstitute(InstituteDb institute) { this.institute = institute; }

@@ -1,6 +1,7 @@
 package org.confetti.dataprovider.db.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -26,11 +27,27 @@ public class AssignmentDb implements Serializable {
     
     private Long id;
     private InstituteDb institute;
-    private Set<SubjectDb> subjects;
-    private Set<TeacherDb> teachers;
-    private Set<StudentGroupDb> studentGroups;
+    private Set<SubjectDb> subjects = new HashSet<>();
+    private Set<TeacherDb> teachers = new HashSet<>();
+    private Set<StudentGroupDb> studentGroups = new HashSet<>();
     
     AssignmentDb() {
+    }
+    
+    public AssignmentDb(InstituteDb institute, Iterable<SubjectDb> subjects, Iterable<TeacherDb> teachers, Iterable<StudentGroupDb> studentGroups) {
+        this.institute = institute;
+        for (SubjectDb subject : subjects) {
+            this.subjects.add(subject);
+            subject.getAssignments().add(this);
+        }
+        for (TeacherDb teacher : teachers) {
+            this.teachers.add(teacher);
+            teacher.getAssignments().add(this);
+        }
+        for (StudentGroupDb studentGroup : studentGroups) {
+            this.studentGroups.add(studentGroup);
+            studentGroup.getAssignments().add(this);
+        }
     }
 
     @Id

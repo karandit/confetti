@@ -1,7 +1,7 @@
 package org.confetti.dataprovider.db.entities;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 /**
@@ -29,8 +30,8 @@ public class InstituteDb implements Serializable {
     private String name;
 	private String version;
 	private String comment;
-	private Set<DayDb> days = new HashSet<>();
-	private Set<HourDb> hours = new HashSet<>();
+	private List<DayDb> days = new ArrayList<>();
+	private List<HourDb> hours = new ArrayList<>();
 	private Set<SubjectDb> subjects = new HashSet<>();
 	private Set<TeacherDb> teachers = new HashSet<>();
 	private Set<StudentGroupDb> studentGroups = new HashSet<>();
@@ -69,13 +70,15 @@ public class InstituteDb implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "inst_fk")
-    public Set<HourDb> getHours()                                   { return hours; }
-    public void setHours(Set<HourDb> hours)                         { this.hours = hours; }
+    @OrderColumn(name = "hour_index")
+    public List<HourDb> getHours()                                   { return hours; }
+    public void setHours(List<HourDb> hours)                         { this.hours = hours; }
     
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "inst_fk")
-    public Set<DayDb> getDays()                                     { return days; }
-    public void setDays(Set<DayDb> days)                            { this.days = days; }
+    @OrderColumn(name = "day_index")
+    public List<DayDb> getDays()                                     { return days; }
+    public void setDays(List<DayDb> days)                            { this.days = days; }
     
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "inst_fk")

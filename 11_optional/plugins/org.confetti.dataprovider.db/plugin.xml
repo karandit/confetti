@@ -8,5 +8,12 @@
             name="Relational Database">
       </newWizard>
    </extension>
+   <extension
+         point="org.confetti.rcp.openWizard">
+      <openWizard
+            factory="org.confetti.dataprovider.db.wizards.OpenDatabaseWizardFactory"
+            name="Relational Database">
+      </openWizard>
+   </extension>
 
 </plugin>
