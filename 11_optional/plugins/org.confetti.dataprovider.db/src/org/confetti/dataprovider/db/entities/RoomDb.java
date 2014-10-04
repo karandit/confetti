@@ -15,9 +15,16 @@ import org.hibernate.annotations.ForeignKey;
 @Table(name = "ttt_room")
 public class RoomDb extends AbstractEntityDb {
 
-	private InstituteDb institute;
+    private static final long serialVersionUID = 1L;
+    
+    private InstituteDb institute;
     
 	RoomDb() {
+    }
+	
+	public RoomDb(String name, InstituteDb institute) {
+        setName(name);
+        this.institute = institute;
     }
 
     @ManyToOne

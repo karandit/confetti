@@ -1,8 +1,6 @@
-
 package org.confetti.dataprovider.db.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,22 +12,20 @@ import org.hibernate.annotations.ForeignKey;
  */
 @Entity
 @Table(name = "ttt_day")
-public class DayDb {
+public class DayDb extends AbstractEntityDb {
 
-    private Long id;
-    private String name;
+    private static final long serialVersionUID = 1L;
+    
     private InstituteDb institute;
     
     DayDb() {
     }
+    
+    public DayDb(String name, InstituteDb institute) {
+        setName(name);
+        this.institute = institute;
+    }
 
-    @Id
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    
     @ManyToOne
     @JoinColumn(name = "inst_fk")
     @ForeignKey(name = "fk_day_inst")

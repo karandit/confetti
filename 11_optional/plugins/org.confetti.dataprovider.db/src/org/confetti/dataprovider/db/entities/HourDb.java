@@ -14,21 +14,19 @@ import org.hibernate.annotations.ForeignKey;
  */
 @Entity
 @Table(name = "ttt_hour")
-public class HourDb {
+public class HourDb extends AbstractEntityDb {
 
-    private Long id;
-    private String name;
+    private static final long serialVersionUID = 1L;
+    
     private InstituteDb institute;
     
     HourDb() {
     }
-
-    @Id
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public HourDb(String name, InstituteDb institute) {
+        setName(name);
+        this.institute = institute;
+    }
 
     @ManyToOne
     @JoinColumn(name = "inst_fk")

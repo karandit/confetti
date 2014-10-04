@@ -17,10 +17,17 @@ import org.hibernate.annotations.ForeignKey;
 @Table(name = "ttt_studentgroup")
 public class StudentGroupDb extends AbstractEntityDb {
 
-	private InstituteDb institute;
+    private static final long serialVersionUID = 1L;
+    
+    private InstituteDb institute;
     private Set<AssignmentDb> assignments;
 	
     StudentGroupDb() {
+    }
+    
+    public StudentGroupDb(String name, InstituteDb institute) {
+        setName(name);
+        this.institute = institute;
     }
     
     @ManyToOne

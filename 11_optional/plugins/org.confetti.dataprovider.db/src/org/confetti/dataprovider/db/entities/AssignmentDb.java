@@ -1,8 +1,11 @@
 package org.confetti.dataprovider.db.entities;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,8 +20,10 @@ import org.hibernate.annotations.ForeignKey;
  */
 @Entity
 @Table(name = "ttt_assignment")
-public class AssignmentDb {
+public class AssignmentDb implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     private Long id;
     private InstituteDb institute;
     private Set<SubjectDb> subjects;
@@ -29,6 +34,7 @@ public class AssignmentDb {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
