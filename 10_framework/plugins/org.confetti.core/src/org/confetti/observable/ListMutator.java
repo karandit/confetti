@@ -7,6 +7,12 @@ public class ListMutator<T> {
 	public ListMutator() {
 	}
 	
+	public ListMutator(Iterable<T> initialItems) {
+	    for (T item : initialItems) {
+            observList.addItem(item);
+        }
+	}
+	
 	public ObservableList<T> getObservableList() {
 		return observList;
 	}

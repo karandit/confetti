@@ -60,25 +60,25 @@ public class DbDataProvider implements DataProvider {
 	public DbDataProvider(SessionFactory sessFact, InstituteDb instDb) {
 	    this(sessFact);
 
+	    for (DayDb day : instDb.getDays()) {
+	        days.addItem(new DayDTO(day.getName()));
+	    }
+	    for (HourDb hour : instDb.getHours()) {
+	        hours.addItem(new HourDTO(hour.getName()));
+	    }
         for (SubjectDb subj : instDb.getSubjects()) {
             subjects.addItem(new SubjectDTO(subj.getName()));
         }
         for (TeacherDb teacher : instDb.getTeachers()) {
             teachers.addItem(new TeacherDTO(teacher.getName()));
         }
-        for (RoomDb room : instDb.getRooms()) {
-            rooms.addItem(new RoomDTO(room.getName()));
-        }
         for (StudentGroupDb sG : instDb.getStudentGroups()) {
             StudentGroupDTO studentGroupDTO = new StudentGroupDTO(sG.getName());
             stdGroups.addItem(studentGroupDTO);
             //TODO read as the children of the StudentGroups
         }
-        for (DayDb day : instDb.getDays()) {
-            days.addItem(new DayDTO(day.getName()));
-        }
-        for (HourDb hour : instDb.getHours()) {
-            hours.addItem(new HourDTO(hour.getName()));
+        for (RoomDb room : instDb.getRooms()) {
+            rooms.addItem(new RoomDTO(room.getName()));
         }
 
         Iterable<Subject> allSubjects = subjects.getObservableList().getList();

@@ -1,7 +1,6 @@
 package org.confetti.dataprovider.db.wizards;
 
-import java.util.List;
-
+import org.confetti.core.DataProvider;
 import org.confetti.rcp.extensions.NewWizardFactory;
 import org.eclipse.jface.wizard.IWizard;
 
@@ -10,9 +9,10 @@ import org.eclipse.jface.wizard.IWizard;
  */
 public class CreateDatabaseWizardFactory implements NewWizardFactory {
 
-	@Override
-	public IWizard createWizard(String instituteName, String comment, List<String> days, List<String> hours) {
-		return new CreateDatabaseWizard(instituteName, comment, days, hours);
-	}
+    @Override
+    public IWizard createWizard(DataProvider dp) {
+        CreateDatabaseWizardModel model = new CreateDatabaseWizardModel(dp);
+        return new CreateDatabaseWizard(model);
+    }
 
 }

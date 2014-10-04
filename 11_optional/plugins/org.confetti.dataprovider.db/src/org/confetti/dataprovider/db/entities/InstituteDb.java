@@ -2,8 +2,13 @@ package org.confetti.dataprovider.db.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,6 +20,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+
+import org.confetti.core.Assignment;
+import org.confetti.core.DataProvider;
+import org.confetti.core.Day;
+import org.confetti.core.Hour;
+import org.confetti.core.Room;
+import org.confetti.core.StudentGroup;
+import org.confetti.core.Subject;
+import org.confetti.core.Teacher;
 
 /**
  * @author Gabor Bubla
@@ -38,21 +52,74 @@ public class InstituteDb implements Serializable {
 	private Set<RoomDb> rooms = new HashSet<>();
 	private Set<AssignmentDb> assignments = new HashSet<>();
 
-	public InstituteDb() {
+	InstituteDb() {
 	}
 	
-	public InstituteDb(String instituteName, String comment, List<String> days, List<String> hours) {
-        this.name = instituteName;
+	public InstituteDb(DataProvider dp) {
+        this.name = dp.getName().getValue();
         this.version = "5.23.2";
-        this.comment = comment;
-        for (String day : days) {
-            this.days.add(new DayDb(day, this));
+        //TODO dp.getComment().getValue()
+        this.comment = "todo";
+        for (Day day : dp.getDays().getList()) {
+            this.days.add(new DayDb(day.getName().getValue(), this));
         }
-        for (String hour : hours) {
-            this.hours.add(new HourDb(hour, this));
+        for (Hour hour : dp.getHours().getList()) {
+            this.hours.add(new HourDb(hour.getName().getValue(), this));
+        }
+        for (Subject subj : dp.getSubjects().getList()) {
+            this.subjects.add(new SubjectDb(subj.getName().getValue(), this));
+        }
+        for (Teacher teacher : dp.getTeachers().getList()) {
+            this.teachers.add(new TeacherDb(teacher.getName().getValue(), this));
+        }
+        for (StudentGroup sg : dp.getStudentGroups().getList()) {
+            StudentGroupDb sgDb = new StudentGroupDb(sg.getName().getValue(), this);
+            this.studentGroups.add(sgDb);
+            //TODO read as the children of the StudentGroups
+        }
+        for (Room room : dp.getRooms().getList()) {
+            this.rooms.add(new RoomDb(room.getName().getValue(), this));
+        }
+        
+        Map<String, StudentGroupDb> allStdGroups = collectStudentGroups(studentGroups);
+        for (Assignment ass : dp.getAssignments().getList()) {
+            SubjectDb subjDb = findByName(this.subjects.iterator(), ass.getSubject().getName().getValue());
+            List<TeacherDb> teachersDb = new LinkedList<>();
+            List<StudentGroupDb> sGsDb = new LinkedList<>();
+            if (ass.getStudentGroups() != null) {
+                for (StudentGroup stGroup : ass.getStudentGroups().getList()) {
+                    sGsDb.add(allStdGroups.get(stGroup.getName()));
+                }
+            }
+            if (ass.getTeachers() != null) {
+                for (Teacher teacher : ass.getTeachers().getList()) {
+                    teachersDb.add(findByName(this.teachers.iterator(), teacher.getName().getValue()));
+                }
+            }
+            this.assignments.add(new AssignmentDb(this, Arrays.asList(subjDb), teachersDb, sGsDb));
         }
     }
 
+	private Map<String, StudentGroupDb> collectStudentGroups(Set<StudentGroupDb> items) {
+        Map<String, StudentGroupDb> res = new HashMap<>();
+        for (StudentGroupDb sg : items) {
+            res.put(sg.getName(), sg);
+            //TODO implement children for StudentGroupDb
+//            res.putAll(collectStudentGroups(sg.getChildren().getList()));
+        }
+        return res;
+    }
+	
+	private static <T extends AbstractEntityDb> T findByName(Iterator<T> items, String name) {
+        while (items.hasNext()) {
+            T item = (T) items.next();
+            if (item.getName().equals(name)) {
+                return item;
+            }
+        }
+        return null;
+    }
+	
     // --------------- getters and setters -----------------------------------------------------------------------------
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)

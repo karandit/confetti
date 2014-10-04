@@ -1,10 +1,25 @@
 package org.confetti.rcp.actions;
 
+import static com.google.common.collect.Iterables.transform;
 import static org.confetti.rcp.wizards.WizardUtil.watchWizardDialog;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import org.confetti.core.Assignment;
+import org.confetti.core.DataProvider;
+import org.confetti.core.Day;
+import org.confetti.core.Entity;
+import org.confetti.core.Hour;
+import org.confetti.core.Room;
+import org.confetti.core.SolutionSlot;
+import org.confetti.core.StudentGroup;
+import org.confetti.core.Subject;
+import org.confetti.core.Teacher;
+import org.confetti.observable.ListMutator;
+import org.confetti.observable.ObservableList;
+import org.confetti.observable.ObservableValue;
+import org.confetti.observable.ValueMutator;
 import org.confetti.rcp.extensions.NewWizardDescr;
 import org.confetti.rcp.extensions.NewWizardFactory;
 import org.confetti.rcp.extensions.NewWizardRegistry;
@@ -22,10 +37,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListDialog;
 
+import com.google.common.base.Function;
+
 public class NewWizardAction extends Action {
 
 	public NewWizardAction() {
-		super();
 		setId("newWizard");
 		setText("New...");
 	}
@@ -35,11 +51,13 @@ public class NewWizardAction extends Action {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		//wizard for getting the Institute name, comment, List of days, List of hours
 		NewTimetableModel model = new NewTimetableModel();
-		WizardDialog dialog = new WizardDialog(shell, new NewTimetableWizard(model));
-		watchWizardDialog(dialog);
-		dialog.setTitle("New...");
-		if (Window.OK != dialog.open()) {
-			return;
+		{
+    		WizardDialog dialog = new WizardDialog(shell, new NewTimetableWizard(model));
+    		watchWizardDialog(dialog);
+    		dialog.setTitle("New...");
+    		if (Window.OK != dialog.open()) {
+    			return;
+    		}
 		}
 		
 		//dialog with all the extensions
@@ -63,7 +81,8 @@ public class NewWizardAction extends Action {
 		List<String> days = getEntries(model.getDaysModel());
 		List<String> hours = getEntries(model.getHoursModel());
 		
-		dialog = new WizardDialog(shell, wizardFactory.createWizard(model.getName(), model.getComment(), days, hours));
+		EmptyDataProvider dp = new EmptyDataProvider(model.getName(), days, hours);
+        WizardDialog dialog = new WizardDialog(shell, wizardFactory.createWizard(dp));
 		watchWizardDialog(dialog);
 		dialog.open();
 	}
@@ -76,4 +95,55 @@ public class NewWizardAction extends Action {
 		return res;
 	}
 
+	private static class EmptyDataProvider implements DataProvider {
+
+	    private final ValueMutator<String> name;
+	    private final ListMutator<Day> days;
+	    private final ListMutator<Hour> hours;
+	    
+	    private static class UserInputDay implements Day {
+	        private final ValueMutator<String> name;
+	        UserInputDay(String value) { this.name = new ValueMutator<>(this, value); }
+            @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
+	    }
+	    private static class UserInputHour implements Hour {
+	        private final ValueMutator<String> name;
+            UserInputHour(String value) { this.name = new ValueMutator<>(this, value); }
+            @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
+	    }
+	    
+	    public EmptyDataProvider(String name, Iterable<String> days, Iterable<String> hours) {
+	        this.name = new ValueMutator<>(this, name);
+	        this.days = new ListMutator<>(transform(days, new Function<String, Day>() {
+                @Override public Day apply(String arg) { return new UserInputDay(arg); }
+            }));
+	        this.hours = new ListMutator<>(transform(hours, new Function<String, Hour>() {
+                @Override public Hour apply(String arg) { return new UserInputHour(arg); }
+            }));
+        }
+	    
+        @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
+        @Override public ObservableList<Day> getDays() { return days.getObservableList(); }
+        @Override public ObservableList<Hour> getHours() { return hours.getObservableList(); }
+        //--------------------------not used----------------------------------------------------------------------------
+        @Override public ObservableList<Subject> getSubjects() { return null; }
+        @Override public ObservableList<Teacher> getTeachers() { return null; }
+        @Override public ObservableList<StudentGroup> getStudentGroups() { return null; }
+        @Override public ObservableList<Room> getRooms() { return null; }
+        @Override public ObservableList<Assignment> getAssignments() { return null; }
+        @Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return null; }
+        @Override public Subject addSubject(String name) { return null; }
+        @Override public Teacher addTeacher(String name) { return null; }
+        @Override public StudentGroup addStudentGroup(StudentGroup parent, String name) { return null; }
+        @Override public Room addRoom(String name) { return null; }
+        @Override public void setDays(List<String> days) { }
+        @Override public void setHours(List<String> hours) { }
+        @Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
+        @Override public void setSolution(Iterable<SolutionSlot> solution) { }
+        @Override public void removeSubject(Subject subject) { }
+        @Override public void removeTeacher(Teacher teacher) { }
+        @Override public void removeRoom(Room room) { }
+        @Override public void rename(Entity entity, String newName) { }
+	}
+	
 }

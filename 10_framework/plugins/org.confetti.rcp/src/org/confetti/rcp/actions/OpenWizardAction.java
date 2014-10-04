@@ -19,7 +19,6 @@ import org.eclipse.ui.dialogs.ListDialog;
 public class OpenWizardAction extends Action {
 
 	public OpenWizardAction() {
-		super();
 		setId("openWizard");
 		setText("Open...");
 	}

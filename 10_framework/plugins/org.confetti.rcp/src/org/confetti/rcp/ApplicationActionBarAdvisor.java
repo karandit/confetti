@@ -2,6 +2,7 @@ package org.confetti.rcp;
 
 import org.confetti.rcp.actions.NewWizardAction;
 import org.confetti.rcp.actions.OpenWizardAction;
+import org.confetti.rcp.actions.SaveAsAction;
 import org.confetti.rcp.actions.TestAction1;
 import org.confetti.rcp.actions.TestAction2;
 import org.eclipse.jface.action.GroupMarker;
@@ -38,7 +39,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     
     private NewWizardAction newWizardAction;
     private OpenWizardAction openWizardAction;
-    
+    private SaveAsAction saveAsAction;
 
     public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
@@ -66,6 +67,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         
         openWizardAction = new OpenWizardAction();
         register(openWizardAction);
+        
+        saveAsAction = new SaveAsAction();
+        register(saveAsAction);
         
     }
     
@@ -98,5 +102,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         
         toolbar.add(newWizardAction);
         toolbar.add(openWizardAction);
+        toolbar.add(saveAsAction);
     }
 }
