@@ -15,5 +15,28 @@
             name="Relational Database">
       </openWizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.confetti.dataprovider.db.commands.PreferencesCommand"
+            id="org.confetti.dataprovider.db.preferencesCommand"
+            name="Preferences">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="Database">
+            <command
+                  commandId="org.confetti.dataprovider.db.preferencesCommand"
+                  label="Preferences"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
 
 </plugin>
