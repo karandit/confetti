@@ -25,6 +25,7 @@
 
 		<!--tycho-repo.url>https://oss.sonatype.org/content/groups/public/</tycho-repo.url-->
 	 	<kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
+		<elver-repo.url>http://www.elver.org/eclipse/2.1.0/update</elver-repo.url>
 	</properties>
 
 
@@ -35,6 +36,11 @@
 			<layout>p2</layout>
 		</repository>
 
+		<repository>
+			<id>elver</id>
+      		<url>${elver-repo.url}</url>
+			<layout>p2</layout>
+		</repository>
 	</repositories>
 
 	<!--pluginRepositories>
