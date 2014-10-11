@@ -459,6 +459,32 @@
             </command>
          </menu>
       </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="Window">
+            <command
+                  commandId="org.eclipse.ui.window.preferences"
+                  label="Preferences"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.confetti.rcp.preferences.DatabasePreferencePage"
+            id="org.confetti.rcp.preferences.databasePreferencePage"
+            name="Database Preferences">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.confetti.rcp.preferences.PreferenceInitializer">
+      </initializer>
    </extension>
 
 </plugin>
