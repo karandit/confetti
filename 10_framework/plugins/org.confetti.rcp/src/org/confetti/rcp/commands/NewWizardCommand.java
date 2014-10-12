@@ -1,4 +1,4 @@
-package org.confetti.rcp.actions;
+package org.confetti.rcp.commands;
 
 import static com.google.common.collect.Iterables.transform;
 import static org.confetti.rcp.wizards.WizardUtil.watchWizardDialog;
@@ -28,7 +28,9 @@ import org.confetti.rcp.wizards.models.NewTimetableModel;
 import org.confetti.rcp.wizards.models.NewTimetableModel.NewEntryModel;
 import org.confetti.rcp.wizards.models.Problem;
 import org.confetti.util.Tuple;
-import org.eclipse.jface.action.Action;
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
@@ -39,89 +41,89 @@ import org.eclipse.ui.dialogs.ListDialog;
 
 import com.google.common.base.Function;
 
-public class NewWizardAction extends Action {
+/**
+ * @author Gabor Bubla
+ */
+public class NewWizardCommand extends AbstractHandler {
 
-	public NewWizardAction() {
-		setId("newWizard");
-		setText("New...");
-	}
-
-	@Override
-	public void run() {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		//wizard for getting the Institute name, comment, List of days, List of hours
-		NewTimetableModel model = new NewTimetableModel();
-		{
-    		WizardDialog dialog = new WizardDialog(shell, new NewTimetableWizard(model));
-    		watchWizardDialog(dialog);
-    		dialog.setTitle("New...");
-    		if (Window.OK != dialog.open()) {
-    			return;
-    		}
-		}
-		
-		//dialog with all the extensions
-		ListDialog dlg = new ListDialog(shell);
-		dlg.setContentProvider(new ArrayContentProvider());
-		dlg.setLabelProvider(new LabelProvider());
-		dlg.setTitle("New");
-		dlg.setMessage("Choose an input");
-		List<NewWizardDescr> extensions = NewWizardRegistry.INSTANCE.getExtensions();
-		dlg.setInput(extensions); 
-		if (Window.OK != dlg.open()) {
-			return;
-		}
-		Object[] selected = dlg.getResult();
-		if (selected == null || selected.length == 0) {
-			return;
-		}
-		//open the selected extension's wizard
-		NewWizardDescr selectedDescr = (NewWizardDescr) selected[0];
-		NewWizardFactory wizardFactory = selectedDescr.getWizardFactory();
-		List<String> days = getEntries(model.getDaysModel());
-		List<String> hours = getEntries(model.getHoursModel());
-		
-		EmptyDataProvider dp = new EmptyDataProvider(model.getName(), days, hours);
+    @Override
+    public Object execute(ExecutionEvent event) throws ExecutionException {
+        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+        //wizard for getting the Institute name, comment, List of days, List of hours
+        NewTimetableModel model = new NewTimetableModel();
+        {
+            WizardDialog dialog = new WizardDialog(shell, new NewTimetableWizard(model));
+            watchWizardDialog(dialog);
+            dialog.setTitle("New...");
+            if (Window.OK != dialog.open()) {
+                return null;
+            }
+        }
+        
+        //dialog with all the extensions
+        ListDialog dlg = new ListDialog(shell);
+        dlg.setContentProvider(new ArrayContentProvider());
+        dlg.setLabelProvider(new LabelProvider());
+        dlg.setTitle("New");
+        dlg.setMessage("Choose an input");
+        List<NewWizardDescr> extensions = NewWizardRegistry.INSTANCE.getExtensions();
+        dlg.setInput(extensions); 
+        if (Window.OK != dlg.open()) {
+            return null;
+        }
+        Object[] selected = dlg.getResult();
+        if (selected == null || selected.length == 0) {
+            return null;
+        }
+        //open the selected extension's wizard
+        NewWizardDescr selectedDescr = (NewWizardDescr) selected[0];
+        NewWizardFactory wizardFactory = selectedDescr.getWizardFactory();
+        List<String> days = getEntries(model.getDaysModel());
+        List<String> hours = getEntries(model.getHoursModel());
+        
+        EmptyDataProvider dp = new EmptyDataProvider(model.getName(), days, hours);
         WizardDialog dialog = new WizardDialog(shell, wizardFactory.createWizard(dp));
-		watchWizardDialog(dialog);
-		dialog.open();
-	}
+        watchWizardDialog(dialog);
+        dialog.open();
+        
+        return null;
+    }
+    
+    private List<String> getEntries(NewEntryModel model) {
+        List<String> res = new LinkedList<>();
+        for (Tuple<String, Problem> tuple : model.getResult()) {
+            res.add(tuple.getFirst());
+        }
+        return res;
+    }
 
-	private List<String> getEntries(NewEntryModel model) {
-		List<String> res = new LinkedList<>();
-		for (Tuple<String, Problem> tuple : model.getResult()) {
-			res.add(tuple.getFirst());
-		}
-		return res;
-	}
+    private static class EmptyDataProvider implements DataProvider {
 
-	private static class EmptyDataProvider implements DataProvider {
-
-	    private final ValueMutator<String> name;
-	    private final ListMutator<Day> days;
-	    private final ListMutator<Hour> hours;
-	    
-	    private static class UserInputDay implements Day {
-	        private final ValueMutator<String> name;
-	        UserInputDay(String value) { this.name = new ValueMutator<>(this, value); }
+        private final ValueMutator<String> name;
+        private final ListMutator<Day> days;
+        private final ListMutator<Hour> hours;
+        
+        private static class UserInputDay implements Day {
+            private final ValueMutator<String> name;
+            UserInputDay(String value) { this.name = new ValueMutator<>(this, value); }
             @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
-	    }
-	    private static class UserInputHour implements Hour {
-	        private final ValueMutator<String> name;
+        }
+        private static class UserInputHour implements Hour {
+            private final ValueMutator<String> name;
             UserInputHour(String value) { this.name = new ValueMutator<>(this, value); }
             @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
-	    }
-	    
-	    public EmptyDataProvider(String name, Iterable<String> days, Iterable<String> hours) {
-	        this.name = new ValueMutator<>(this, name);
-	        this.days = new ListMutator<>(transform(days, new Function<String, Day>() {
+        }
+        
+        public EmptyDataProvider(String name, Iterable<String> days, Iterable<String> hours) {
+            this.name = new ValueMutator<>(this, name);
+            this.days = new ListMutator<>(transform(days, new Function<String, Day>() {
                 @Override public Day apply(String arg) { return new UserInputDay(arg); }
             }));
-	        this.hours = new ListMutator<>(transform(hours, new Function<String, Hour>() {
+            this.hours = new ListMutator<>(transform(hours, new Function<String, Hour>() {
                 @Override public Hour apply(String arg) { return new UserInputHour(arg); }
             }));
         }
-	    
+        
         @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
         @Override public ObservableList<Day> getDays() { return days.getObservableList(); }
         @Override public ObservableList<Hour> getHours() { return hours.getObservableList(); }
@@ -144,6 +146,6 @@ public class NewWizardAction extends Action {
         @Override public void removeTeacher(Teacher teacher) { }
         @Override public void removeRoom(Room room) { }
         @Override public void rename(Entity entity, String newName) { }
-	}
-	
+    }
+
 }

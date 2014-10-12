@@ -23,4 +23,28 @@
             name="Dummy Engine Wizard">
       </engineWizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="org.confetti.dummy.toolbar">
+            <command
+                  commandId="org.confetti.dummy.refreshCommand"
+                  icon="icons/refresh_tab.gif"
+                  label="Refresh DataProvider"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.confetti.dummy.commands.RefreshCommand"
+            id="org.confetti.dummy.refreshCommand"
+            name="Refresh DataProvider">
+      </command>
+   </extension>
 </plugin>

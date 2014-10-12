@@ -84,14 +84,24 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            name="Test 1"
-            description="Test command 1"
-            id="org.confetti.rcp.actions.test1">
+            defaultHandler="org.confetti.rcp.commands.GenerateTimetableCommand"
+            id="org.confetti.rcp.generateCommand"
+            name="Generate Timetable">
       </command>
       <command
-            name="Test 2"
-            description="Test command 2"
-            id="org.confetti.rcp.actions.test2">
+            defaultHandler="org.confetti.rcp.commands.NewWizardCommand"
+            id="org.confetti.rcp.newWizardCommand"
+            name="New Wizard">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.OpenWizardCommand"
+            id="org.confetti.rcp.openWizardCommand"
+            name="Open Wizard">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.SaveAsCommand"
+            id="org.confetti.rcp.saveAsCommand"
+            name="Save As">
       </command>
       <command
             defaultHandler="org.confetti.rcp.commands.NewSubjectCommand"
@@ -135,11 +145,6 @@
             id="org.confetti.rcp.deleteEntityCommand"
             name="Delete Entity">
       </command>
-      <command
-            defaultHandler="org.confetti.rcp.commands.GenerateTimetableCommand"
-            id="org.confetti.rcp.generateCommand"
-            name="Generate Timetable">
-      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -169,6 +174,80 @@
    </extension>
    <extension
          point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="Timetable"
+               mnemonic="T">
+            <command
+                  commandId="org.confetti.rcp.commands.newSubjectCommand"
+                  icon="icons/subject-16-fill.png"
+                  label="New Subject"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.commands.newTeacherCommand"
+                  icon="icons/teacher-16-fill.png"
+                  label="New Teacher"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.commands.newStudentGroupCommand"
+                  icon="icons/studentgroup-16-fill.png"
+                  label="New Student Group"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.commands.newRoomCommand"
+                  icon="icons/room-16-fill.png"
+                  label="New Room"
+                  style="push">
+            </command>
+            <separator
+                  name="org.confetti.rcp.separator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.confetti.rcp.generateCommand"
+                  label="Generate"
+                  mnemonic="G"
+                  style="push">
+            </command>
+         </menu>
+         <menu
+               label="Window"
+               mnemonic="W">
+            <command
+                  commandId="org.eclipse.ui.window.preferences"
+                  label="Preferences"
+                  mnemonic="P"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="org.confetti.rcp.toolbar">
+            <command
+                  commandId="org.confetti.rcp.newWizardCommand"
+                  label="New..."
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.openWizardCommand"
+                  label="Open..."
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.saveAsCommand"
+                  label="Save As..."
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
       <menuContribution
             allPopups="false"
             locationURI="toolbar:org.confetti.rcp.subjectsView">
@@ -418,58 +497,6 @@
                </with>
             </visibleWhen>
          </command>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:org.eclipse.ui.main.menu">
-         <menu
-               label="Timetable">
-            <command
-                  commandId="org.confetti.rcp.commands.newSubjectCommand"
-                  icon="icons/subject-16-fill.png"
-                  label="New Subject"
-                  style="push">
-            </command>
-            <command
-                  commandId="org.confetti.rcp.commands.newTeacherCommand"
-                  icon="icons/teacher-16-fill.png"
-                  label="New Teacher"
-                  style="push">
-            </command>
-            <command
-                  commandId="org.confetti.rcp.commands.newStudentGroupCommand"
-                  icon="icons/studentgroup-16-fill.png"
-                  label="New Student Group"
-                  style="push">
-            </command>
-            <command
-                  commandId="org.confetti.rcp.commands.newRoomCommand"
-                  icon="icons/room-16-fill.png"
-                  label="New Room"
-                  style="push">
-            </command>
-            <separator
-                  name="org.confetti.rcp.separator1"
-                  visible="true">
-            </separator>
-            <command
-                  commandId="org.confetti.rcp.generateCommand"
-                  label="Generate"
-                  style="push">
-            </command>
-         </menu>
-      </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="menu:org.eclipse.ui.main.menu">
-         <menu
-               label="Window">
-            <command
-                  commandId="org.eclipse.ui.window.preferences"
-                  label="Preferences"
-                  style="push">
-            </command>
-         </menu>
       </menuContribution>
    </extension>
    <extension

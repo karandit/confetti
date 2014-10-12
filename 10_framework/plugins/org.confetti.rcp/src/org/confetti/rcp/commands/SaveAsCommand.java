@@ -1,4 +1,4 @@
-package org.confetti.rcp.actions;
+package org.confetti.rcp.commands;
 
 import static org.confetti.rcp.wizards.WizardUtil.watchWizardDialog;
 
@@ -9,7 +9,9 @@ import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.extensions.NewWizardDescr;
 import org.confetti.rcp.extensions.NewWizardFactory;
 import org.confetti.rcp.extensions.NewWizardRegistry;
-import org.eclipse.jface.action.Action;
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
@@ -21,15 +23,10 @@ import org.eclipse.ui.dialogs.ListDialog;
 /**
  * @author Gabor Bubla
  */
-public class SaveAsAction extends Action {
-
-    public SaveAsAction() {
-        setId("saveAs");
-        setText("Save As...");
-    }
+public class SaveAsCommand extends AbstractHandler {
 
     @Override
-    public void run() {
+    public Object execute(ExecutionEvent event) throws ExecutionException {
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
         
         //dialog with all the extensions
@@ -41,11 +38,11 @@ public class SaveAsAction extends Action {
         List<NewWizardDescr> extensions = NewWizardRegistry.INSTANCE.getExtensions();
         dlg.setInput(extensions); 
         if (Window.OK != dlg.open()) {
-            return;
+            return null;
         }
         Object[] selected = dlg.getResult();
         if (selected == null || selected.length == 0) {
-            return;
+            return null;
         }
         //open the selected extension's wizard
         NewWizardDescr selectedDescr = (NewWizardDescr) selected[0];
@@ -55,6 +52,13 @@ public class SaveAsAction extends Action {
         WizardDialog dialog = new WizardDialog(shell, wizardFactory.createWizard(dp));
         watchWizardDialog(dialog);
         dialog.open();
+        
+        return null;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true;
     }
 
 }
