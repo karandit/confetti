@@ -4,6 +4,7 @@
    <extension-point id="openWizard" name="Open wizard" schema="schema/openWizard.exsd"/>
    <extension-point id="newWizard" name="New Wizard" schema="schema/newWizard.exsd"/>
    <extension-point id="engineWizard" name="Engine Wizard" schema="schema/engineWizard.exsd"/>
+   <extension-point id="connection" name="Database Connection" schema="schema/connection.exsd"/>
 
    <extension
          id="application"
@@ -502,16 +503,10 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            class="org.confetti.rcp.preferences.DatabasePreferencePage"
-            id="org.confetti.rcp.preferences.databasePreferencePage"
-            name="Database Preferences">
+            class="org.confetti.rcp.preferences.ConnectionPreferencePage"
+            id="org.confetti.rcp.preferences.connectionPreferencePage"
+            name="Connection Preferences">
       </page>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.preferences">
-      <initializer
-            class="org.confetti.rcp.preferences.PreferenceInitializer">
-      </initializer>
    </extension>
 
 </plugin>
