@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -93,13 +93,13 @@ public class AddAssignmentDialog extends Dialog {
         studentGroupLabel.setFont(boldFont);
         
         //create viewers
-        ListViewer subjectsViewer = new ListViewer(container, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+        TableViewer subjectsViewer = new TableViewer(container, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.FULL_SELECTION);
         subjectsViewer.setContentProvider(new ArrayContentProvider());
         subjectsViewer.setLabelProvider(new EntityLabelProvider());
         subjectsViewer.setInput(ConfettiPlugin.getDefault().getDataProvider().getValue().getSubjects().getList());
         GridDataFactory.fillDefaults().grab(true, true).applyTo(subjectsViewer.getControl());
         
-        ListViewer teachersViewer = new ListViewer(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+        TableViewer teachersViewer = new TableViewer(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.FULL_SELECTION);
         teachersViewer.setContentProvider(new ArrayContentProvider());
         teachersViewer.setLabelProvider(new EntityLabelProvider());
         teachersViewer.setInput(ConfettiPlugin.getDefault().getDataProvider().getValue().getTeachers().getList());
@@ -141,11 +141,11 @@ public class AddAssignmentDialog extends Dialog {
     
     private class CreateAssignmentSelectionListener extends SelectionAdapter {
 
-        private ListViewer subjectsViewer;
-        private ListViewer teachersViewer;
-        private TreeViewer studentgroupsViewer;
+        private Viewer subjectsViewer;
+        private Viewer teachersViewer;
+        private Viewer studentgroupsViewer;
 
-        public CreateAssignmentSelectionListener(ListViewer subjectsViewer, ListViewer teachersViewer, TreeViewer studentgroupsViewer) {
+        public CreateAssignmentSelectionListener(Viewer subjectsViewer, Viewer teachersViewer, Viewer studentgroupsViewer) {
             this.subjectsViewer = subjectsViewer;
             this.teachersViewer = teachersViewer;
             this.studentgroupsViewer = studentgroupsViewer;
@@ -171,7 +171,6 @@ public class AddAssignmentDialog extends Dialog {
             List<StudentGroup> studentGroups = selection.toList();
             
             //create the assignment
-            //FIXME add assignment only if it doesn't exist already
             ConfettiPlugin.getDefault().getDataProvider().getValue().addAssignment(subject, teachers, studentGroups);
             MessageDialog.openInformation(shell, "Success", "Selected assignment succesfully added");
             

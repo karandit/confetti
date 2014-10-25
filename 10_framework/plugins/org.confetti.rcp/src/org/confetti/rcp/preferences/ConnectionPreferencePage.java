@@ -12,10 +12,12 @@ import org.confetti.rcp.extensions.ConnectionRegistry;
 import org.confetti.util.Tuple;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -50,6 +52,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
     private List<ConnectionDescr> extensions = ConnectionRegistry.INSTANCE.getExtensions();
     private List<Tuple<String, String>> connectionSettings; 
 	
+    //--------------------------- Override methods ---------------------------------------------------------------------
 	@Override
 	public void init(IWorkbench workbench) {
 	    noDefaultAndApplyButton();
@@ -81,16 +84,19 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
         buttonsComposite.setLayout(fillLayout);
 	    
 	    Button addButton = new Button(buttonsComposite, SWT.NONE);
-	    addButton.setText("Add");
+	    addButton.setText("&Add");
 	    addButton.addSelectionListener(new AddNewConnectionSelectionListener(viewer));
 	    Button editButton = new Button(buttonsComposite, SWT.NONE);
-	    editButton.setText("Edit");
+	    editButton.setText("&Edit");
+	    editButton.addSelectionListener(new EditConnectionSelectionListener(viewer));
 	    Button removeButton = new Button(buttonsComposite, SWT.NONE);
-	    removeButton.setText("Remove");
+	    removeButton.setText("&Remove");
+	    removeButton.addSelectionListener(new RemoveConnectionSelectionListener(viewer));
 	    
 	    return parent;
 	}
 	
+	//--------------------------- helper methods -----------------------------------------------------------------------
 	private List<Tuple<String, String>> getConnectionSettings(IPreferenceStore preferenceStore) {
 	    List<Tuple<String, String>> connNamesAndTypes = new LinkedList<>();
 	    String connNamesCSV = preferenceStore.getString(KEY_CONNECTIONS);
@@ -103,7 +109,22 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
         }
 	    return connNamesAndTypes;
 	}
+	
+	private String transformToCSV(List<Tuple<String, String>> connectionSettings) {
+	    StringBuilder sb = new StringBuilder();
+	    boolean first = true;
+	    for (Tuple<String, String> tuple : connectionSettings) {
+	        if (first) {
+	            first = false;
+	        } else {
+	            sb.append(",");
+	        }
+	        sb.append(tuple.getFirst());
+	    }
+	    return sb.toString();
+	}
 
+	//--------------------------- inner Classes ------------------------------------------------------------------------
 	private class ConnectionLabelProvider extends LabelProvider implements ITableLabelProvider {
         @Override public Image getColumnImage(Object element, int columnIndex) { return null; }
         @Override
@@ -176,20 +197,78 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
                 viewer.refresh();
             }
         }
-
-        private String transformToCSV(List<Tuple<String, String>> connectionSettings) {
-            StringBuilder sb = new StringBuilder();
-            boolean first = true;
-            for (Tuple<String, String> tuple : connectionSettings) {
-                if (first) {
-                    first = false;
-                } else {
-                    sb.append(",");
-                }
-                sb.append(tuple.getFirst());
-            }
-            return sb.toString();
+	}
+	
+	private class EditConnectionSelectionListener extends SelectionAdapter {
+	    
+	    private final TableViewer viewer;
+        
+        public EditConnectionSelectionListener(TableViewer viewer) {
+            this.viewer = viewer;
         }
+        
+        @Override
+        public void widgetSelected(SelectionEvent e) {
+            Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+            
+            //warning dialog if a viewer has no selection
+            if (viewer.getSelection().isEmpty()) {
+                MessageDialog.openWarning(shell, "Wrong selection", "Please select a connection.");
+                return;
+            }
+            
+            //get the selection
+            IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+            Tuple<String, String> selectedConn = (Tuple<String, String>) selection.getFirstElement();
+            for (ConnectionDescr conn : extensions) {
+                if (conn.getDbType().equals(selectedConn.getSecond())) {
+                    SelectedConnectionDialog dialog = new SelectedConnectionDialog(shell, getPreferenceStore(), 
+                            conn.getConnectionFactory(), selectedConn.getFirst());
+                    dialog.open();
+                    return;
+                }
+            }
+            
+            //the selected connection not found in the extensions
+            MessageDialog.openError(shell, "Error", "The selected connection is not found.");
+        }
+	}
+	
+	private class RemoveConnectionSelectionListener extends SelectionAdapter {
+	    
+	    private final TableViewer viewer;
+	    
+	    public RemoveConnectionSelectionListener(TableViewer viewer) {
+	        this.viewer = viewer;
+	    }
+	    
+	    @Override
+	    public void widgetSelected(SelectionEvent e) {
+	        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+	        
+	        //warning dialog if a viewer has no selection
+            if (viewer.getSelection().isEmpty()) {
+                MessageDialog.openWarning(shell, "Wrong selection", "Please select a connection.");
+                return;
+            }
+            
+            //get the selection
+            IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+            Tuple<String, String> selectedConn = (Tuple<String, String>) selection.getFirstElement();
+            
+            //confirmation dialog
+            if (!MessageDialog.openConfirm(shell, "Remove connection", 
+                    "\"" + selectedConn.getFirst() + "\" named connection will be deleted. Are you sure?")) {
+                return;
+            }
+            
+            //remove it from connectionSettings
+            connectionSettings.remove(selectedConn);
+            
+            //remove it from CONNECTIONS in the PreferenceStore
+            getPreferenceStore().setValue(KEY_CONNECTIONS, transformToCSV(connectionSettings));
+            viewer.refresh();
+	    }
 	}
 	
 }

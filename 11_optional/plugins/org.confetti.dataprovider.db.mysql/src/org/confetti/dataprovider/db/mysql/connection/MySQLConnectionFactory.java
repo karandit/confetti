@@ -2,11 +2,13 @@ package org.confetti.dataprovider.db.mysql.connection;
 
 import org.confetti.rcp.extensions.ConnectionFactory;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
@@ -31,6 +33,8 @@ public class MySQLConnectionFactory implements ConnectionFactory {
     @Override
     public Composite createComposite(Composite parent) {
         Composite mySQLcomposite = new Composite(parent, SWT.NONE);
+        mySQLcomposite.setLayout(new GridLayout(1, true)); 
+        GridDataFactory.fillDefaults().grab(true, false).applyTo(mySQLcomposite);
         
         hostField = new StringFieldEditor("host", "&Host address", mySQLcomposite);
         portField = new StringFieldEditor("port", "&Port number", mySQLcomposite);

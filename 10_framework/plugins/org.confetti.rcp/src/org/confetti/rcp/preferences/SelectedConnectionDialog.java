@@ -49,7 +49,7 @@ class SelectedConnectionDialog extends Dialog {
     
     @Override
     protected Point getInitialSize() {
-        return new Point(300, 400);
+        return new Point(300, 300);
     }
     
 }
