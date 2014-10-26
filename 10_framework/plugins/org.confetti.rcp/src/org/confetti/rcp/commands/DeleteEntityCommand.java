@@ -1,7 +1,9 @@
 package org.confetti.rcp.commands;
 
 import org.confetti.core.Entity;
+import org.confetti.core.EntityVisitor;
 import org.confetti.core.Room;
+import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.rcp.ConfettiPlugin;
@@ -28,25 +30,38 @@ public class DeleteEntityCommand extends AbstractHandler {
 //	        	ObservableValue<Entity> element = iterator.next();
 //	        	System.out.println(element.getValue().getName());
 //	        }
-	        final Entity sel = (Entity) strucSelection.getFirstElement();
+	        final Entity firstSelected = (Entity) strucSelection.getFirstElement();
 	        if (MessageDialog.openConfirm(Display.getDefault().getActiveShell(), "Delete", "The selected Entities will be deleted! \n Are you sure?")) {
-	    	    //delete the entity
-	        	delete(sel);
+	        	firstSelected.accept(DeleteEntityVisitor.INSTANCE, null);
 	        }
 	    }
 	    return null;
 	}
 
-	private void delete(Entity sel) {
-		if (sel instanceof Subject) {
-			ConfettiPlugin.getDefault().getDataProvider().getValue().removeSubject((Subject) sel);
-		} else if (sel instanceof Teacher) {
-			ConfettiPlugin.getDefault().getDataProvider().getValue().removeTeacher((Teacher) sel);
-//		} else if (sel instanceof StudentGroup) {
-//			ConfettiPlugin.getDefault().getDataProvider().getValue().removeStudentGroup((StudentGroup) sel);
-		} else if (sel instanceof Room) {
-			ConfettiPlugin.getDefault().getDataProvider().getValue().removeRoom((Room) sel);
-		}
+	private enum DeleteEntityVisitor implements EntityVisitor<Boolean, Void> {
+        
+	    INSTANCE;
+
+        @Override
+        public Boolean visitSubject(Subject subject, Void param) {
+            ConfettiPlugin.getDefault().getDataProvider().getValue().removeSubject(subject);
+            return null;
+        }
+        @Override
+        public Boolean visitTeacher(Teacher teacher, Void param) {
+            ConfettiPlugin.getDefault().getDataProvider().getValue().removeTeacher(teacher);
+            return null;
+        }
+        @Override
+        public Boolean visitStudentGroup(StudentGroup studentGroup, Void param) {
+            ConfettiPlugin.getDefault().getDataProvider().getValue().removeStudentGroup(studentGroup);
+            return null;
+        }
+        @Override
+        public Boolean visitRoom(Room room, Void param) {
+            ConfettiPlugin.getDefault().getDataProvider().getValue().removeRoom(room);
+            return null;
+        }
 	}
 
 }

@@ -158,6 +158,11 @@ public class DataProviderImpl implements DataProvider {
 	}
 	
 	@Override
+	public void removeStudentGroup(StudentGroup studentGroup) {
+	    studentGroups.removeItem(studentGroup);
+	}
+	
+	@Override
 	public void removeRoom(Room room) {
 		rooms.removeItem(room);
 	}

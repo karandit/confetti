@@ -261,9 +261,10 @@ public class XmlDataProvider implements DataProvider {
 		return roomImpl;
 	}
 	
-	@Override public void removeSubject(Subject subject) 	{ subjects.removeItem(subject); }
-	@Override public void removeTeacher(Teacher teacher) 	{ teachers.removeItem(teacher); }
-	@Override public void removeRoom(Room room)          	{ rooms.removeItem(room); }
+	@Override public void removeSubject(Subject subject)       	        { subjects.removeItem(subject); }
+	@Override public void removeTeacher(Teacher teacher) 	            { teachers.removeItem(teacher); }
+	@Override public void removeStudentGroup(StudentGroup studentGroup) { stdGroups.removeItem(studentGroup); }
+	@Override public void removeRoom(Room room)          	            { rooms.removeItem(room); }
 	
 	@Override
 	public void setDays(List<String> days) {
