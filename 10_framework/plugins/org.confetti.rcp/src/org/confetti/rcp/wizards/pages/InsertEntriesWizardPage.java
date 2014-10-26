@@ -14,8 +14,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-public class InsertEntriesWizardPage extends ModelableWizardPage<InsertEntriesModel> 
-implements IWizardPageNavigatable {
+public class InsertEntriesWizardPage extends ModelableWizardPage<InsertEntriesModel> implements IWizardPageNavigatable {
 
 	private Text text;
 	
@@ -35,8 +34,13 @@ implements IWizardPageNavigatable {
 	}
 
 	@Override
+	public void setVisible(boolean visible) {
+	    super.setVisible(visible);
+	    text.setFocus();
+	}
+	
+	@Override
 	public void pageShowed() {
-		//TODO find alternative to setFocus() method , beacuse after text.setFocus(), the buttons are not clickable
 	}
 
 	@Override

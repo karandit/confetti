@@ -245,7 +245,12 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public StudentGroup addStudentGroup(StudentGroup parent, String name) {
-		//TODO
+	    StudentGroupImpl studentGroup = new StudentGroupImpl(name);
+	    if (parent == null) {
+            stdGroups.addItem(studentGroup);
+            return studentGroup;
+        }
+	    //TODO implement if has parent
 		return null;
 	}
 	

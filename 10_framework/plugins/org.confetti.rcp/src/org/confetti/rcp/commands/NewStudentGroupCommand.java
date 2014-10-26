@@ -12,7 +12,8 @@ public class NewStudentGroupCommand extends AbstractNewEntityHandler<StudentGrou
 	protected NewEntityWizardModel<StudentGroup> createModel() {
 		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
 		return new NewEntityWizardModel<StudentGroup>(getNames(dp.getStudentGroups().getList()),
-				new EntityCreator<StudentGroup>() { @Override public StudentGroup createEntity(String name) { return null; }}, 
+				//FIXME use the parent parameter of DataProvider.addStudentGroup
+		        new EntityCreator<StudentGroup>() { @Override public StudentGroup createEntity(String name) { return dp.addStudentGroup(null, name); }}, 
 				"New Student group", 
 				"Every new line will be a new student group", 
 				"The following student groups will be added",

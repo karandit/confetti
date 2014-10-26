@@ -234,17 +234,17 @@
                id="org.confetti.rcp.toolbar">
             <command
                   commandId="org.confetti.rcp.newWizardCommand"
-                  label="New..."
+                  label="&amp;New..."
                   style="push">
             </command>
             <command
                   commandId="org.confetti.rcp.openWizardCommand"
-                  label="Open..."
+                  label="&amp;Open..."
                   style="push">
             </command>
             <command
                   commandId="org.confetti.rcp.saveAsCommand"
-                  label="Save As..."
+                  label="&amp;Save As..."
                   style="push">
             </command>
          </toolbar>
