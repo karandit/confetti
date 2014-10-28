@@ -66,8 +66,7 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 		protected abstract Iterable<?> getChildren(DataProvider dp);
 	}
 
-	class AllEntitiesContentProvider implements IStructuredContentProvider, ITreeContentProvider 
-	{
+	class AllEntitiesContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 		
 		private DataProvider dp;
 
@@ -122,4 +121,5 @@ public class InstituteView extends AbstractEntityView<TreeViewer> {
 			return false;
 		}
 	}
+	
 }

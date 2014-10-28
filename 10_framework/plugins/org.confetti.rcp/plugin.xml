@@ -308,16 +308,9 @@
                style="push">
                <visibleWhen
                      checkEnabled="false">
-                  <with
-                        variable="selection">
-                     <iterate
-                           ifEmpty="false"
-                           operator="and">
-                        <instanceof
-                              value="org.confetti.core.Entity">
-                        </instanceof>
-                     </iterate>
-                  </with>
+                  <reference
+                        definitionId="renameAvailable">
+                  </reference>
                </visibleWhen>
          </command>
          <command
@@ -326,16 +319,9 @@
                style="push">
             <visibleWhen
                   checkEnabled="false">
-               <with
-                     variable="selection">
-                  <iterate
-                        ifEmpty="false"
-                        operator="and">
-                     <instanceof
-                           value="org.confetti.core.Entity">
-                     </instanceof>
-                  </iterate>
-               </with>
+               <reference
+                     definitionId="deleteAvailable">
+               </reference>
             </visibleWhen>
          </command>
       </menuContribution>
@@ -346,37 +332,23 @@
                commandId="org.confetti.rcp.renameEntityCommand"
                label="Rename"
                style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="selection">
-                     <iterate
-                           ifEmpty="false"
-                           operator="and">
-                        <instanceof
-                              value="org.confetti.core.Entity">
-                        </instanceof>
-                     </iterate>
-                  </with>
-               </visibleWhen>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="renameAvailable">
+               </reference>
+            </visibleWhen>
          </command>
          <command
                commandId="org.confetti.rcp.deleteEntityCommand"
                label="Delete"
                style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="selection">
-                     <iterate
-                           ifEmpty="false"
-                           operator="and">
-                        <instanceof
-                              value="org.confetti.core.Entity">
-                        </instanceof>
-                     </iterate>
-                  </with>
-               </visibleWhen>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="deleteAvailable">
+               </reference>
+            </visibleWhen>
          </command>
       </menuContribution>
       <menuContribution
@@ -386,19 +358,12 @@
                commandId="org.confetti.rcp.renameEntityCommand"
                label="Rename"
                style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="selection">
-                     <iterate
-                           ifEmpty="false"
-                           operator="and">
-                        <instanceof
-                              value="org.confetti.core.Entity">
-                        </instanceof>
-                     </iterate>
-                  </with>
-               </visibleWhen>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="renameAvailable">
+               </reference>
+            </visibleWhen>
          </command>
          <command
                commandId="org.confetti.rcp.deleteEntityCommand"
@@ -406,16 +371,9 @@
                style="push">
             <visibleWhen
                   checkEnabled="false">
-               <with
-                     variable="selection">
-                  <iterate
-                        ifEmpty="false"
-                        operator="and">
-                     <instanceof
-                           value="org.confetti.core.Entity">
-                     </instanceof>
-                  </iterate>
-               </with>
+               <reference
+                     definitionId="deleteAvailable">
+               </reference>
             </visibleWhen>
          </command>
       </menuContribution>
@@ -426,19 +384,12 @@
                commandId="org.confetti.rcp.renameEntityCommand"
                label="Rename"
                style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="selection">
-                     <iterate
-                           ifEmpty="false"
-                           operator="and">
-                        <instanceof
-                              value="org.confetti.core.Entity">
-                        </instanceof>
-                     </iterate>
-                  </with>
-               </visibleWhen>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="renameAvailable">
+               </reference>
+            </visibleWhen>
          </command>
          <command
                commandId="org.confetti.rcp.deleteEntityCommand"
@@ -446,16 +397,9 @@
                style="push">
             <visibleWhen
                   checkEnabled="false">
-               <with
-                     variable="selection">
-                  <iterate
-                        ifEmpty="false"
-                        operator="and">
-                     <instanceof
-                           value="org.confetti.core.Entity">
-                     </instanceof>
-                  </iterate>
-               </with>
+               <reference
+                     definitionId="deleteAvailable">
+               </reference>
             </visibleWhen>
          </command>
       </menuContribution>
@@ -466,19 +410,12 @@
                commandId="org.confetti.rcp.renameEntityCommand"
                label="Rename"
                style="push">
-               <visibleWhen
-                     checkEnabled="false">
-                  <with
-                        variable="selection">
-                     <iterate
-                           ifEmpty="false"
-                           operator="and">
-                        <instanceof
-                              value="org.confetti.core.Entity">
-                        </instanceof>
-                     </iterate>
-                  </with>
-               </visibleWhen>
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="renameAvailable">
+               </reference>
+            </visibleWhen>
          </command>
          <command
                commandId="org.confetti.rcp.deleteEntityCommand"
@@ -486,16 +423,9 @@
                style="push">
             <visibleWhen
                   checkEnabled="false">
-               <with
-                     variable="selection">
-                  <iterate
-                        ifEmpty="false"
-                        operator="and">
-                     <instanceof
-                           value="org.confetti.core.Entity">
-                     </instanceof>
-                  </iterate>
-               </with>
+               <reference
+                     definitionId="deleteAvailable">
+               </reference>
             </visibleWhen>
          </command>
       </menuContribution>
@@ -507,6 +437,38 @@
             id="org.confetti.rcp.preferences.connectionPreferencePage"
             name="Connection Preferences">
       </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="renameAvailable">
+         <with
+               variable="selection">
+            <count
+                  value="1">
+            </count>
+            <iterate
+                  ifEmpty="false"
+                  operator="and">
+               <instanceof
+                     value="org.confetti.core.Entity">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+      <definition
+            id="deleteAvailable">
+         <with
+               variable="selection">
+            <iterate
+                  ifEmpty="false"
+                  operator="and">
+               <instanceof
+                     value="org.confetti.core.Entity">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
    </extension>
 
 </plugin>
