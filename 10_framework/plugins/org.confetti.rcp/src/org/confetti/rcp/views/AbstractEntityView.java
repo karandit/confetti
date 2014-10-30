@@ -33,7 +33,6 @@ public abstract class AbstractEntityView<T extends StructuredViewer> extends Vie
 				viewer.setInput(getNullSafeInput(newDp));
 			}
 		});
-		getSite().setSelectionProvider(viewer);
 		viewer.setInput(getNullSafeInput(dpObs.getValue()));
 		inputChanged(null, dpObs.getValue());
 		

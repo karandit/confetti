@@ -1,5 +1,7 @@
 package org.confetti.rcp.commands;
 
+import static com.google.common.collect.Iterables.isEmpty;
+
 import org.confetti.core.Entity;
 import org.confetti.core.EntityVisitor;
 import org.confetti.core.Room;
@@ -14,6 +16,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
@@ -23,6 +26,8 @@ public class DeleteEntityCommand extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+	    Shell shell = Display.getDefault().getActiveShell();
+	    
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 	    if (!selection.toString().equals("<empty selection>") && selection != null && selection instanceof IStructuredSelection) {
 	        IStructuredSelection strucSelection = (IStructuredSelection) selection;
@@ -31,8 +36,13 @@ public class DeleteEntityCommand extends AbstractHandler {
 //	        	System.out.println(element.getValue().getName());
 //	        }
 	        final Entity firstSelected = (Entity) strucSelection.getFirstElement();
-	        if (MessageDialog.openConfirm(Display.getDefault().getActiveShell(), "Delete", "The selected Entities will be deleted! \n Are you sure?")) {
-	        	firstSelected.accept(DeleteEntityVisitor.INSTANCE, null);
+            if (MessageDialog.openConfirm(shell, "Delete", "The selected Entity will be deleted! \n Are you sure?")) {
+	        	if (firstSelected.accept(DeleteEntityVisitor.INSTANCE, null)) {
+	        	    //deleted succesfully
+	        	} else {
+	        	    MessageDialog.openError(shell, "Delete", "The selected Entity could not be deleted, because it has Assignments. \n"
+	        	            + "Please delete it's assignments in the Assignments view first!");
+	        	}
 	        }
 	    }
 	    return null;
@@ -44,23 +54,35 @@ public class DeleteEntityCommand extends AbstractHandler {
 
         @Override
         public Boolean visitSubject(Subject subject, Void param) {
-            ConfettiPlugin.getDefault().getDataProvider().getValue().removeSubject(subject);
-            return null;
+            if (isEmpty(subject.getAssignments().getList())) {
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeSubject(subject);
+                return true;
+            }
+            return false;
         }
         @Override
         public Boolean visitTeacher(Teacher teacher, Void param) {
-            ConfettiPlugin.getDefault().getDataProvider().getValue().removeTeacher(teacher);
-            return null;
+            if (isEmpty(teacher.getAssignments().getList())) {
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeTeacher(teacher);
+                return true;
+            }
+            return false;
         }
         @Override
         public Boolean visitStudentGroup(StudentGroup studentGroup, Void param) {
-            ConfettiPlugin.getDefault().getDataProvider().getValue().removeStudentGroup(studentGroup);
-            return null;
+            if (isEmpty(studentGroup.getAssignments().getList())) {
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeStudentGroup(studentGroup);
+                return true;
+            }
+            return false;
         }
         @Override
         public Boolean visitRoom(Room room, Void param) {
-            ConfettiPlugin.getDefault().getDataProvider().getValue().removeRoom(room);
-            return null;
+            if (isEmpty(room.getAssignments().getList())) {
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeRoom(room);
+                return true;
+            }
+            return false;
         }
 	}
 

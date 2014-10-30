@@ -6,6 +6,7 @@ import org.confetti.core.Entity;
 import org.confetti.core.Subject;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.ConfettiPlugin;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -17,6 +18,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
@@ -60,6 +62,14 @@ public class AssignmentsView extends ViewPart {
 //				tableViewer.refresh();
 //			}
 //		};
+		
+		//create context menu
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(tableViewer.getControl());
+		tableViewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuManager, tableViewer);
+		getSite().setSelectionProvider(tableViewer);
+		
 		return tableViewer;
 	}
 	
@@ -85,24 +95,33 @@ public class AssignmentsView extends ViewPart {
 		selectionService.addSelectionListener(new ISelectionListener() {
 			@Override
 			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-				if (!selection.isEmpty()) { 
-					IStructuredSelection strSel = (IStructuredSelection) selection;
-					Object first = strSel.getFirstElement();
-					if (first instanceof Entity) {
-						Entity source = (Entity) first;
-						//TODO detach the listener somewhere? :/
-//						source.getName().attachListener(nameListener);
-						tableViewer.setInput(source.getAssignments().getList());
-						if (source instanceof Subject) {
-							assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
-						} else {
-							assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), source);
-						}
-						return;
-					}
+				//do nothing when the selection comes from this view
+			    if (AssignmentsView.ID.equals(part.getSite().getId())) {
+				    return;
 				}
-				tableViewer.setInput(null);
-				assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
+			    
+			    //empty the view when selection is empty
+				if (selection.isEmpty()) {
+				    tableViewer.setInput(null);
+				    assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
+                    return;
+                }
+				
+				//if the selection is Entity show it's Assignments and SolutionSlot 
+				IStructuredSelection strSel = (IStructuredSelection) selection;
+				Object first = strSel.getFirstElement();
+				if (first instanceof Entity) {
+					Entity source = (Entity) first;
+					//TODO detach this listener somewhere? :/
+//					source.getName().attachListener(nameListener);
+					tableViewer.setInput(source.getAssignments().getList());
+					if (source instanceof Subject) {
+						assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
+					} else {
+						assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), source);
+					}
+					return;
+				}
 			}
 		});
 	}
