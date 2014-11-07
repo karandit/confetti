@@ -71,9 +71,10 @@ public class XmlDataProvider implements DataProvider {
 			this.name = new ValueMutator<>(this, name);
 		}
 		
-		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
-		@Override public void addAssignment(Assignment assignment) 	{ assignments.addItem(assignment);} 
-		@Override public ObservableList<Assignment> getAssignments() 			{ return assignments.getObservableList(); }
+		@Override public ObservableValue<String> getName() 			  { return name.getObservableValue(); }
+		@Override public void addAssignment(Assignment assignment) 	  { assignments.addItem(assignment);}
+		@Override public void removeAssignment(Assignment assignment) { assignments.removeItem(assignment); }
+		@Override public ObservableList<Assignment> getAssignments()  { return assignments.getObservableList(); }
 		
 		public ValueMutator<String> getNameMutator() { return name; }
 
@@ -219,14 +220,14 @@ public class XmlDataProvider implements DataProvider {
 	}
 
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
-	@Override public ObservableValue<String> getName() 					{ return instName.getObservableValue(); }
-	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
-	@Override public ObservableList<Subject> getSubjects() 				{ return subjects.getObservableList(); }
-	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stdGroups.getObservableList(); }
-	@Override public ObservableList<Room> getRooms() 					{ return rooms.getObservableList(); }
-	@Override public ObservableList<Day> getDays() 						{ return days.getObservableList(); }
-	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
-	@Override public ObservableList<Assignment> getAssignments() 		{ return assignments.getObservableList(); }
+	@Override public ObservableValue<String> getName() 					   { return instName.getObservableValue(); }
+	@Override public ObservableList<Subject> getSubjects() 				   { return subjects.getObservableList(); }
+	@Override public ObservableList<Teacher> getTeachers() 				   { return teachers.getObservableList(); }
+	@Override public ObservableList<StudentGroup> getStudentGroups() 	   { return stdGroups.getObservableList(); }
+	@Override public ObservableList<Room> getRooms() 					   { return rooms.getObservableList(); }
+	@Override public ObservableList<Day> getDays() 						   { return days.getObservableList(); }
+	@Override public ObservableList<Hour> getHours() 				       { return hours.getObservableList(); }
+	@Override public ObservableList<Assignment> getAssignments() 		   { return assignments.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override
@@ -261,36 +262,48 @@ public class XmlDataProvider implements DataProvider {
 		return roomImpl;
 	}
 	
+	@Override
+	public void setDays(List<String> days) {
+	    //TODO
+	}
+	
+	@Override
+	public void setHours(List<String> hours) {
+	    //TODO
+	}
+	
+	@Override
+	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
+	    AssignmentImpl assignment = new AssignmentImpl(subject);
+	    for (Teacher teacher : teachers) {
+	        assignment.addTeacher(teacher);
+	    }
+	    for (StudentGroup studentGroup : studentGroups) {
+	        assignment.addStudentGroup(studentGroup);
+	    }
+	    return assignment;
+	}
+	
+	@Override
+	public void setSolution(Iterable<SolutionSlot> solution) {
+	    this.solution.setValue(this, solution);
+	}
+	
 	@Override public void removeSubject(Subject subject)       	        { subjects.removeItem(subject); }
 	@Override public void removeTeacher(Teacher teacher) 	            { teachers.removeItem(teacher); }
 	@Override public void removeStudentGroup(StudentGroup studentGroup) { stdGroups.removeItem(studentGroup); }
 	@Override public void removeRoom(Room room)          	            { rooms.removeItem(room); }
 	
 	@Override
-	public void setDays(List<String> days) {
-		//TODO
-	}
-	
-	@Override
-	public void setHours(List<String> hours) {
-		//TODO
-	}
-	
-	@Override
-	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
-		AssignmentImpl assignment = new AssignmentImpl(subject);
-		for (Teacher teacher : teachers) {
-			assignment.addTeacher(teacher);
-		}
-		for (StudentGroup studentGroup : studentGroups) {
-			assignment.addStudentGroup(studentGroup);
-		}
-		return assignment;
-	}
-	
-	@Override
-	public void setSolution(Iterable<SolutionSlot> solution) {
-		this.solution.setValue(this, solution);
+	public void removeAssignment(Assignment assignment, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
+	    subject.removeAssignment(assignment);
+        for (Teacher teacher : teachers) {
+            teacher.removeAssignment(assignment);
+        }
+        for (StudentGroup studentGroup : studentGroups) {
+            studentGroup.removeAssignment(assignment);
+        }
+        assignments.removeItem(assignment);
 	}
 	
 	@Override

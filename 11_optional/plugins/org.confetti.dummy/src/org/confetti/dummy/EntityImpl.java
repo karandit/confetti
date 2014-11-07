@@ -25,6 +25,11 @@ public abstract class EntityImpl implements Entity {
 	public void addAssignment(Assignment assignment) {
 		assignments.addItem(assignment);
 	}
+	
+	@Override
+	public void removeAssignment(Assignment assignment) {
+	    assignments.removeItem(assignment);
+	}
 
 	@Override
 	public ObservableList<Assignment> getAssignments() {

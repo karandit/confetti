@@ -26,6 +26,11 @@ public abstract class EntityDTO implements Entity, Assignable {
     public void addAssignment(Assignment assignment) {
         assignments.addItem(assignment);
     }
+    
+    @Override
+    public void removeAssignment(Assignment assignment) {
+        assignments.removeItem(assignment);
+    }
 
     @Override
     public ObservableList<Assignment> getAssignments() {

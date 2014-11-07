@@ -146,6 +146,7 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public void removeTeacher(Teacher teacher) { }
         @Override public void removeStudentGroup(StudentGroup studentGroup) { }
         @Override public void removeRoom(Room room) { }
+        @Override public void removeAssignment(Assignment assignment, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { }
         @Override public void rename(Entity entity, String newName) { }
     }
 

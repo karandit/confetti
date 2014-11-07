@@ -1,6 +1,7 @@
 package org.confetti.rcp.commands;
 
 import org.confetti.core.Assignment;
+import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -26,8 +27,12 @@ public class DeleteAssignmentCommand extends AbstractHandler {
             final Assignment selectedAssignment = (Assignment) strucSelection.getFirstElement();
             
             if (MessageDialog.openConfirm(shell, "Delete", "The selected Assignment will be deleted! \n Are you sure?")) {
-//                ConfettiPlugin.getDefault().getDataProvider().getValue().removeAssignment(selectedAssignment, 
-//                        selectedAssignment.getSubject(), selectedAssignment.getTeachers(), selectedAssignment.getStudentGroups());
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeAssignment(
+                        selectedAssignment, 
+                        selectedAssignment.getSubject(), 
+                        selectedAssignment.getTeachers().getList(), 
+                        selectedAssignment.getStudentGroups().getList()
+                );
             }
         }
         

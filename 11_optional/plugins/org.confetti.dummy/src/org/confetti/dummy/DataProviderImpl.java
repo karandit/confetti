@@ -166,6 +166,18 @@ public class DataProviderImpl implements DataProvider {
 	public void removeRoom(Room room) {
 		rooms.removeItem(room);
 	}
+	
+	@Override
+	public void removeAssignment(Assignment assignment, final Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
+	    subject.removeAssignment(assignment);
+	    for (Teacher teacher : teachers) {
+            teacher.removeAssignment(assignment);
+        }
+	    for (StudentGroup studentGroup : studentGroups) {
+            studentGroup.removeAssignment(assignment);
+        }
+	    assignments.removeItem(assignment);
+	}
 
 	@Override
 	public void rename(Entity entity, String newName) {
