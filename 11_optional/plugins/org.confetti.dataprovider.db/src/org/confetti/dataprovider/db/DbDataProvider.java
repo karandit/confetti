@@ -187,10 +187,11 @@ public class DbDataProvider implements DataProvider {
 	@Override public void setHours(List<String> hours) { }
 	@Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
 	@Override public void setSolution(Iterable<SolutionSlot> solution) { }
-	@Override public void removeSubjects(List<Subject> subjects) { }
-	@Override public void removeTeachers(List<Teacher> teachers) { }
-	@Override public void removeStudentGroups(List<StudentGroup> studentGroups) { }
-	@Override public void removeRooms(List<Room> rooms) { }
+
+    @Override public void removeSubjects(List<Subject> toRemove) { removeEntities(SubjectDb.class, toRemove, this.subjects); }
+	@Override public void removeTeachers(List<Teacher> toRemove) { removeEntities(TeacherDb.class, toRemove, this.teachers); }
+	@Override public void removeStudentGroups(List<StudentGroup> toRemove) { removeEntities(StudentGroupDb.class, toRemove, this.stdGroups); }
+	@Override public void removeRooms(List<Room> toRemove) { removeEntities(RoomDb.class, toRemove, this.rooms); }
 	@Override public void removeAssignment(Assignment assignment) { }
 	
 	@Override public void rename(Entity entity, final String newName) { 
@@ -225,6 +226,22 @@ public class DbDataProvider implements DataProvider {
             }
         });
         return newEntities;
+    }
+    
+    private <T> void removeEntities(final Class<?> clazz, final List<? extends T> entitiesToRemove, final ListMutator<T> allEntities) {
+        runTx(sFact, new Tx() {
+            @Override
+            public void run(Session session, Transaction trans) {
+                for (T entityDto : entitiesToRemove) {
+                    AbstractEntityDb entityDb = (AbstractEntityDb) session.load(clazz, ((EntityDTO) entityDto).getId());
+                    session.delete(entityDb);
+                }
+            }
+        });
+        
+        for (T entityToRemove : entitiesToRemove) {
+            allEntities.removeItem(entityToRemove);
+        }
     }
     
 }
