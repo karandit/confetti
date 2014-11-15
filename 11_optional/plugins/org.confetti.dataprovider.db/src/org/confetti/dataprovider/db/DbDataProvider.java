@@ -21,6 +21,7 @@ import org.confetti.dataprovider.db.dto.RoomDTO;
 import org.confetti.dataprovider.db.dto.StudentGroupDTO;
 import org.confetti.dataprovider.db.dto.SubjectDTO;
 import org.confetti.dataprovider.db.dto.TeacherDTO;
+import org.confetti.dataprovider.db.entities.AbstractEntityDb;
 import org.confetti.dataprovider.db.entities.AssignmentDb;
 import org.confetti.dataprovider.db.entities.DayDb;
 import org.confetti.dataprovider.db.entities.HourDb;
@@ -29,11 +30,18 @@ import org.confetti.dataprovider.db.entities.RoomDb;
 import org.confetti.dataprovider.db.entities.StudentGroupDb;
 import org.confetti.dataprovider.db.entities.SubjectDb;
 import org.confetti.dataprovider.db.entities.TeacherDb;
+import org.confetti.dataprovider.db.util.HibernateUtil;
+import org.confetti.dataprovider.db.util.Tx;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
+import org.confetti.util.Tuple;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import com.google.common.base.Function;
 
 /**
  * @author Gabor Bubla
@@ -52,14 +60,11 @@ public class DbDataProvider implements DataProvider {
 	private ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 	
 	private final SessionFactory sFact;
-
-	public DbDataProvider(SessionFactory sFact) {
-		this.sFact = sFact;
-	}
+	private final Long instId;
 	
 	public DbDataProvider(SessionFactory sessFact, InstituteDb instDb) {
-	    this(sessFact);
-
+	    this.sFact = sessFact;
+	    instId = instDb.getId();
 	    for (DayDb day : instDb.getDays()) {
 	        days.addItem(new DayDTO(day.getName()));
 	    }
@@ -128,10 +133,49 @@ public class DbDataProvider implements DataProvider {
 	@Override public ObservableList<Assignment> getAssignments() 		   { return assignments.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
-	@Override public void addSubjects(List<String> names) {  }
-	@Override public void addTeachers(List<String> names) {  }
-	@Override public void addStudentGroups(StudentGroup parent, List<String> names) {  }
-	@Override public void addRooms(List<String> names) {  }
+    @Override
+    public void addSubjects(final List<String> names) {
+        createEntities(names, new Function<Tuple<String, InstituteDb>, SubjectDb>() {
+            @Override public SubjectDb apply(Tuple<String, InstituteDb> tuple) { return new SubjectDb(tuple.getFirst(), tuple.getSecond()); }
+        });
+        
+        for (String name : names) {
+            subjects.addItem(new SubjectDTO(name));
+        }
+    }
+
+	@Override public void addTeachers(final List<String> names) {
+        createEntities(names, new Function<Tuple<String, InstituteDb>, TeacherDb>() {
+            @Override public TeacherDb apply(Tuple<String, InstituteDb> tuple) { return new TeacherDb(tuple.getFirst(), tuple.getSecond()); }
+        });
+        
+        for (String name : names) {
+            teachers.addItem(new TeacherDTO(name));
+        }
+	}
+	
+	@Override public void addStudentGroups(StudentGroup parent, List<String> names) { 
+        if (parent == null) {
+            createEntities(names, new Function<Tuple<String, InstituteDb>, StudentGroupDb>() {
+                @Override public StudentGroupDb apply(Tuple<String, InstituteDb> tuple) { return new StudentGroupDb(tuple.getFirst(), tuple.getSecond()); }
+            });
+            for (String name : names) {
+                stdGroups.addItem(new StudentGroupDTO(name));
+            }
+        } else { // TODO implement if has parent
+        }
+	}
+	
+	@Override public void addRooms(final List<String> names) {
+        createEntities(names, new Function<Tuple<String, InstituteDb>, RoomDb>() {
+            @Override public RoomDb apply(Tuple<String, InstituteDb> tuple) { return new RoomDb(tuple.getFirst(), tuple.getSecond()); }
+        });
+        
+        for (String name : names) {
+            rooms.addItem(new RoomDTO(name));
+        }
+	}
+	
 	@Override public void setDays(List<String> days) { }
 	@Override public void setHours(List<String> hours) { }
 	@Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
@@ -142,5 +186,19 @@ public class DbDataProvider implements DataProvider {
 	@Override public void removeRooms(List<Room> rooms) { }
 	@Override public void removeAssignment(Assignment assignment) { }
 	@Override public void rename(Entity entity, String newName) { }
-
+    
+	//----------------------------- helpers ----------------------------------------------------------------------------
+    private <T extends AbstractEntityDb> void createEntities(final List<String> names, 
+            final Function<Tuple<String, InstituteDb>, T> f) {
+        HibernateUtil.runTx(sFact, new Tx() {
+            @Override
+            public void run(Session session, Transaction trans) {
+                InstituteDb instDb = (InstituteDb) session.load(InstituteDb.class, instId);
+                for (String name : names) {
+                    T newEntity = f.apply(new Tuple<String, InstituteDb>(name, instDb));
+                    session.persist(newEntity);
+                }
+            }
+        });
+    }
 }

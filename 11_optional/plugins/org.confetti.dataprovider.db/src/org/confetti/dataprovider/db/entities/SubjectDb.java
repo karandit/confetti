@@ -21,6 +21,7 @@ public class SubjectDb extends AbstractEntityDb {
     private static final long serialVersionUID = 1L;
     
     private InstituteDb institute;
+    
 	private Set<AssignmentDb> assignments = new HashSet<>();
     
     SubjectDb() {
@@ -30,7 +31,7 @@ public class SubjectDb extends AbstractEntityDb {
         setName(name);
         this.institute = institute;
     }
-
+    
     @ManyToOne
     @JoinColumn(name = "inst_fk")
     @ForeignKey(name = "fk_subject_inst")

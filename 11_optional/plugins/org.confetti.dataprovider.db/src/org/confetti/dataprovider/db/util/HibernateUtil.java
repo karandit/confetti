@@ -9,7 +9,9 @@ import org.confetti.dataprovider.db.entities.RoomDb;
 import org.confetti.dataprovider.db.entities.StudentGroupDb;
 import org.confetti.dataprovider.db.entities.SubjectDb;
 import org.confetti.dataprovider.db.entities.TeacherDb;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 /**
@@ -17,19 +19,33 @@ import org.hibernate.cfg.Configuration;
  */
 public class HibernateUtil {
 
-	public static SessionFactory createSessionFactory(ConnectionDescriptor connDesc) {
-		Configuration configuration = new Configuration();
-		
-		configuration.addAnnotatedClass(InstituteDb.class);
-		configuration.addAnnotatedClass(HourDb.class);
-		configuration.addAnnotatedClass(DayDb.class);
-		configuration.addAnnotatedClass(SubjectDb.class);
-		configuration.addAnnotatedClass(TeacherDb.class);
-		configuration.addAnnotatedClass(StudentGroupDb.class);
-		configuration.addAnnotatedClass(RoomDb.class);
-		configuration.addAnnotatedClass(AssignmentDb.class);
-		
-		return configuration.buildSessionFactory();
-	}
-	
+    public static SessionFactory createSessionFactory(ConnectionDescriptor connDesc) {
+        Configuration configuration = new Configuration();
+
+        configuration.addAnnotatedClass(InstituteDb.class);
+        configuration.addAnnotatedClass(HourDb.class);
+        configuration.addAnnotatedClass(DayDb.class);
+        configuration.addAnnotatedClass(SubjectDb.class);
+        configuration.addAnnotatedClass(TeacherDb.class);
+        configuration.addAnnotatedClass(StudentGroupDb.class);
+        configuration.addAnnotatedClass(RoomDb.class);
+        configuration.addAnnotatedClass(AssignmentDb.class);
+
+        return configuration.buildSessionFactory();
+    }
+
+    public static void runTx(SessionFactory sessFact, Tx tx) {
+        Session session = sessFact.openSession();
+        try {
+            Transaction trans = session.beginTransaction();
+            try {
+                tx.run(session, trans);
+                trans.commit();
+            } catch (Exception e) {
+                trans.rollback();
+            }
+        } finally {
+            session.close();
+        }
+    }
 }

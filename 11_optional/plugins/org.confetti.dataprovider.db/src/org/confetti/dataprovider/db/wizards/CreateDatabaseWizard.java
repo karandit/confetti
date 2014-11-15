@@ -35,14 +35,15 @@ public class CreateDatabaseWizard extends Wizard {
 		        InstituteDb instDb = new InstituteDb(model.getDataProvider());
 		        session.persist(instDb);
 		        tx.commit();
+		        ConfettiPlugin.getDefault().setDataProvider(new DbDataProvider(sessFact, instDb));
+		        return true;
             } catch (Exception e) {
                 tx.rollback();
             }
         } finally {
             session.close();
         }
-        ConfettiPlugin.getDefault().setDataProvider(new DbDataProvider(sessFact));
-		return true;
+		return false;
 	}
 	
 }
