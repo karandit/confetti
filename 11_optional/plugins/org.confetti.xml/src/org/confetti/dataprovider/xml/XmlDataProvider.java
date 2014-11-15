@@ -51,9 +51,8 @@ public class XmlDataProvider implements DataProvider {
 		private final ListMutator<Teacher> teachers = new ListMutator<>();
 		private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
 		
-		
 		public AssignmentImpl(Subject subj) {
-			this.subj = subj;
+            this.subj = subj;
 			subj.addAssignment(this);
 		}
 
@@ -165,6 +164,7 @@ public class XmlDataProvider implements DataProvider {
 	//----------------------------- fields for xml persistence ---------------------------------------------------------
     private final InstituteXml instXml;
     private File file;
+    private long currentMaxId = 0;
 
 	//----------------------------- constructors -----------------------------------------------------------------------
 	public XmlDataProvider(File file) throws FAOException {
@@ -206,6 +206,9 @@ public class XmlDataProvider implements DataProvider {
 			Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
 			Map<String, StudentGroup> allStdGroups = collectStudentGroups(stdGroups.getObservableList().getList());
 			for (ActivityXml act : inst.getActivities()) {
+			    if (act.getId() > currentMaxId) {
+                    currentMaxId = act.getId();
+                }
 				AssignmentImpl ass = new AssignmentImpl(findByName(allSubjects, act.getSubject().getName()));
 				if (act.getStudents() != null) {
 					for (String stGroupName : act.getStudents()) {
@@ -308,6 +311,10 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
+	    currentMaxId++;
+	    instXml.getActivities().add(new ActivityXml(currentMaxId, subject, teachers, studentGroups));
+	    save();
+	    
 	    AssignmentImpl assignment = new AssignmentImpl(subject);
 	    for (Teacher teacher : teachers) {
 	        assignment.addTeacher(teacher);
@@ -315,6 +322,7 @@ public class XmlDataProvider implements DataProvider {
 	    for (StudentGroup studentGroup : studentGroups) {
 	        assignment.addStudentGroup(studentGroup);
 	    }
+        assignments.addItem(assignment);
 	    return assignment;
 	}
 	
