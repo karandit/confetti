@@ -10,15 +10,21 @@ import org.confetti.observable.ObservableList;
 
 public class AssignmentDTO implements Assignment {
 
+    private final Long id;
     private final Subject subj;
     private final ListMutator<Teacher> teachers = new ListMutator<>();
     private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
 
-    public AssignmentDTO(Subject subj) {
+    public AssignmentDTO(Long id, Subject subj) {
+        this.id = id;
         this.subj = subj;
         subj.addAssignment(this);
     }
 
+    public Long getId() {
+        return id;
+    }
+    
     public void addTeacher(Teacher teacher) {
         teachers.addItem(teacher);
         teacher.addAssignment(this);

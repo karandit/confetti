@@ -96,7 +96,7 @@ public class DbDataProvider implements DataProvider {
         Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
         Map<String, StudentGroup> allStdGroups = collectStudentGroups(stdGroups.getObservableList().getList());
         for (AssignmentDb assDb : instDb.getAssignments()) {
-            AssignmentDTO ass = new AssignmentDTO(findByName(allSubjects, assDb.getSubjects().iterator().next().getName()));
+            AssignmentDTO ass = new AssignmentDTO(assDb.getId(), findByName(allSubjects, assDb.getSubjects().iterator().next().getName()));
             if (assDb.getStudentGroups() != null) {
                 for (StudentGroupDb stGroupDb : assDb.getStudentGroups()) {
                     ass.addStudentGroup(allStdGroups.get(stGroupDb.getName()));
@@ -197,15 +197,12 @@ public class DbDataProvider implements DataProvider {
                 InstituteDb instDb = (InstituteDb) session.load(InstituteDb.class, instId);
                 SubjectDb entityDb = (SubjectDb) session.load(SubjectDb.class, ((SubjectDTO) subject).getId());
                 Iterable<TeacherDb> teacherDbs = Iterables.transform(teachers, new Function<Teacher, TeacherDb>() {
-
                     @Override
                     public TeacherDb apply(Teacher teacher) {
                         return (TeacherDb) session.load(TeacherDb.class, ((TeacherDTO) teacher).getId());
                     }
                 });
-                
                 Iterable<StudentGroupDb> studentGroupDbs = Iterables.transform(studentGroups, new Function<StudentGroup, StudentGroupDb>() {
-
                     @Override
                     public StudentGroupDb apply(StudentGroup stdGroup) {
                         return (StudentGroupDb) session.load(StudentGroupDb.class, ((StudentGroupDTO) stdGroup).getId());
@@ -217,9 +214,10 @@ public class DbDataProvider implements DataProvider {
                 goBack[0] = assignmentDb;
             }
         });
+        AssignmentDb assignmentDb = goBack[0];
 
         //---notify the client UI
-        AssignmentDTO assignmentDto = new AssignmentDTO(subject);
+        AssignmentDTO assignmentDto = new AssignmentDTO(assignmentDb.getId(), subject);
         for (Teacher teacher : teachers) {
             assignmentDto.addTeacher(teacher);
         }
@@ -236,7 +234,27 @@ public class DbDataProvider implements DataProvider {
 	@Override public void removeTeachers(List<Teacher> toRemove) { removeEntities(TeacherDb.class, toRemove, this.teachers); }
 	@Override public void removeStudentGroups(List<StudentGroup> toRemove) { removeEntities(StudentGroupDb.class, toRemove, this.stdGroups); }
 	@Override public void removeRooms(List<Room> toRemove) { removeEntities(RoomDb.class, toRemove, this.rooms); }
-	@Override public void removeAssignment(Assignment assignment) { }
+
+    @Override
+    public void removeAssignment(final Assignment assignment) {
+        runTx(sFact, new Tx() {
+            @Override
+            public void run(Session session, Transaction trans) {
+                AssignmentDTO assignmentDTO = (AssignmentDTO) assignment;
+                AssignmentDb loadedAss = (AssignmentDb) session.load(AssignmentDb.class, assignmentDTO.getId());
+                session.delete(loadedAss);
+            }
+        });
+        
+        assignment.getSubject().removeAssignment(assignment);
+        for (Teacher teacher : assignment.getTeachers().getList()) {
+            teacher.removeAssignment(assignment);
+        }
+        for (StudentGroup studentGroup : assignment.getStudentGroups().getList()) {
+            studentGroup.removeAssignment(assignment);
+        }
+        assignments.removeItem(assignment);
+    }
 	
 	@Override public void rename(Entity entity, final String newName) { 
 	    final Class<? extends AbstractEntityDb> clazz = entity.accept(GetEntityClassVisitor.INSTANCE, null);
