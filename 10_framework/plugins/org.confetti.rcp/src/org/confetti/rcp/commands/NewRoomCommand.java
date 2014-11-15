@@ -1,5 +1,7 @@
 package org.confetti.rcp.commands;
 
+import java.util.List;
+
 import org.confetti.core.DataProvider;
 import org.confetti.core.Room;
 import org.confetti.rcp.ConfettiPlugin;
@@ -13,7 +15,7 @@ public class NewRoomCommand extends AbstractNewEntityHandler<Room> {
 		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
 		return new NewEntityWizardModel<Room>(
 				getNames(dp.getRooms().getList()), 
-				new EntityCreator<Room>() { @Override public Room createEntity(String name) { return dp.addRoom(name); }}, 
+				new EntityCreator<Room>() { @Override public void createEntities(List<String> names) { dp.addRooms(names); }}, 
 				"New Room", 
 				"Every new line will be a new room", 
 				"The following rooms will be added",

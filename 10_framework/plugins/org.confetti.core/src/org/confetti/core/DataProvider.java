@@ -16,10 +16,10 @@ public interface DataProvider extends Nameable {
 	ObservableList<Assignment> getAssignments();
 	ObservableValue<Iterable<SolutionSlot>> getSolution();
 	
-	Subject addSubject(String name);
-	Teacher addTeacher(String name);
-	StudentGroup addStudentGroup(StudentGroup parent, String name);
-	Room addRoom(String name);
+	void addSubjects(List<String> names);
+	void addTeachers(List<String> names);
+	void addStudentGroups(StudentGroup parent, List<String> names);
+	void addRooms(List<String> names);
 	void setDays(List<String> days);
 	void setHours(List<String> hours);
 	Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups);

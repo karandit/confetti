@@ -35,6 +35,9 @@ import org.confetti.xml.core.TeacherRef;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+
 /**
  * @author Bubla Gabor
  */
@@ -147,7 +150,7 @@ public class XmlDataProvider implements DataProvider {
 
 	}
 
-	//----------------------------- fields -----------------------------------------------------------------------------
+	//----------------------------- fields for UI client----------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
 	private ListMutator<Teacher> teachers = new ListMutator<>();
 	private ListMutator<Subject> subjects = new ListMutator<>();
@@ -158,13 +161,19 @@ public class XmlDataProvider implements DataProvider {
 	private ListMutator<Assignment> assignments = new ListMutator<>();
 	private ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 
+	//----------------------------- fields for xml persistence ---------------------------------------------------------
+    private final InstituteXml instXml;
+    private File file;
+
 	//----------------------------- constructors -----------------------------------------------------------------------
 	public XmlDataProvider(File file) throws FAOException {
 		this(new InstituteFAO().importFrom(file));
+        this.file = file;
 	}
 	
-	public XmlDataProvider(InstituteXml inst ) {
-			for (SubjectXml subj : inst.getSubjects()) {
+	public XmlDataProvider(InstituteXml inst) {
+			this.instXml = inst;
+            for (SubjectXml subj : inst.getSubjects()) {
 				subjects.addItem(new SubjectImpl(subj.getName()));
 			}
 			for (TeacherXml teacher : inst.getTeachers()) {
@@ -231,35 +240,60 @@ public class XmlDataProvider implements DataProvider {
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override
-	public Subject addSubject(String name) {
-		SubjectImpl subjectImpl = new SubjectImpl(name);
-		subjects.addItem(subjectImpl);
-		return subjectImpl;
-	}
-	
-	@Override
-	public Teacher addTeacher(String name) {
-		TeacherImpl teacherImpl = new TeacherImpl(name);
-		teachers.addItem(teacherImpl);
-		return teacherImpl;
-	}
-	
-	@Override
-	public StudentGroup addStudentGroup(StudentGroup parent, String name) {
-	    StudentGroupImpl studentGroup = new StudentGroupImpl(name);
-	    if (parent == null) {
-            stdGroups.addItem(studentGroup);
-            return studentGroup;
+	public void addSubjects(List<String> names) {
+	    for (String name : names) {
+	        instXml.getSubjects().add(new SubjectXml(name));
         }
-	    //TODO implement if has parent
-		return null;
+	    save();
+	    
+	    for (String name : names) {
+	        SubjectImpl subjectImpl = new SubjectImpl(name);
+	        subjects.addItem(subjectImpl);
+        }
+	}
+	
+
+    @Override
+	public void addTeachers(List<String> names) {
+        for (String name : names) {
+            instXml.getTeachers().add(new TeacherXml(name));
+        }
+        save();
+        
+        for (String name : names) {
+            TeacherImpl teacherImpl = new TeacherImpl(name);
+            teachers.addItem(teacherImpl);
+        }
 	}
 	
 	@Override
-	public Room addRoom(String name) {
-		RoomImpl roomImpl = new RoomImpl(name);
-		rooms.addItem(roomImpl);
-		return roomImpl;
+	public void addStudentGroups(StudentGroup parent, List<String> names) {
+	    if (parent == null) {
+	        List<StudentGroupImpl> groups = Lists.transform(names, new Function<String, StudentGroupImpl>() {
+                @Override public StudentGroupImpl apply(String name) { return  new StudentGroupImpl(name); }
+	        });
+            for (StudentGroupImpl group : groups) {
+                instXml.getYears().add(new YearXml(group));
+            }
+	        save();
+	        
+	        for (StudentGroupImpl group : groups) {
+                stdGroups.addItem(group);
+            }
+        } else { //TODO implement if has parent
+        }
+	}
+	
+	@Override
+	public void addRooms(List<String> names) {
+        for (String name : names) {
+            instXml.getRooms().add(new RoomXml(name));
+        }
+        save();
+        for (String name : names) {
+    		RoomImpl roomImpl = new RoomImpl(name);
+    		rooms.addItem(roomImpl);
+        }
 	}
 	
 	@Override
@@ -315,6 +349,15 @@ public class XmlDataProvider implements DataProvider {
 //	private static InputStream openStream(final String path) throws IOException {
 //		return XmlDataProvider.class.getResource(path).openStream();
 //	}
+
+	private void save() {
+        try {
+            new InstituteFAO().exportTo(instXml, file);
+        } catch (FAOException e) {
+            throw new RuntimeException(e);
+        }
+	 }
+    
 	
 	private static <T extends Entity> T findByName(Iterable<T> items, String name) {
 		for (T item : items) {

@@ -134,10 +134,10 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public ObservableList<Room> getRooms() { return null; }
         @Override public ObservableList<Assignment> getAssignments() { return null; }
         @Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return null; }
-        @Override public Subject addSubject(String name) { return null; }
-        @Override public Teacher addTeacher(String name) { return null; }
-        @Override public StudentGroup addStudentGroup(StudentGroup parent, String name) { return null; }
-        @Override public Room addRoom(String name) { return null; }
+        @Override public void addSubjects(List<String> names) { }
+        @Override public void addTeachers(List<String> names) { }
+        @Override public void addStudentGroups(StudentGroup parent, List<String> names) { }
+        @Override public void addRooms(List<String> names) { }
         @Override public void setDays(List<String> days) { }
         @Override public void setHours(List<String> hours) { }
         @Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
