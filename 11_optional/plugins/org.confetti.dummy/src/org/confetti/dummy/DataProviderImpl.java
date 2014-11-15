@@ -199,15 +199,15 @@ public class DataProviderImpl implements DataProvider {
 	}
 	
 	@Override
-	public void removeAssignment(Assignment assignment, final Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
-	    subject.removeAssignment(assignment);
-	    for (Teacher teacher : teachers) {
+	public void removeAssignment(Assignment assignment) {
+	    assignment.getSubject().removeAssignment(assignment);
+        for (Teacher teacher : assignment.getTeachers().getList()) {
             teacher.removeAssignment(assignment);
         }
-	    for (StudentGroup studentGroup : studentGroups) {
+        for (StudentGroup studentGroup : assignment.getStudentGroups().getList()) {
             studentGroup.removeAssignment(assignment);
         }
-	    assignments.removeItem(assignment);
+        assignments.removeItem(assignment);
 	}
 
 	@Override

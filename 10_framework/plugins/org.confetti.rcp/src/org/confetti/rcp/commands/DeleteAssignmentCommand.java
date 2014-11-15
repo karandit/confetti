@@ -27,12 +27,7 @@ public class DeleteAssignmentCommand extends AbstractHandler {
             final Assignment selectedAssignment = (Assignment) strucSelection.getFirstElement();
             
             if (MessageDialog.openConfirm(shell, "Delete", "The selected Assignment will be deleted! \n Are you sure?")) {
-                ConfettiPlugin.getDefault().getDataProvider().getValue().removeAssignment(
-                        selectedAssignment, 
-                        selectedAssignment.getSubject(), 
-                        selectedAssignment.getTeachers().getList(), 
-                        selectedAssignment.getStudentGroups().getList()
-                );
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeAssignment(selectedAssignment);
             }
         }
         
