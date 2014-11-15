@@ -9,8 +9,8 @@ public class StudentGroupDTO extends EntityDTO implements StudentGroup {
 
     private final ListMutator<StudentGroup> children = new ListMutator<>();
 
-    public StudentGroupDTO(String name) {
-        super(name);
+    public StudentGroupDTO(Long id, String name) {
+        super(id, name);
     }
 
     public void addChild(StudentGroup child) {

@@ -1,6 +1,9 @@
 package org.confetti.dataprovider.db;
 
+import static org.confetti.dataprovider.db.util.HibernateUtil.runTx;
+
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +19,7 @@ import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.dataprovider.db.dto.AssignmentDTO;
 import org.confetti.dataprovider.db.dto.DayDTO;
+import org.confetti.dataprovider.db.dto.EntityDTO;
 import org.confetti.dataprovider.db.dto.HourDTO;
 import org.confetti.dataprovider.db.dto.RoomDTO;
 import org.confetti.dataprovider.db.dto.StudentGroupDTO;
@@ -24,13 +28,13 @@ import org.confetti.dataprovider.db.dto.TeacherDTO;
 import org.confetti.dataprovider.db.entities.AbstractEntityDb;
 import org.confetti.dataprovider.db.entities.AssignmentDb;
 import org.confetti.dataprovider.db.entities.DayDb;
+import org.confetti.dataprovider.db.entities.GetEntityClassVisitor;
 import org.confetti.dataprovider.db.entities.HourDb;
 import org.confetti.dataprovider.db.entities.InstituteDb;
 import org.confetti.dataprovider.db.entities.RoomDb;
 import org.confetti.dataprovider.db.entities.StudentGroupDb;
 import org.confetti.dataprovider.db.entities.SubjectDb;
 import org.confetti.dataprovider.db.entities.TeacherDb;
-import org.confetti.dataprovider.db.util.HibernateUtil;
 import org.confetti.dataprovider.db.util.Tx;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
@@ -72,18 +76,18 @@ public class DbDataProvider implements DataProvider {
 	        hours.addItem(new HourDTO(hour.getName()));
 	    }
         for (SubjectDb subj : instDb.getSubjects()) {
-            subjects.addItem(new SubjectDTO(subj.getName()));
+            subjects.addItem(new SubjectDTO(subj.getId(), subj.getName()));
         }
         for (TeacherDb teacher : instDb.getTeachers()) {
-            teachers.addItem(new TeacherDTO(teacher.getName()));
+            teachers.addItem(new TeacherDTO(teacher.getId(), teacher.getName()));
         }
         for (StudentGroupDb sG : instDb.getStudentGroups()) {
-            StudentGroupDTO studentGroupDTO = new StudentGroupDTO(sG.getName());
+            StudentGroupDTO studentGroupDTO = new StudentGroupDTO(sG.getId(), sG.getName());
             stdGroups.addItem(studentGroupDTO);
             //TODO read as the children of the StudentGroups
         }
         for (RoomDb room : instDb.getRooms()) {
-            rooms.addItem(new RoomDTO(room.getName()));
+            rooms.addItem(new RoomDTO(room.getId(), room.getName()));
         }
 
         Iterable<Subject> allSubjects = subjects.getObservableList().getList();
@@ -122,7 +126,7 @@ public class DbDataProvider implements DataProvider {
         return null;
     }
 	
-	//----------------------------- DataProvider's API -----------------------------------------------------------------
+	//----------------------------- DataProvider's Accessor API --------------------------------------------------------
 	@Override public ObservableValue<String> getName() 					   { return instName.getObservableValue(); }
 	@Override public ObservableList<Teacher> getTeachers() 				   { return teachers.getObservableList(); }
 	@Override public ObservableList<Subject> getSubjects() 				   { return subjects.getObservableList(); }
@@ -133,46 +137,49 @@ public class DbDataProvider implements DataProvider {
 	@Override public ObservableList<Assignment> getAssignments() 		   { return assignments.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
+	//----------------------------- DataProvider's Persister API -------------------------------------------------------
+
     @Override
     public void addSubjects(final List<String> names) {
-        createEntities(names, new Function<Tuple<String, InstituteDb>, SubjectDb>() {
+        List<SubjectDb> newEntities = createEntities(names, new Function<Tuple<String, InstituteDb>, SubjectDb>() {
             @Override public SubjectDb apply(Tuple<String, InstituteDb> tuple) { return new SubjectDb(tuple.getFirst(), tuple.getSecond()); }
         });
         
-        for (String name : names) {
-            subjects.addItem(new SubjectDTO(name));
+        for (SubjectDb newEntity : newEntities) {
+            subjects.addItem(new SubjectDTO(newEntity.getId(), newEntity.getName()));
         }
     }
 
 	@Override public void addTeachers(final List<String> names) {
-        createEntities(names, new Function<Tuple<String, InstituteDb>, TeacherDb>() {
+	    List<TeacherDb> newEntities = createEntities(names, new Function<Tuple<String, InstituteDb>, TeacherDb>() {
             @Override public TeacherDb apply(Tuple<String, InstituteDb> tuple) { return new TeacherDb(tuple.getFirst(), tuple.getSecond()); }
         });
         
-        for (String name : names) {
-            teachers.addItem(new TeacherDTO(name));
+	    for (TeacherDb newEntity : newEntities) {
+            teachers.addItem(new TeacherDTO(newEntity.getId(), newEntity.getName()));
         }
 	}
 	
 	@Override public void addStudentGroups(StudentGroup parent, List<String> names) { 
         if (parent == null) {
-            createEntities(names, new Function<Tuple<String, InstituteDb>, StudentGroupDb>() {
+            List<StudentGroupDb> newEntities = createEntities(names, new Function<Tuple<String, InstituteDb>, StudentGroupDb>() {
                 @Override public StudentGroupDb apply(Tuple<String, InstituteDb> tuple) { return new StudentGroupDb(tuple.getFirst(), tuple.getSecond()); }
             });
-            for (String name : names) {
-                stdGroups.addItem(new StudentGroupDTO(name));
+            
+            for (StudentGroupDb newEntity : newEntities) {
+                stdGroups.addItem(new StudentGroupDTO(newEntity.getId(), newEntity.getName()));
             }
         } else { // TODO implement if has parent
         }
 	}
 	
 	@Override public void addRooms(final List<String> names) {
-        createEntities(names, new Function<Tuple<String, InstituteDb>, RoomDb>() {
+	    List<RoomDb> newEntities = createEntities(names, new Function<Tuple<String, InstituteDb>, RoomDb>() {
             @Override public RoomDb apply(Tuple<String, InstituteDb> tuple) { return new RoomDb(tuple.getFirst(), tuple.getSecond()); }
         });
-        
-        for (String name : names) {
-            rooms.addItem(new RoomDTO(name));
+	    
+	    for (RoomDb newEntity : newEntities) {
+	        rooms.addItem(new RoomDTO(newEntity.getId(), newEntity.getName()));
         }
 	}
 	
@@ -185,20 +192,39 @@ public class DbDataProvider implements DataProvider {
 	@Override public void removeStudentGroups(List<StudentGroup> studentGroups) { }
 	@Override public void removeRooms(List<Room> rooms) { }
 	@Override public void removeAssignment(Assignment assignment) { }
-	@Override public void rename(Entity entity, String newName) { }
+	
+	@Override public void rename(Entity entity, final String newName) { 
+	    final Class<? extends AbstractEntityDb> clazz = entity.accept(GetEntityClassVisitor.INSTANCE, null);
+	    final EntityDTO entityDto = (EntityDTO) entity;
+	    
+	    runTx(sFact, new Tx() {
+            @Override
+            public void run(Session session, Transaction trans) {
+                AbstractEntityDb entityDb = (AbstractEntityDb) session.load(clazz, entityDto.getId());
+                entityDb.setName(newName);
+                session.persist(entityDb);
+            }
+        });
+	    
+	    entityDto.getNameMutator().setValue(entity, newName);
+	}
     
 	//----------------------------- helpers ----------------------------------------------------------------------------
-    private <T extends AbstractEntityDb> void createEntities(final List<String> names, 
+    private <T extends AbstractEntityDb> List<T> createEntities(final List<String> names, 
             final Function<Tuple<String, InstituteDb>, T> f) {
-        HibernateUtil.runTx(sFact, new Tx() {
+        final List<T> newEntities = new LinkedList<T>();
+        runTx(sFact, new Tx() {
             @Override
             public void run(Session session, Transaction trans) {
                 InstituteDb instDb = (InstituteDb) session.load(InstituteDb.class, instId);
                 for (String name : names) {
                     T newEntity = f.apply(new Tuple<String, InstituteDb>(name, instDb));
+                    newEntities.add(newEntity);
                     session.persist(newEntity);
                 }
             }
         });
+        return newEntities;
     }
+    
 }

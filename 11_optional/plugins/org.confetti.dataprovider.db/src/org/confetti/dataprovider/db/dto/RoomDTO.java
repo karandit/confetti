@@ -4,8 +4,8 @@ import org.confetti.core.EntityVisitor;
 import org.confetti.core.Room;
 
 public class RoomDTO extends EntityDTO implements Room {
-    public RoomDTO(String name) {
-        super(name);
+    public RoomDTO(Long id, String name) {
+        super(id, name);
     }
 
     @Override

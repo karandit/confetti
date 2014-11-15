@@ -10,13 +10,21 @@ import org.confetti.observable.ValueMutator;
 
 public abstract class EntityDTO implements Entity, Assignable {
 
+    private final Long id;
+
+
     private final ValueMutator<String> name;
     private final ListMutator<Assignment> assignments = new ListMutator<>();
 
-    public EntityDTO(String name) {
+    public EntityDTO(final Long id, String name) {
+        this.id = id;
         this.name = new ValueMutator<>(this, name);
     }
-
+    
+    public Long getId() {
+        return id;
+    }
+    
     @Override
     public ObservableValue<String> getName() {
         return name.getObservableValue();

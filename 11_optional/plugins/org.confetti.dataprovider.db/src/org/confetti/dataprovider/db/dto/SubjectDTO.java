@@ -4,8 +4,9 @@ import org.confetti.core.EntityVisitor;
 import org.confetti.core.Subject;
 
 public class SubjectDTO extends EntityDTO implements Subject {
-    public SubjectDTO(String name) {
-        super(name);
+    
+    public SubjectDTO(Long id, String name) {
+        super(id, name);
     }
 
     @Override

@@ -5,8 +5,8 @@ import org.confetti.core.Teacher;
 
 public class TeacherDTO extends EntityDTO implements Teacher {
     
-    public TeacherDTO(String name) {
-        super(name);
+    public TeacherDTO(Long id, String name) {
+        super(id, name);
     }
 
     @Override
