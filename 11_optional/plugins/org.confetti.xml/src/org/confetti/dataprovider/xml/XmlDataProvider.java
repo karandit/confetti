@@ -47,11 +47,13 @@ public class XmlDataProvider implements DataProvider {
 	//----------------------------- inner classes ----------------------------------------------------------------------
 	private static class AssignmentImpl implements Assignment {
 
+	    private final Long id;
 		private final Subject subj;
 		private final ListMutator<Teacher> teachers = new ListMutator<>();
 		private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
 		
-		public AssignmentImpl(Subject subj) {
+		public AssignmentImpl(Long id, Subject subj) {
+            this.id = id;
             this.subj = subj;
 			subj.addAssignment(this);
 		}
@@ -59,10 +61,12 @@ public class XmlDataProvider implements DataProvider {
 		public void addTeacher(Teacher teacher) 			{ teachers.addItem(teacher); teacher.addAssignment(this);} 
 		public void addStudentGroup(StudentGroup group) 	{ stGroups.addItem(group); group.addAssignment(this);} 
 		
+		public Long getId() { return id; }
 		@Override public Subject getSubject() 								{ return subj; }
 		@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
 		@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stGroups.getObservableList(); }
 		@Override public Room getRoom() 									{ return null; }
+
 	}
 	
 	private static abstract class EntityImpl implements Entity, Assignable {
@@ -209,7 +213,7 @@ public class XmlDataProvider implements DataProvider {
 			    if (act.getId() > currentMaxId) {
                     currentMaxId = act.getId();
                 }
-				AssignmentImpl ass = new AssignmentImpl(findByName(allSubjects, act.getSubject().getName()));
+				AssignmentImpl ass = new AssignmentImpl(act.getId(), findByName(allSubjects, act.getSubject().getName()));
 				if (act.getStudents() != null) {
 					for (String stGroupName : act.getStudents()) {
 						ass.addStudentGroup(allStdGroups.get(stGroupName));
@@ -315,7 +319,7 @@ public class XmlDataProvider implements DataProvider {
 	    instXml.getActivities().add(new ActivityXml(currentMaxId, subject, teachers, studentGroups));
 	    save();
 	    
-	    AssignmentImpl assignment = new AssignmentImpl(subject);
+	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, subject);
 	    for (Teacher teacher : teachers) {
 	        assignment.addTeacher(teacher);
 	    }
@@ -338,6 +342,10 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void removeAssignment(Assignment assignment) {
+	    ActivityXml foundActivity = findActivityById(((AssignmentImpl) assignment).getId());
+	    instXml.getActivities().remove(foundActivity);
+	    save();
+	    
 	    assignment.getSubject().removeAssignment(assignment);
         for (Teacher teacher : assignment.getTeachers().getList()) {
             teacher.removeAssignment(assignment);
@@ -399,5 +407,14 @@ public class XmlDataProvider implements DataProvider {
             allEntities.removeItem(entityToRemove);
         }
     }
+	
+	private ActivityXml findActivityById(Long id) {
+	    for (ActivityXml activity : instXml.getActivities()) {
+	        if (activity.getId().equals(id)) {
+	            return activity;
+	        }
+	    }
+	    return null;
+	}
 	
 }
