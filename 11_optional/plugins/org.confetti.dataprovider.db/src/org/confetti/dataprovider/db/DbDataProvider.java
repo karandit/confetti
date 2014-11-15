@@ -1,5 +1,6 @@
 package org.confetti.dataprovider.db;
 
+import static java.util.Arrays.asList;
 import static org.confetti.dataprovider.db.util.HibernateUtil.runTx;
 
 import java.util.HashMap;
@@ -46,6 +47,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 
 /**
  * @author Gabor Bubla
@@ -185,7 +187,49 @@ public class DbDataProvider implements DataProvider {
 	
 	@Override public void setDays(List<String> days) { }
 	@Override public void setHours(List<String> hours) { }
-	@Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
+	
+    @Override
+    public Assignment addAssignment(final Subject subject, final Iterable<Teacher> teachers, final Iterable<StudentGroup> studentGroups) {
+        final AssignmentDb[] goBack = new AssignmentDb[1];
+        runTx(sFact, new Tx() {
+            @Override
+            public void run(final Session session, Transaction trans) {
+                InstituteDb instDb = (InstituteDb) session.load(InstituteDb.class, instId);
+                SubjectDb entityDb = (SubjectDb) session.load(SubjectDb.class, ((SubjectDTO) subject).getId());
+                Iterable<TeacherDb> teacherDbs = Iterables.transform(teachers, new Function<Teacher, TeacherDb>() {
+
+                    @Override
+                    public TeacherDb apply(Teacher teacher) {
+                        return (TeacherDb) session.load(TeacherDb.class, ((TeacherDTO) teacher).getId());
+                    }
+                });
+                
+                Iterable<StudentGroupDb> studentGroupDbs = Iterables.transform(studentGroups, new Function<StudentGroup, StudentGroupDb>() {
+
+                    @Override
+                    public StudentGroupDb apply(StudentGroup stdGroup) {
+                        return (StudentGroupDb) session.load(StudentGroupDb.class, ((StudentGroupDTO) stdGroup).getId());
+                    }
+                });
+                
+                AssignmentDb assignmentDb = new AssignmentDb(instDb, asList(entityDb), teacherDbs, studentGroupDbs);
+                session.persist(assignmentDb);
+                goBack[0] = assignmentDb;
+            }
+        });
+
+        //---notify the client UI
+        AssignmentDTO assignmentDto = new AssignmentDTO(subject);
+        for (Teacher teacher : teachers) {
+            assignmentDto.addTeacher(teacher);
+        }
+        for (StudentGroup studentGroup : studentGroups) {
+            assignmentDto.addStudentGroup(studentGroup);
+        }
+        assignments.addItem(assignmentDto);
+        return assignmentDto;
+    }
+    
 	@Override public void setSolution(Iterable<SolutionSlot> solution) { }
 
     @Override public void removeSubjects(List<Subject> toRemove) { removeEntities(SubjectDb.class, toRemove, this.subjects); }
