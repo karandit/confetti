@@ -4,6 +4,7 @@ import org.confetti.dataprovider.db.DbDataProvider;
 import org.confetti.dataprovider.db.entities.InstituteDb;
 import org.confetti.dataprovider.db.util.HibernateUtil;
 import org.confetti.rcp.ConfettiPlugin;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -39,11 +40,12 @@ public class CreateDatabaseWizard extends Wizard {
 		        return true;
             } catch (Exception e) {
                 tx.rollback();
+                MessageDialog.openError(getShell(), "Error", e.getMessage());
+                throw e;
             }
         } finally {
             session.close();
         }
-		return false;
 	}
 	
 }

@@ -224,6 +224,7 @@ public class XmlDataProvider implements DataProvider {
 						ass.addTeacher(findByName(allTeachers, teacherRef.getName()));
 					}
 				}
+				assignments.addItem(ass);
 			}
 	}
 	

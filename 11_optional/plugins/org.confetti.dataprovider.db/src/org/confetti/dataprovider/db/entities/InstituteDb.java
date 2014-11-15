@@ -88,7 +88,7 @@ public class InstituteDb implements Serializable {
             List<StudentGroupDb> sGsDb = new LinkedList<>();
             if (ass.getStudentGroups() != null) {
                 for (StudentGroup stGroup : ass.getStudentGroups().getList()) {
-                    sGsDb.add(allStdGroups.get(stGroup.getName()));
+                    sGsDb.add(allStdGroups.get(stGroup.getName().getValue()));
                 }
             }
             if (ass.getTeachers() != null) {
