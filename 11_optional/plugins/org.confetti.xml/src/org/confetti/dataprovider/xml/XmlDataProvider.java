@@ -252,7 +252,6 @@ public class XmlDataProvider implements DataProvider {
         }
 	}
 	
-
     @Override
 	public void addTeachers(List<String> names) {
         for (String name : names) {
@@ -342,6 +341,8 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void rename(Entity entity, String newName) {
+	    entity.accept(new RenameVisitor(instXml), newName);
+	    save();
 		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 	

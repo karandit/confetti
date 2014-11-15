@@ -31,7 +31,6 @@ public interface DataProvider extends Nameable {
 	void removeRoom(Room room);
 	void removeAssignment(Assignment assignment, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups);
 	
-	//TODO remove me
 	void rename(Entity entity, String newName);
 	
 }
