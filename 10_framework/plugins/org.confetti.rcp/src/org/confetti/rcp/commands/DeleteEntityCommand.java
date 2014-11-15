@@ -1,6 +1,7 @@
 package org.confetti.rcp.commands;
 
 import static com.google.common.collect.Iterables.isEmpty;
+import static java.util.Arrays.asList;
 
 import org.confetti.core.Entity;
 import org.confetti.core.EntityVisitor;
@@ -55,7 +56,7 @@ public class DeleteEntityCommand extends AbstractHandler {
         @Override
         public Boolean visitSubject(Subject subject, Void param) {
             if (isEmpty(subject.getAssignments().getList())) {
-                ConfettiPlugin.getDefault().getDataProvider().getValue().removeSubject(subject);
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeSubjects(asList(subject));
                 return true;
             }
             return false;
@@ -63,7 +64,7 @@ public class DeleteEntityCommand extends AbstractHandler {
         @Override
         public Boolean visitTeacher(Teacher teacher, Void param) {
             if (isEmpty(teacher.getAssignments().getList())) {
-                ConfettiPlugin.getDefault().getDataProvider().getValue().removeTeacher(teacher);
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeTeachers(asList(teacher));
                 return true;
             }
             return false;
@@ -71,7 +72,7 @@ public class DeleteEntityCommand extends AbstractHandler {
         @Override
         public Boolean visitStudentGroup(StudentGroup studentGroup, Void param) {
             if (isEmpty(studentGroup.getAssignments().getList())) {
-                ConfettiPlugin.getDefault().getDataProvider().getValue().removeStudentGroup(studentGroup);
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeStudentGroups(asList(studentGroup));
                 return true;
             }
             return false;
@@ -79,7 +80,7 @@ public class DeleteEntityCommand extends AbstractHandler {
         @Override
         public Boolean visitRoom(Room room, Void param) {
             if (isEmpty(room.getAssignments().getList())) {
-                ConfettiPlugin.getDefault().getDataProvider().getValue().removeRoom(room);
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeRooms(asList(room));
                 return true;
             }
             return false;

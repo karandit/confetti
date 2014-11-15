@@ -25,10 +25,10 @@ public interface DataProvider extends Nameable {
 	Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups);
 	void setSolution(Iterable<SolutionSlot> solution);
 	
-	void removeSubject(Subject subject);
-	void removeTeacher(Teacher teacher);
-	void removeStudentGroup(StudentGroup studentGroup);
-	void removeRoom(Room room);
+	void removeSubjects(List<Subject> subjects);
+	void removeTeachers(List<Teacher> teachers);
+	void removeStudentGroups(List<StudentGroup> studentGroups);
+	void removeRooms(List<Room> rooms);
 	void removeAssignment(Assignment assignment, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups);
 	
 	void rename(Entity entity, String newName);

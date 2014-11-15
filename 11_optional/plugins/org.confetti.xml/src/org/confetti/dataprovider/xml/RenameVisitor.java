@@ -1,5 +1,7 @@
 package org.confetti.dataprovider.xml;
 
+import static org.confetti.dataprovider.xml.XmlDataProvider.findXmlByName;
+
 import org.confetti.core.EntityVisitor;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
@@ -24,44 +26,36 @@ public class RenameVisitor implements EntityVisitor<Void, String> {
 
     @Override
     public Void visitSubject(Subject subject, String newName) {
-        for (SubjectXml subjectXml : instXml.getSubjects()) {
-            if (subjectXml.getName().equals(subject.getName().getValue())) {
-                subjectXml.setName(newName);
-                return null;
-            }
+        SubjectXml found = findXmlByName(instXml.getSubjects(), subject.getName().getValue());
+        if (found != null) {
+            found.setName(newName);
         }
         return null;
     }
 
     @Override
     public Void visitTeacher(Teacher teacher, String newName) {
-        for (TeacherXml teacherXml : instXml.getTeachers()) {
-            if (teacherXml.getName().equals(teacher.getName().getValue())) {
-                teacherXml.setName(newName);
-                return null;
-            }
+        TeacherXml found = findXmlByName(instXml.getTeachers(), teacher.getName().getValue());
+        if (found != null) {
+            found.setName(newName);
         }
         return null;
     }
 
     @Override
     public Void visitStudentGroup(StudentGroup studentGroup, String newName) {
-        for (YearXml yearXml : instXml.getYears()) {
-            if (yearXml.getName().equals(studentGroup.getName().getValue())) {
-                yearXml.setName(newName);
-                return null;
-            }
+        YearXml found = findXmlByName(instXml.getYears(), studentGroup.getName().getValue());
+        if (found != null) {
+            found.setName(newName);
         }
         return null;
     }
 
     @Override
     public Void visitRoom(Room room, String newName) {
-        for (RoomXml roomXml : instXml.getRooms()) {
-            if (roomXml.getName().equals(room.getName().getValue())) {
-                roomXml.setName(newName);
-                return null;
-            }
+        RoomXml found = findXmlByName(instXml.getRooms(), room.getName().getValue());
+        if (found != null) {
+            found.setName(newName);
         }
         return null;
     }   

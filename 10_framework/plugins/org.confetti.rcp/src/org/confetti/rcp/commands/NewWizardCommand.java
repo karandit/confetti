@@ -142,10 +142,10 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public void setHours(List<String> hours) { }
         @Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
         @Override public void setSolution(Iterable<SolutionSlot> solution) { }
-        @Override public void removeSubject(Subject subject) { }
-        @Override public void removeTeacher(Teacher teacher) { }
-        @Override public void removeStudentGroup(StudentGroup studentGroup) { }
-        @Override public void removeRoom(Room room) { }
+        @Override public void removeSubjects(List<Subject> subjects) { }
+        @Override public void removeTeachers(List<Teacher> teachers) { }
+        @Override public void removeStudentGroups(List<StudentGroup> studentGroups) { }
+        @Override public void removeRooms(List<Room> rooms) { }
         @Override public void removeAssignment(Assignment assignment, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { }
         @Override public void rename(Entity entity, String newName) { }
     }

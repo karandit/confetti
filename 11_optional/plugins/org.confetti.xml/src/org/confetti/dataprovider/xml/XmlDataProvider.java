@@ -27,6 +27,7 @@ import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.DayXml;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.HourXml;
+import org.confetti.xml.core.INameBean;
 import org.confetti.xml.core.InstituteXml;
 import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubgroupXml;
@@ -322,10 +323,10 @@ public class XmlDataProvider implements DataProvider {
 	    this.solution.setValue(this, solution);
 	}
 	
-	@Override public void removeSubject(Subject subject)       	        { subjects.removeItem(subject); }
-	@Override public void removeTeacher(Teacher teacher) 	            { teachers.removeItem(teacher); }
-	@Override public void removeStudentGroup(StudentGroup studentGroup) { stdGroups.removeItem(studentGroup); }
-	@Override public void removeRoom(Room room)          	            { rooms.removeItem(room); }
+    @Override public void removeSubjects(List<Subject> toRemove) { removeEntities(toRemove, subjects, instXml.getSubjects()); }
+    @Override public void removeTeachers(List<Teacher> toRemove) { removeEntities(toRemove, teachers, instXml.getTeachers()); }
+    @Override public void removeStudentGroups(List<StudentGroup> toRemove) { removeEntities(toRemove, stdGroups, instXml.getYears()); }
+    @Override public void removeRooms(List<Room> toRemove) { removeEntities(toRemove, rooms, instXml.getRooms()); }
 	
 	@Override
 	public void removeAssignment(Assignment assignment, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
@@ -359,7 +360,6 @@ public class XmlDataProvider implements DataProvider {
         }
 	 }
     
-	
 	private static <T extends Entity> T findByName(Iterable<T> items, String name) {
 		for (T item : items) {
 			if (item.getName().getValue().equals(name)) {
@@ -369,4 +369,27 @@ public class XmlDataProvider implements DataProvider {
 		return null;
 	}
 
+	static <T extends INameBean> T findXmlByName(Iterable<T> items, String name) {
+        for (T item : items) {
+            if (item.getName().equals(name)) {
+                return item;
+            }
+        }
+        return null;
+    }
+	
+	private <ET extends Entity, XT extends INameBean> void removeEntities(List<ET> entitiesToRemove, ListMutator<ET> allEntities, List<XT> xmlEntities) {
+        for (ET entityToRemove : entitiesToRemove) {
+            XT foundXmlEntity = findXmlByName(xmlEntities, entityToRemove.getName().getValue());
+            if (foundXmlEntity != null) {
+                xmlEntities.remove(foundXmlEntity);
+            }
+        }
+        save();
+        
+        for (ET entityToRemove : entitiesToRemove) {
+            allEntities.removeItem(entityToRemove);
+        }
+    }
+	
 }

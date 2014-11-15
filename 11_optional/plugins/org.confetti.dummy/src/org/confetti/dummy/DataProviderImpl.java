@@ -171,23 +171,31 @@ public class DataProviderImpl implements DataProvider {
 	}
 	
 	@Override
-	public void removeSubject(Subject subject) {
-		subjects.removeItem(subject);
+	public void removeSubjects(List<Subject> subjectsToRemove) {
+	    for (Subject subject : subjectsToRemove) {
+	        this.subjects.removeItem(subject);
+        }
 	}
 	
 	@Override
-	public void removeTeacher(Teacher teacher) {
-		teachers.removeItem(teacher);
+	public void removeTeachers(List<Teacher> teachersToRemove) {
+	    for (Teacher teacher : teachersToRemove) {
+	        this.teachers.removeItem(teacher);
+        }
 	}
 	
 	@Override
-	public void removeStudentGroup(StudentGroup studentGroup) {
-	    studentGroups.removeItem(studentGroup);
+	public void removeStudentGroups(List<StudentGroup> studentGroups) {
+	    for (StudentGroup studentGroup : studentGroups) {
+	        this.studentGroups.removeItem(studentGroup);
+        }
 	}
 	
 	@Override
-	public void removeRoom(Room room) {
-		rooms.removeItem(room);
+	public void removeRooms(List<Room> rooms) {
+	    for (Room room : rooms) {
+	        this.rooms.removeItem(room);
+        }
 	}
 	
 	@Override
