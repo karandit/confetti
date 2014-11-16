@@ -13,6 +13,8 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.google.common.io.Files;
+
 public class ChooseFileWizardPage extends WizardPage {
 
 	private OpenXmlWizardModel mModel;
@@ -29,13 +31,23 @@ public class ChooseFileWizardPage extends WizardPage {
 		final Composite compo = new Composite(parent, SWT.NONE);
 		FileFieldEditor ffe = new FileFieldEditor("file", "File", compo);
 		ffe.setFileExtensions(new String[] {"*.fet"});
+		//FIXME: remove for the text to be editable with a better validator later
+		ffe.getTextControl(compo).setEditable(false);
 		ffe.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent event) {
-				//TODO: fix it. button click calls this
-				if (StringFieldEditor.VALUE.equals(event.getProperty())) {
-					setPageComplete(event.getNewValue() != null);
-					mModel.setFile(new File((String) event.getNewValue()));
+				//FIXME: button click calls this. change it to listen every change of the field's String
+				if (event.getNewValue() instanceof String && StringFieldEditor.VALUE.equals(event.getProperty())) {
+				    String newValue = (String) event.getNewValue();
+				    if (Files.getFileExtension(newValue).equals("fet")) {
+				        File f = new File(newValue);
+				        setPageComplete(f.exists());
+				        if (f.exists()) {
+				            mModel.setFile(f);
+				        }
+                    } else {
+                        setPageComplete(false);
+                    }
 				}
 			}
 		});

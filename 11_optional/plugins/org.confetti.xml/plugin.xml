@@ -2,6 +2,13 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
+         point="org.confetti.rcp.newWizard">
+      <newWizard
+            factory="org.confetti.dataprovider.wizards.NewXmlWizardFactory"
+            name="FET">
+      </newWizard>
+   </extension>
+   <extension
          point="org.confetti.rcp.openWizard">
       <openWizard
             factory="org.confetti.dataprovider.wizards.OpenXmlWizardFactory"
