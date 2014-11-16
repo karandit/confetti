@@ -11,7 +11,6 @@ import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.FontDescriptor;
@@ -61,10 +60,9 @@ public class AddAssignmentDialog extends Dialog {
         newShell.setText("Add assignment");
     }
 
-    //create only the OK button and don't create Cancel
     @Override
     protected void createButtonsForButtonBar(Composite parent) {
-        super.createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+        // do not create the OK and Cancel buttons
     }
 
     @Override
@@ -113,8 +111,10 @@ public class AddAssignmentDialog extends Dialog {
         
         //create button
         Button createButton = new Button(container, SWT.NONE);
-        createButton.setText("Create assignment");
+        createButton.setText("&Create assignment");
         createButton.addSelectionListener(new CreateAssignmentSelectionListener(subjectsViewer, teachersViewer, studentgroupsViewer));
+        parent.getShell().setDefaultButton(createButton);
+        GridDataFactory.fillDefaults().span(3, 1).align(SWT.END, SWT.END).applyTo(createButton);
         
         return container;
     }
