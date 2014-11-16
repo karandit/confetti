@@ -32,6 +32,7 @@ public class AssignmentsView extends ViewPart {
 
 	public final static String ID = "org.confetti.rcp.assignmentsView";
 	
+	private ISelectionListener selectionListener;
 //	private ObservableListener<String> nameListener;
 	
 	@Override
@@ -92,7 +93,7 @@ public class AssignmentsView extends ViewPart {
 
 	private void assignListener(final TableViewer tableViewer, final KTable ktable) {
 		ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
-		selectionService.addSelectionListener(new ISelectionListener() {
+		selectionListener = new ISelectionListener() {
 			@Override
 			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 				//do nothing when the selection comes from this view
@@ -123,7 +124,8 @@ public class AssignmentsView extends ViewPart {
 					return;
 				}
 			}
-		});
+		};
+        selectionService.addSelectionListener(selectionListener);
 	}
 
 	private void assignModel(final KTable ktable, DataProvider dp, Entity ent) {
@@ -137,6 +139,14 @@ public class AssignmentsView extends ViewPart {
 		model = new TimeTableModel(ktable, dp, ent);
 		ktable.setModel(model);
 		model.initialize();
+	}
+	
+	@Override
+	public void dispose() {
+	    ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
+	    selectionService.removeSelectionListener(selectionListener);
+	    
+	    super.dispose();
 	}
 
 	@Override

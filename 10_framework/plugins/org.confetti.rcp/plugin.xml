@@ -159,6 +159,12 @@
             id="org.confetti.rcp.deleteAssignmentCommand"
             name="Delete Assignment">
       </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.ResetPerspectiveCommand"
+            description="Reset Perspective"
+            id="org.confetti.rcp.resetPerspectiveCommand"
+            name="Reset Perspective">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -206,6 +212,16 @@
          <menu
                label="Window"
                mnemonic="W">
+            <command
+                  commandId="org.confetti.rcp.resetPerspectiveCommand"
+                  label="Reset Perspective..."
+                  mnemonic="R"
+                  style="push">
+            </command>
+            <separator
+                  name="org.confetti.rcp.separator2"
+                  visible="true">
+            </separator>
             <command
                   commandId="org.eclipse.ui.window.preferences"
                   label="Preferences"
