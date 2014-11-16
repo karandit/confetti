@@ -12,10 +12,12 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 	
 	private static final String PERSPECTIVE_ID = "org.confetti.rcp.defaultPerspective";
 
+	@Override
     public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         return new ApplicationWorkbenchWindowAdvisor(configurer);
     }
 
+    @Override
 	public String getInitialWindowPerspectiveId() {
 		return PERSPECTIVE_ID;
 	} 

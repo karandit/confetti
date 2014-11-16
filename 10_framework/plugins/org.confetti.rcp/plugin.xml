@@ -109,7 +109,7 @@
       <command
             defaultHandler="org.confetti.rcp.commands.SaveAsCommand"
             id="org.confetti.rcp.saveAsCommand"
-            name="Save As">
+            name="Save as">
       </command>
       <command
             defaultHandler="org.confetti.rcp.commands.NewSubjectCommand"
@@ -165,12 +165,50 @@
             id="org.confetti.rcp.resetPerspectiveCommand"
             name="Reset Perspective">
       </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.ExitCommand"
+            description="Exit"
+            id="org.confetti.rcp.exitCommand"
+            name="Exit">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
             locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="File"
+               mnemonic="F">
+            <command
+                  commandId="org.confetti.rcp.newWizardCommand"
+                  label="New..."
+                  mnemonic="N"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.openWizardCommand"
+                  label="Open..."
+                  mnemonic="O"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.saveAsCommand"
+                  label="Save as..."
+                  mnemonic="S"
+                  style="push">
+            </command>
+            <separator
+                  name="org.confetti.rcp.separator3"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.confetti.rcp.exitCommand"
+                  label="Exit"
+                  mnemonic="x"
+                  style="push">
+            </command>
+         </menu>
          <menu
                label="Timetable"
                mnemonic="T">
@@ -247,7 +285,7 @@
             </command>
             <command
                   commandId="org.confetti.rcp.saveAsCommand"
-                  label="&amp;Save As..."
+                  label="&amp;Save as..."
                   style="push">
             </command>
          </toolbar>
