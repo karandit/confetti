@@ -171,7 +171,12 @@ public class XmlDataProvider implements DataProvider {
     private long currentMaxId = 0;
 
 	//----------------------------- constructors -----------------------------------------------------------------------
-	public XmlDataProvider(File file) throws FAOException {
+    public XmlDataProvider(InstituteXml inst, File file) throws FAOException {
+        this(inst);
+        this.file = file;
+    }
+    
+    public XmlDataProvider(File file) throws FAOException {
 		this(new InstituteFAO().importFrom(file));
         this.file = file;
 	}
@@ -369,7 +374,7 @@ public class XmlDataProvider implements DataProvider {
 //		return XmlDataProvider.class.getResource(path).openStream();
 //	}
 
-	private void save() {
+	public void save() {
         try {
             new InstituteFAO().exportTo(instXml, file);
         } catch (FAOException e) {
