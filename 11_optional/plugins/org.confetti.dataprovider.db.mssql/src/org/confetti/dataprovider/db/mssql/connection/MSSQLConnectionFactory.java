@@ -1,4 +1,4 @@
-package org.confetti.dataprovider.db.mysql.connection;
+package org.confetti.dataprovider.db.mssql.connection;
 
 import org.confetti.dataprovider.db.DbConnectionDescriptor;
 import org.confetti.dataprovider.db.DbConnectionFactory;
@@ -17,7 +17,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * @author Gabor Bubla
  */
-public class MySQLConnectionFactory implements DbConnectionFactory {
+public class MSSQLConnectionFactory implements DbConnectionFactory {
 
     private static final String KEY_PASSWORD = "PASSWORD";
     private static final String KEY_USER = "USER";
@@ -84,9 +84,9 @@ public class MySQLConnectionFactory implements DbConnectionFactory {
         String username = preferenceStore.getString(connName +"_" + KEY_USER);
         String password = preferenceStore.getString(connName +"_" + KEY_PASSWORD);
         
-        return new MySQLDbConnectionDescriptor(host, port, database, username, password);
+        return new MSSQLDbConnectionDescriptor(host, port, database, username, password);
     }
-    
+
     //------------------------ helper ----------------------------------------------------------------------------------
     private class TestConnectionSelectionListener extends SelectionAdapter {
         //FIXME really test the connection

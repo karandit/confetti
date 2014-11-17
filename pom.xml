@@ -18,6 +18,7 @@
 		<module>./11_optional/plugins/org.confetti.fet.engine</module>
 		<module>./11_optional/plugins/org.confetti.dataprovider.db</module>
 		<module>./11_optional/plugins/org.confetti.dataprovider.db.mysql</module>
+		<module>./11_optional/plugins/org.confetti.dataprovider.db.mssql</module>
 	</modules>
 
 	<properties>

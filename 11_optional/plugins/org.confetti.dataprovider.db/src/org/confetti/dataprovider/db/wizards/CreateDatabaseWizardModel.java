@@ -1,7 +1,7 @@
 package org.confetti.dataprovider.db.wizards;
 
 import org.confetti.core.DataProvider;
-import org.confetti.dataprovider.db.ConnectionDescriptor;
+import org.confetti.util.Tuple;
 
 /**
  * @author Gabor Bubla
@@ -9,15 +9,17 @@ import org.confetti.dataprovider.db.ConnectionDescriptor;
 public class CreateDatabaseWizardModel implements ChooseConnectionModel {
 
 	private final DataProvider dp;
-    private ConnectionDescriptor cDesc;
+    private Tuple<String, String> connectionName;
 
+    
 	public CreateDatabaseWizardModel(DataProvider dp) {
 		this.dp = dp;
 	}
 
-	public void setConnection(ConnectionDescriptor cDesc) { this.cDesc = cDesc; }
-	public ConnectionDescriptor getConnection() { return cDesc; }
+	@Override public void setConnectionName(Tuple<String, String> conn) { this.connectionName = conn; }
+	@Override public Tuple<String, String> getSelectedConnection() { return connectionName; }
 
     public DataProvider getDataProvider() { return dp; }
+
 
 }

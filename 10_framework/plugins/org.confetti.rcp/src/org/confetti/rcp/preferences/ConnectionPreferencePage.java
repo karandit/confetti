@@ -1,8 +1,9 @@
 package org.confetti.rcp.preferences;
 
+import static org.confetti.rcp.ConfettiPlugin.KEY_CONNECTIONS;
+import static org.confetti.rcp.ConfettiPlugin.KEY_TYPE;
 import static org.confetti.rcp.views.AbstractEntityTableView.createColumn;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.confetti.rcp.ConfettiPlugin;
@@ -44,10 +45,6 @@ import org.eclipse.ui.dialogs.ListDialog;
  */
 public class ConnectionPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
-    //--------------------------- constants ----------------------------------------------------------------------------
-    private static final String KEY_CONNECTIONS = "CONNECTIONS";
-    private static final String KEY_TYPE = "TYPE";
-
     //--------------------------- fields -------------------------------------------------------------------------------
     private List<ConnectionDescr> extensions = ConnectionRegistry.INSTANCE.getExtensions();
     private List<Tuple<String, String>> connectionSettings; 
@@ -57,7 +54,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
 	public void init(IWorkbench workbench) {
 	    noDefaultAndApplyButton();
 	    setPreferenceStore(ConfettiPlugin.getDefault().getPreferenceStore());
-	    connectionSettings = getConnectionSettings(getPreferenceStore());
+	    connectionSettings = ConfettiPlugin.getDefault().getConnectionSettings();
 	}
 	
 	@Override
@@ -97,18 +94,6 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
 	}
 	
 	//--------------------------- helper methods -----------------------------------------------------------------------
-	private List<Tuple<String, String>> getConnectionSettings(IPreferenceStore preferenceStore) {
-	    List<Tuple<String, String>> connNamesAndTypes = new LinkedList<>();
-	    String connNamesCSV = preferenceStore.getString(KEY_CONNECTIONS);
-	    String[] connNames = connNamesCSV.split(",");
-	    for (String connName : connNames) {
-            if (!connName.isEmpty()) {
-    	        String connType = preferenceStore.getString(connName + "_" + KEY_TYPE);
-                connNamesAndTypes.add(new Tuple<>(connName, connType));
-            }
-        }
-	    return connNamesAndTypes;
-	}
 	
 	private String transformToCSV(List<Tuple<String, String>> connectionSettings) {
 	    StringBuilder sb = new StringBuilder();
@@ -220,13 +205,12 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
             //get the selection
             IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
             Tuple<String, String> selectedConn = (Tuple<String, String>) selection.getFirstElement();
-            for (ConnectionDescr conn : extensions) {
-                if (conn.getDbType().equals(selectedConn.getSecond())) {
-                    SelectedConnectionDialog dialog = new SelectedConnectionDialog(shell, getPreferenceStore(), 
-                            conn.getConnectionFactory(), selectedConn.getFirst());
-                    dialog.open();
-                    return;
-                }
+            ConnectionDescr foundConn = ConnectionRegistry.INSTANCE.getConnectionByType(selectedConn.getSecond());
+            if (foundConn != null) {
+                SelectedConnectionDialog dialog = new SelectedConnectionDialog(shell, getPreferenceStore(), 
+                        foundConn.getConnectionFactory(), selectedConn.getFirst());
+                dialog.open();
+                return;
             }
             
             //the selected connection not found in the extensions

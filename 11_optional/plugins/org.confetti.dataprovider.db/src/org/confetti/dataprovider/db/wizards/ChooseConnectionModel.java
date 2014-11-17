@@ -1,13 +1,14 @@
 package org.confetti.dataprovider.db.wizards;
 
-import org.confetti.dataprovider.db.ConnectionDescriptor;
+import org.confetti.util.Tuple;
+
 
 /**
  * @author Gabor Bubla
  */
 public interface ChooseConnectionModel {
 
-    void setConnection(ConnectionDescriptor cDesc);
-    ConnectionDescriptor getConnection();
+    void setConnectionName(Tuple<String, String> connectionName);
+    Tuple<String, String> getSelectedConnection();
     
 }

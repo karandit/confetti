@@ -27,7 +27,18 @@ public enum ConnectionRegistry {
         }
         return descriptors;
     }
-    
+
+    public ConnectionDescr getConnectionByType(String typeName) {
+        for (ConnectionDescr conn : getExtensions()) {
+            if (conn.getDbType().equals(typeName)) {
+                return conn;
+            }
+        }
+        return null;
+    }
+
+
+    //------------------------- helpers --------------------------------------------------------------------------------
     private List<ConnectionDescr> loadDataProviders() {
         List<ConnectionDescr> res = new LinkedList<>();
         IExtensionRegistry registry = Platform.getExtensionRegistry();
@@ -60,5 +71,6 @@ public enum ConnectionRegistry {
 
         return new ConnectionDescr(dbType, factory);
     }
+
     
 }

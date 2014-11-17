@@ -14,9 +14,9 @@ import org.eclipse.swt.widgets.Shell;
  */
 class SelectedConnectionDialog extends Dialog {
 
-    private ConnectionFactory connectionFactory;
-    private String connName;
-    private IPreferenceStore prefStore;
+    private final ConnectionFactory connectionFactory;
+    private final String connName;
+    private final IPreferenceStore prefStore;
 
     public SelectedConnectionDialog(Shell parentShell, IPreferenceStore prefStore, ConnectionFactory connectionFactory, String connName) {
         super(parentShell);
