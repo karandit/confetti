@@ -49,12 +49,11 @@ public class ChooseConnectionWizardPage extends WizardPage {
 		});
 		combo.setInput(ConfettiPlugin.getDefault().getConnectionSettings());
 		combo.addSelectionChangedListener(new ISelectionChangedListener() {
-            
             @Override
             public void selectionChanged(SelectionChangedEvent e) {
                 if (!e.getSelection().isEmpty() && e.getSelection() instanceof IStructuredSelection) {
                     Object first = ((IStructuredSelection) e.getSelection()).getFirstElement();
-                    ChooseConnectionWizardPage.this.model.setConnectionName((Tuple<String, String>) first);
+                    model.setConnectionName((Tuple<String, String>) first);
                     setPageComplete(true);
                 }
             }

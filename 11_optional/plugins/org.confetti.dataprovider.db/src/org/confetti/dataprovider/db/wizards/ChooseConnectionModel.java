@@ -2,7 +2,6 @@ package org.confetti.dataprovider.db.wizards;
 
 import org.confetti.util.Tuple;
 
-
 /**
  * @author Gabor Bubla
  */

@@ -37,7 +37,6 @@ public enum ConnectionRegistry {
         return null;
     }
 
-
     //------------------------- helpers --------------------------------------------------------------------------------
     private List<ConnectionDescr> loadDataProviders() {
         List<ConnectionDescr> res = new LinkedList<>();
@@ -72,5 +71,4 @@ public enum ConnectionRegistry {
         return new ConnectionDescr(dbType, factory);
     }
 
-    
 }

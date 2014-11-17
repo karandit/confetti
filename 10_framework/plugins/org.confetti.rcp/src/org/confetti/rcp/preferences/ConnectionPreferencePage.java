@@ -94,7 +94,6 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
 	}
 	
 	//--------------------------- helper methods -----------------------------------------------------------------------
-	
 	private String transformToCSV(List<Tuple<String, String>> connectionSettings) {
 	    StringBuilder sb = new StringBuilder();
 	    boolean first = true;

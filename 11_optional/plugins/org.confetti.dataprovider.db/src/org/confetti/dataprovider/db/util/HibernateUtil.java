@@ -36,7 +36,6 @@ public class HibernateUtil {
     /** Server dialect. value: "hibernate.dialect" */
     private final static String HIBERNATE_DIALECT = "hibernate.dialect"; //$NON-NLS-1$
     
-    
     public static SessionFactory createSessionFactory(DbConnectionDescriptor connDesc) {
         Properties p = new Properties();
         p.setProperty(HIBERNATE_DIALECT,                    connDesc.getDialect());
@@ -55,7 +54,6 @@ public class HibernateUtil {
         configuration.addAnnotatedClass(StudentGroupDb.class);
         configuration.addAnnotatedClass(RoomDb.class);
         configuration.addAnnotatedClass(AssignmentDb.class);
-
         
         return configuration.buildSessionFactory();
     }
@@ -74,4 +72,5 @@ public class HibernateUtil {
             session.close();
         }
     }
+    
 }

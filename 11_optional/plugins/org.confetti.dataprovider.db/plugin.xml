@@ -4,7 +4,7 @@
    <extension
          point="org.confetti.rcp.newWizard">
       <newWizard
-            factory="org.confetti.dataprovider.db.wizards.CreateDatabaseWizardFactory"
+            factory="org.confetti.dataprovider.db.wizards.NewDatabaseWizardFactory"
             name="Relational Database">
       </newWizard>
    </extension>
