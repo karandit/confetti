@@ -5,5 +5,5 @@ Bundle-SymbolicName: org.confetti.dataprovider.db.mssql;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.confetti.rcp,
- org.eclipse.ui
-Import-Package: org.confetti.dataprovider.db
+ org.eclipse.ui,
+ org.confetti.dataprovider.db
