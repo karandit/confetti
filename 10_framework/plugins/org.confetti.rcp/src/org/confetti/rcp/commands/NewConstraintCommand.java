@@ -2,6 +2,7 @@ package org.confetti.rcp.commands;
 
 import java.util.List;
 
+import org.confetti.rcp.constraints.ConstraintDialog;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.eclipse.core.commands.AbstractHandler;
@@ -33,6 +34,14 @@ public class NewConstraintCommand extends AbstractHandler {
         if (Window.OK != dlg.open()) {
             return null;
         }
+        Object[] selected = dlg.getResult();
+        if (selected == null || selected.length == 0) {
+            return null;
+        }
+        ConstraintDescr selectedDescr = (ConstraintDescr) selected[0];
+        
+        ConstraintDialog constraintDialog = new ConstraintDialog(shell, selectedDescr);
+        constraintDialog.open();
         return null;
     }
 

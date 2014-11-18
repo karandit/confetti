@@ -3,7 +3,18 @@ package org.confetti.rcp.extensions;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.confetti.core.Teacher;
+
+import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.util.Tuple;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Spinner;
 
 /**
  * @author Gabor Bubla
@@ -26,16 +37,91 @@ public class ConstraintField {
     }
     
     public enum FieldType {
-        Boolean,
-        Number,
-        Day,
-        Hour,
-        Week,
-        Period,
-        PeriodNumber,
-        Teacher,
-        Assignment,
-        AssignmentsSet,
+        Boolean {
+            @Override
+            public void createControl(Composite parent) {
+                new Button(parent, SWT.CHECK);
+            }
+        },
+        Number{
+            @Override
+            public void createControl(Composite parent) {
+                Spinner spinner = new Spinner(parent, SWT.BORDER);
+                spinner.setMinimum(0);
+                spinner.setMinimum(100);
+                spinner.setIncrement(1);
+                spinner.setPageIncrement(1);
+                spinner.setSelection(98);
+            }
+
+        },
+        Day{
+            @Override
+            public void createControl(Composite parent) {
+                new Button(parent, SWT.CHECK);
+            }
+
+        },
+        Hour{
+            @Override
+            public void createControl(Composite parent) {
+                new Button(parent, SWT.CHECK);
+            }
+
+        },
+        Week{
+            @Override
+            public void createControl(Composite parent) {
+                new Button(parent, SWT.CHECK);
+            }
+
+        },
+        Period{
+            @Override
+            public void createControl(Composite parent) {
+                new Button(parent, SWT.CHECK);
+            }
+
+        },
+        PeriodNumber{
+            @Override
+            public void createControl(Composite parent) {
+                new Button(parent, SWT.CHECK);
+            }
+
+        },
+        Teacher{
+            @Override
+            public void createControl(Composite parent) {
+                ComboViewer combo = new ComboViewer(parent, SWT.READ_ONLY);
+                combo.setContentProvider(ArrayContentProvider.getInstance());
+                combo.setLabelProvider(new LabelProvider(){
+                    @Override
+                    public String getText(Object element) {
+                        Teacher teacher = (Teacher) element;
+                        return teacher.getName().getValue();
+                    }
+                });
+                combo.setInput(ConfettiPlugin.getDefault().getDataProvider().getValue().getTeachers().getList());
+            }
+
+        },
+        Assignment{
+            @Override
+            public void createControl(Composite parent) {
+                
+            }
+
+        },
+        AssignmentsSet{
+            @Override
+            public void createControl(Composite parent) {
+                new Button(parent, SWT.CHECK);
+            }
+
+        };
+
+        public abstract void createControl(Composite area);
     }
     
     private final String name;
@@ -51,6 +137,10 @@ public class ConstraintField {
     public String getName() { return name; }
     public String getLabel() { return label; }
     public FieldType getType() { return type; }
-    
+
+    public void createControl(Composite area) {
+        getType().createControl(area);
+    }
+
     
 }
