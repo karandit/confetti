@@ -13,7 +13,6 @@ import org.confetti.util.Tuple;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.PlatformUI;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -58,8 +57,8 @@ public class NewDatabaseWizard extends Wizard {
 		        InstituteDb instDb = new InstituteDb(model.getDataProvider());
 		        session.persist(instDb);
 		        tx.commit();
-		        ConfettiPlugin.getDefault().setDataProvider(new DbDataProvider(sessFact, instDb));
-		        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - DB");
+		        String info = selConn.getSecond() + " : " + selConn.getFirst();
+		        ConfettiPlugin.getDefault().setDataProvider(new DbDataProvider(sessFact, instDb, info));
 		        return true;
             } catch (Exception e) {
                 tx.rollback();

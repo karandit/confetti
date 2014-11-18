@@ -15,7 +15,6 @@ import org.confetti.util.Tuple;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ui.PlatformUI;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -59,9 +58,9 @@ public class OpenDatabaseWizard extends Wizard {
                 return true;
             }
             InstituteDb inst = institutes.get(0);
-            DbDataProvider dp = new DbDataProvider(sessFact, inst);
+            String info = selConn.getSecond() + " : " + selConn.getFirst();
+            DbDataProvider dp = new DbDataProvider(sessFact, inst, info);
             ConfettiPlugin.getDefault().setDataProvider(dp);
-            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - DB");
             return true;
         } finally {
             session.close();

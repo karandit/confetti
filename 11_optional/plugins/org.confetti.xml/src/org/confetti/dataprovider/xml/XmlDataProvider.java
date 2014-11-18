@@ -243,6 +243,7 @@ public class XmlDataProvider implements DataProvider {
 	}
 
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
+	@Override public String getInformation()                               { return file.getAbsolutePath(); }
 	@Override public ObservableValue<String> getName() 					   { return instName.getObservableValue(); }
 	@Override public ObservableList<Subject> getSubjects() 				   { return subjects.getObservableList(); }
 	@Override public ObservableList<Teacher> getTeachers() 				   { return teachers.getObservableList(); }
@@ -307,16 +308,6 @@ public class XmlDataProvider implements DataProvider {
     		RoomImpl roomImpl = new RoomImpl(name);
     		rooms.addItem(roomImpl);
         }
-	}
-	
-	@Override
-	public void setDays(List<String> days) {
-	    //TODO
-	}
-	
-	@Override
-	public void setHours(List<String> hours) {
-	    //TODO
 	}
 	
 	@Override
@@ -422,5 +413,5 @@ public class XmlDataProvider implements DataProvider {
 	    }
 	    return null;
 	}
-	
+
 }

@@ -127,6 +127,7 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
         @Override public ObservableList<Day> getDays() { return days.getObservableList(); }
         @Override public ObservableList<Hour> getHours() { return hours.getObservableList(); }
+        @Override public String getInformation() { return null; }
         //--------------------------not used----------------------------------------------------------------------------
         @Override public ObservableList<Subject> getSubjects() { return null; }
         @Override public ObservableList<Teacher> getTeachers() { return null; }
@@ -138,8 +139,6 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public void addTeachers(List<String> names) { }
         @Override public void addStudentGroups(StudentGroup parent, List<String> names) { }
         @Override public void addRooms(List<String> names) { }
-        @Override public void setDays(List<String> days) { }
-        @Override public void setHours(List<String> hours) { }
         @Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
         @Override public void setSolution(Iterable<SolutionSlot> solution) { }
         @Override public void removeSubjects(List<Subject> subjects) { }

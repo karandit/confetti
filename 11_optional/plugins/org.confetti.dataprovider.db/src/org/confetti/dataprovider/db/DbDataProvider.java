@@ -67,8 +67,10 @@ public class DbDataProvider implements DataProvider {
 	
 	private final SessionFactory sFact;
 	private final Long instId;
+    private final String info;
 	
-	public DbDataProvider(SessionFactory sessFact, InstituteDb instDb) {
+	public DbDataProvider(SessionFactory sessFact, InstituteDb instDb, String info) {
+	    this.info = info;
 	    this.sFact = sessFact;
 	    instId = instDb.getId();
 	    for (DayDb day : instDb.getDays()) {
@@ -129,6 +131,7 @@ public class DbDataProvider implements DataProvider {
     }
 	
 	//----------------------------- DataProvider's Accessor API --------------------------------------------------------
+	@Override public String getInformation()                               { return info; }
 	@Override public ObservableValue<String> getName() 					   { return instName.getObservableValue(); }
 	@Override public ObservableList<Teacher> getTeachers() 				   { return teachers.getObservableList(); }
 	@Override public ObservableList<Subject> getSubjects() 				   { return subjects.getObservableList(); }
@@ -184,9 +187,6 @@ public class DbDataProvider implements DataProvider {
 	        rooms.addItem(new RoomDTO(newEntity.getId(), newEntity.getName()));
         }
 	}
-	
-	@Override public void setDays(List<String> days) { }
-	@Override public void setHours(List<String> hours) { }
 	
     @Override
     public Assignment addAssignment(final Subject subject, final Iterable<Teacher> teachers, final Iterable<StudentGroup> studentGroups) {

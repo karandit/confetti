@@ -6,7 +6,9 @@ import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 
 public interface DataProvider extends Nameable {
-
+    //DataProvider
+    String getInformation();
+    
 	ObservableList<Subject> getSubjects();
 	ObservableList<Teacher> getTeachers();
 	ObservableList<StudentGroup> getStudentGroups();
@@ -16,12 +18,11 @@ public interface DataProvider extends Nameable {
 	ObservableList<Assignment> getAssignments();
 	ObservableValue<Iterable<SolutionSlot>> getSolution();
 	
+	//DataPersister
 	void addSubjects(List<String> names);
 	void addTeachers(List<String> names);
 	void addStudentGroups(StudentGroup parent, List<String> names);
 	void addRooms(List<String> names);
-	void setDays(List<String> days);
-	void setHours(List<String> hours);
 	Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups);
 	void setSolution(Iterable<SolutionSlot> solution);
 	

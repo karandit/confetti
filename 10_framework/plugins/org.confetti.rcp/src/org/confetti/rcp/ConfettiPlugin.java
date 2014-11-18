@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -153,6 +154,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 
 	public void setDataProvider(DataProvider value) {
 		dpMutator.setValue(this, value);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - " + value.getInformation());
 	}
 	
 	public List<Tuple<String, String>> getConnectionSettings() {

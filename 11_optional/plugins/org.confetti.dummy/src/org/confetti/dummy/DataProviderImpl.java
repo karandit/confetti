@@ -96,6 +96,7 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 	//-----------------DataProvider's API-------------------------------------------------------------------------------
+	@Override public String getInformation() { return "Dummy"; }
 	@Override public ObservableValue<String> getName() 					{ return instName.getObservableValue(); }
 	@Override public ObservableList<Subject> getSubjects() 				{ return subjects.getObservableList(); }
 	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
@@ -154,9 +155,6 @@ public class DataProviderImpl implements DataProvider {
             rooms.addItem(room);
         }
 	}
-	
-	@Override public void setDays(List<String> days) {  }
-	@Override public void setHours(List<String> hours) {  }
 	
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
