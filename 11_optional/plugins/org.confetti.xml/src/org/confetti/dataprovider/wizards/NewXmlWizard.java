@@ -14,6 +14,7 @@ import org.confetti.xml.core.HourXml;
 import org.confetti.xml.core.HoursXml;
 import org.confetti.xml.core.InstituteXml;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * @author Gabor Bubla
@@ -53,6 +54,7 @@ public class NewXmlWizard extends Wizard {
             dp.save();
             
             ConfettiPlugin.getDefault().setDataProvider(dp);
+            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - FET");
         } catch (FAOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
