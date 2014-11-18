@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
@@ -58,6 +59,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	//The shared instance.
 	private static ConfettiPlugin plugin;
 	private ValueMutator<DataProvider> dpMutator = new ValueMutator<>();
+    private DataPersister dataPersister;
 	
 	/**
 	 * The constructor.
@@ -152,12 +154,17 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 		return dpMutator.getObservableValue();
 	}
 
-	public void setDataProvider(DataProvider value) {
-		dpMutator.setValue(this, value);
+	public DataPersister getDataPersister() {
+	    return dataPersister;
+	}
+
+	public void setDataProvider(DataProvider value, DataPersister dataPersister) {
+		this.dataPersister = dataPersister;
+        dpMutator.setValue(this, value);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - " + value.getInformation());
 	}
 	
-	public List<Tuple<String, String>> getConnectionSettings() {
+    public List<Tuple<String, String>> getConnectionSettings() {
 	    IPreferenceStore preferenceStore = getPreferenceStore();
 	    List<Tuple<String, String>> connNamesAndTypes = new LinkedList<>();
         String connNamesCSV = preferenceStore.getString(KEY_CONNECTIONS);

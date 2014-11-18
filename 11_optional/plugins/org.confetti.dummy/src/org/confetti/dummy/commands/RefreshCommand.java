@@ -15,8 +15,8 @@ public class RefreshCommand extends AbstractHandler {
     public Object execute(ExecutionEvent event) throws ExecutionException {
         //dummy action for refreshing the views data
         DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-        ConfettiPlugin.getDefault().setDataProvider(null);
-        ConfettiPlugin.getDefault().setDataProvider(dp);
+        ConfettiPlugin.getDefault().setDataProvider(null, null);
+        ConfettiPlugin.getDefault().setDataProvider(dp, dp);
         
         return null;
     }

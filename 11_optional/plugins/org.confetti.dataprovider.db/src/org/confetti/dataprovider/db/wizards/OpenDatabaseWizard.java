@@ -60,7 +60,7 @@ public class OpenDatabaseWizard extends Wizard {
             InstituteDb inst = institutes.get(0);
             String info = selConn.getSecond() + " : " + selConn.getFirst();
             DbDataProvider dp = new DbDataProvider(sessFact, inst, info);
-            ConfettiPlugin.getDefault().setDataProvider(dp);
+            ConfettiPlugin.getDefault().setDataProvider(dp, dp);
             return true;
         } finally {
             session.close();

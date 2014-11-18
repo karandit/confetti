@@ -361,10 +361,6 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	//----------------------------- helpers ----------------------------------------------------------------------------
-//	private static InputStream openStream(final String path) throws IOException {
-//		return XmlDataProvider.class.getResource(path).openStream();
-//	}
-
 	public void save() {
         try {
             new InstituteFAO().exportTo(instXml, file);

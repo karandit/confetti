@@ -58,7 +58,8 @@ public class NewDatabaseWizard extends Wizard {
 		        session.persist(instDb);
 		        tx.commit();
 		        String info = selConn.getSecond() + " : " + selConn.getFirst();
-		        ConfettiPlugin.getDefault().setDataProvider(new DbDataProvider(sessFact, instDb, info));
+		        DbDataProvider dp = new DbDataProvider(sessFact, instDb, info);
+                ConfettiPlugin.getDefault().setDataProvider(dp, dp);
 		        return true;
             } catch (Exception e) {
                 tx.rollback();

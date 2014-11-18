@@ -20,7 +20,8 @@ public class DummyOpenWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-		ConfettiPlugin.getDefault().setDataProvider(new DataProviderImpl());
+	    DataProviderImpl dp = new DataProviderImpl();
+        ConfettiPlugin.getDefault().setDataProvider(dp, dp);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - Dummy");
 		return true;
 	}

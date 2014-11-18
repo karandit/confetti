@@ -52,7 +52,7 @@ public class NewXmlWizard extends Wizard {
             XmlDataProvider dp = new XmlDataProvider(instituteXml, model.getFile());
             dp.save();
             
-            ConfettiPlugin.getDefault().setDataProvider(dp);
+            ConfettiPlugin.getDefault().setDataProvider(dp, dp);
         } catch (FAOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
