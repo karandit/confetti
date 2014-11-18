@@ -498,8 +498,8 @@
          point="org.eclipse.ui.preferencePages">
       <page
             class="org.confetti.rcp.preferences.ConnectionPreferencePage"
-            id="org.confetti.rcp.preferences.connectionPreferencePage"
-            name="Connection Preferences">
+            id="org.confetti.rcp.preferences.connectionsPreferencePage"
+            name="Connections">
       </page>
    </extension>
    <extension

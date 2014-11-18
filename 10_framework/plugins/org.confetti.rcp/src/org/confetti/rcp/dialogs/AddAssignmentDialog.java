@@ -14,11 +14,9 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.FontDescriptor;
-import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -91,14 +89,14 @@ public class AddAssignmentDialog extends Dialog {
         studentGroupLabel.setFont(boldFont);
         
         //create viewers
-        TableViewer subjectsViewer = new TableViewer(container, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.FULL_SELECTION);
-        subjectsViewer.setContentProvider(new ArrayContentProvider());
+        TreeViewer subjectsViewer = new TreeViewer(container, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.FULL_SELECTION);
+        subjectsViewer.setContentProvider(new EntityContentProvider());
         subjectsViewer.setLabelProvider(new EntityLabelProvider());
         subjectsViewer.setInput(ConfettiPlugin.getDefault().getDataProvider().getValue().getSubjects().getList());
         GridDataFactory.fillDefaults().grab(true, true).applyTo(subjectsViewer.getControl());
         
-        TableViewer teachersViewer = new TableViewer(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.FULL_SELECTION);
-        teachersViewer.setContentProvider(new ArrayContentProvider());
+        TreeViewer teachersViewer = new TreeViewer(container, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.FULL_SELECTION);
+        teachersViewer.setContentProvider(new EntityContentProvider());
         teachersViewer.setLabelProvider(new EntityLabelProvider());
         teachersViewer.setInput(ConfettiPlugin.getDefault().getDataProvider().getValue().getTeachers().getList());
         GridDataFactory.fillDefaults().grab(true, true).applyTo(teachersViewer.getControl());
@@ -128,6 +126,15 @@ public class AddAssignmentDialog extends Dialog {
             } 
             return null;
         }
+    }
+    
+    private class EntityContentProvider implements ITreeContentProvider {
+        @Override public void dispose() { }
+        @Override public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
+        @Override public Object[] getElements(Object inputElement) { return ((List<?>) inputElement).toArray(); }
+        @Override public Object[] getChildren(Object parentElement) { return null; }
+        @Override public Object getParent(Object element) { return null; }
+        @Override public boolean hasChildren(Object element) { return false; }
     }
     
     private class StudentGroupContentProvider implements ITreeContentProvider {
