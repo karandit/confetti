@@ -5,6 +5,7 @@
    <extension-point id="newWizard" name="New Wizard" schema="schema/newWizard.exsd"/>
    <extension-point id="engineWizard" name="Engine Wizard" schema="schema/engineWizard.exsd"/>
    <extension-point id="connection" name="Database Connection" schema="schema/connection.exsd"/>
+   <extension-point id="constraint" name="Timetable constraints" schema="schema/constraint.exsd"/>
    <extension
          point="org.eclipse.core.expressions.definitions">
       <definition
@@ -170,6 +171,11 @@
             description="Exit"
             id="org.confetti.rcp.exitCommand"
             name="Exit">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.NewConstraintCommand"
+            id="org.confetti.rcp.newConstraintCommand"
+            name="New Constraint">
       </command>
    </extension>
    <extension
@@ -484,6 +490,21 @@
                </reference>
             </visibleWhen>
          </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.confetti.rcp.constraintsView">
+         <command
+               commandId="org.confetti.rcp.newConstraintCommand"
+               icon="icons/sample2.gif"
+               id="org.confetti.rcp.baseConstraints.pulldown"
+               label="New Constraint"
+               style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.confetti.rcp.baseConstraints.pulldown">
       </menuContribution>
    </extension>
    <extension
