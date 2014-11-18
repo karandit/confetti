@@ -11,3 +11,4 @@ Require-Bundle: org.confetti.rcp,
  org.hibernate;bundle-version="4.3.5",
  javax.persistence;bundle-version="2.1.0",
  com.mysql.jdbc;bundle-version="5.1.26"
+Export-Package: org.confetti.dataprovider.db
