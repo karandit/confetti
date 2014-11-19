@@ -36,13 +36,21 @@ public class HibernateUtil {
     /** Server dialect. value: "hibernate.dialect" */
     private final static String HIBERNATE_DIALECT = "hibernate.dialect"; //$NON-NLS-1$
     
-    public static SessionFactory createSessionFactory(DbConnectionDescriptor connDesc) {
+    public static enum Mode {
+        CREATE_DROP { public String toString() { return "create-drop"; } },
+        CREATE      { public String toString() { return "create"; } },
+        UPDATE      { public String toString() { return "update"; } }
+    }
+    
+    public static SessionFactory createSessionFactory(DbConnectionDescriptor connDesc, Mode mode) {
         Properties p = new Properties();
         p.setProperty(HIBERNATE_DIALECT,                    connDesc.getDialect());
         p.setProperty(HIBERNATE_CONNECTION_DRIVER_CLASS,    connDesc.getDriver());
         p.setProperty(HIBERNATE_CONNECTION_URL,             connDesc.getUrl());
         p.setProperty(HIBERNATE_CONNECTION_USERNAME,        connDesc.getUsername());
         p.setProperty(HIBERNATE_CONNECTION_PASSWORD,        connDesc.getPassword());
+        p.setProperty("hibernate.hbm2ddl.auto", mode.toString());
+        p.setProperty("hibernate.show_sql", "true");
         
         Configuration configuration = new Configuration();
         configuration.setProperties(p);

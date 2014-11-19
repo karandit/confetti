@@ -7,6 +7,7 @@ import org.confetti.dataprovider.db.DbConnectionFactory;
 import org.confetti.dataprovider.db.DbDataProvider;
 import org.confetti.dataprovider.db.entities.InstituteDb;
 import org.confetti.dataprovider.db.util.HibernateUtil;
+import org.confetti.dataprovider.db.util.HibernateUtil.Mode;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.extensions.ConnectionDescr;
 import org.confetti.rcp.extensions.ConnectionFactory;
@@ -48,7 +49,7 @@ public class OpenDatabaseWizard extends Wizard {
         IPreferenceStore prefStore = ConfettiPlugin.getDefault().getPreferenceStore();
         DbConnectionDescriptor dbConnDescr = dbConnFact.createConnectionDescriptor(selConn.getFirst(), prefStore);
         
-        SessionFactory sessFact = HibernateUtil.createSessionFactory(dbConnDescr);
+        SessionFactory sessFact = HibernateUtil.createSessionFactory(dbConnDescr, Mode.UPDATE);
         Session session = sessFact.openSession();
         try {
             Criteria criteria = session.createCriteria(InstituteDb.class);

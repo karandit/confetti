@@ -1,5 +1,8 @@
 package org.confetti.dataprovider.db.mysql.connection;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import org.confetti.dataprovider.db.DbConnectionDescriptor;
 import org.confetti.dataprovider.db.DbConnectionFactory;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -13,6 +16,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
+
+import com.mysql.jdbc.Connection;
 
 /**
  * @author Gabor Bubla
@@ -89,12 +94,21 @@ public class MySQLConnectionFactory implements DbConnectionFactory {
     
     //------------------------ helper ----------------------------------------------------------------------------------
     private class TestConnectionSelectionListener extends SelectionAdapter {
-        //FIXME really test the connection
         @Override
         public void widgetSelected(SelectionEvent e) {
-            MessageDialog.openInformation(
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-                    "Test connection", "Database connection is valid");
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection conn = (Connection) DriverManager.getConnection(
+                        "jdbc:mysql://" + hostField.getStringValue() + ":" + portField.getStringValue() + "/" + 
+                        databaseField.getStringValue(), usernameField.getStringValue(), passwordField.getStringValue());
+                conn.close();
+                MessageDialog.openInformation( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                        "Test connection", "Database connection is valid");
+            } catch (SQLException | ClassNotFoundException e1) {
+                e1.printStackTrace();
+                MessageDialog.openError( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                        "Test connection", "Could not connect with the given parameters");
+            }
         }
     }
 

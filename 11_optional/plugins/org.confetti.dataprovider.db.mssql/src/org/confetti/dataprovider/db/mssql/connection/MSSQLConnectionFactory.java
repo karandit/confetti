@@ -1,5 +1,9 @@
 package org.confetti.dataprovider.db.mssql.connection;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import org.confetti.dataprovider.db.DbConnectionDescriptor;
 import org.confetti.dataprovider.db.DbConnectionFactory;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -89,12 +93,22 @@ public class MSSQLConnectionFactory implements DbConnectionFactory {
 
     //------------------------ helper ----------------------------------------------------------------------------------
     private class TestConnectionSelectionListener extends SelectionAdapter {
-        //FIXME really test the connection
         @Override
         public void widgetSelected(SelectionEvent e) {
-            MessageDialog.openInformation(
-                    PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), 
-                    "Test connection", "Database connection is valid");
+            try {
+                //FIXME it won't find the driver 
+                Class.forName("net.sourceforge.jtds.jdbc.Driver");
+                Connection conn = (Connection) DriverManager.getConnection(
+                        "jdbc:jtds:sqlserver://" + hostField.getStringValue() + ":" + portField.getStringValue() + ";databaseName=" + 
+                        databaseField.getStringValue(), usernameField.getStringValue(), passwordField.getStringValue());
+                conn.close();
+                MessageDialog.openInformation( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                        "Test connection", "Database connection is valid");
+            } catch (SQLException | ClassNotFoundException e1) {
+                e1.printStackTrace();
+                MessageDialog.openError( PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+                        "Test connection", "Could not connect with the given parameters");
+            }
         }
     }
 

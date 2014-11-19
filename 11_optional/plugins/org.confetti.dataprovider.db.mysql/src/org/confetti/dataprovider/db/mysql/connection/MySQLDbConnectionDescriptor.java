@@ -9,7 +9,7 @@ import org.confetti.dataprovider.db.DbConnectionDescriptor;
  */
 public class MySQLDbConnectionDescriptor extends DbConnectionDescriptor {
     
-    private static final String URL = "jdbc:jtds:sqlserver://{0}:{1}/{2}";
+    private static final String URL = "jdbc:mysql://{0}:{1}/{2}";
     
     public MySQLDbConnectionDescriptor(String host, String port, String database, String username, String password) {
         super(host, port, database, username, password);
