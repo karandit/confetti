@@ -3,46 +3,64 @@
 <plugin>
    <extension
          point="org.confetti.rcp.constraint">
-      <constraint
-            id="time.BasicCompulsoryTime"
-            name="Basic compulsory time constraint"
-            description="The basic time constraints try to avoid:
-            - teachers assigned to more than one activity simultaneously
-			- students assigned to more than one activity simultaneously"
-            >
-         <number-field
-               label="Weight percentage"
-               name="weight-percentage">
-         </number-field>
-         <boolean-field
-               label="Active"
-               name="active">
-         </boolean-field>
-      </constraint>
-      <constraint
-            id="time.BreakTimes"
-            name="Break times (all teachers + all students not available)">
-         <number-field
-               label="Weight percentage"
-               name="weight-percentage">
-         </number-field>
-         <week-field
-               label="Break times"
-               name="break-times">
-         </week-field>
-      </constraint>
-      <constraint
-            id="time.MaxDaysPerWeekForATeacher"
-            name="Max days per week for a teacher">
-         <teacher-field
-               label="Teacher"
-               name="teacher">
-         </teacher-field>
-         <day-field
-               label="Max days per week"
-               name="max-days">
-         </day-field>
-      </constraint>
+      <category
+            name="Time constraints">
+         <category
+               name="Miscellaneous">
+            <constraint
+                  id="time.BasicCompulsoryTime"
+                  name="Basic compulsory time constraint">
+               <number-field
+                     label="Weight percentage"
+                     name="weight-percentage">
+               </number-field>
+               <boolean-field
+                     label="Active"
+                     name="active">
+               </boolean-field>
+            </constraint>
+            <constraint
+                  id="time.BreakTimes"
+                  name="Break times (all teachers + all students not available)">
+               <number-field
+                     label="Weight percentage"
+                     name="weight-percentage">
+               </number-field>
+               <week-field
+                     label="Break times"
+                     name="break-times">
+               </week-field>
+            </constraint>
+         </category>
+         <category
+               name="Teachers">
+            <constraint
+                  id="org.confetti.fet.constraints.constraint4"
+                  name="A teacher&apos;s not available times">
+            </constraint>
+            <separator>
+               separator body text
+            </separator>
+            <constraint
+                  id="time.MaxDaysPerWeekForATeacher"
+                  name="Max days per week for a teacher">
+               <teacher-field
+                     label="Teacher"
+                     name="teacher">
+               </teacher-field>
+               <day-field
+                     label="Max days per week"
+                     name="max-days">
+               </day-field>
+            </constraint>
+         </category>
+         <category
+               name="Students"></category>
+         <category
+               name="Activities"></category></category>
+      <category
+            name="Space constraints">
+      </category>
    </extension>
 
 </plugin>

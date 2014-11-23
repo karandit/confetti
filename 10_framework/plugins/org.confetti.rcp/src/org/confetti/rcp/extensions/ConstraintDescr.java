@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 /**
  * @author Gabor Bubla
  */
-public class ConstraintDescr {
+public class ConstraintDescr implements IConstraintElement {
 
     private final String id;
     private final String name;
@@ -24,10 +24,12 @@ public class ConstraintDescr {
         }
     }
 
-    public String getId() { return id; }
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public List<ConstraintField> getFields() { return fields; }
+    public String getId() 								{ return id; }
+    public String getDescription() 						{ return description; }
+    public List<ConstraintField> getFields() 			{ return fields; }
+
+    @Override public String getName() 					{ return name; }
+	@Override public IConstraintElement[] getChildren() { return null; }
+	@Override public boolean hasChildren() 				{ return false; }
     
-    @Override public String toString() { return getName(); }
 }
