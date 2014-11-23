@@ -2,6 +2,7 @@ package org.confetti.rcp.commands;
 
 import java.util.List;
 
+import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.rcp.extensions.IConstraintElement;
 import org.eclipse.core.commands.AbstractHandler;
@@ -48,6 +49,8 @@ public class NewConstraintCommand extends AbstractHandler {
 //        constraintDialog.open();
         return null;
     }
+    
+    @Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
 
     private static enum ConstraintContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 		INSTANCE;

@@ -15,14 +15,14 @@ public class FETEngineWizardPage extends WizardPage {
 
 	protected FETEngineWizardPage(String pageName) {
 		super("Generate", "FET", getImageDescriptor(ConfettiPlugin.IMG_BIG_ENGINE));
-		setDescription("description");
+		setDescription("Generating timetables based on assignments");
 		setPageComplete(true);
 	}
 
 	@Override
 	public void createControl(Composite parent) {
 		Label label = new Label(parent, SWT.NONE);
-		label.setText("Generating blabla");
+		label.setText("Press Finish to generate");
 		setControl(label);
 	}
 

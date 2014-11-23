@@ -143,6 +143,12 @@
             name="New Assignment">
       </command>
       <command
+            defaultHandler="org.confetti.rcp.commands.NewConstraintCommand"
+            description="New Constraint"
+            id="org.confetti.rcp.newConstraintCommand"
+            name="New Constraint">
+      </command>
+      <command
             defaultHandler="org.confetti.rcp.commands.RenameEntityCommand"
             description="Rename Entity"
             id="org.confetti.rcp.renameEntityCommand"
@@ -172,11 +178,6 @@
             id="org.confetti.rcp.exitCommand"
             name="Exit">
       </command>
-      <command
-            defaultHandler="org.confetti.rcp.commands.NewConstraintCommand"
-            id="org.confetti.rcp.newConstraintCommand"
-            name="New Constraint">
-      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -205,7 +206,7 @@
                   style="push">
             </command>
             <separator
-                  name="org.confetti.rcp.separator3"
+                  name="org.confetti.rcp.separator1"
                   visible="true">
             </separator>
             <command
@@ -244,6 +245,20 @@
             </command>
             <separator
                   name="org.confetti.rcp.separator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.confetti.rcp.commands.newAssignmentCommand"
+                  label="New Assignment"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.newConstraintCommand"
+                  label="New Constraint"
+                  style="push">
+            </command>
+            <separator
+                  name="org.confetti.rcp.separator2"
                   visible="true">
             </separator>
             <command
