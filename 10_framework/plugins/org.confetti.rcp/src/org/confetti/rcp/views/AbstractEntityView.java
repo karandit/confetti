@@ -33,7 +33,6 @@ public abstract class AbstractEntityView<T extends StructuredViewer> extends Vie
 				viewer.setInput(getNullSafeInput(newDp));
 			}
 		});
-		getSite().setSelectionProvider(viewer);
 		viewer.setInput(getNullSafeInput(dpObs.getValue()));
 		inputChanged(null, dpObs.getValue());
 		
@@ -49,7 +48,7 @@ public abstract class AbstractEntityView<T extends StructuredViewer> extends Vie
 		return newDp == null ? null : getInput(newDp);
 	}
 
-	protected void inputChanged(DataProvider oldDp, DataProvider newdp) {
+	protected void inputChanged(DataProvider oldDp, DataProvider newDp) {
 	}
 	
 	protected EntityTableLabelProvider getLabelProvider() { return new EntityTableLabelProvider(); }

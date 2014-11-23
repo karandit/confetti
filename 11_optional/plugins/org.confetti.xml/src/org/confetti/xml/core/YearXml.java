@@ -12,7 +12,7 @@ import org.confetti.core.StudentGroup;
  * @author Bubla Gabor
  */
 @XmlType(name = "year_type", propOrder = {"name", "nrOfStudents", "groups"})
-public class YearXml {
+public class YearXml implements INameBean {
 
 	private String name;
 	private Integer nrOfStudents = 1;
@@ -29,8 +29,8 @@ public class YearXml {
 	}
 	
 	@XmlElement(name = "Name")
-	public String getName() 							{ return name; }
-	public void setName(String name) 					{ this.name = name; }
+	@Override public String getName() 					{ return name; }
+	@Override public void setName(String name) 			{ this.name = name; }
 	
 	@XmlElement(name = "Number_of_Students")
 	public Integer getNrOfStudents() 					{ return nrOfStudents; }

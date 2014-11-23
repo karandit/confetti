@@ -1,7 +1,12 @@
 package org.confetti.rcp.commands;
 
+import static com.google.common.collect.Iterables.isEmpty;
+import static java.util.Arrays.asList;
+
 import org.confetti.core.Entity;
+import org.confetti.core.EntityVisitor;
 import org.confetti.core.Room;
+import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.rcp.ConfettiPlugin;
@@ -12,6 +17,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
@@ -21,6 +27,8 @@ public class DeleteEntityCommand extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+	    Shell shell = Display.getDefault().getActiveShell();
+	    
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 	    if (!selection.toString().equals("<empty selection>") && selection != null && selection instanceof IStructuredSelection) {
 	        IStructuredSelection strucSelection = (IStructuredSelection) selection;
@@ -28,25 +36,55 @@ public class DeleteEntityCommand extends AbstractHandler {
 //	        	ObservableValue<Entity> element = iterator.next();
 //	        	System.out.println(element.getValue().getName());
 //	        }
-	        final Entity sel = (Entity) strucSelection.getFirstElement();
-	        if (MessageDialog.openConfirm(Display.getDefault().getActiveShell(), "Delete", "The selected Entities will be deleted! \n Are you sure?")) {
-	    	    //delete the entity
-	        	delete(sel);
+	        final Entity firstSelected = (Entity) strucSelection.getFirstElement();
+            if (MessageDialog.openConfirm(shell, "Delete", "The selected Entity will be deleted! \n Are you sure?")) {
+	        	if (firstSelected.accept(DeleteEntityVisitor.INSTANCE, null)) {
+	        	    //deleted succesfully
+	        	} else {
+	        	    MessageDialog.openError(shell, "Delete", "The selected Entity could not be deleted, because it has Assignments. \n"
+	        	            + "Please delete it's assignments in the Assignments view first!");
+	        	}
 	        }
 	    }
 	    return null;
 	}
 
-	private void delete(Entity sel) {
-		if (sel instanceof Subject) {
-			ConfettiPlugin.getDefault().getDataProvider().getValue().removeSubject((Subject) sel);
-		} else if (sel instanceof Teacher) {
-			ConfettiPlugin.getDefault().getDataProvider().getValue().removeTeacher((Teacher) sel);
-//		} else if (sel instanceof StudentGroup) {
-//			ConfettiPlugin.getDefault().getDataProvider().getValue().removeStudentGroup((StudentGroup) sel);
-		} else if (sel instanceof Room) {
-			ConfettiPlugin.getDefault().getDataProvider().getValue().removeRoom((Room) sel);
-		}
+	private enum DeleteEntityVisitor implements EntityVisitor<Boolean, Void> {
+        
+	    INSTANCE;
+
+        @Override
+        public Boolean visitSubject(Subject subject, Void param) {
+            if (isEmpty(subject.getAssignments().getList())) {
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeSubjects(asList(subject));
+                return true;
+            }
+            return false;
+        }
+        @Override
+        public Boolean visitTeacher(Teacher teacher, Void param) {
+            if (isEmpty(teacher.getAssignments().getList())) {
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeTeachers(asList(teacher));
+                return true;
+            }
+            return false;
+        }
+        @Override
+        public Boolean visitStudentGroup(StudentGroup studentGroup, Void param) {
+            if (isEmpty(studentGroup.getAssignments().getList())) {
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeStudentGroups(asList(studentGroup));
+                return true;
+            }
+            return false;
+        }
+        @Override
+        public Boolean visitRoom(Room room, Void param) {
+            if (isEmpty(room.getAssignments().getList())) {
+                ConfettiPlugin.getDefault().getDataProvider().getValue().removeRooms(asList(room));
+                return true;
+            }
+            return false;
+        }
 	}
 
 }

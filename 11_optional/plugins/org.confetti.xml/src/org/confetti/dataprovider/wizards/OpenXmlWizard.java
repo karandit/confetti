@@ -21,7 +21,8 @@ public class OpenXmlWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		try {
-			ConfettiPlugin.getDefault().setDataProvider(new XmlDataProvider(model.getFile()));
+			XmlDataProvider dp = new XmlDataProvider(model.getFile());
+            ConfettiPlugin.getDefault().setDataProvider(dp, dp);
 		} catch (FAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

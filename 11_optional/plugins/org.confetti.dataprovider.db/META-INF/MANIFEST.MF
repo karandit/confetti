@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Relational Database provider
+Bundle-SymbolicName: org.confetti.dataprovider.db;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.confetti.rcp,
+ org.eclipse.ui,
+ org.confetti.core,
+ com.google.guava,
+ org.hibernate;bundle-version="4.3.5",
+ javax.persistence;bundle-version="2.1.0",
+ com.mysql.jdbc;bundle-version="5.1.26"
+Export-Package: org.confetti.dataprovider.db

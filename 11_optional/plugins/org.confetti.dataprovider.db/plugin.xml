@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.confetti.rcp.newWizard">
+      <newWizard
+            factory="org.confetti.dataprovider.db.wizards.NewDatabaseWizardFactory"
+            name="Relational Database">
+      </newWizard>
+   </extension>
+   <extension
+         point="org.confetti.rcp.openWizard">
+      <openWizard
+            factory="org.confetti.dataprovider.db.wizards.OpenDatabaseWizardFactory"
+            name="Relational Database">
+      </openWizard>
+   </extension>
+
+</plugin>

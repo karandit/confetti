@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "teacher_type")
-public class TeacherXml {
+public class TeacherXml implements INameBean {
 
 	private String name;
 	
@@ -17,7 +17,7 @@ public class TeacherXml {
 
 //	@XmlID
 	@XmlElement(name = "Name")
-	public String getName() 				{ return name; }
-	public void setName(String name) 		{ this.name = name; }
+	@Override public String getName() 				{ return name; }
+	@Override public void setName(String name) 		{ this.name = name; }
 
 }

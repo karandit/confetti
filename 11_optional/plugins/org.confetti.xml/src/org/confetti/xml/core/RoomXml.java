@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "room_type",
 propOrder = {"name", "building", "capacity"})
-public class RoomXml {
+public class RoomXml implements INameBean {
 
 	private String name;
 	private int capacity;
@@ -20,8 +20,8 @@ public class RoomXml {
 	}
 	
 	@XmlElement(name = "Name")
-	public String getName() 				{ return name; }
-	public void setName(String name) 		{ this.name = name; }
+	@Override public String getName() 				{ return name; }
+	@Override public void setName(String name) 		{ this.name = name; }
 	
 	@XmlElement(name = "Capacity")
 	public int getCapacity() 				{ return capacity; }

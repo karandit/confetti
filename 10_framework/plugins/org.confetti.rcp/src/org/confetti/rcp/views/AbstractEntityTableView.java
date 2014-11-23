@@ -19,6 +19,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 	private TableViewer tableViewer;
 	private ObservableListener<String> nameListener;
 	
+	@Override
 	protected TableViewer createViewer(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);

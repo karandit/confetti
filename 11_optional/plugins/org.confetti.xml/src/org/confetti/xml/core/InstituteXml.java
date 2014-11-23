@@ -119,15 +119,15 @@ public class InstituteXml {
 	private String comment;
 	private HoursXml hours;
 	private DaysXml days;
-	private List<YearXml> years;
-	private List<SubjectXml> subjects;
-	private List<TeacherXml> teachers;
-	private List<BuildingXml> buildings;
-	private List<RoomXml> rooms;
+	private List<YearXml> years = new LinkedList<>();
+	private List<SubjectXml> subjects = new LinkedList<>();
+	private List<TeacherXml> teachers = new LinkedList<>();
+	private List<BuildingXml> buildings = new LinkedList<>();
+	private List<RoomXml> rooms = new LinkedList<>();
 	private List<ActivityTagXml> activityTags = new LinkedList<>();
-	private List<ActivityXml> activities;
-	private List<TimeConstraint> timeConstraints;
-	private List<SpaceConstraint> spaceConstraints;
+	private List<ActivityXml> activities  = new LinkedList<>();
+	private List<TimeConstraint> timeConstraints = new LinkedList<>();
+	private List<SpaceConstraint> spaceConstraints = new LinkedList<>();
 	
 	// --------------- constructors ------------------------------------------------------------------------------------
 	

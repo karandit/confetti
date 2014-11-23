@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.StudentGroup;
+import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.xml.internal.WSLongAdapter;
 
@@ -24,7 +25,7 @@ import com.google.common.base.Function;
 		"id", "activityGroupId", "nrOfStudents", "active", "comments"})
 public class ActivityXml {
 	
-	private List<TeacherRef> teacher;
+	private List<TeacherRef> teacherRefs;
 	private SubjectRef subject;
 	private List<String> activityTag;
 	private List<String> students;
@@ -39,15 +40,17 @@ public class ActivityXml {
 	ActivityXml() {
 	}
 	
-	public ActivityXml(Long id, Assignment assignment) {
+	public ActivityXml(Long id, Assignment assg) {
+        this(id, assg.getSubject(), assg.getTeachers().getList(), assg.getStudentGroups().getList());
+	}
+	   
+	public ActivityXml(Long id, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
 		this.id = id;
-		this.subject = new SubjectRef(assignment.getSubject().getName().getValue());
-		Iterable<Teacher> teachersIt = assignment.getTeachers().getList();
-		this.teacher = transform(newArrayList(teachersIt), new Function<Teacher, TeacherRef>() {
+		this.subject = new SubjectRef(subject.getName().getValue());
+		this.teacherRefs = transform(newArrayList(teachers), new Function<Teacher, TeacherRef>() {
 			@Override public TeacherRef apply(Teacher teacher) { return new TeacherRef(teacher); }
 		});
-		Iterable<StudentGroup> studentGroupsIt = assignment.getStudentGroups().getList();
-		this.students = transform(newArrayList(studentGroupsIt), new Function<StudentGroup, String>() {
+		this.students = transform(newArrayList(studentGroups), new Function<StudentGroup, String>() {
 			@Override public String apply(StudentGroup sG) { return sG.getName().getValue(); }
 		});
 	}
@@ -60,8 +63,8 @@ public class ActivityXml {
 
 //	@XmlIDREF
 	@XmlElement(name = "Teacher")
-	public List<TeacherRef> getTeachers() 					{ return teacher; }
-	public void setTeachers(List<TeacherRef> teacher) 		{ this.teacher = teacher; }
+	public List<TeacherRef> getTeachers() 					{ return teacherRefs; }
+	public void setTeachers(List<TeacherRef> teacherRefs) 	{ this.teacherRefs = teacherRefs; }
 	
 //	@XmlIDREF
 	@XmlElement(name = "Subject")

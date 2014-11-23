@@ -11,9 +11,14 @@ import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
+import org.confetti.core.EntityVisitor;
 import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
+import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
+import org.confetti.core.StudentGroup;
+import org.confetti.core.Subject;
+import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
 
 import com.google.common.collect.Lists;
@@ -30,11 +35,9 @@ import de.kupzog.ktable.renderers.FixedCellRenderer;
  */
 public class TimeTableModel extends KTableNoScrollModel {
 
-	private static final String[] DEFAULT_DAYS = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-	private static final String[] DEFAULT_HOURS = new String[] {"08 :00 - 08:45", "09 :00 - 09:45", "10 :00 - 10:45", "11 :00 - 11:45"};
-
 	private final String[] days;
 	private final String[] hours;
+	private final Entity entity;
 	private final Assignment[][] assignments;
 	
 	public static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
@@ -50,32 +53,27 @@ public class TimeTableModel extends KTableNoScrollModel {
 
 	public TimeTableModel(KTable table, DataProvider dp, Entity entity) {
 		super(table);
-		if (dp == null) {
-			this.days = DEFAULT_DAYS; 
-			this.hours = DEFAULT_HOURS;
-			this.assignments = new Assignment[days.length + 1][hours.length + 1];
- 		} else {
- 			this.days = toArray(getNames(dp.getDays())); 
- 			this.hours = toArray(getNames(dp.getHours()));
-			this.assignments = new Assignment[days.length + 1][hours.length + 1];
- 			if (dp.getSolution().getValue() != null) {
- 				Map<Assignment, SolutionSlot> assignmentSolutionSlot = new HashMap<>();
- 				for (SolutionSlot slot : dp.getSolution().getValue()) {
-					assignmentSolutionSlot.put(slot.getAssignment(), slot);
+		this.days = toArray(getNames(dp.getDays())); 
+		this.hours = toArray(getNames(dp.getHours()));
+		this.entity = entity;
+		this.assignments = new Assignment[days.length + 1][hours.length + 1];
+		if (entity != null && dp.getSolution().getValue() != null) {
+			Map<Assignment, SolutionSlot> assignmentSolutionSlot = new HashMap<>();
+			for (SolutionSlot slot : dp.getSolution().getValue()) {
+				assignmentSolutionSlot.put(slot.getAssignment(), slot);
+			}
+			ArrayList<Day> daysArr = Lists.newArrayList(dp.getDays().getList());
+			ArrayList<Hour> hoursArr = Lists.newArrayList(dp.getHours().getList());
+			
+			for (Assignment ass : entity.getAssignments().getList()) {
+				if (assignmentSolutionSlot.containsKey(ass)) {
+					SolutionSlot foundSolutionSlot = assignmentSolutionSlot.get(ass);
+					int day =  daysArr.indexOf(foundSolutionSlot.getDay());
+					int hour = hoursArr.indexOf(foundSolutionSlot.getHour());
+					this.assignments[day + 1][hour + 1] = ass;
 				}
- 				ArrayList<Day> daysArr = Lists.newArrayList(dp.getDays().getList());
- 				ArrayList<Hour> hoursArr = Lists.newArrayList(dp.getHours().getList());
- 				
- 				for (Assignment ass : entity.getAssignments().getList()) {
-					if (assignmentSolutionSlot.containsKey(ass)) {
-						SolutionSlot foundSolutionSlot = assignmentSolutionSlot.get(ass);
-						int day =  daysArr.indexOf(foundSolutionSlot.getDay());
-						int hour = hoursArr.indexOf(foundSolutionSlot.getHour());
-						assignments[day + 1][hour + 1] = ass;
-					}
-				}
- 			}
- 		}
+			}
+		}
 	}
 
 	@Override public int getFixedHeaderColumnCount() 							{ return 1; }
@@ -96,22 +94,20 @@ public class TimeTableModel extends KTableNoScrollModel {
 	@Override public KTableCellEditor doGetCellEditor(int arg0, int arg1) 		{ return null; }
 	@Override public KTableCellRenderer doGetCellRenderer(int col, int row) 	{ return (row == 0 || col == 0) ? FIXED_RENDERER : RENDERER; }
 	
-	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 		{ } 
-	@Override public Object doGetContentAt(int col, int row) { 
+	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 		{ }
+	@Override
+	public Object doGetContentAt(int col, int row) { 
 		switch (row) {
 			case 0:	switch (col) {
 				case 0: 	return "";
-				default: 	return days[col -1];
+				default: 	return days[col - 1];
 			}
 			default: switch (col) {
 				case 0: return hours[row - 1];
 				default: 
 					if (assignments[col][row] instanceof Assignment) {
 						Assignment ass = (Assignment) assignments[col][row];
-						return ass.getSubject().getName().getValue() 
-								+ "\n" + getNames(ass.getTeachers())
-								+ "\n" + getNames(ass.getStudentGroups());
-								
+						return this.entity.accept(GetCellInfoVisitor.INSTANCE, ass);
 					} else {
 						return "";
 					}
@@ -119,7 +115,11 @@ public class TimeTableModel extends KTableNoScrollModel {
 		}
 	}
 	
-	private List<String> getNames(ObservableList<? extends Nameable> items) {
+	private String[] toArray(List<String> names) {
+		return names.toArray(new String[names.size()]);
+	}
+	
+	private static List<String> getNames(ObservableList<? extends Nameable> items) {
 		List<String> names = new ArrayList<>();
 		for (Nameable nameable : items.getList()) {
 			names.add(nameable.getName().getValue());
@@ -127,7 +127,17 @@ public class TimeTableModel extends KTableNoScrollModel {
 		return names;
 	}
 	
-	private String[] toArray(List<String> names) {
-		return names.toArray(new String[names.size()]);
+	private enum GetCellInfoVisitor implements EntityVisitor<String, Assignment> {
+		INSTANCE;
+
+		@Override public String visitSubject(Subject subject, Assignment ass) { return null; }
+		@Override public String visitTeacher(Teacher teacher, Assignment ass) { 
+			return ass.getSubject().getName().getValue() + "\n" + getNames(ass.getStudentGroups());
+		}
+		@Override public String visitStudentGroup(StudentGroup studentGroup, Assignment ass) { 
+			return ass.getSubject().getName().getValue() + "\n" + getNames(ass.getTeachers());
+		}
+		@Override public String visitRoom(Room room, Assignment ass) { return null; }
 	}
+	
 }

@@ -109,7 +109,7 @@ public class FETEngineWizard extends Wizard {
 		      System.out.println(line);
 		    }
 		    
-		    
+		    //Reading in the solution file
 		    File solutionFile  = Paths.get(resultsDir.getAbsolutePath(), 
 		    							"timetables", "input", "input_activities.xml")
 		    							.toFile();

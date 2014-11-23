@@ -1,5 +1,7 @@
 package org.confetti.dummy;
 
+import static java.util.Arrays.asList;
+
 import java.util.List;
 
 import org.confetti.core.Assignment;
@@ -55,24 +57,30 @@ public class DataProviderImpl implements DataProvider {
 		hours.addItem(new HourImpl("14:00"));
 		hours.addItem(new HourImpl("16:00"));
 		
-		Subject subjMatek = addSubject("Math");
-		addSubject("Literatute");
-		Subject subjInfo = addSubject("Computer science");
+		Subject subjMatek = new SubjectImpl("Math");
+		Subject subjInfo = new SubjectImpl("Computer science");
+		addSubject(subjMatek);
+		addSubject(new SubjectImpl("Literatute"));
+		addSubject(subjInfo);
 		
-		Teacher teacher1 = addTeacher("Smith");
-		addTeacher("Tailor");
+		Teacher teacher1 = new TeacherImpl("Smith");
+		addTeacher(teacher1);
+		addTeacher(new TeacherImpl("Tailor"));
 		
-		StudentGroupImpl group1721 = (StudentGroupImpl) addStudentGroup(null, "1721");
+		
+		
+		StudentGroupImpl group1721 = new StudentGroupImpl("1721");
+        studentGroups.addItem(group1721);
 		StudentGroupImpl group1721_1 = new StudentGroupImpl("1");
 		group1721.addChild(group1721_1);
 		group1721_1.addChild(new StudentGroupImpl("A"));
 		group1721_1.addChild(new StudentGroupImpl("B"));
 		group1721.addChild(new StudentGroupImpl("2"));
 
-		StudentGroupImpl group2 = (StudentGroupImpl) addStudentGroup(null, "1731");
-
-		addRoom("Room_1");
-		addRoom("Room_2");
+		StudentGroupImpl group2 = new StudentGroupImpl("1731");
+        studentGroups.addItem(group2);
+        
+		addRooms(asList("Room_1", "Room_2"));
 
 		//creating dummy assignment1
 		ListMutator<StudentGroup> tmpStudentGroups = new ListMutator<>();
@@ -88,6 +96,7 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 	//-----------------DataProvider's API-------------------------------------------------------------------------------
+	@Override public String getInformation() { return "Dummy"; }
 	@Override public ObservableValue<String> getName() 					{ return instName.getObservableValue(); }
 	@Override public ObservableList<Subject> getSubjects() 				{ return subjects.getObservableList(); }
 	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
@@ -99,41 +108,53 @@ public class DataProviderImpl implements DataProvider {
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override
-	public Subject addSubject(String name) {
-		SubjectImpl subject = new SubjectImpl(name);
-		subjects.addItem(subject);
-		return subject;
-	}
-	
-	@Override
-	public Teacher addTeacher(String name) {
-		TeacherImpl teacher = new TeacherImpl(name);
-		teachers.addItem(teacher);
-		return teacher;
+	public void addSubjects(List<String> names) {
+		for (String name : names) {
+		    SubjectImpl subjectImpl = new SubjectImpl(name);
+            addSubject(subjectImpl);
+        }
 	}
 
+    private void addSubject(Subject subject) {
+        subjects.addItem(subject);
+    }
+	
 	@Override
-	public StudentGroup addStudentGroup(StudentGroup parent, String name) {
-		StudentGroupImpl studentGroup = new StudentGroupImpl(name);
+	public void addTeachers(List<String> names) {
+        for (String name : names) {
+            TeacherImpl teacher = new TeacherImpl(name);
+            addTeacher(teacher);
+        }
+	}
+
+    private void addTeacher(Teacher teacher) {
+        teachers.addItem(teacher);
+    }
+
+	@Override
+	public void addStudentGroups(StudentGroup parent, List<String> names) {
 		if (parent == null) {
-			studentGroups.addItem(studentGroup);
-			return studentGroup;
-		}
-		StudentGroupImpl parentImpl = (StudentGroupImpl) parent;
-		parentImpl.addChild(studentGroup);
-		studentGroup.setParent(parentImpl);
-		return studentGroup;
+		    for (String name : names) {
+		        StudentGroupImpl studentGroup = new StudentGroupImpl(name);
+		        studentGroups.addItem(studentGroup);
+            }
+		} else {
+    		StudentGroupImpl parentImpl = (StudentGroupImpl) parent;
+            for (String name : names) {
+                StudentGroupImpl studentGroup = new StudentGroupImpl(name);
+        		parentImpl.addChild(studentGroup);
+        		studentGroup.setParent(parentImpl);
+            }
+        }
 	}
 	
 	@Override
-	public Room addRoom(String name) {
-		RoomImpl room = new RoomImpl(name);
-		rooms.addItem(room);
-		return room;
+	public void addRooms(List<String> names) {
+        for (String name : names) {
+            RoomImpl room = new RoomImpl(name);
+            rooms.addItem(room);
+        }
 	}
-	
-	@Override public void setDays(List<String> days) {  }
-	@Override public void setHours(List<String> hours) {  }
 	
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
@@ -148,18 +169,43 @@ public class DataProviderImpl implements DataProvider {
 	}
 	
 	@Override
-	public void removeSubject(Subject subject) {
-		subjects.removeItem(subject);
+	public void removeSubjects(List<Subject> subjectsToRemove) {
+	    for (Subject subject : subjectsToRemove) {
+	        this.subjects.removeItem(subject);
+        }
 	}
 	
 	@Override
-	public void removeTeacher(Teacher teacher) {
-		teachers.removeItem(teacher);
+	public void removeTeachers(List<Teacher> teachersToRemove) {
+	    for (Teacher teacher : teachersToRemove) {
+	        this.teachers.removeItem(teacher);
+        }
 	}
 	
 	@Override
-	public void removeRoom(Room room) {
-		rooms.removeItem(room);
+	public void removeStudentGroups(List<StudentGroup> studentGroups) {
+	    for (StudentGroup studentGroup : studentGroups) {
+	        this.studentGroups.removeItem(studentGroup);
+        }
+	}
+	
+	@Override
+	public void removeRooms(List<Room> rooms) {
+	    for (Room room : rooms) {
+	        this.rooms.removeItem(room);
+        }
+	}
+	
+	@Override
+	public void removeAssignment(Assignment assignment) {
+	    assignment.getSubject().removeAssignment(assignment);
+        for (Teacher teacher : assignment.getTeachers().getList()) {
+            teacher.removeAssignment(assignment);
+        }
+        for (StudentGroup studentGroup : assignment.getStudentGroups().getList()) {
+            studentGroup.removeAssignment(assignment);
+        }
+        assignments.removeItem(assignment);
 	}
 
 	@Override

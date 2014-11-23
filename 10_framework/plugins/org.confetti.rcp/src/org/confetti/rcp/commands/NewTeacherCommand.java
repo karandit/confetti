@@ -1,5 +1,7 @@
 package org.confetti.rcp.commands;
 
+import java.util.List;
+
 import org.confetti.core.DataProvider;
 import org.confetti.core.Teacher;
 import org.confetti.rcp.ConfettiPlugin;
@@ -12,7 +14,7 @@ public class NewTeacherCommand extends AbstractNewEntityHandler<Teacher> {
 	protected NewEntityWizardModel<Teacher> createModel() {
 		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
 		return new NewEntityWizardModel<Teacher>(getNames(dp.getTeachers().getList()),
-				new EntityCreator<Teacher>() { @Override public Teacher createEntity(String name) { return dp.addTeacher(name); }}, 
+				new EntityCreator<Teacher>() { @Override public void createEntities(List<String> names) { dp.addTeachers(names); }}, 
 				"New Teacher", 
 				"Every new line will be a new teacher", 
 				"The following teachers will be added",
