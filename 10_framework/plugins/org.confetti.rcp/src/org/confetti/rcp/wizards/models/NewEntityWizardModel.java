@@ -10,10 +10,13 @@ import java.util.List;
 
 import org.confetti.util.Tuple;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+
 public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntriesModel {
 	
 	public interface EntityCreator<T> {
-		T createEntity(String name);
+		void createEntities(List<String> names);
 	}
 	
 	//------------------------ fields ----------------------------------------------------------------------------------
@@ -64,9 +67,10 @@ public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntrie
 	//------------------------ NewEntityWizardModel --------------------------------------------------------------------
 	public String getWizardTitle() { return mWizardTitle; }
 	public void createEntities() {
-		for (Tuple<String, Problem> tuple : getResult()) {
-			mCreator.createEntity(tuple.getFirst());
-		}
+	    List<String> names = Lists.transform(getResult(), new Function<Tuple<String, Problem>, String>() {
+            @Override public String apply(Tuple<String, Problem> tuple) { return tuple.getFirst(); }
+        });
+	    mCreator.createEntities(names);
 	}
 
 	//------------------------ helpers ---------------------------------------------------------------------------------

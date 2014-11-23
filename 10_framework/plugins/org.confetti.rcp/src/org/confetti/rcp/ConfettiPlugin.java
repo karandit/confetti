@@ -1,15 +1,21 @@
 package org.confetti.rcp;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
+import org.confetti.util.Tuple;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -18,6 +24,7 @@ import org.osgi.framework.BundleContext;
  */
 public class ConfettiPlugin extends AbstractUIPlugin {
 
+    //--------------------------- constants ----------------------------------------------------------------------------
 	public static final String IMG_SMALL_SUBJECT 		= "small_subject";
 	public static final String IMG_SMALL_TEACHER 		= "small_teacher";
 	public static final String IMG_SMALL_STUDENTGROUP 	= "small_studentgroup";
@@ -42,10 +49,17 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	public static final String IMG_SAMPLE				= "sample";
 	public static final String IMG_SAMPLE2				= "sample2";
 	public static final String IMG_SAMPLE3				= "sample3";
+
+	
+	//---preference related stuff ----------------------------
+    public static final String KEY_CONNECTIONS = "CONNECTIONS";
+    public static final String KEY_TYPE = "TYPE";
+
 	
 	//The shared instance.
 	private static ConfettiPlugin plugin;
 	private ValueMutator<DataProvider> dpMutator = new ValueMutator<>();
+    private DataPersister dataPersister;
 	
 	/**
 	 * The constructor.
@@ -140,8 +154,27 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 		return dpMutator.getObservableValue();
 	}
 
-	public void setDataProvider(DataProvider value) {
-		dpMutator.setValue(this, value);
+	public DataPersister getDataPersister() {
+	    return dataPersister;
+	}
+
+	public void setDataProvider(DataProvider value, DataPersister dataPersister) {
+		this.dataPersister = dataPersister;
+        dpMutator.setValue(this, value);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - " + value.getInformation());
 	}
 	
+    public List<Tuple<String, String>> getConnectionSettings() {
+	    IPreferenceStore preferenceStore = getPreferenceStore();
+	    List<Tuple<String, String>> connNamesAndTypes = new LinkedList<>();
+        String connNamesCSV = preferenceStore.getString(KEY_CONNECTIONS);
+        String[] connNames = connNamesCSV.split(",");
+        for (String connName : connNames) {
+            if (!connName.isEmpty()) {
+                String connType = preferenceStore.getString(connName + "_" + KEY_TYPE);
+                connNamesAndTypes.add(new Tuple<>(connName, connType));
+            }
+        }
+        return connNamesAndTypes;
+	}
 }

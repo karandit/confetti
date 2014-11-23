@@ -16,16 +16,30 @@
 		<module>./10_framework/features/org.confetti.feature.rcp</module>
 		<module>./11_optional/plugins/org.confetti.xml</module>
 		<module>./11_optional/plugins/org.confetti.fet.engine</module>
+		<module>./11_optional/plugins/org.confetti.fet.constraints</module>
+		<module>./11_optional/plugins/org.confetti.dataprovider.db</module>
+		<module>./11_optional/plugins/org.confetti.dataprovider.db.mysql</module>
+		<module>./11_optional/plugins/org.confetti.dataprovider.db.mssql</module>
 	</modules>
 
 	<properties>
 		<tycho.version>0.19.0</tycho.version>
 		<tycho-extras.version>0.19.0</tycho-extras.version>
+		<jacoco.version>0.7.2.201409121644</jacoco.version>
+		<coveralls.version>2.2.0</coveralls.version>
 
 		<!--tycho-repo.url>https://oss.sonatype.org/content/groups/public/</tycho-repo.url-->
 	 	<kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
+		<elver-repo.url>http://www.elver.org/eclipse/2.1.0/update</elver-repo.url>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>${jacoco.version}</version>
+		</dependency>
+	</dependencies>
 
 	<repositories>
 		<repository>
@@ -33,7 +47,20 @@
       		<url>${kepler-repo.url}</url>
 			<layout>p2</layout>
 		</repository>
-
+		<repository>
+			<id>elver</id>
+      		<url>${elver-repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+      		<id>central</id>
+      		<name>Maven Repository Switchboard</name>
+      		<layout>default</layout>
+      		<url>http://repo1.maven.org/maven2</url>
+      		<snapshots>
+        		<enabled>false</enabled>
+      		</snapshots>
+		</repository>
 	</repositories>
 
 	<!--pluginRepositories>
@@ -58,6 +85,32 @@
 				<extensions>true</extensions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>${coveralls.version}</version>
+			</plugin>
+			
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>

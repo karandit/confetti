@@ -3,8 +3,10 @@ package org.confetti.rcp.views;
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
+import org.confetti.core.Subject;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.ConfettiPlugin;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -16,6 +18,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
@@ -23,11 +26,13 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 import de.kupzog.ktable.KTable;
+import de.kupzog.ktable.KTableNoScrollModel;
 
 public class AssignmentsView extends ViewPart {
 
 	public final static String ID = "org.confetti.rcp.assignmentsView";
 	
+	private ISelectionListener selectionListener;
 //	private ObservableListener<String> nameListener;
 	
 	@Override
@@ -58,35 +63,21 @@ public class AssignmentsView extends ViewPart {
 //				tableViewer.refresh();
 //			}
 //		};
+		
+		//create context menu
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(tableViewer.getControl());
+		tableViewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(menuManager, tableViewer);
+		getSite().setSelectionProvider(tableViewer);
+		
 		return tableViewer;
 	}
-
-	private void assignListener(final TableViewer tableViewer, final KTable ktable) {
-		ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
-		selectionService.addSelectionListener(new ISelectionListener() {
-			@Override
-			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-				if (!selection.isEmpty()) { 
-					IStructuredSelection strSel = (IStructuredSelection) selection;
-					Object first = strSel.getFirstElement();
-					if (first instanceof Entity) {
-						Entity source = (Entity) first;
-						//TODO detach the listener somewhere? :/
-//						source.getName().attachListener(nameListener);
-						tableViewer.setInput(source.getAssignments().getList());
-						assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), source);
-						return;
-					}
-				}
-				tableViewer.setInput(null);
-			}
-		});
-	}
-
+	
 	private KTable createTimeTable(Composite parent) {
 		final KTable ktable = new KTable(parent, SWT.NONE);
 		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-
+		
 		assignModel(ktable, null, null);
 		
 		ConfettiPlugin.getDefault().getDataProvider().attachListener(new ObservableListener<DataProvider>() {
@@ -100,10 +91,62 @@ public class AssignmentsView extends ViewPart {
 		return ktable;
 	}
 
+	private void assignListener(final TableViewer tableViewer, final KTable ktable) {
+		ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
+		selectionListener = new ISelectionListener() {
+			@Override
+			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+				//do nothing when the selection comes from this view
+			    if (AssignmentsView.ID.equals(part.getSite().getId())) {
+				    return;
+				}
+			    
+			    //empty the view when selection is empty
+				if (selection.isEmpty()) {
+				    tableViewer.setInput(null);
+				    assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
+                    return;
+                }
+				
+				//if the selection is Entity show it's Assignments and SolutionSlot 
+				IStructuredSelection strSel = (IStructuredSelection) selection;
+				Object first = strSel.getFirstElement();
+				if (first instanceof Entity) {
+					Entity source = (Entity) first;
+					//TODO detach this listener somewhere? :/
+//					source.getName().attachListener(nameListener);
+					tableViewer.setInput(source.getAssignments().getList());
+					if (source instanceof Subject) {
+						assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
+					} else {
+						assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), source);
+					}
+					return;
+				}
+			}
+		};
+        selectionService.addSelectionListener(selectionListener);
+	}
+
 	private void assignModel(final KTable ktable, DataProvider dp, Entity ent) {
-		final TimeTableModel model = new TimeTableModel(ktable, dp, ent);
+		final KTableNoScrollModel model;
+		if (dp == null) {
+			model = new TimeTableNotAvailableModel(ktable);
+			ktable.setModel(model);
+			model.initialize();
+			return;
+		}
+		model = new TimeTableModel(ktable, dp, ent);
 		ktable.setModel(model);
 		model.initialize();
+	}
+	
+	@Override
+	public void dispose() {
+	    ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
+	    selectionService.removeSelectionListener(selectionListener);
+	    
+	    super.dispose();
 	}
 
 	@Override

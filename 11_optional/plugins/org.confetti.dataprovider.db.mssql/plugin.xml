@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.confetti.rcp.connection">
+      <connection
+            dbType="MS SQL"
+            factory="org.confetti.dataprovider.db.mssql.connection.MSSQLConnectionFactory">
+      </connection>
+   </extension>
+
+</plugin>

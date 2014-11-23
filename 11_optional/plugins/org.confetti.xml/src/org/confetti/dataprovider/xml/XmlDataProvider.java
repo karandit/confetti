@@ -27,6 +27,7 @@ import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.DayXml;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.HourXml;
+import org.confetti.xml.core.INameBean;
 import org.confetti.xml.core.InstituteXml;
 import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubgroupXml;
@@ -34,6 +35,9 @@ import org.confetti.xml.core.SubjectXml;
 import org.confetti.xml.core.TeacherRef;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 
 /**
  * @author Bubla Gabor
@@ -43,23 +47,26 @@ public class XmlDataProvider implements DataProvider {
 	//----------------------------- inner classes ----------------------------------------------------------------------
 	private static class AssignmentImpl implements Assignment {
 
+	    private final Long id;
 		private final Subject subj;
 		private final ListMutator<Teacher> teachers = new ListMutator<>();
 		private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
 		
-		
-		public AssignmentImpl(Subject subj) {
-			this.subj = subj;
+		public AssignmentImpl(Long id, Subject subj) {
+            this.id = id;
+            this.subj = subj;
 			subj.addAssignment(this);
 		}
 
 		public void addTeacher(Teacher teacher) 			{ teachers.addItem(teacher); teacher.addAssignment(this);} 
 		public void addStudentGroup(StudentGroup group) 	{ stGroups.addItem(group); group.addAssignment(this);} 
 		
+		public Long getId() { return id; }
 		@Override public Subject getSubject() 								{ return subj; }
 		@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
 		@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stGroups.getObservableList(); }
 		@Override public Room getRoom() 									{ return null; }
+
 	}
 	
 	private static abstract class EntityImpl implements Entity, Assignable {
@@ -71,9 +78,10 @@ public class XmlDataProvider implements DataProvider {
 			this.name = new ValueMutator<>(this, name);
 		}
 		
-		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
-		@Override public void addAssignment(Assignment assignment) 	{ assignments.addItem(assignment);} 
-		@Override public ObservableList<Assignment> getAssignments() 			{ return assignments.getObservableList(); }
+		@Override public ObservableValue<String> getName() 			  { return name.getObservableValue(); }
+		@Override public void addAssignment(Assignment assignment) 	  { assignments.addItem(assignment);}
+		@Override public void removeAssignment(Assignment assignment) { assignments.removeItem(assignment); }
+		@Override public ObservableList<Assignment> getAssignments()  { return assignments.getObservableList(); }
 		
 		public ValueMutator<String> getNameMutator() { return name; }
 
@@ -146,7 +154,7 @@ public class XmlDataProvider implements DataProvider {
 
 	}
 
-	//----------------------------- fields -----------------------------------------------------------------------------
+	//----------------------------- fields for UI client----------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
 	private ListMutator<Teacher> teachers = new ListMutator<>();
 	private ListMutator<Subject> subjects = new ListMutator<>();
@@ -157,13 +165,25 @@ public class XmlDataProvider implements DataProvider {
 	private ListMutator<Assignment> assignments = new ListMutator<>();
 	private ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 
+	//----------------------------- fields for xml persistence ---------------------------------------------------------
+    private final InstituteXml instXml;
+    private File file;
+    private long currentMaxId = 0;
+
 	//----------------------------- constructors -----------------------------------------------------------------------
-	public XmlDataProvider(File file) throws FAOException {
+    public XmlDataProvider(InstituteXml inst, File file) throws FAOException {
+        this(inst);
+        this.file = file;
+    }
+    
+    public XmlDataProvider(File file) throws FAOException {
 		this(new InstituteFAO().importFrom(file));
+        this.file = file;
 	}
 	
-	public XmlDataProvider(InstituteXml inst ) {
-			for (SubjectXml subj : inst.getSubjects()) {
+	public XmlDataProvider(InstituteXml inst) {
+			this.instXml = inst;
+            for (SubjectXml subj : inst.getSubjects()) {
 				subjects.addItem(new SubjectImpl(subj.getName()));
 			}
 			for (TeacherXml teacher : inst.getTeachers()) {
@@ -195,7 +215,10 @@ public class XmlDataProvider implements DataProvider {
 			Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
 			Map<String, StudentGroup> allStdGroups = collectStudentGroups(stdGroups.getObservableList().getList());
 			for (ActivityXml act : inst.getActivities()) {
-				AssignmentImpl ass = new AssignmentImpl(findByName(allSubjects, act.getSubject().getName()));
+			    if (act.getId() > currentMaxId) {
+                    currentMaxId = act.getId();
+                }
+				AssignmentImpl ass = new AssignmentImpl(act.getId(), findByName(allSubjects, act.getSubject().getName()));
 				if (act.getStudents() != null) {
 					for (String stGroupName : act.getStudents()) {
 						ass.addStudentGroup(allStdGroups.get(stGroupName));
@@ -206,6 +229,7 @@ public class XmlDataProvider implements DataProvider {
 						ass.addTeacher(findByName(allTeachers, teacherRef.getName()));
 					}
 				}
+				assignments.addItem(ass);
 			}
 	}
 	
@@ -219,84 +243,132 @@ public class XmlDataProvider implements DataProvider {
 	}
 
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
-	@Override public ObservableValue<String> getName() 					{ return instName.getObservableValue(); }
-	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
-	@Override public ObservableList<Subject> getSubjects() 				{ return subjects.getObservableList(); }
-	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stdGroups.getObservableList(); }
-	@Override public ObservableList<Room> getRooms() 					{ return rooms.getObservableList(); }
-	@Override public ObservableList<Day> getDays() 						{ return days.getObservableList(); }
-	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
-	@Override public ObservableList<Assignment> getAssignments() 		{ return assignments.getObservableList(); }
+	@Override public String getInformation()                               { return file.getAbsolutePath(); }
+	@Override public ObservableValue<String> getName() 					   { return instName.getObservableValue(); }
+	@Override public ObservableList<Subject> getSubjects() 				   { return subjects.getObservableList(); }
+	@Override public ObservableList<Teacher> getTeachers() 				   { return teachers.getObservableList(); }
+	@Override public ObservableList<StudentGroup> getStudentGroups() 	   { return stdGroups.getObservableList(); }
+	@Override public ObservableList<Room> getRooms() 					   { return rooms.getObservableList(); }
+	@Override public ObservableList<Day> getDays() 						   { return days.getObservableList(); }
+	@Override public ObservableList<Hour> getHours() 				       { return hours.getObservableList(); }
+	@Override public ObservableList<Assignment> getAssignments() 		   { return assignments.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override
-	public Subject addSubject(String name) {
-		SubjectImpl subjectImpl = new SubjectImpl(name);
-		subjects.addItem(subjectImpl);
-		return subjectImpl;
+	public void addSubjects(List<String> names) {
+	    for (String name : names) {
+	        instXml.getSubjects().add(new SubjectXml(name));
+        }
+	    save();
+	    
+	    for (String name : names) {
+	        SubjectImpl subjectImpl = new SubjectImpl(name);
+	        subjects.addItem(subjectImpl);
+        }
+	}
+	
+    @Override
+	public void addTeachers(List<String> names) {
+        for (String name : names) {
+            instXml.getTeachers().add(new TeacherXml(name));
+        }
+        save();
+        
+        for (String name : names) {
+            TeacherImpl teacherImpl = new TeacherImpl(name);
+            teachers.addItem(teacherImpl);
+        }
 	}
 	
 	@Override
-	public Teacher addTeacher(String name) {
-		TeacherImpl teacherImpl = new TeacherImpl(name);
-		teachers.addItem(teacherImpl);
-		return teacherImpl;
+	public void addStudentGroups(StudentGroup parent, List<String> names) {
+	    if (parent == null) {
+	        List<StudentGroupImpl> groups = Lists.transform(names, new Function<String, StudentGroupImpl>() {
+                @Override public StudentGroupImpl apply(String name) { return  new StudentGroupImpl(name); }
+	        });
+            for (StudentGroupImpl group : groups) {
+                instXml.getYears().add(new YearXml(group));
+            }
+	        save();
+	        
+	        for (StudentGroupImpl group : groups) {
+                stdGroups.addItem(group);
+            }
+        } else { //TODO implement if has parent
+        }
 	}
 	
 	@Override
-	public StudentGroup addStudentGroup(StudentGroup parent, String name) {
-		//TODO
-		return null;
-	}
-	
-	@Override
-	public Room addRoom(String name) {
-		RoomImpl roomImpl = new RoomImpl(name);
-		rooms.addItem(roomImpl);
-		return roomImpl;
-	}
-	
-	@Override public void removeSubject(Subject subject) 	{ subjects.removeItem(subject); }
-	@Override public void removeTeacher(Teacher teacher) 	{ teachers.removeItem(teacher); }
-	@Override public void removeRoom(Room room)          	{ rooms.removeItem(room); }
-	
-	@Override
-	public void setDays(List<String> days) {
-		//TODO
-	}
-	
-	@Override
-	public void setHours(List<String> hours) {
-		//TODO
+	public void addRooms(List<String> names) {
+        for (String name : names) {
+            instXml.getRooms().add(new RoomXml(name));
+        }
+        save();
+        for (String name : names) {
+    		RoomImpl roomImpl = new RoomImpl(name);
+    		rooms.addItem(roomImpl);
+        }
 	}
 	
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
-		AssignmentImpl assignment = new AssignmentImpl(subject);
-		for (Teacher teacher : teachers) {
-			assignment.addTeacher(teacher);
-		}
-		for (StudentGroup studentGroup : studentGroups) {
-			assignment.addStudentGroup(studentGroup);
-		}
-		return assignment;
+	    currentMaxId++;
+	    instXml.getActivities().add(new ActivityXml(currentMaxId, subject, teachers, studentGroups));
+	    save();
+	    
+	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, subject);
+	    for (Teacher teacher : teachers) {
+	        assignment.addTeacher(teacher);
+	    }
+	    for (StudentGroup studentGroup : studentGroups) {
+	        assignment.addStudentGroup(studentGroup);
+	    }
+        assignments.addItem(assignment);
+	    return assignment;
 	}
 	
 	@Override
 	public void setSolution(Iterable<SolutionSlot> solution) {
-		this.solution.setValue(this, solution);
+	    this.solution.setValue(this, solution);
+	}
+	
+    @Override public void removeSubjects(List<Subject> toRemove) { removeEntities(toRemove, subjects, instXml.getSubjects()); }
+    @Override public void removeTeachers(List<Teacher> toRemove) { removeEntities(toRemove, teachers, instXml.getTeachers()); }
+    @Override public void removeStudentGroups(List<StudentGroup> toRemove) { removeEntities(toRemove, stdGroups, instXml.getYears()); }
+    @Override public void removeRooms(List<Room> toRemove) { removeEntities(toRemove, rooms, instXml.getRooms()); }
+	
+	@Override
+	public void removeAssignment(Assignment assignment) {
+	    ActivityXml foundActivity = findActivityById(((AssignmentImpl) assignment).getId());
+	    instXml.getActivities().remove(foundActivity);
+	    save();
+	    
+	    assignment.getSubject().removeAssignment(assignment);
+        for (Teacher teacher : assignment.getTeachers().getList()) {
+            teacher.removeAssignment(assignment);
+        }
+        for (StudentGroup studentGroup : assignment.getStudentGroups().getList()) {
+            studentGroup.removeAssignment(assignment);
+        }
+        assignments.removeItem(assignment);
 	}
 	
 	@Override
 	public void rename(Entity entity, String newName) {
+	    entity.accept(new RenameVisitor(instXml), newName);
+	    save();
 		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 	
 	//----------------------------- helpers ----------------------------------------------------------------------------
-//	private static InputStream openStream(final String path) throws IOException {
-//		return XmlDataProvider.class.getResource(path).openStream();
-//	}
-	
+	public void save() {
+        try {
+            new InstituteFAO().exportTo(instXml, file);
+        } catch (FAOException e) {
+            throw new RuntimeException(e);
+        }
+	 }
+    
 	private static <T extends Entity> T findByName(Iterable<T> items, String name) {
 		for (T item : items) {
 			if (item.getName().getValue().equals(name)) {
@@ -304,6 +376,38 @@ public class XmlDataProvider implements DataProvider {
 			}
 		}
 		return null;
+	}
+
+	static <T extends INameBean> T findXmlByName(Iterable<T> items, String name) {
+        for (T item : items) {
+            if (item.getName().equals(name)) {
+                return item;
+            }
+        }
+        return null;
+    }
+	
+	private <ET extends Entity, XT extends INameBean> void removeEntities(List<ET> entitiesToRemove, ListMutator<ET> allEntities, List<XT> xmlEntities) {
+        for (ET entityToRemove : entitiesToRemove) {
+            XT foundXmlEntity = findXmlByName(xmlEntities, entityToRemove.getName().getValue());
+            if (foundXmlEntity != null) {
+                xmlEntities.remove(foundXmlEntity);
+            }
+        }
+        save();
+        
+        for (ET entityToRemove : entitiesToRemove) {
+            allEntities.removeItem(entityToRemove);
+        }
+    }
+	
+	private ActivityXml findActivityById(Long id) {
+	    for (ActivityXml activity : instXml.getActivities()) {
+	        if (activity.getId().equals(id)) {
+	            return activity;
+	        }
+	    }
+	    return null;
 	}
 
 }
