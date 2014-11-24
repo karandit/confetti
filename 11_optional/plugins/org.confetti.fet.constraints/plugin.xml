@@ -1,65 +1,300 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.confetti.rcp.constraint">
-      <category
-            name="Time constraints">
-         <category
-               name="Miscellaneous">
-            <constraint
-                  id="time.BasicCompulsoryTime"
-                  name="Basic compulsory time constraint">
-               <number-field
-                     label="Weight percentage"
-                     name="weight-percentage">
-               </number-field>
-               <boolean-field
-                     label="Active"
-                     name="active">
-               </boolean-field>
+   <extension point="org.confetti.rcp.constraint">
+      <category name="Time constraints">
+         <category name="Miscellaneous">
+            <constraint id="time.BasicCompulsoryTime" name="Basic compulsory time constraints">
+               <number-field label="Weight percentage" name="weight-percentage"/>
+               <boolean-field label="Active" name="active"/>
             </constraint>
-            <constraint
-                  id="time.BreakTimes"
-                  name="Break times (all teachers + all students not available)">
-               <number-field
-                     label="Weight percentage"
-                     name="weight-percentage">
-               </number-field>
-               <week-field
-                     label="Break times"
-                     name="break-times">
-               </week-field>
+            <constraint id="time.BreakTimes" name="Break times (all teachers + all students not available)">
+               <number-field label="Weight percentage" name="weight-percentage"/>
+               <week-field label="Break times" name="break-times"/>
             </constraint>
          </category>
          <category
                name="Teachers">
             <constraint
-                  id="org.confetti.fet.constraints.constraint4"
+                  id="time.NotAvailableTimesForATeacher"
                   name="A teacher&apos;s not available times">
             </constraint>
-            <separator>
-               separator body text
-            </separator>
+
+            <separator/>
             <constraint
                   id="time.MaxDaysPerWeekForATeacher"
                   name="Max days per week for a teacher">
-               <teacher-field
-                     label="Teacher"
-                     name="teacher">
-               </teacher-field>
-               <day-field
-                     label="Max days per week"
-                     name="max-days">
-               </day-field>
+            </constraint>
+             <constraint
+                  id="time.MinDaysPerWeekForATeacher"
+                  name="Min days per week for a teacher">
+            </constraint>
+             <constraint
+                  id="time.MaxGapsPerDayForATeacher"
+                  name="Max gaps per day for a teacher">
+            </constraint>
+             <constraint
+                  id="time.MaxGapsPerWeekForATeacher"
+                  name="Max gaps per week for a teacher">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursPerDayForATeacher"
+                  name="Max hours daily for a teacher">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursPerDayWithAnActivityTagForATeacher"
+                  name="Max hours daily with an activity tag for a teacher">
+            </constraint>
+             <constraint
+                  id="time.MinHoursPerDayForATeacher"
+                  name="Min hours daily for a teacher">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursContinuouslyForATeacher"
+                  name="Max hours continuously for a teacher">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursContinuouslyWithAnActivityTagForATeacher"
+                  name="Max hours continuously with an activity tag for a teacher">
+            </constraint>
+             <constraint
+                  id="time.HourlyIntervalMaxDaysPerWeekForATeacher"
+                  name="A teacher works in an hourly interval max days per week">
+            </constraint>
+
+            <separator/>
+            <constraint
+                  id="time.MaxDaysPerWeekForAllTeachers"
+                  name="Max days per week for all teachers">
+            </constraint>
+             <constraint
+                  id="time.MinDaysPerWeekForAllTeachers"
+                  name="Min days per week for all teachers">
+            </constraint>
+             <constraint
+                  id="time.MaxGapsPerDayForAllTeachers"
+                  name="Max gaps per day for all teachers">
+            </constraint>
+             <constraint
+                  id="time.MaxGapsPerWeekForAllTeachers"
+                  name="Max gaps per week for all teachers">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursPerDayForAllTeachers"
+                  name="Max hours daily for all teachers">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursPerDayWithAnActivityTagForAllTeachers"
+                  name="Max hours daily with an activity tag for all teachers">
+            </constraint>
+             <constraint
+                  id="time.MinHoursPerDayForAllTeachers"
+                  name="Min hours daily for all teachers">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursContinuouslyForAllTeachers"
+                  name="Max hours continuously for all teachers">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursContinuouslyWithAnActivityTagForAllTeachers"
+                  name="Max hours continuously with an activity tag for all teachers">
+            </constraint>
+             <constraint
+                  id="time.HourlyIntervalMaxDaysPerWeekForAllTeachers"
+                  name="All teachers work in an hourly interval max days per week">
+            </constraint>
+
+         </category>
+         <category name="Students">
+			<constraint
+                  id="time.NotAvailableTimesForAStudentGroup"
+                  name="A student group&apos;s not available times">
+            </constraint>
+
+            <separator/>
+            <constraint
+                  id="time.MaxDaysPerWeekForAStudentGroup"
+                  name="Max days per week for a student group">
+            </constraint>
+             <constraint
+                  id="time.MaxGapsPerDayForAStudentGroup"
+                  name="Max gaps per day for a student group">
+            </constraint>
+             <constraint
+                  id="time.MaxGapsPerWeekForAStudentGroup"
+                  name="Max gaps per week for a student group">
+            </constraint>
+             <constraint
+                  id="time.MaxBeginningsAtSecondHourForAStudentGroup"
+                  name="A student group begins early (max beginnings at second hour)">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursPerDayForAStudentGroup"
+                  name="Max hours daily for a student group">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursPerDayWithAnActivityTagForAStudentGroup"
+                  name="Max hours daily with an activity tag for a student group">
+            </constraint>
+             <constraint
+                  id="time.MinHoursPerDayForAStudentGroup"
+                  name="Min hours daily for a student group">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursContinuouslyForAStudentGroup"
+                  name="Max hours continuously for a student group">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursContinuouslyWithAnActivityTagForAStudentGroup"
+                  name="Max hours continuously with an activity tag for a student group">
+            </constraint>
+             <constraint
+                  id="time.HourlyIntervalMaxDaysPerWeekForAStudentGroup"
+                  name="A student group works in an hourly interval max days per week">
+            </constraint>
+
+            <separator/>
+            <constraint
+                  id="time.MaxDaysPerWeekForAllStudentGroups"
+                  name="Max days per week for all student groups">
+            </constraint>
+             <constraint
+                  id="time.MaxGapsPerDayForAllStudentGroups"
+                  name="Max gaps per day for all student groups">
+            </constraint>
+             <constraint
+                  id="time.MaxGapsPerWeekForAllStudentGroups"
+                  name="Max gaps per week for all student groups">
+            </constraint>
+             <constraint
+                  id="time.MaxBeginningsAtSecondHourForAllStudentGroups"
+                  name="All student groups begin early (max beginnings at second hour)">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursPerDayForAllStudentGroups"
+                  name="Max hours daily for all student groups">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursPerDayWithAnActivityTagForAllStudentGroups"
+                  name="Max hours daily with an activity tag for all student groups">
+            </constraint>
+             <constraint
+                  id="time.MinHoursPerDayForAllStudentGroups"
+                  name="Min hours daily for all student groups">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursContinuouslyForAllStudentGroups"
+                  name="Max hours continuously for all student groups">
+            </constraint>
+             <constraint
+                  id="time.MaxHoursContinuouslyWithAnActivityTagForAllStudentGroups"
+                  name="Max hours continuously with an activity tag for all student groups">
+            </constraint>
+             <constraint
+                  id="time.HourlyIntervalMaxDaysPerWeekForAllStudentGroups"
+                  name="All student groups work in an hourly interval max days per week">
             </constraint>
          </category>
-         <category
-               name="Students"></category>
-         <category
-               name="Activities"></category></category>
-      <category
-            name="Space constraints">
+         <category name="Activities">
+         	<constraint id="time.ActivityHasAPreferredStartingTime" name="An activity has a preferred starting time"/>
+         	<constraint id="time.ActivityHasSomePreferredStartingTimes" name="An activity has a set of preferred starting times"/>
+         	<constraint id="time.ActivityHasSomePreferredTimeSlots" name="An activity has a set of preferred time slots"/>
+			
+			<separator/>
+         	<constraint id="time.MoreActivitiesHaveSomePreferredStartingTimes" name="A set of activities has a set of preferred starting times"/>
+         	<constraint id="time.MoreActivitiesHaveSomePreferredTimeSlots" name="A set of activities has a set of preferred time slots"/>
+
+			<separator/>
+         	<constraint id="time.MoreSubActivitiesHaveSomePreferredStartingTimes" name="A set of subactivities has a set of preferred starting times"/>
+         	<constraint id="time.MoreSubActivitiesHaveSomePreferredTimeSlots" name="A set of subactivities has a set of preferred time slots"/>
+			         
+			<separator/>
+         	<constraint id="time.MinDaysBetweenActivities" name="Min days between a set of activities"/>
+         	<constraint id="time.MaxDaysBetweenActivities" name="Max days between a set of activities"/>
+         
+			<separator/>
+         	<constraint id="time.ActivityEndsStudentsDay" name="An activity ends students day"/>
+         	<constraint id="time.MoreActivitiesEndStudentsDay" name="A set of activities end students day"/>
+
+			<separator/>
+         	<constraint id="time.MoreActivitiesHaveSameStartingTime" name="A set of activities has same starting time (day + hour)"/>
+         	<constraint id="time.MoreActivitiesHaveSameStartingDay" name="A set of activities has same starting day (any hours)"/>
+         	<constraint id="time.MoreActivitiesHaveSameStartingHour" name="A set of activities has same starting hour (any days)"/>
+
+			<separator/>
+         	<constraint id="time.MoreActivitiesOccupyMaxTimeSlotsFromSelection" name="A set of activities occupies max time slots from selection"/>
+
+			<separator/>
+         	<constraint id="time.TwoActivitiesAreOrdered" name="Two activities are ordered"/>
+
+			<separator/>
+         	<constraint id="time.TwoActivitiesAreConsecutive" name="Two activities are consecutive"/>
+         	<constraint id="time.TwoActivitiesAreGrouped" name="Two activities are grouped"/>
+         	<constraint id="time.ThreeActivitiesAreGrouped" name="Three activities are grouped"/>
+
+			<separator/>
+         	<constraint id="time.MoreActivitiesAreNotOverlapping" name="A set of activities are not overlapping"/>
+         	<constraint id="time.MaxSimultaneousActivitiesFromASetInTimeSlots" name="Max simultaneous activities from a set in selected time slots"/>
+
+			<separator/>
+         	<constraint id="time.MinGapsBetweenActivities" name="Min gaps(hours) between a set of activities"/>
+         </category>
+      </category>
+      <category name="Space constraints">
+         <category name="Miscellaneous">
+            <constraint id="space.BasicCompulsorySpace" name="Basic compulsory space constraints"/>
+         </category>
+         <category name="Rooms">
+            <constraint id="space.NotAvailableTimesForARoom" name="A room&apos;s not available times"/>
+         </category>
+         <category name="Teachers">
+            <constraint id="space.TeacherHasAHomeRoom" name="A teacher has a home room"/>
+            <constraint id="space.TeacherHasSomeHomeRooms" name="A teacher has a set of home rooms"/>
+
+            <separator/>
+            <constraint id="space.MaxBuildingChangesPerDayForATeacher" name="Max building changes per day for a teacher"/>
+            <constraint id="space.MaxBuildingChangesPerWeekForATeacher" name="Max building changes per week for a teacher"/>
+            <constraint id="space.MinGapsBetweenBuildingChangesForATeacher" name="Min gaps between building changes for a teacher"/>
+            
+            <separator/>
+            <constraint id="space.MaxBuildingChangesPerDayForAllTeachers" name="Max building changes per day for all teachers"/>
+            <constraint id="space.MaxBuildingChangesPerWeekForAllTeachers" name="Max building changes per week for all teachers"/>
+            <constraint id="space.MinGapsBetweenBuildingChangesForAllTeachers" name="Min gaps between building changes for all teachers"/>
+         </category>
+         <category name="Students">
+            <constraint id="space.StudentGroupHasAHomeRoom" name="A student group has a home room"/>
+            <constraint id="space.StudentGroupHasSomeHomeRooms" name="A student group has a set of home rooms"/>
+
+            <separator/>
+            <constraint id="space.MaxBuildingChangesPerDayForAStudentGroup" name="Max building changes per day for a student group"/>
+            <constraint id="space.MaxBuildingChangesPerWeekForAStudentGroup" name="Max building changes per week for a student group"/>
+            <constraint id="space.MinGapsBetweenBuildingChangesForAStudentGroup" name="Min gaps between building changes for a student group"/>
+            
+            <separator/>
+            <constraint id="space.MaxBuildingChangesPerDayForAllStudentGroups" name="Max building changes per day for all student groups"/>
+            <constraint id="space.MaxBuildingChangesPerWeekForAllStudentGroups" name="Max building changes per week for all student groups"/>
+            <constraint id="space.MinGapsBetweenBuildingChangesForAllStudentGroups" name="Min gaps between building changes for all student groups"/>
+         </category>
+         <category name="Subjects">
+            <constraint id="space.SubjectHasAPreferredRoom" name="A subject has a preferred room"/>
+            <constraint id="space.SubjectHasSomePreferredRooms" name="A subject has a set of preferred rooms"/>
+         </category>
+         <category name="Activity tags">
+            <constraint id="space.ActivityTagHasAPreferredRoom" name="An activity tag has a preferred room"/>
+            <constraint id="space.ActivityTagHasSomePreferredRooms" name="An activity tag has a set of preferred rooms"/>
+         </category>
+         <category name="Subjects and activity tags">
+            <constraint id="space.SubjectAndActivityTagHaveAPreferredRoom" name="A subject and an activity tag have a preferred room"/>
+            <constraint id="space.SubjectAndActivityTagHaveSomePreferredRooms" name="A subject and an activity tag have a set of preferred rooms"/>
+         </category>
+         <category name="Activities">
+            <constraint id="space.ActivityHasAPreferredRoom" name="An activity has a preferred room"/>
+            <constraint id="space.ActivityHasSomePreferredRooms" name="An activity has a set of preferred rooms"/>
+
+            <separator/>
+            <constraint id="space.SomeActivitiesAreInTheSameRoomIfTheyAreConsecutive" name="A set of activities are in the same room if they are consecutive"/>
+            <constraint id="space.SomeActivitiesOccupyMaxDifferentRooms" name="A set of activities occupies max different rooms"/>
+         </category>
       </category>
    </extension>
 
