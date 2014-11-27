@@ -3,11 +3,15 @@ package org.confetti.rcp.commands;
 import java.util.List;
 
 import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.constraints.ConstraintDialog;
+import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.rcp.extensions.IConstraintElement;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -16,6 +20,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
  * @author Gabor Bubla
@@ -34,6 +39,14 @@ public class NewConstraintCommand extends AbstractHandler {
         		ConstraintContentProvider.INSTANCE);
         dlg.setTitle("Open");
         dlg.setMessage("Choose a constraint");
+        dlg.setValidator(new ISelectionStatusValidator() {
+			
+			@Override
+			public IStatus validate(Object[] selection) {
+				boolean isValid = selection.length > 0 && selection[0] instanceof ConstraintDescr;
+				return isValid ? Status.OK_STATUS : Status.CANCEL_STATUS;
+			}
+		});
         dlg.setInput(constraintsDescr); 
         
         if (Window.OK != dlg.open()) {
@@ -43,10 +56,10 @@ public class NewConstraintCommand extends AbstractHandler {
         if (selected == null || selected.length == 0) {
             return null;
         }
-//        ConstraintDescr selectedDescr = (ConstraintDescr) selected[0];
-//        
-//        ConstraintDialog constraintDialog = new ConstraintDialog(shell, selectedDescr);
-//        constraintDialog.open();
+        ConstraintDescr selectedDescr = (ConstraintDescr) selected[0];
+        
+        ConstraintDialog constraintDialog = new ConstraintDialog(shell, selectedDescr);
+        constraintDialog.open();
         return null;
     }
     

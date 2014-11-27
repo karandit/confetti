@@ -5,194 +5,141 @@
       <category name="Time constraints">
          <category name="Miscellaneous">
             <constraint id="time.BasicCompulsoryTime" name="Basic compulsory time constraints">
-               <number-field label="Weight percentage" name="weight-percentage"/>
                <boolean-field label="Active" name="active"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
             <constraint id="time.BreakTimes" name="Break times (all teachers + all students not available)">
-               <number-field label="Weight percentage" name="weight-percentage"/>
                <week-field label="Break times" name="break-times"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
          </category>
-         <category
-               name="Teachers">
-            <constraint
-                  id="time.NotAvailableTimesForATeacher"
-                  name="A teacher&apos;s not available times">
+         <category name="Teachers">
+            <constraint id="time.NotAvailableTimesForATeacher" name="A teacher&apos;s not available times">
+               <teacher-field label="Teacher" name="teacher"/>
+               <week-field label="Not available times" name="not-available-times"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
 
             <separator/>
-            <constraint
-                  id="time.MaxDaysPerWeekForATeacher"
-                  name="Max days per week for a teacher">
+            <constraint id="time.MaxDaysPerWeekForATeacher" name="Max days per week for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+               <day-field label="Max days per week" name="days"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
-             <constraint
-                  id="time.MinDaysPerWeekForATeacher"
-                  name="Min days per week for a teacher">
+            <constraint id="time.MinDaysPerWeekForATeacher" name="Min days per week for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+               <day-field label="Min days per day" name="days"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
-             <constraint
-                  id="time.MaxGapsPerDayForATeacher"
-                  name="Max gaps per day for a teacher">
+            <constraint id="time.MaxGapsPerDayForATeacher" name="Max gaps per day for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+               <hour-field label="Max gaps per day" name="hours"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
-             <constraint
-                  id="time.MaxGapsPerWeekForATeacher"
-                  name="Max gaps per week for a teacher">
+            <constraint id="time.MaxGapsPerWeekForATeacher" name="Max gaps per week for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+               <day-field label="Max gaps per week" name="days"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
-             <constraint
-                  id="time.MaxHoursPerDayForATeacher"
-                  name="Max hours daily for a teacher">
+            <constraint id="time.MaxHoursPerDayForATeacher" name="Max hours daily for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+               <hour-field label="Max hours daily" name="hours"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
-             <constraint
-                  id="time.MaxHoursPerDayWithAnActivityTagForATeacher"
-                  name="Max hours daily with an activity tag for a teacher">
+            <constraint id="time.MaxHoursPerDayWithAnActivityTagForATeacher" name="Max hours daily with an activity tag for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+               <hour-field label="Max hours daily" name="hours"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
-             <constraint
-                  id="time.MinHoursPerDayForATeacher"
-                  name="Min hours daily for a teacher">
+            <constraint id="time.MinHoursPerDayForATeacher" name="Min hours daily for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+               <hour-field label="Min hours daily" name="hours"/>
+               <boolean-field label="Allow empty days" name="allow-empty-days"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
-             <constraint
-                  id="time.MaxHoursContinuouslyForATeacher"
-                  name="Max hours continuously for a teacher">
+            <constraint id="time.MaxHoursContinuouslyForATeacher" name="Max hours continuously for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+               <hour-field label="Max hours continuously" name="hours"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
-             <constraint
-                  id="time.MaxHoursContinuouslyWithAnActivityTagForATeacher"
-                  name="Max hours continuously with an activity tag for a teacher">
+            <constraint id="time.MaxHoursContinuouslyWithAnActivityTagForATeacher" name="Max hours continuously with an activity tag for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+               <hour-field label="Max hours continuously" name="hours"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
-             <constraint
-                  id="time.HourlyIntervalMaxDaysPerWeekForATeacher"
-                  name="A teacher works in an hourly interval max days per week">
+            <constraint id="time.HourlyIntervalMaxDaysPerWeekForATeacher" name="A teacher works in an hourly interval max days per week">
+               <teacher-field label="Teacher" name="teacher"/>
             </constraint>
 
             <separator/>
-            <constraint
-                  id="time.MaxDaysPerWeekForAllTeachers"
-                  name="Max days per week for all teachers">
+            <constraint id="time.MaxDaysPerWeekForAllTeachers" name="Max days per week for all teachers">
             </constraint>
-             <constraint
-                  id="time.MinDaysPerWeekForAllTeachers"
-                  name="Min days per week for all teachers">
+            <constraint id="time.MinDaysPerWeekForAllTeachers" name="Min days per week for all teachers">
             </constraint>
-             <constraint
-                  id="time.MaxGapsPerDayForAllTeachers"
-                  name="Max gaps per day for all teachers">
+            <constraint id="time.MaxGapsPerDayForAllTeachers" name="Max gaps per day for all teachers">
             </constraint>
-             <constraint
-                  id="time.MaxGapsPerWeekForAllTeachers"
-                  name="Max gaps per week for all teachers">
+            <constraint id="time.MaxGapsPerWeekForAllTeachers" name="Max gaps per week for all teachers">
             </constraint>
-             <constraint
-                  id="time.MaxHoursPerDayForAllTeachers"
-                  name="Max hours daily for all teachers">
+            <constraint id="time.MaxHoursPerDayForAllTeachers" name="Max hours daily for all teachers">
             </constraint>
-             <constraint
-                  id="time.MaxHoursPerDayWithAnActivityTagForAllTeachers"
-                  name="Max hours daily with an activity tag for all teachers">
+            <constraint id="time.MaxHoursPerDayWithAnActivityTagForAllTeachers" name="Max hours daily with an activity tag for all teachers">
             </constraint>
-             <constraint
-                  id="time.MinHoursPerDayForAllTeachers"
-                  name="Min hours daily for all teachers">
+            <constraint id="time.MinHoursPerDayForAllTeachers" name="Min hours daily for all teachers">
             </constraint>
-             <constraint
-                  id="time.MaxHoursContinuouslyForAllTeachers"
-                  name="Max hours continuously for all teachers">
+            <constraint id="time.MaxHoursContinuouslyForAllTeachers" name="Max hours continuously for all teachers">
             </constraint>
-             <constraint
-                  id="time.MaxHoursContinuouslyWithAnActivityTagForAllTeachers"
-                  name="Max hours continuously with an activity tag for all teachers">
+            <constraint id="time.MaxHoursContinuouslyWithAnActivityTagForAllTeachers" name="Max hours continuously with an activity tag for all teachers">
             </constraint>
-             <constraint
-                  id="time.HourlyIntervalMaxDaysPerWeekForAllTeachers"
-                  name="All teachers work in an hourly interval max days per week">
+            <constraint id="time.HourlyIntervalMaxDaysPerWeekForAllTeachers" name="All teachers work in an hourly interval max days per week">
             </constraint>
 
          </category>
          <category name="Students">
-			<constraint
-                  id="time.NotAvailableTimesForAStudentGroup"
-                  name="A student group&apos;s not available times">
+			<constraint id="time.NotAvailableTimesForAStudentGroup" name="A student group&apos;s not available times">
             </constraint>
 
             <separator/>
-            <constraint
-                  id="time.MaxDaysPerWeekForAStudentGroup"
-                  name="Max days per week for a student group">
+            <constraint id="time.MaxDaysPerWeekForAStudentGroup" name="Max days per week for a student group">
             </constraint>
-             <constraint
-                  id="time.MaxGapsPerDayForAStudentGroup"
-                  name="Max gaps per day for a student group">
+             <constraint id="time.MaxGapsPerDayForAStudentGroup" name="Max gaps per day for a student group">
             </constraint>
-             <constraint
-                  id="time.MaxGapsPerWeekForAStudentGroup"
-                  name="Max gaps per week for a student group">
+             <constraint id="time.MaxGapsPerWeekForAStudentGroup" name="Max gaps per week for a student group">
             </constraint>
-             <constraint
-                  id="time.MaxBeginningsAtSecondHourForAStudentGroup"
-                  name="A student group begins early (max beginnings at second hour)">
+             <constraint id="time.MaxBeginningsAtSecondHourForAStudentGroup" name="A student group begins early (max beginnings at second hour)">
             </constraint>
-             <constraint
-                  id="time.MaxHoursPerDayForAStudentGroup"
-                  name="Max hours daily for a student group">
+             <constraint id="time.MaxHoursPerDayForAStudentGroup" name="Max hours daily for a student group">
             </constraint>
-             <constraint
-                  id="time.MaxHoursPerDayWithAnActivityTagForAStudentGroup"
-                  name="Max hours daily with an activity tag for a student group">
+             <constraint id="time.MaxHoursPerDayWithAnActivityTagForAStudentGroup" name="Max hours daily with an activity tag for a student group">
             </constraint>
-             <constraint
-                  id="time.MinHoursPerDayForAStudentGroup"
-                  name="Min hours daily for a student group">
+             <constraint id="time.MinHoursPerDayForAStudentGroup" name="Min hours daily for a student group">
             </constraint>
-             <constraint
-                  id="time.MaxHoursContinuouslyForAStudentGroup"
-                  name="Max hours continuously for a student group">
+             <constraint id="time.MaxHoursContinuouslyForAStudentGroup" name="Max hours continuously for a student group">
             </constraint>
-             <constraint
-                  id="time.MaxHoursContinuouslyWithAnActivityTagForAStudentGroup"
-                  name="Max hours continuously with an activity tag for a student group">
+             <constraint id="time.MaxHoursContinuouslyWithAnActivityTagForAStudentGroup" name="Max hours continuously with an activity tag for a student group">
             </constraint>
-             <constraint
-                  id="time.HourlyIntervalMaxDaysPerWeekForAStudentGroup"
-                  name="A student group works in an hourly interval max days per week">
+             <constraint id="time.HourlyIntervalMaxDaysPerWeekForAStudentGroup" name="A student group works in an hourly interval max days per week">
             </constraint>
 
             <separator/>
-            <constraint
-                  id="time.MaxDaysPerWeekForAllStudentGroups"
-                  name="Max days per week for all student groups">
+            <constraint id="time.MaxDaysPerWeekForAllStudentGroups" name="Max days per week for all student groups">
             </constraint>
-             <constraint
-                  id="time.MaxGapsPerDayForAllStudentGroups"
-                  name="Max gaps per day for all student groups">
+             <constraint id="time.MaxGapsPerDayForAllStudentGroups" name="Max gaps per day for all student groups">
             </constraint>
-             <constraint
-                  id="time.MaxGapsPerWeekForAllStudentGroups"
-                  name="Max gaps per week for all student groups">
+             <constraint id="time.MaxGapsPerWeekForAllStudentGroups" name="Max gaps per week for all student groups">
             </constraint>
-             <constraint
-                  id="time.MaxBeginningsAtSecondHourForAllStudentGroups"
-                  name="All student groups begin early (max beginnings at second hour)">
+             <constraint id="time.MaxBeginningsAtSecondHourForAllStudentGroups" name="All student groups begin early (max beginnings at second hour)">
             </constraint>
-             <constraint
-                  id="time.MaxHoursPerDayForAllStudentGroups"
-                  name="Max hours daily for all student groups">
+             <constraint id="time.MaxHoursPerDayForAllStudentGroups" name="Max hours daily for all student groups">
             </constraint>
-             <constraint
-                  id="time.MaxHoursPerDayWithAnActivityTagForAllStudentGroups"
-                  name="Max hours daily with an activity tag for all student groups">
+             <constraint id="time.MaxHoursPerDayWithAnActivityTagForAllStudentGroups" name="Max hours daily with an activity tag for all student groups">
             </constraint>
-             <constraint
-                  id="time.MinHoursPerDayForAllStudentGroups"
-                  name="Min hours daily for all student groups">
+             <constraint id="time.MinHoursPerDayForAllStudentGroups" name="Min hours daily for all student groups">
             </constraint>
-             <constraint
-                  id="time.MaxHoursContinuouslyForAllStudentGroups"
-                  name="Max hours continuously for all student groups">
+             <constraint id="time.MaxHoursContinuouslyForAllStudentGroups" name="Max hours continuously for all student groups">
             </constraint>
-             <constraint
-                  id="time.MaxHoursContinuouslyWithAnActivityTagForAllStudentGroups"
-                  name="Max hours continuously with an activity tag for all student groups">
+             <constraint id="time.MaxHoursContinuouslyWithAnActivityTagForAllStudentGroups" name="Max hours continuously with an activity tag for all student groups">
             </constraint>
-             <constraint
-                  id="time.HourlyIntervalMaxDaysPerWeekForAllStudentGroups"
-                  name="All student groups work in an hourly interval max days per week">
+             <constraint id="time.HourlyIntervalMaxDaysPerWeekForAllStudentGroups" name="All student groups work in an hourly interval max days per week">
             </constraint>
          </category>
          <category name="Activities">
