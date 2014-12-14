@@ -22,7 +22,6 @@ import org.confetti.observable.ObservableList;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.wizards.models.ExportTimetableModel;
 import org.confetti.rcp.wizards.pages.FolderChooseWizardPage;
-import org.confetti.util.Tuple;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
@@ -116,53 +115,71 @@ public class ExportTimetableWizard extends Wizard {
         teachersFolder.mkdir();
         studentGroupsFolder.mkdir();
         
-        List<Tuple<String, List<List<String>>>> teachersSortedTimetable = new ArrayList<>();
-        List<Tuple<String, List<List<String>>>> studentGroupsSortedTimetable = new ArrayList<>();
-        
         for (Map.Entry<Teacher, List<SolutionSlot>> entry : teachersTimetable.entrySet()) {
             String teacherName = entry.getKey().getName().getValue();
-            List<List<String>> teacherTimetable = createEmptyTimeTable(days.size(), hours.size());
+            List<List<String>> teacherTimetable = createEmptyTimeTable(hours.size(), days.size());
             for (SolutionSlot solutionSlot : entry.getValue()) {
-                teacherTimetable.get(days.indexOf(solutionSlot.getDay().getName().getValue())).set(hours.indexOf(solutionSlot.getHour().getName().getValue()),
+                        teacherTimetable.get(hours.indexOf(solutionSlot.getHour().getName().getValue())).set(days.indexOf(solutionSlot.getDay().getName().getValue()),
                         solutionSlot.getAssignment().getSubject().getName().getValue()
-                        + "\n"
+                        + "<br />"
                         + getNames(solutionSlot.getAssignment().getStudentGroups()));
                 
             }
-            Tuple<String, List<List<String>>> teacherTuple = new Tuple(teacherName, teacherTimetable);
-            teachersSortedTimetable.add(teacherTuple);
-            exportToHTML(teachersFolder, teacherName, teacherTimetable);
+            exportToHTML(teachersFolder, days, hours, teacherName, teacherTimetable);
         }
         for (Map.Entry<StudentGroup, List<SolutionSlot>> entry : studentGroupsTimetable.entrySet()) {
             String studentGroupName = entry.getKey().getName().getValue();
-            List<List<String>> studentGroupTimetable = createEmptyTimeTable(days.size(), hours.size());
+            List<List<String>> studentGroupTimetable = createEmptyTimeTable(hours.size(), days.size());
             for (SolutionSlot solutionSlot : entry.getValue()) {
-                studentGroupTimetable.get(days.indexOf(solutionSlot.getDay().getName().getValue())).set(hours.indexOf(solutionSlot.getHour().getName().getValue()),
+                studentGroupTimetable.get(hours.indexOf(solutionSlot.getHour().getName().getValue())).set(days.indexOf(solutionSlot.getDay().getName().getValue()),
                         solutionSlot.getAssignment().getSubject().getName().getValue()
-                        + "\n"
+                        + "<br />"
                         + getNames(solutionSlot.getAssignment().getTeachers()));
                 
             }
-            Tuple<String, List<List<String>>> studentGroupTuple = new Tuple(studentGroupName, studentGroupTimetable);
-            studentGroupsSortedTimetable.add(studentGroupTuple);
-            exportToHTML(studentGroupsFolder, studentGroupName, studentGroupTimetable);
+            exportToHTML(studentGroupsFolder, days, hours, studentGroupName, studentGroupTimetable);
         }
         
     }
 
-    private void exportToHTML(File folderPath, String name, List<List<String>> timetable) throws IOException {
+    private void exportToHTML(File folderPath, List<String> days, List<String> hours, String name, List<List<String>> timetable) throws IOException {
         try (PrintStream out = new PrintStream(new File(folderPath, name + ".html"))) {
             out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\nhttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
             out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
             out.println();
             
             out.println("<head>");
-            out.println("<title>" + name + "</title>");
+            out.println("\t<title>" + name + "</title>");
             out.println("</head>");
             out.println();
             
             out.println("<body>");
-            out.println(name);
+            out.println();
+            
+            out.println("\t<table border=\"1\">");
+            out.println("\t\t<caption>" + name + "</caption>");
+            out.println("\t\t<thead>");
+            out.println("\t\t\t<tr>");
+            out.println("\t\t\t\t<th></th>");
+            for (String day : days) {
+                out.println("\t\t\t\t<th>" + day + "</th>");
+            }
+            out.println("\t\t\t</tr>");
+            out.println("\t\t</thead>");
+            out.println("\t\t<tbody>");
+            int hourCounter = 0;
+            for (List<String> hour : timetable) {
+                out.println("\t\t\t<tr>");
+                out.println("\t\t\t\t<th>" + hours.get(hourCounter++) + "</th>");
+                for (String day : hour) {
+                    out.println("\t\t\t\t<td>" + day + "</td>");
+                }
+                out.println("\t\t\t</tr>");
+            }
+            out.println("\t\t</tbody>");
+            out.println("\t</table>");
+            
+            out.println();
             out.println("</body>");
             out.println();
             
@@ -170,11 +187,11 @@ public class ExportTimetableWizard extends Wizard {
         }
     }
 
-    private List<List<String>> createEmptyTimeTable(int daysSize, int hoursSize) {
+    private List<List<String>> createEmptyTimeTable(int hoursSize, int daysSize) {
         List<List<String>> emptyTimetable = new ArrayList<List<String>>();
-        for (int i = 0; i < daysSize; i++) {
+        for (int i = 0; i < hoursSize; i++) {
             List<String> hoursList = new ArrayList<>();
-            for (int j = 0; j < hoursSize; j++) {
+            for (int j = 0; j < daysSize; j++) {
                 hoursList.add("");
             }
             emptyTimetable.add(hoursList);
