@@ -4,17 +4,14 @@
 <product name="Confetti" id="org.confetti.rcp.product" application="org.confetti.rcp.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="product_lg.gif"/>
+      <image path="/org.confetti.rcp/product_icon.png"/>
       <text>
-         RCP Tutorial 3
-Version 1.0.0
-by Ed Burnette
+         Confetti
+Non-released version (2014.12.15)
+by Gábor Bubla
 
-For more information on Eclipse and the
-Rich Client Platform visit:
-http://www.eclipse.org
-
-Copyrights and other legal stuff goes here.
+For later releases the project can be found at:
+https://github.com/bublag/confetti&quot;
       </text>
    </aboutInfo>
 
@@ -22,12 +19,14 @@ Copyrights and other legal stuff goes here.
    </configIni>
 
    <launcherArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
    </launcherArgs>
 
    <windowImages/>
 
-
+   <splash
+      location="org.confetti.rcp" />
    <launcher>
       <solaris/>
       <win useIco="false">
@@ -38,7 +37,6 @@ Copyrights and other legal stuff goes here.
 
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.ibm.icu"/>
@@ -104,7 +102,7 @@ Copyrights and other legal stuff goes here.
 
    <features>
       <feature id="org.confetti.feature.rcp" version="1.0.0.qualifier"/>
-      <feature id="org.eclipse.rcp" version="4.3.2.v20140221-1700"/>
+      <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.eclipse.e4.rcp"/>
       <feature id="org.eclipse.emf.common"/>
