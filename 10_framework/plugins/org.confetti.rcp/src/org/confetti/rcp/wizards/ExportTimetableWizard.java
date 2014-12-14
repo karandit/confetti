@@ -1,6 +1,7 @@
 package org.confetti.rcp.wizards;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static org.confetti.rcp.wizards.ExportTimetableWizard.PrintersToHTML.MATRIX;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +38,59 @@ import com.google.common.collect.Iterables;
  */
 public class ExportTimetableWizard extends Wizard {
 
+    public interface PrintToHTML {
+        void print(PrintStream out, List<String> days, List<String> hours, String name, List<List<String>> timetable);
+    }
+    
+    public enum PrintersToHTML implements PrintToHTML {
+        MATRIX {
+            @Override
+            public void print(PrintStream out, List<String> days, List<String> hours, String name, List<List<String>> timetable) {
+                out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\nhttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
+                out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
+                out.println();
+                
+                out.println("<head>");
+                out.println("\t<title>" + name + "</title>");
+                out.println("</head>");
+                out.println();
+                
+                out.println("<body>");
+                out.println();
+                
+                out.println("\t<table border=\"1\">");
+                out.println("\t\t<caption>" + name + "</caption>");
+                out.println("\t\t<thead>");
+                out.println("\t\t\t<tr>");
+                out.println("\t\t\t\t<th></th>");
+                for (String day : days) {
+                    out.println("\t\t\t\t<th>" + day + "</th>");
+                }
+                out.println("\t\t\t</tr>");
+                out.println("\t\t</thead>");
+                out.println("\t\t<tbody>");
+                int hourCounter = 0;
+                for (List<String> hour : timetable) {
+                    out.println("\t\t\t<tr>");
+                    out.println("\t\t\t\t<th>" + hours.get(hourCounter++) + "</th>");
+                    for (String day : hour) {
+                        out.println("\t\t\t\t<td>" + day + "</td>");
+                    }
+                    out.println("\t\t\t</tr>");
+                }
+                out.println("\t\t</tbody>");
+                out.println("\t</table>");
+                
+                out.println();
+                out.println("</body>");
+                out.println();
+                
+                out.println("</html>");
+            }
+        };
+
+    }
+    
     private ExportTimetableModel model;
 
     public ExportTimetableWizard() {
@@ -128,7 +182,9 @@ public class ExportTimetableWizard extends Wizard {
                         + getNames(solutionSlot.getAssignment().getStudentGroups()));
                 
             }
-            exportToHTML(teachersFolder, days, hours, teacherName, teacherTimetable);
+            try (PrintStream out = new PrintStream(new File(teachersFolder, teacherName + ".html"))) {
+                MATRIX.print(out, days, hours, teacherName, teacherTimetable);
+            }
         }
         for (Map.Entry<StudentGroup, List<SolutionSlot>> entry : studentGroupsTimetable.entrySet()) {
             String studentGroupName = entry.getKey().getName().getValue();
@@ -140,7 +196,9 @@ public class ExportTimetableWizard extends Wizard {
                         + getNames(solutionSlot.getAssignment().getTeachers()));
                 
             }
-            exportToHTML(studentGroupsFolder, days, hours, studentGroupName, studentGroupTimetable);
+            try (PrintStream out = new PrintStream(new File(studentGroupsFolder, studentGroupName + ".html"))) {
+                MATRIX.print(out, days, hours, studentGroupName, studentGroupTimetable);
+            }
         }
         exportToHTMLIndex(folderPath);
         exportToHTMLFrame(folderPath, teachersTimetable, studentGroupsTimetable);
@@ -204,51 +262,6 @@ public class ExportTimetableWizard extends Wizard {
             @Override public String apply(Entity e) { return e.getName().getValue(); }
         }));
         return names;
-    }
-
-    private void exportToHTML(File folderPath, List<String> days, List<String> hours, String name, List<List<String>> timetable) throws IOException {
-        try (PrintStream out = new PrintStream(new File(folderPath, name + ".html"))) {
-            out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\nhttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
-            out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
-            out.println();
-            
-            out.println("<head>");
-            out.println("\t<title>" + name + "</title>");
-            out.println("</head>");
-            out.println();
-            
-            out.println("<body>");
-            out.println();
-            
-            out.println("\t<table border=\"1\">");
-            out.println("\t\t<caption>" + name + "</caption>");
-            out.println("\t\t<thead>");
-            out.println("\t\t\t<tr>");
-            out.println("\t\t\t\t<th></th>");
-            for (String day : days) {
-                out.println("\t\t\t\t<th>" + day + "</th>");
-            }
-            out.println("\t\t\t</tr>");
-            out.println("\t\t</thead>");
-            out.println("\t\t<tbody>");
-            int hourCounter = 0;
-            for (List<String> hour : timetable) {
-                out.println("\t\t\t<tr>");
-                out.println("\t\t\t\t<th>" + hours.get(hourCounter++) + "</th>");
-                for (String day : hour) {
-                    out.println("\t\t\t\t<td>" + day + "</td>");
-                }
-                out.println("\t\t\t</tr>");
-            }
-            out.println("\t\t</tbody>");
-            out.println("\t</table>");
-            
-            out.println();
-            out.println("</body>");
-            out.println();
-            
-            out.println("</html>");
-        }
     }
 
     private List<List<String>> createEmptyTimeTable(int hoursSize, int daysSize) {
