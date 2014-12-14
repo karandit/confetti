@@ -6,13 +6,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
+import org.confetti.core.Entity;
 import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
 import org.confetti.core.SolutionSlot;
@@ -139,7 +142,68 @@ public class ExportTimetableWizard extends Wizard {
             }
             exportToHTML(studentGroupsFolder, days, hours, studentGroupName, studentGroupTimetable);
         }
-        
+        exportToHTMLIndex(folderPath);
+        exportToHTMLFrame(folderPath, teachersTimetable, studentGroupsTimetable);
+    }
+    
+    private void exportToHTMLIndex(File folderPath) throws IOException {
+        try (PrintStream out = new PrintStream(new File(folderPath, "index.html"))) {
+            out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\">");
+            out.println("<html>");
+            
+            out.println("<head>");
+            out.println("<title>Index</title>");
+            out.println("</head>");
+            
+            out.println("<frameset cols=\"20%,80%\">");
+            out.println("<frame src=\"overview-frame.html\">");
+            out.println("<frame name=\"entityFrame\" scrolling=\"yes\">");
+            out.println("</frameset");
+            
+            out.println("</html>");
+        }
+    }
+
+    private void exportToHTMLFrame(File folderPath, Map<Teacher, List<SolutionSlot>> teachersTimetable,
+            Map<StudentGroup, List<SolutionSlot>> studentGroupsTimetable
+    ) throws IOException {
+        try (PrintStream out = new PrintStream(new File(folderPath, "overview-frame.html"))) {
+            out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
+            out.println("<html>");
+            
+            out.println("<head>");
+            out.println("<title>Overview list</title>");
+            out.println("</head>");
+            
+            out.println("<body>");
+            out.println("<h2>Teachers</h2>");
+            out.println("<ul>");
+            List<String> teacherNames = convertToNames(teachersTimetable.keySet());
+            Collections.sort(teacherNames);
+            for (String name : teacherNames) {
+                out.println("<li><a href=\"teachers/" + name + ".html\" target=\"entityFrame\">" + name + "</a></li>");
+            }
+            out.println("</ul>");
+            
+            out.println("<h2>Student groups</h2>");
+            out.println("<ul>");
+            List<String> studentGroupNames = convertToNames(studentGroupsTimetable.keySet());
+            Collections.sort(studentGroupNames);
+            for (String name : studentGroupNames) {
+                out.println("<li><a href=\"studentgroups/" + name + ".html\" target=\"entityFrame\">" + name + "</a></li>");
+            }
+            out.println("</ul>");
+            out.println("</body>");
+            
+            out.println("</html>");
+        }
+    }
+
+    private List<String> convertToNames(Set<? extends Entity> set) {
+        List<String> names = newArrayList(Iterables.transform(set, new Function<Entity, String>() {
+            @Override public String apply(Entity e) { return e.getName().getValue(); }
+        }));
+        return names;
     }
 
     private void exportToHTML(File folderPath, List<String> days, List<String> hours, String name, List<List<String>> timetable) throws IOException {
