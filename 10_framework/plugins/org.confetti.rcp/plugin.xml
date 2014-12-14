@@ -58,7 +58,8 @@
    <extension
          id="application"
          point="org.eclipse.core.runtime.applications">
-      <application>
+      <application
+            icon="product_icon.png">
          <run
                class="org.confetti.rcp.Application">
          </run>
@@ -72,13 +73,17 @@
             name="Confetti">
          <property
                name="aboutImage"
-               value="product_lg.gif"/>
+               value="product_icon.png"/>
          <property
                name="aboutText"
-               value="RCP Tutorial 3&#x0A;Version 1.0.0&#x0A;by Ed Burnette&#x0A;&#x0A;For more information on Eclipse and the&#x0A;Rich Client Platform visit:&#x0A;http://www.eclipse.org&#x0A;&#x0A;Copyrights and other legal stuff goes here."/>
+               value="Confetti&#x0A;Non-released version (2014.12.15)&#x0A;by Gábor Bubla&#x0A;&#x0A;For later releases the project can be found at:&#x0A;https://github.com/bublag/confetti"/>
          <property
                name="appName"
                value="Confetti">
+         </property>
+         <property
+               name="windowImages"
+               value="product_icon_64x64.png,product_icon_32x32.png,product_icon_16x16.png">
          </property>
       </product>
    </extension>
@@ -178,6 +183,12 @@
             id="org.confetti.rcp.exitCommand"
             name="Exit">
       </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.ExportTimetableCommand"
+            description="Export timetable"
+            id="org.confetti.rcp.exportCommand"
+            name="Export timetable">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -265,6 +276,16 @@
                   commandId="org.confetti.rcp.generateCommand"
                   label="Generate"
                   mnemonic="G"
+                  style="push">
+            </command>
+            <separator
+                  name="org.confetti.rcp.separator3"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.confetti.rcp.exportCommand"
+                  label="Export timetable"
+                  mnemonic="E"
                   style="push">
             </command>
          </menu>
