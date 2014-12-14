@@ -3,6 +3,8 @@ package org.confetti.rcp.wizards;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +23,9 @@ import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.wizards.models.ExportTimetableModel;
 import org.confetti.rcp.wizards.pages.FolderChooseWizardPage;
 import org.confetti.util.Tuple;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.widgets.Display;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
@@ -45,11 +49,18 @@ public class ExportTimetableWizard extends Wizard {
     
     @Override
     public boolean performFinish() {
-        exportTimetables(new File(model.getFolderPath(), "timetables"));
+        try {
+            File folderPath = new File(model.getFolderPath(), "timetables");
+            folderPath.mkdir();
+            exportTimetables(folderPath);
+        } catch (IOException e) {
+            MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "Could not create the files\n\n" + e.getMessage());
+            e.printStackTrace();
+        }
         return true;
     }
 
-    private void exportTimetables(File folderPath) {
+    private void exportTimetables(File folderPath) throws IOException {
         //get DataProvider's days, hours
         DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
         List<String> days = newArrayList(Iterables.transform(dp.getDays().getList(), new Function<Day, String>() {
@@ -94,12 +105,17 @@ public class ExportTimetableWizard extends Wizard {
         }
         
         //sort the solution slots and put empty string in empty slots
-        exportToHTML(days, hours, teachersTimetable, studentGroupsTimetable);
+        export(folderPath, days, hours, teachersTimetable, studentGroupsTimetable);
     }
     
-    private void exportToHTML(List<String> days, List<String> hours, Map<Teacher, List<SolutionSlot>> teachersTimetable,
+    private void export(File folderPath, List<String> days, List<String> hours, Map<Teacher, List<SolutionSlot>> teachersTimetable,
             Map<StudentGroup, List<SolutionSlot>> studentGroupsTimetable
-    ) {
+    ) throws IOException {
+        File teachersFolder = new File(folderPath, "teachers");
+        File studentGroupsFolder = new File(folderPath, "studentgroups");
+        teachersFolder.mkdir();
+        studentGroupsFolder.mkdir();
+        
         List<Tuple<String, List<List<String>>>> teachersSortedTimetable = new ArrayList<>();
         List<Tuple<String, List<List<String>>>> studentGroupsSortedTimetable = new ArrayList<>();
         
@@ -115,6 +131,7 @@ public class ExportTimetableWizard extends Wizard {
             }
             Tuple<String, List<List<String>>> teacherTuple = new Tuple(teacherName, teacherTimetable);
             teachersSortedTimetable.add(teacherTuple);
+            exportToHTML(teachersFolder, teacherName, teacherTimetable);
         }
         for (Map.Entry<StudentGroup, List<SolutionSlot>> entry : studentGroupsTimetable.entrySet()) {
             String studentGroupName = entry.getKey().getName().getValue();
@@ -128,6 +145,28 @@ public class ExportTimetableWizard extends Wizard {
             }
             Tuple<String, List<List<String>>> studentGroupTuple = new Tuple(studentGroupName, studentGroupTimetable);
             studentGroupsSortedTimetable.add(studentGroupTuple);
+            exportToHTML(studentGroupsFolder, studentGroupName, studentGroupTimetable);
+        }
+        
+    }
+
+    private void exportToHTML(File folderPath, String name, List<List<String>> timetable) throws IOException {
+        try (PrintStream out = new PrintStream(new File(folderPath, name + ".html"))) {
+            out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\nhttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
+            out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
+            out.println();
+            
+            out.println("<head>");
+            out.println("<title>" + name + "</title>");
+            out.println("</head>");
+            out.println();
+            
+            out.println("<body>");
+            out.println(name);
+            out.println("</body>");
+            out.println();
+            
+            out.println("</html>");
         }
     }
 
