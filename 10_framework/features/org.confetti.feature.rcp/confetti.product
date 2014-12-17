@@ -11,7 +11,7 @@ Non-released version (2014.12.15)
 by Gábor Bubla
 
 For later releases the project can be found at:
-https://github.com/bublag/confetti&quot;
+https://github.com/bublag/confetti
       </text>
    </aboutInfo>
 
@@ -23,17 +23,18 @@ https://github.com/bublag/confetti&quot;
       </vmArgsMac>
    </launcherArgs>
 
-   <windowImages/>
+   <windowImages i16="/org.confetti.rcp/product_icon_16x16.png" i32="/org.confetti.rcp/product_icon_32x32.png" i64="/org.confetti.rcp/product_icon_64x64.png" i128="/org.confetti.rcp/product_icon.png"/>
 
    <splash
       location="org.confetti.rcp" />
-   <launcher>
+   <launcher name="confetti">
       <solaris/>
       <win useIco="false">
-         <bmp/>
+         <bmp
+            winSmallHigh="/org.confetti.rcp/product_icon_16x16.bmp"
+            winMediumHigh="/org.confetti.rcp/product_icon_32x32.bmp"/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>

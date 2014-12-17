@@ -83,7 +83,7 @@
          </property>
          <property
                name="windowImages"
-               value="product_icon_64x64.png,product_icon_32x32.png,product_icon_16x16.png">
+               value="product_icon_16x16.png,product_icon_32x32.png,product_icon_64x64.png,product_icon.png">
          </property>
       </product>
    </extension>
@@ -564,7 +564,7 @@
       <view
             allowMultiple="false"
             class="org.confetti.rcp.views.InstituteView"
-            icon="icons/University-16-fill.png"
+            icon="icons/university-16-fill.png"
             id="org.confetti.rcp.instituteView"
             name="Institute"
             restorable="true">

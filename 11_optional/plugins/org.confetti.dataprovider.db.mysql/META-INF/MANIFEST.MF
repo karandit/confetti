@@ -6,5 +6,4 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.ui,
  org.confetti.rcp,
- org.confetti.dataprovider.db,
- com.mysql.jdbc
+ org.confetti.dataprovider.db

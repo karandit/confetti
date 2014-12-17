@@ -182,9 +182,9 @@ public class AddAssignmentDialog extends Dialog {
             MessageDialog.openInformation(shell, "Success", "Selected assignment succesfully added");
             
             //reset viewers' selection
-            subjectsViewer.setSelection(null);
-            teachersViewer.setSelection(null);
-            studentgroupsViewer.setSelection(null);
+//            subjectsViewer.setSelection(null);
+//            teachersViewer.setSelection(null);
+//            studentgroupsViewer.setSelection(null);
         }
     }
     
