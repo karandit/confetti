@@ -3,9 +3,14 @@ package org.confetti.rcp.views;
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
+import org.confetti.core.EntityVisitor;
+import org.confetti.core.Room;
+import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
+import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.util.Tuple;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -130,13 +135,11 @@ public class AssignmentsView extends ViewPart {
 
 	private void assignModel(final KTable ktable, DataProvider dp, Entity ent) {
 		final KTableNoScrollModel model;
-		if (dp == null) {
+		if (dp == null || ent == null) {
 			model = new TimeTableNotAvailableModel(ktable);
-			ktable.setModel(model);
-			model.initialize();
-			return;
+		} else {
+			model = ent.accept(TimeTableModelFactory.INSTANCE, new Tuple<DataProvider, KTable>(dp, ktable));
 		}
-		model = new TimeTableModel(ktable, dp, ent);
 		ktable.setModel(model);
 		model.initialize();
 	}
