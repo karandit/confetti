@@ -4,14 +4,12 @@
    <extension
          point="org.confetti.rcp.openWizard">
       <openWizard
-            factory="org.confetti.dummy.openwizard.DummyOpenWizardFactory"
             name="Dummy Open Wizard">
       </openWizard>
    </extension>
    <extension
          point="org.confetti.rcp.newWizard">
       <newWizard
-            factory="org.confetti.dummy.newwizard.DummyNewWizardFactory"
             name="Dummy New Wizard">
       </newWizard>
    </extension>
@@ -19,7 +17,6 @@
          point="org.confetti.rcp.engineWizard">
       <engineWizard
             author="Gabor Bubla"
-            factory="org.confetti.dummy.generateWizard.DummyEngineWizardFactory"
             name="Dummy Engine Wizard">
       </engineWizard>
    </extension>

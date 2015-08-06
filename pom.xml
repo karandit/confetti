@@ -31,6 +31,7 @@
 		<!--tycho-repo.url>https://oss.sonatype.org/content/groups/public/</tycho-repo.url-->
 	 	<kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
 		<elver-repo.url>http://www.elver.org/eclipse/2.1.0/update</elver-repo.url>
+		<orbit-repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository</orbit-repo.url>
 	</properties>
 
 	<dependencies>
@@ -50,6 +51,11 @@
 		<repository>
 			<id>elver</id>
       		<url>${elver-repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>orbit</id>
+      			<url>${orbit-repo.url}</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>

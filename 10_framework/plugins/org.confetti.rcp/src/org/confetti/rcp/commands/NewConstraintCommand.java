@@ -2,18 +2,25 @@ package org.confetti.rcp.commands;
 
 import java.util.List;
 
+import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.constraints.ConstraintDialog;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
+import org.confetti.rcp.extensions.IConstraintElement;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.dialogs.ListDialog;
+import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
  * @author Gabor Bubla
@@ -22,13 +29,24 @@ public class NewConstraintCommand extends AbstractHandler {
 
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
-        List<ConstraintDescr> constraintsDescr = ConstraintRegistry.INSTANCE.getExtensions();
+        List<IConstraintElement> constraintsDescr = ConstraintRegistry.INSTANCE.getExtensions();
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        ListDialog dlg = new ListDialog(shell);
-        dlg.setContentProvider(new ArrayContentProvider());
-        dlg.setLabelProvider(new LabelProvider());
+        LabelProvider labelProvider = new LabelProvider() {
+        	@Override public String getText(Object element) { return ((IConstraintElement) element).getName(); }
+        };
+        
+        ElementTreeSelectionDialog dlg = new ElementTreeSelectionDialog(shell, labelProvider, 
+        		ConstraintContentProvider.INSTANCE);
         dlg.setTitle("Open");
-        dlg.setMessage("Choose an input");
+        dlg.setMessage("Choose a constraint");
+        dlg.setValidator(new ISelectionStatusValidator() {
+			
+			@Override
+			public IStatus validate(Object[] selection) {
+				boolean isValid = selection.length > 0 && selection[0] instanceof ConstraintDescr;
+				return isValid ? Status.OK_STATUS : Status.CANCEL_STATUS;
+			}
+		});
         dlg.setInput(constraintsDescr); 
         
         if (Window.OK != dlg.open()) {
@@ -44,5 +62,22 @@ public class NewConstraintCommand extends AbstractHandler {
         constraintDialog.open();
         return null;
     }
+    
+    @Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
 
+    private static enum ConstraintContentProvider implements IStructuredContentProvider, ITreeContentProvider {
+		INSTANCE;
+
+		@Override public void dispose() { } 
+		@Override public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
+
+		@Override public Object getParent(Object e) 		{ return null; }
+		@Override public Object[] getChildren(Object e) { return ((IConstraintElement) e).getChildren(); }
+		@Override public boolean hasChildren(Object e) { return ((IConstraintElement) e).hasChildren(); }
+		@Override
+		public Object[] getElements(Object e) {
+			List<IConstraintElement> list = (List<IConstraintElement>) e;
+			return list.toArray(new IConstraintElement[list.size()]);
+		}
+    }
 }

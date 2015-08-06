@@ -161,7 +161,9 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	public void setDataProvider(DataProvider value, DataPersister dataPersister) {
 		this.dataPersister = dataPersister;
         dpMutator.setValue(this, value);
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - " + value.getInformation());
+        if (value != null) {
+            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - " + value.getInformation());
+        }
 	}
 	
     public List<Tuple<String, String>> getConnectionSettings() {

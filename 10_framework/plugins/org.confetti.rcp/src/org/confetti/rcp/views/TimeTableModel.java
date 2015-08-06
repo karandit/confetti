@@ -40,8 +40,8 @@ public class TimeTableModel extends KTableNoScrollModel {
 	private final Entity entity;
 	private final Assignment[][] assignments;
 	
-	public static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
-	protected static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
+	private static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
+	private static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
 	
 	public TimeTableModel(KTable table) {
 		this(table, null, null);

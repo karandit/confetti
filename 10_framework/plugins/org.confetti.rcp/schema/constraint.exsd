@@ -18,7 +18,9 @@
       </annotation>
       <complexType>
          <sequence minOccurs="1" maxOccurs="unbounded">
-            <element ref="constraint"/>
+            <element ref="constraint" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="category" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="separator" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -42,6 +44,23 @@
                <appInfo>
                   <meta.attribute translatable="true"/>
                </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="category">
+      <complexType>
+         <sequence>
+            <element ref="category" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="constraint" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="separator" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
             </annotation>
          </attribute>
       </complexType>
@@ -273,6 +292,9 @@
             </annotation>
          </attribute>
       </complexType>
+   </element>
+
+   <element name="separator" type="string">
    </element>
 
    <annotation>

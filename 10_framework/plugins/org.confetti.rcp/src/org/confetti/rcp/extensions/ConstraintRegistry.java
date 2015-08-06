@@ -18,9 +18,9 @@ public enum ConstraintRegistry {
     
     /** The name of extension-point which is worked up. */
     private static final String CONSTRAINT_EXTENSION_POINT = "org.confetti.rcp.constraint"; //$NON-NLS-1$
-    private List<ConstraintDescr> descriptors = null;
+    private List<IConstraintElement> descriptors = null;
     
-    public List<ConstraintDescr> getExtensions() {
+    public List<IConstraintElement> getExtensions() {
         if (descriptors == null) {
             descriptors = loadDescriptors();
         }
@@ -28,8 +28,8 @@ public enum ConstraintRegistry {
     }
 
     //------------------------- helpers --------------------------------------------------------------------------------
-    private List<ConstraintDescr> loadDescriptors() {
-        List<ConstraintDescr> res = new LinkedList<>();
+    private List<IConstraintElement> loadDescriptors() {
+        List<IConstraintElement> res = new LinkedList<>();
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         if (registry == null) {
             return res;
@@ -42,7 +42,8 @@ public enum ConstraintRegistry {
             if (null != extension) {
                 for (IConfigurationElement element : extension.getConfigurationElements()) {
                     if (null != element) {
-                        res.add(new ConstraintDescr(element));
+                    	ConstraintElementParser parser = ConstraintElementParser.getByName(element.getName());
+						res.add(parser.parse(element));
                     }
                 }
             }

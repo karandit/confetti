@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.confetti.core.Teacher;
-
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.util.Tuple;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
