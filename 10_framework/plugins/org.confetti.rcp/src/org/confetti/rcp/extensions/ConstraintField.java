@@ -3,6 +3,8 @@ package org.confetti.rcp.extensions;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.confetti.core.Day;
+import org.confetti.core.Hour;
 import org.confetti.core.Teacher;
 import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -12,7 +14,10 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Spinner;
+
+import com.google.common.collect.Iterables;
 
 /**
  * @author Gabor Bubla
@@ -37,60 +42,56 @@ public class ConstraintField {
     public enum FieldType {
         Boolean {
             @Override
-            public void createControl(Composite parent) {
-                new Button(parent, SWT.CHECK);
+            public Control createControl(Composite parent) {
+                return new Button(parent, SWT.CHECK);
             }
         },
         Number{
             @Override
-            public void createControl(Composite parent) {
-                Spinner spinner = new Spinner(parent, SWT.BORDER);
-                spinner.setMinimum(0);
-                spinner.setMinimum(100);
-                spinner.setIncrement(1);
-                spinner.setPageIncrement(1);
-                spinner.setSelection(98);
+            public Control createControl(Composite parent) {
+                return createSpinnerField(parent, 1, 100, 98);
             }
-
         },
         Day{
             @Override
-            public void createControl(Composite parent) {
-                new Button(parent, SWT.CHECK);
+            public Control createControl(Composite parent) {
+                Iterable<Day> days = ConfettiPlugin.getDefault().getDataProvider().getValue().getDays().getList();
+                int daysCount = Iterables.size(days);
+                return createSpinnerField(parent, 1, daysCount, daysCount);
             }
-
         },
         Hour{
             @Override
-            public void createControl(Composite parent) {
-                new Button(parent, SWT.CHECK);
+            public Control createControl(Composite parent) {
+                Iterable<Hour> hours = ConfettiPlugin.getDefault().getDataProvider().getValue().getHours().getList();
+                int hoursCount = Iterables.size(hours);
+                return createSpinnerField(parent, 1, hoursCount, hoursCount);
             }
-
         },
         Week{
             @Override
-            public void createControl(Composite parent) {
-                new Button(parent, SWT.CHECK);
+            public Control createControl(Composite parent) {
+                return new Button(parent, SWT.PUSH);
             }
 
         },
         Period{
             @Override
-            public void createControl(Composite parent) {
-                new Button(parent, SWT.CHECK);
+            public Control createControl(Composite parent) {
+            	return new Button(parent, SWT.PUSH);
             }
 
         },
         PeriodNumber{
             @Override
-            public void createControl(Composite parent) {
-                new Button(parent, SWT.CHECK);
+            public Control createControl(Composite parent) {
+            	return new Button(parent, SWT.PUSH);
             }
 
         },
         Teacher{
             @Override
-            public void createControl(Composite parent) {
+            public Control createControl(Composite parent) {
                 ComboViewer combo = new ComboViewer(parent, SWT.READ_ONLY);
                 combo.setContentProvider(ArrayContentProvider.getInstance());
                 combo.setLabelProvider(new LabelProvider(){
@@ -101,25 +102,35 @@ public class ConstraintField {
                     }
                 });
                 combo.setInput(ConfettiPlugin.getDefault().getDataProvider().getValue().getTeachers().getList());
+                return combo.getControl();
             }
 
         },
         Assignment{
             @Override
-            public void createControl(Composite parent) {
-                
+            public Control createControl(Composite parent) {
+            	return new Button(parent, SWT.PUSH);
             }
 
         },
         AssignmentsSet{
             @Override
-            public void createControl(Composite parent) {
-                new Button(parent, SWT.CHECK);
+            public Control createControl(Composite parent) {
+                return new Button(parent, SWT.PUSH);
             }
 
         };
 
-        public abstract void createControl(Composite area);
+        public abstract Control createControl(Composite area);
+		private static Control createSpinnerField(Composite parent, int min, int max, int cur) {
+			Spinner spinner = new Spinner(parent, SWT.BORDER);
+            spinner.setMinimum(min);
+            spinner.setMaximum(max);
+            spinner.setIncrement(1);
+            spinner.setPageIncrement(1);
+            spinner.setSelection(cur);
+            return spinner;
+		}
     }
     
     private final String name;
@@ -136,8 +147,8 @@ public class ConstraintField {
     public String getLabel() { return label; }
     public FieldType getType() { return type; }
 
-    public void createControl(Composite area) {
-        getType().createControl(area);
+    public Control createControl(Composite area) {
+        return getType().createControl(area);
     }
 
     
