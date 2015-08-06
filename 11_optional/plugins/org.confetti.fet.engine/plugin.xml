@@ -4,6 +4,7 @@
    <extension
          point="org.confetti.rcp.engineWizard">
       <engineWizard
+            author="Liviu Lalescu"
             factory="org.confetti.fet.engine.FETEngineWizardFactory"
             name="FET"></engineWizard>
    </extension>
