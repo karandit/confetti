@@ -3,11 +3,14 @@ package org.confetti.rcp.extensions;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
 import org.confetti.core.Teacher;
 import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.constraints.ConstraintFieldWeekModel;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -18,6 +21,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Spinner;
 
 import com.google.common.collect.Iterables;
+
+import de.kupzog.ktable.KTable;
+import de.kupzog.ktable.KTableNoScrollModel;
 
 /**
  * @author Gabor Bubla
@@ -71,9 +77,19 @@ public class ConstraintField {
         Week{
             @Override
             public Control createControl(Composite parent) {
-                return new Button(parent, SWT.PUSH);
+        		final KTable ktable = new KTable(parent, SWT.NONE);
+        		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+        		
+        		DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+				KTableNoScrollModel model = new ConstraintFieldWeekModel(ktable, dp);
+    			ktable.setModel(model);
+    			model.initialize();
+            	return ktable;
             }
-
+            @Override
+            public void applyLayout(Control ctrl) {
+                GridDataFactory.fillDefaults().grab(true, true).applyTo(ctrl);
+            }
         },
         Period{
             @Override
@@ -122,7 +138,12 @@ public class ConstraintField {
         };
 
         public abstract Control createControl(Composite area);
-		private static Control createSpinnerField(Composite parent, int min, int max, int cur) {
+        
+        public void applyLayout(Control ctrl) {
+            GridDataFactory.fillDefaults().grab(true, false).applyTo(ctrl);
+        }
+
+        private static Control createSpinnerField(Composite parent, int min, int max, int cur) {
 			Spinner spinner = new Spinner(parent, SWT.BORDER);
             spinner.setMinimum(min);
             spinner.setMaximum(max);
@@ -148,7 +169,10 @@ public class ConstraintField {
     public FieldType getType() { return type; }
 
     public Control createControl(Composite area) {
-        return getType().createControl(area);
+        Control ctrl = getType().createControl(area);
+        getType().applyLayout(ctrl);
+        return ctrl;
+
     }
 
     

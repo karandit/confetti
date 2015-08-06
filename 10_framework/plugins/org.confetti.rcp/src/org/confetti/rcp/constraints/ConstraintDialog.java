@@ -5,6 +5,7 @@ import org.confetti.rcp.extensions.ConstraintField;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -23,6 +24,22 @@ public class ConstraintDialog extends Dialog {
         this.descr = descr;
     }
     
+	@Override
+	protected Point getInitialSize() {
+		return new Point(800, 600);
+	}
+
+	@Override
+	protected boolean isResizable() {
+		return true;
+	}
+
+	@Override
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText(descr.getName());
+	}
+    
     @Override
     protected Control createDialogArea(Composite parent) {
         Composite area = (Composite) super.createDialogArea(parent);
@@ -30,17 +47,10 @@ public class ConstraintDialog extends Dialog {
         for (ConstraintField field : descr.getFields()) {
             Label label = new Label(area, SWT.NONE);
             label.setText(field.getLabel());
-            Control ctrl = field.createControl(area);
-            GridDataFactory.fillDefaults().grab(true, false).applyTo(ctrl);
-            
+            GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.TOP).applyTo(label);
+            field.createControl(area);
         }
         return area;
-    }
-    
-    @Override
-    protected void configureShell(Shell newShell) {
-    	super.configureShell(newShell);
-    	newShell.setText(descr.getName());
     }
     
 }
