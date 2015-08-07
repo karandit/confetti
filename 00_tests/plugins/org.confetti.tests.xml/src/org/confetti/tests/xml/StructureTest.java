@@ -38,7 +38,7 @@ public class StructureTest {
 	
 	@BeforeClass
 	public static void setUp() throws Exception {
-		try (InputStream is = openStream("Hopwood.fet")) {
+		try (InputStream is = openStream("United-Kingdom/Hopwood/Hopwood.fet")) {
 			inst =  new InstituteFAO().importFrom(is);
 		} 
 	}
