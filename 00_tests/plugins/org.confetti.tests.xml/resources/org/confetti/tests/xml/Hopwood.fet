@@ -3,6 +3,7 @@
 <fet version="5.16.0">
 
 <Institution_Name>Hopwood ESOL</Institution_Name>
+
 <Comments>Default comments</Comments>
 
 <Hours_List>
@@ -15,7 +16,7 @@
 </Hours_List>
 
 <Days_List>
- 	<Number>6</Number>
+	<Number>6</Number>
 	<Name>Monday</Name>
 	<Name>Tuesday</Name>
 	<Name>Wednesday</Name>
@@ -253,7 +254,7 @@
 	<Name>Ann</Name>
 </Teacher>
 <Teacher>
-	<Name>Anne_Rush</Name>
+	<Name>Anne Rush</Name>
 </Teacher>
 <Teacher>
 	<Name>Ayesha</Name>
@@ -331,7 +332,7 @@
 	<Name>CALL</Name>
 </Subject>
 <Subject>
-	<Name>Call_Literacy</Name>
+	<Name>Call/Literacy</Name>
 </Subject>
 <Subject>
 	<Name>EAL</Name>
@@ -340,7 +341,7 @@
 	<Name>EFL</Name>
 </Subject>
 <Subject>
-	<Name>Exam_tech</Name>
+	<Name>Exam tech</Name>
 </Subject>
 <Subject>
 	<Name>Grammar</Name>
@@ -355,19 +356,19 @@
 	<Name>Interviews</Name>
 </Subject>
 <Subject>
-	<Name>Listening_Speaking</Name>
+	<Name>Listening/Speaking</Name>
 </Subject>
 <Subject>
-	<Name>Lit_E3_L2</Name>
+	<Name>Lit E3 - L2</Name>
 </Subject>
 <Subject>
-	<Name>Lit_Pre_Ent_E2</Name>
+	<Name>Lit Pre-Ent - E2</Name>
 </Subject>
 <Subject>
 	<Name>Literacy</Name>
 </Subject>
 <Subject>
-	<Name>Meeting_Training</Name>
+	<Name>Meeting/Training</Name>
 </Subject>
 <Subject>
 	<Name>Numeracy</Name>
@@ -379,22 +380,22 @@
 	<Name>PGCE</Name>
 </Subject>
 <Subject>
-	<Name>Project_Writing_Tutorial</Name>
+	<Name>Project/Writing/Tutorial</Name>
 </Subject>
 <Subject>
 	<Name>Reading</Name>
 </Subject>
 <Subject>
-	<Name>Reading_English_Usage</Name>
+	<Name>Reading/English Usage</Name>
 </Subject>
 <Subject>
-	<Name>Spelling_Dictionary</Name>
+	<Name>Spelling/Dictionary</Name>
 </Subject>
 <Subject>
 	<Name>Tutorial</Name>
 </Subject>
 <Subject>
-	<Name>Work_based_learning</Name>
+	<Name>Work-based learning</Name>
 </Subject>
 <Subject>
 	<Name>Writing</Name>
@@ -406,13 +407,13 @@
 	<Name>CALL</Name>
 </Activity_Tag>
 <Activity_Tag>
-	<Name>CALL_Literacy</Name>
+	<Name>CALL/Literacy</Name>
 </Activity_Tag>
 <Activity_Tag>
 	<Name>ESOL IT</Name>
 </Activity_Tag>
 <Activity_Tag>
-	<Name>Listening_Speaking</Name>
+	<Name>Listening/Speaking</Name>
 </Activity_Tag>
 <Activity_Tag>
 	<Name>Literacy</Name>
@@ -421,7 +422,7 @@
 	<Name>Num</Name>
 </Activity_Tag>
 <Activity_Tag>
-	<Name>Project_Writing_Tutorial</Name>
+	<Name>Project/Writing/Tutorial</Name>
 </Activity_Tag>
 </Activity_Tags_List>
 
@@ -450,7 +451,7 @@
 </Activity>
 <Activity>
 	<Teacher>Inka</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Pre-Int P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -461,7 +462,7 @@
 </Activity>
 <Activity>
 	<Teacher>Inka</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Elem Eve A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -482,8 +483,8 @@
 	<Comments></Comments>
 </Activity>
 <Activity>
-	<Teacher>Anne_Rush</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Teacher>Anne Rush</Teacher>
+	<Subject>Call/Literacy</Subject>
 	<Students>Basic E1-  E3</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -517,7 +518,7 @@
 </Activity>
 <Activity>
 	<Teacher>John</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Basic P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -539,7 +540,7 @@
 </Activity>
 <Activity>
 	<Teacher>Inka</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Basic F/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -561,7 +562,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angela</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Inter P/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -572,7 +573,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angela</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Elem P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -582,7 +583,7 @@
 	<Comments></Comments>
 </Activity>
 <Activity>
-	<Teacher>Anne_Rush</Teacher>
+	<Teacher>Anne Rush</Teacher>
 	<Subject>Literacy</Subject>
 	<Students>Basic E3 - L2</Students>
 	<Duration>1</Duration>
@@ -594,7 +595,7 @@
 </Activity>
 <Activity>
 	<Teacher>Adrian</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Pre-Int P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -605,7 +606,7 @@
 </Activity>
 <Activity>
 	<Teacher>Adrian</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Begin Eve A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -616,7 +617,7 @@
 </Activity>
 <Activity>
 	<Teacher>Ann</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Basic Eve B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -627,7 +628,7 @@
 </Activity>
 <Activity>
 	<Teacher>Ann</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Pre-Int Eve A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -638,7 +639,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angela</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Inter Eve A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -649,7 +650,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angie</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Elem P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -660,7 +661,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angie</Teacher>
-	<Subject>Spelling_Dictionary</Subject>
+	<Subject>Spelling/Dictionary</Subject>
 	<Students>Elem F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -671,7 +672,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angie</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Basic F/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -682,7 +683,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angie</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Pre-Int P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -693,7 +694,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angie</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Elem F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -704,7 +705,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angie</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Pre-Int F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -715,7 +716,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angie</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Begin Eve B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -781,7 +782,7 @@
 </Activity>
 <Activity>
 	<Teacher>David</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Begin P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -792,7 +793,7 @@
 </Activity>
 <Activity>
 	<Teacher>David</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>FCE</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -803,7 +804,7 @@
 </Activity>
 <Activity>
 	<Teacher>Leonora</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Basic P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -814,7 +815,7 @@
 </Activity>
 <Activity>
 	<Teacher>Eugenia</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Elem F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -847,7 +848,7 @@
 </Activity>
 <Activity>
 	<Teacher>Eugenia</Teacher>
-	<Subject>Spelling_Dictionary</Subject>
+	<Subject>Spelling/Dictionary</Subject>
 	<Students>Begin F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -869,7 +870,7 @@
 </Activity>
 <Activity>
 	<Teacher>John</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Inter F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -880,7 +881,7 @@
 </Activity>
 <Activity>
 	<Teacher>John</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Basic P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -891,7 +892,7 @@
 </Activity>
 <Activity>
 	<Teacher>John</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Begin Eve B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -902,7 +903,7 @@
 </Activity>
 <Activity>
 	<Teacher>John</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Begin F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -913,7 +914,7 @@
 </Activity>
 <Activity>
 	<Teacher>John</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Pre-Int Eve A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -935,7 +936,7 @@
 </Activity>
 <Activity>
 	<Teacher>Julie</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Inter P/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -957,7 +958,7 @@
 </Activity>
 <Activity>
 	<Teacher>Julie</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Elem P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -968,7 +969,7 @@
 </Activity>
 <Activity>
 	<Teacher>Julie</Teacher>
-	<Subject>Spelling_Dictionary</Subject>
+	<Subject>Spelling/Dictionary</Subject>
 	<Students>Basic F/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -979,7 +980,7 @@
 </Activity>
 <Activity>
 	<Teacher>Julie</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Pre-Int P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1001,7 +1002,7 @@
 </Activity>
 <Activity>
 	<Teacher>Kausar</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Basic F/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1012,7 +1013,7 @@
 </Activity>
 <Activity>
 	<Teacher>Kausar</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Basic P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1023,7 +1024,7 @@
 </Activity>
 <Activity>
 	<Teacher>Kausar</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Elem Eve B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1067,7 +1068,7 @@
 </Activity>
 <Activity>
 	<Teacher>Leonora</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Pre-Int P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1078,7 +1079,7 @@
 </Activity>
 <Activity>
 	<Teacher>Leonora</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Inter F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1089,7 +1090,7 @@
 </Activity>
 <Activity>
 	<Teacher>Leonora</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Begin P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1100,7 +1101,7 @@
 </Activity>
 <Activity>
 	<Teacher>Leonora</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Elem P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1111,7 +1112,7 @@
 </Activity>
 <Activity>
 	<Teacher>Leonora</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Elem Eve B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1122,7 +1123,7 @@
 </Activity>
 <Activity>
 	<Teacher>Leonora</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Begin P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1133,7 +1134,7 @@
 </Activity>
 <Activity>
 	<Teacher>Leonora</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Inter P/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1144,7 +1145,7 @@
 </Activity>
 <Activity>
 	<Teacher>Paul</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Basic Eve A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1155,7 +1156,7 @@
 </Activity>
 <Activity>
 	<Teacher>Pauline</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Elem P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1166,7 +1167,7 @@
 </Activity>
 <Activity>
 	<Teacher>Pauline</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Inter Eve A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1177,7 +1178,7 @@
 </Activity>
 <Activity>
 	<Teacher>Patricia</Teacher>
-	<Subject>Reading_English_Usage</Subject>
+	<Subject>Reading/English Usage</Subject>
 	<Students>FCE</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1188,7 +1189,7 @@
 </Activity>
 <Activity>
 	<Teacher>Patricia</Teacher>
-	<Subject>Reading_English_Usage</Subject>
+	<Subject>Reading/English Usage</Subject>
 	<Students>FCE Eve</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1199,7 +1200,7 @@
 </Activity>
 <Activity>
 	<Teacher>Patricia</Teacher>
-	<Subject>Spelling_Dictionary</Subject>
+	<Subject>Spelling/Dictionary</Subject>
 	<Students>Pre-Int F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1255,7 +1256,7 @@
 </Activity>
 <Activity>
 	<Teacher>Patricia</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Pre-Int Eve B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1277,7 +1278,7 @@
 </Activity>
 <Activity>
 	<Teacher>Philip</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Begin F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1288,7 +1289,7 @@
 </Activity>
 <Activity>
 	<Teacher>Philip</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Basic Eve B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1310,7 +1311,7 @@
 </Activity>
 <Activity>
 	<Teacher>Philip</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Pre-Int P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1321,7 +1322,7 @@
 </Activity>
 <Activity>
 	<Teacher>Philip</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Elem Eve A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1332,7 +1333,7 @@
 </Activity>
 <Activity>
 	<Teacher>Philip</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Begin P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1343,7 +1344,7 @@
 </Activity>
 <Activity>
 	<Teacher>Philip</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>FCE</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1354,7 +1355,7 @@
 </Activity>
 <Activity>
 	<Teacher>Philip</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Begin P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1387,7 +1388,7 @@
 </Activity>
 <Activity>
 	<Teacher>Robert</Teacher>
-	<Subject>Spelling_Dictionary</Subject>
+	<Subject>Spelling/Dictionary</Subject>
 	<Students>Inter F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1398,7 +1399,7 @@
 </Activity>
 <Activity>
 	<Teacher>Robert</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>FCE Eve</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1409,7 +1410,7 @@
 </Activity>
 <Activity>
 	<Teacher>Robert</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Pre-Int F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1431,7 +1432,7 @@
 </Activity>
 <Activity>
 	<Teacher>Saima</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Elem P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1464,7 +1465,7 @@
 </Activity>
 <Activity>
 	<Teacher>Saima</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Basic P/T A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1475,7 +1476,7 @@
 </Activity>
 <Activity>
 	<Teacher>Saima</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Begin P/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1508,7 +1509,7 @@
 </Activity>
 <Activity>
 	<Teacher>David</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Pre-Int Eve B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1530,7 +1531,7 @@
 </Activity>
 <Activity>
 	<Teacher>Adrian</Teacher>
-	<Subject>Listening_Speaking</Subject>
+	<Subject>Listening/Speaking</Subject>
 	<Students>Basic F/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1618,7 +1619,7 @@
 </Activity>
 <Activity>
 	<Teacher>Lynn</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Begin Eve A</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1629,7 +1630,7 @@
 </Activity>
 <Activity>
 	<Teacher>Lynn</Teacher>
-	<Subject>Call_Literacy</Subject>
+	<Subject>Call/Literacy</Subject>
 	<Students>Inter Eve B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1674,7 +1675,7 @@
 <Activity>
 	<Teacher>Julie</Teacher>
 	<Teacher>Patricia</Teacher>
-	<Subject>Meeting_Training</Subject>
+	<Subject>Meeting/Training</Subject>
 	<Students>Staff</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1685,7 +1686,7 @@
 </Activity>
 <Activity>
 	<Teacher>Angela</Teacher>
-	<Subject>Work_based_learning</Subject>
+	<Subject>Work-based learning</Subject>
 	<Students>ESOL</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1840,7 +1841,7 @@
 </Activity>
 <Activity>
 	<Teacher>Adrian</Teacher>
-	<Subject>Project_Writing_Tutorial</Subject>
+	<Subject>Project/Writing/Tutorial</Subject>
 	<Students>Basic F/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1906,7 +1907,7 @@
 </Activity>
 <Activity>
 	<Teacher>Eugenia</Teacher>
-	<Subject>Exam_tech</Subject>
+	<Subject>Exam tech</Subject>
 	<Students>Inter F/T</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -1950,7 +1951,7 @@
 </Activity>
 <Activity>
 	<Teacher>Rona</Teacher>
-	<Subject>Spelling_Dictionary</Subject>
+	<Subject>Spelling/Dictionary</Subject>
 	<Students>Basic F/T B</Students>
 	<Duration>1</Duration>
 	<Total_Duration>1</Total_Duration>
@@ -5161,6 +5162,5 @@
 	<Comments></Comments>
 </ConstraintActivityPreferredRoom>
 </Space_Constraints_List>
-
 
 </fet>

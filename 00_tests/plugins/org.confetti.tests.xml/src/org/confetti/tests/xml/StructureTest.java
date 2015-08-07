@@ -104,28 +104,28 @@ public class StructureTest {
 				"Admin",
 				"Assessment",
 				"CALL",
-				"Call_Literacy",
+				"Call/Literacy",
 				"EAL",
 				"EFL",
-				"Exam_tech",
+				"Exam tech",
 				"Grammar",
 				"IELTS",
 				"IT",
 				"Interviews",
-				"Listening_Speaking",
-				"Lit_E3_L2",
-				"Lit_Pre_Ent_E2",
+				"Listening/Speaking",
+				"Lit E3 - L2",
+				"Lit Pre-Ent - E2",
 				"Literacy",
-				"Meeting_Training",
+				"Meeting/Training",
 				"Numeracy",
 				"O2",
 				"PGCE",
-				"Project_Writing_Tutorial",
+				"Project/Writing/Tutorial",
 				"Reading",
-				"Reading_English_Usage",
-				"Spelling_Dictionary",
+				"Reading/English Usage",
+				"Spelling/Dictionary",
 				"Tutorial",
-				"Work_based_learning",
+				"Work-based learning",
 				"Writing"
 		));
 		
@@ -143,7 +143,7 @@ public class StructureTest {
 				"Angela",
 				"Angie",
 				"Ann",
-				"Anne_Rush",
+				"Anne Rush",
 				"Ayesha",
 				"David",
 				"Eugenia",
@@ -228,12 +228,12 @@ public class StructureTest {
 	public void testActivityTag() {
 		Set<String> expActTagNames = new HashSet<>(Arrays.asList(
 				"CALL",
-				"CALL_Literacy",
+				"CALL/Literacy",
 				"ESOL IT",
-				"Listening_Speaking",
+				"Listening/Speaking",
 				"Literacy",
 				"Num",
-				"Project_Writing_Tutorial"
+				"Project/Writing/Tutorial"
 		));
 		
 		List<ActivityTagXml> actTags = inst.getActivityTags();
@@ -250,7 +250,7 @@ public class StructureTest {
 		ActivityXml foundAct = findActivityById(146L, activities);
 		assertEquals(1, foundAct.getTeachers().size());
 		assertEquals("Angela", foundAct.getTeachers().get(0).getName());
-		assertEquals("Work_based_learning", foundAct.getSubject().getName());
+		assertEquals("Work-based learning", foundAct.getSubject().getName());
 	}
 	
 	@Test
