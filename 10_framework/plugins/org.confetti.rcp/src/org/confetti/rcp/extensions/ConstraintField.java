@@ -42,6 +42,7 @@ public class ConstraintField {
         fieldTypeMapping.put("period-field", FieldType.Period);
         fieldTypeMapping.put("period-number-field", FieldType.PeriodNumber);
         fieldTypeMapping.put("teacher-field", FieldType.Teacher);
+        fieldTypeMapping.put("studentgroup-field", FieldType.StudentGroup);
         fieldTypeMapping.put("week-field", FieldType.Week);
     }
     
@@ -94,14 +95,18 @@ public class ConstraintField {
         Period{
             @Override
             public Control createControl(Composite parent) {
-            	return new Button(parent, SWT.PUSH);
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("Period Field NOT IMPLEMENTED");
+            	return button;
             }
 
         },
         PeriodNumber{
             @Override
             public Control createControl(Composite parent) {
-            	return new Button(parent, SWT.PUSH);
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("PeriodNumber Field NOT IMPLEMENTED");
+            	return button;
             }
 
         },
@@ -121,18 +126,31 @@ public class ConstraintField {
                 return combo.getControl();
             }
 
+        }, 
+        StudentGroup {
+            @Override
+            public Control createControl(Composite parent) {
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("StudentGroup Field NOT IMPLEMENTED");
+            	return button;
+            }
+        	
         },
         Assignment{
             @Override
             public Control createControl(Composite parent) {
-            	return new Button(parent, SWT.PUSH);
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("Assignment Field NOT IMPLEMENTED");
+            	return button;
             }
 
         },
         AssignmentsSet{
             @Override
             public Control createControl(Composite parent) {
-                return new Button(parent, SWT.PUSH);
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("AssignmentSet Field NOT IMPLEMENTED");
+            	return button;
             }
 
         };
