@@ -172,21 +172,21 @@ public class AssignmentsView extends ViewPart {
 			}
 		}
 
-		private static String getName(Entity ent) { return ent == null ? null : ent.getName().getValue(); }
-
-		private static <T extends Entity> String toStr(Iterable<T> items) {
-			StringBuilder sb = new StringBuilder();
-			boolean first = true;
-			for (T t : items) {
-				if (first) {
-					first = false;
-				} else {
-					sb.append(", ");
-				}
-				sb.append(getName(t));
+	}
+	public static String getName(Entity ent) { return ent == null ? null : ent.getName().getValue(); }
+	
+	public static <T extends Entity> String toStr(Iterable<T> items) {
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (T t : items) {
+			if (first) {
+				first = false;
+			} else {
+				sb.append(", ");
 			}
-			return sb.toString();
+			sb.append(getName(t));
 		}
+		return sb.toString();
 	}
 	
 }
