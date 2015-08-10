@@ -1,14 +1,19 @@
 package org.confetti.rcp.extensions;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
+import org.confetti.core.StudentGroup;
 import org.confetti.core.Teacher;
+import org.confetti.observable.ObservableList;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.constraints.ConstraintFieldWeekModel;
+import org.confetti.util.Tuple;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -130,10 +135,40 @@ public class ConstraintField {
         StudentGroup {
             @Override
             public Control createControl(Composite parent) {
-            	Button button = new Button(parent, SWT.PUSH);
-				button.setText("StudentGroup Field NOT IMPLEMENTED");
-            	return button;
+                ComboViewer combo = new ComboViewer(parent, SWT.READ_ONLY);
+                combo.setContentProvider(ArrayContentProvider.getInstance());
+                combo.setLabelProvider(new LabelProvider(){
+                    @Override
+                    public String getText(Object element) {
+                    	Tuple<StudentGroup, Integer> tuple = (Tuple<StudentGroup, Integer>) element;
+                        return indent(tuple.getSecond()) + tuple.getFirst().getName().getValue();
+                    }
+                });
+                DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+				List<Tuple<StudentGroup, Integer>> groups = flatHierarchy(0, dp.getStudentGroups());
+                combo.setInput(groups);
+                return combo.getControl();
             }
+            
+            private String indent(int count) {
+            	StringBuilder sb = new StringBuilder();
+            	for (int i = 0; i < count; i++) {
+					sb.append("  ");
+				}
+            	return sb.toString();
+            }
+            
+			private List<Tuple<StudentGroup, Integer>> flatHierarchy(int depth, ObservableList<StudentGroup> studentGroups) {
+				List<Tuple<StudentGroup, Integer>> res = new LinkedList<>();
+				for (StudentGroup sg : studentGroups.getList()) {
+					res.add(new Tuple<>(sg, depth));
+					res.addAll(flatHierarchy(depth + 1, sg.getChildren()));
+				}
+				return res;
+			}
+            
+            
+            
         	
         },
         Assignment{
