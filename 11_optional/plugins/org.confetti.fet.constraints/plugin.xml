@@ -150,7 +150,7 @@
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxHoursPerDayWithAnActivityTagForAStudentGroup" name="Max hours daily with an activity tag for a student group">
-				<studentgroup-field label="Student group" name="studengroup"/>
+			   <studentgroup-field label="Student group" name="studengroup"/>
                <hour-field label="Max hours daily" name="hours"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
@@ -220,48 +220,131 @@
             </constraint>
          </category>
          <category name="Activities">
-         	<constraint id="time.ActivityHasAPreferredStartingTime" name="An activity has a preferred starting time"/>
-         	<constraint id="time.ActivityHasSomePreferredStartingTimes" name="An activity has a set of preferred starting times"/>
-         	<constraint id="time.ActivityHasSomePreferredTimeSlots" name="An activity has a set of preferred time slots"/>
+         	<constraint id="time.ActivityHasAPreferredStartingTime" name="An activity has a preferred starting time">
+         	   <assignment-field label="Assignment" name="assignment"/>
+         	   <period-field label="Period" name="period"/>
+               <boolean-field label="Permanently locked" name="locked"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.ActivityHasSomePreferredStartingTimes" name="An activity has a set of preferred starting times">
+         	   <assignment-field label="Assignment" name="assignment"/>
+         	   <week-field label="Starting times" name="starting-times"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.ActivityHasSomePreferredTimeSlots" name="An activity has a set of preferred time slots">
+         	   <assignment-field label="Assignment" name="assignment"/>
+         	   <week-field label="Time slots" name="time-slots"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 			
 			<separator/>
-         	<constraint id="time.MoreActivitiesHaveSomePreferredStartingTimes" name="A set of activities has a set of preferred starting times"/>
-         	<constraint id="time.MoreActivitiesHaveSomePreferredTimeSlots" name="A set of activities has a set of preferred time slots"/>
+         	<constraint id="time.MoreActivitiesHaveSomePreferredStartingTimes" name="A set of activities has a set of preferred starting times">
+         	   <assignments-set-field label="Assignment" name="assignment"/>
+         	   <week-field label="Starting times" name="starting-times"/>
+               <boolean-field label="Duration" name="duration-enabled"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.MoreActivitiesHaveSomePreferredTimeSlots" name="A set of activities has a set of preferred time slots">
+         	   <assignments-set-field label="Assignment" name="assignment"/>
+         	   <week-field label="Time slots" name="time-slots"/>
+               <boolean-field label="Duration" name="duration-enabled"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
 			<separator/>
-         	<constraint id="time.MoreSubActivitiesHaveSomePreferredStartingTimes" name="A set of subactivities has a set of preferred starting times"/>
-         	<constraint id="time.MoreSubActivitiesHaveSomePreferredTimeSlots" name="A set of subactivities has a set of preferred time slots"/>
+         	<constraint id="time.MoreSubActivitiesHaveSomePreferredStartingTimes" name="A set of subactivities has a set of preferred starting times">
+            </constraint>
+         	<constraint id="time.MoreSubActivitiesHaveSomePreferredTimeSlots" name="A set of subactivities has a set of preferred time slots">
+            </constraint>
 			         
 			<separator/>
-         	<constraint id="time.MinDaysBetweenActivities" name="Min days between a set of activities"/>
-         	<constraint id="time.MaxDaysBetweenActivities" name="Max days between a set of activities"/>
+         	<constraint id="time.MinDaysBetweenActivities" name="Min days between a set of activities">
+         	   <assignments-set-field label="Assignment" name="assignment"/>
+               <day-field label="Min days" name="min-days"/>
+               <boolean-field label="Force consecutive if on same day" name="force-consecutive"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.MaxDaysBetweenActivities" name="Max days between a set of activities">
+         	   <assignments-set-field label="Assignment" name="assignment"/>
+               <day-field label="Max days" name="max-days"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
          
 			<separator/>
-         	<constraint id="time.ActivityEndsStudentsDay" name="An activity ends students day"/>
-         	<constraint id="time.MoreActivitiesEndStudentsDay" name="A set of activities end students day"/>
+         	<constraint id="time.ActivityEndsStudentsDay" name="An activity ends students day">
+               <assignment-field label="Assignment" name="assignment"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.MoreActivitiesEndStudentsDay" name="A set of activities end students day">
+               <assignments-set-field label="Assignments" name="assignments"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
 			<separator/>
-         	<constraint id="time.MoreActivitiesHaveSameStartingTime" name="A set of activities has same starting time (day + hour)"/>
-         	<constraint id="time.MoreActivitiesHaveSameStartingDay" name="A set of activities has same starting day (any hours)"/>
-         	<constraint id="time.MoreActivitiesHaveSameStartingHour" name="A set of activities has same starting hour (any days)"/>
+         	<constraint id="time.MoreActivitiesHaveSameStartingTime" name="A set of activities has same starting time (day + hour)">
+               <assignments-set-field label="Assignments" name="assignments"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.MoreActivitiesHaveSameStartingDay" name="A set of activities has same starting day (any hours)">
+               <assignments-set-field label="Assignments" name="assignments"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.MoreActivitiesHaveSameStartingHour" name="A set of activities has same starting hour (any days)">
+               <assignments-set-field label="Assignments" name="assignments"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
 			<separator/>
-         	<constraint id="time.MoreActivitiesOccupyMaxTimeSlotsFromSelection" name="A set of activities occupies max time slots from selection"/>
+         	<constraint id="time.MoreActivitiesOccupyMaxTimeSlotsFromSelection" name="A set of activities occupies max time slots from selection">
+               <assignments-set-field label="Assignments" name="assignments"/>
+         	   <week-field label="Time slots" name="time-slots"/>
+               <number-field label="Max occupied" name="max-occupied"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
 			<separator/>
-         	<constraint id="time.TwoActivitiesAreOrdered" name="Two activities are ordered"/>
+         	<constraint id="time.TwoActivitiesAreOrdered" name="Two activities are ordered">
+               <assignment-field label="First Assignment" name="first-assignment"/>
+               <assignment-field label="Second Assignment" name="second-assignment"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
 			<separator/>
-         	<constraint id="time.TwoActivitiesAreConsecutive" name="Two activities are consecutive"/>
-         	<constraint id="time.TwoActivitiesAreGrouped" name="Two activities are grouped"/>
-         	<constraint id="time.ThreeActivitiesAreGrouped" name="Three activities are grouped"/>
+         	<constraint id="time.TwoActivitiesAreConsecutive" name="Two activities are consecutive">
+               <assignment-field label="First Assignment" name="first-assignment"/>
+               <assignment-field label="Second Assignment" name="second-assignment"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.TwoActivitiesAreGrouped" name="Two activities are grouped">
+               <assignment-field label="First Assignment" name="first-assignment"/>
+               <assignment-field label="Second Assignment" name="second-assignment"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.ThreeActivitiesAreGrouped" name="Three activities are grouped">
+               <assignment-field label="First Assignment" name="first-assignment"/>
+               <assignment-field label="Second Assignment" name="second-assignment"/>
+               <assignment-field label="Third Assignment" name="third-assignment"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
 			<separator/>
-         	<constraint id="time.MoreActivitiesAreNotOverlapping" name="A set of activities are not overlapping"/>
-         	<constraint id="time.MaxSimultaneousActivitiesFromASetInTimeSlots" name="Max simultaneous activities from a set in selected time slots"/>
+         	<constraint id="time.MoreActivitiesAreNotOverlapping" name="A set of activities are not overlapping">
+               <assignments-set-field label="Assignments" name="assignments"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+         	<constraint id="time.MaxSimultaneousActivitiesFromASetInTimeSlots" name="Max simultaneous activities from a set in selected time slots">
+               <assignments-set-field label="Assignments" name="assignments"/>
+         	   <week-field label="Time slots" name="time-slots"/>
+               <number-field label="Max simultaneous" name="max-simult"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
 			<separator/>
-         	<constraint id="time.MinGapsBetweenActivities" name="Min gaps(hours) between a set of activities"/>
+         	<constraint id="time.MinGapsBetweenActivities" name="Min gaps(hours) between a set of activities">
+               <assignments-set-field label="Assignments" name="assignments"/>
+         	   <hour-field label="Min gaps" name="min-gaps"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
          </category>
       </category>
       <category name="Space constraints">
