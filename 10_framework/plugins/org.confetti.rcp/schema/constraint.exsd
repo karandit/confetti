@@ -74,6 +74,7 @@
             <element ref="day-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="hour-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="teacher-field" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="subject-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="room-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="rooms-set-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="studentgroup-field" minOccurs="0" maxOccurs="unbounded"/>
@@ -127,6 +128,25 @@
    </element>
 
    <element name="assignments-set-field">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="label" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="subject-field">
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>

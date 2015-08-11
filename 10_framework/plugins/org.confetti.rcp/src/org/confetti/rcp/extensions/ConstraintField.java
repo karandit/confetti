@@ -54,6 +54,9 @@ public class ConstraintField {
         fieldTypeMapping.put("teacher-field", FieldType.Teacher);
         fieldTypeMapping.put("studentgroup-field", FieldType.StudentGroup);
         fieldTypeMapping.put("week-field", FieldType.Week);
+        fieldTypeMapping.put("room-field", FieldType.Room);
+        fieldTypeMapping.put("rooms-set-field", FieldType.RoomsSet);
+        fieldTypeMapping.put("subject-field", FieldType.Subject);
     }
     
     public enum FieldType {
@@ -214,6 +217,27 @@ public class ConstraintField {
             	return button;
             }
 
+        }, Room {
+            @Override
+            public Control createControl(Composite parent) {
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("Room Field NOT IMPLEMENTED");
+            	return button;
+            }
+        }, RoomsSet {
+            @Override
+            public Control createControl(Composite parent) {
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("RoomSet Field NOT IMPLEMENTED");
+            	return button;
+            }
+        }, Subject {
+            @Override
+            public Control createControl(Composite parent) {
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("Subject Field NOT IMPLEMENTED");
+            	return button;
+            }
         };
 
         public abstract Control createControl(Composite area);
