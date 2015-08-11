@@ -349,58 +349,151 @@
       </category>
       <category name="Space constraints">
          <category name="Miscellaneous">
-            <constraint id="space.BasicCompulsorySpace" name="Basic compulsory space constraints"/>
+            <constraint id="space.BasicCompulsorySpace" name="Basic compulsory space constraints">
+               <boolean-field label="Active" name="active"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
          </category>
          <category name="Rooms">
-            <constraint id="space.NotAvailableTimesForARoom" name="A room&apos;s not available times"/>
+            <constraint id="space.NotAvailableTimesForARoom" name="A room&apos;s not available times">
+               <room-field label="Room" name="room"/>
+               <week-field label="Not available times" name="not-available-times"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
          </category>
          <category name="Teachers">
-            <constraint id="space.TeacherHasAHomeRoom" name="A teacher has a home room"/>
-            <constraint id="space.TeacherHasSomeHomeRooms" name="A teacher has a set of home rooms"/>
+            <constraint id="space.TeacherHasAHomeRoom" name="A teacher has a home room">
+               <teacher-field label="Teacher" name="teacher"/>
+               <room-field label="Room" name="room"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.TeacherHasSomeHomeRooms" name="A teacher has a set of home rooms">
+               <teacher-field label="Teacher" name="teacher"/>
+               <rooms-set-field label="Rooms" name="rooms"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
             <separator/>
-            <constraint id="space.MaxBuildingChangesPerDayForATeacher" name="Max building changes per day for a teacher"/>
-            <constraint id="space.MaxBuildingChangesPerWeekForATeacher" name="Max building changes per week for a teacher"/>
-            <constraint id="space.MinGapsBetweenBuildingChangesForATeacher" name="Min gaps between building changes for a teacher"/>
+            <constraint id="space.MaxBuildingChangesPerDayForATeacher" name="Max building changes per day for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+			   <hour-field label="Max building changes per day" name="max-building-changes"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.MaxBuildingChangesPerWeekForATeacher" name="Max building changes per week for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+			   <number-field label="Max building changes per week" name="max-building-changes"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.MinGapsBetweenBuildingChangesForATeacher" name="Min gaps between building changes for a teacher">
+               <teacher-field label="Teacher" name="teacher"/>
+			   <hour-field label="Min gaps between building changes" name="min-gaps"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
             
             <separator/>
-            <constraint id="space.MaxBuildingChangesPerDayForAllTeachers" name="Max building changes per day for all teachers"/>
-            <constraint id="space.MaxBuildingChangesPerWeekForAllTeachers" name="Max building changes per week for all teachers"/>
-            <constraint id="space.MinGapsBetweenBuildingChangesForAllTeachers" name="Min gaps between building changes for all teachers"/>
+            <constraint id="space.MaxBuildingChangesPerDayForAllTeachers" name="Max building changes per day for all teachers">
+			   <hour-field label="Max building changes per day" name="max-building-changes"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.MaxBuildingChangesPerWeekForAllTeachers" name="Max building changes per week for all teachers">
+			   <number-field label="Max building changes per week" name="max-building-changes"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.MinGapsBetweenBuildingChangesForAllTeachers" name="Min gaps between building changes for all teachers">
+			   <hour-field label="Min gaps between building changes" name="min-gaps"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
          </category>
          <category name="Students">
-            <constraint id="space.StudentGroupHasAHomeRoom" name="A student group has a home room"/>
-            <constraint id="space.StudentGroupHasSomeHomeRooms" name="A student group has a set of home rooms"/>
+            <constraint id="space.StudentGroupHasAHomeRoom" name="A student group has a home room">
+               <studentgroup-field label="Student group" name="studengroup"/>
+               <room-field label="Room" name="room"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.StudentGroupHasSomeHomeRooms" name="A student group has a set of home rooms">
+               <studentgroup-field label="Student group" name="studengroup"/>
+               <rooms-set-field label="Rooms" name="rooms"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
             <separator/>
-            <constraint id="space.MaxBuildingChangesPerDayForAStudentGroup" name="Max building changes per day for a student group"/>
-            <constraint id="space.MaxBuildingChangesPerWeekForAStudentGroup" name="Max building changes per week for a student group"/>
-            <constraint id="space.MinGapsBetweenBuildingChangesForAStudentGroup" name="Min gaps between building changes for a student group"/>
+            <constraint id="space.MaxBuildingChangesPerDayForAStudentGroup" name="Max building changes per day for a student group">
+               <studentgroup-field label="Student group" name="studengroup"/>
+			   <hour-field label="Max building changes per day" name="max-building-changes"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.MaxBuildingChangesPerWeekForAStudentGroup" name="Max building changes per week for a student group">
+               <studentgroup-field label="Student group" name="studengroup"/>
+			   <number-field label="Max building changes per week" name="max-building-changes"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.MinGapsBetweenBuildingChangesForAStudentGroup" name="Min gaps between building changes for a student group">
+               <studentgroup-field label="Student group" name="studengroup"/>
+			   <hour-field label="Min gaps between building changes" name="min-gaps"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
             
             <separator/>
-            <constraint id="space.MaxBuildingChangesPerDayForAllStudentGroups" name="Max building changes per day for all student groups"/>
-            <constraint id="space.MaxBuildingChangesPerWeekForAllStudentGroups" name="Max building changes per week for all student groups"/>
-            <constraint id="space.MinGapsBetweenBuildingChangesForAllStudentGroups" name="Min gaps between building changes for all student groups"/>
+            <constraint id="space.MaxBuildingChangesPerDayForAllStudentGroups" name="Max building changes per day for all student groups">
+			   <hour-field label="Max building changes per day" name="max-building-changes"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.MaxBuildingChangesPerWeekForAllStudentGroups" name="Max building changes per week for all student groups">
+			   <number-field label="Max building changes per week" name="max-building-changes"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.MinGapsBetweenBuildingChangesForAllStudentGroups" name="Min gaps between building changes for all student groups">
+			   <hour-field label="Min gaps between building changes" name="min-gaps"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
          </category>
          <category name="Subjects">
-            <constraint id="space.SubjectHasAPreferredRoom" name="A subject has a preferred room"/>
-            <constraint id="space.SubjectHasSomePreferredRooms" name="A subject has a set of preferred rooms"/>
+            <constraint id="space.SubjectHasAPreferredRoom" name="A subject has a preferred room">
+               <subject-field label="Subject" name="subject"/>
+               <room-field label="Room" name="room"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.SubjectHasSomePreferredRooms" name="A subject has a set of preferred rooms">
+               <subject-field label="Subject" name="subject"/>
+               <rooms-set-field label="Rooms" name="rooms"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
          </category>
          <category name="Activity tags">
-            <constraint id="space.ActivityTagHasAPreferredRoom" name="An activity tag has a preferred room"/>
-            <constraint id="space.ActivityTagHasSomePreferredRooms" name="An activity tag has a set of preferred rooms"/>
+            <constraint id="space.ActivityTagHasAPreferredRoom" name="An activity tag has a preferred room">
+            </constraint>
+            <constraint id="space.ActivityTagHasSomePreferredRooms" name="An activity tag has a set of preferred rooms">
+            </constraint>
          </category>
          <category name="Subjects and activity tags">
-            <constraint id="space.SubjectAndActivityTagHaveAPreferredRoom" name="A subject and an activity tag have a preferred room"/>
-            <constraint id="space.SubjectAndActivityTagHaveSomePreferredRooms" name="A subject and an activity tag have a set of preferred rooms"/>
+            <constraint id="space.SubjectAndActivityTagHaveAPreferredRoom" name="A subject and an activity tag have a preferred room">
+            </constraint>
+            <constraint id="space.SubjectAndActivityTagHaveSomePreferredRooms" name="A subject and an activity tag have a set of preferred rooms">
+            </constraint>
          </category>
          <category name="Activities">
-            <constraint id="space.ActivityHasAPreferredRoom" name="An activity has a preferred room"/>
-            <constraint id="space.ActivityHasSomePreferredRooms" name="An activity has a set of preferred rooms"/>
+            <constraint id="space.ActivityHasAPreferredRoom" name="An activity has a preferred room">
+         	   <assignment-field label="Assignment" name="assignment"/>
+               <room-field label="Room" name="room"/>
+               <boolean-field label="Permanently locked" name="locked"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.ActivityHasSomePreferredRooms" name="An activity has a set of preferred rooms">
+         	   <assignment-field label="Assignment" name="assignment"/>
+               <rooms-set-field label="Rooms" name="rooms"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
 
             <separator/>
-            <constraint id="space.SomeActivitiesAreInTheSameRoomIfTheyAreConsecutive" name="A set of activities are in the same room if they are consecutive"/>
-            <constraint id="space.SomeActivitiesOccupyMaxDifferentRooms" name="A set of activities occupies max different rooms"/>
+            <constraint id="space.SomeActivitiesAreInTheSameRoomIfTheyAreConsecutive" name="A set of activities are in the same room if they are consecutive">
+         	   <assignments-set-field label="Assignments" name="assignments"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
+            <constraint id="space.SomeActivitiesOccupyMaxDifferentRooms" name="A set of activities occupies max different rooms">
+         	   <assignments-set-field label="Assignments" name="assignments"/>
+               <number-field label="Max different rooms" name="max-diff-rooms"/>
+               <number-field label="Weight percentage" name="weight-percentage"/>
+            </constraint>
          </category>
       </category>
    </extension>
