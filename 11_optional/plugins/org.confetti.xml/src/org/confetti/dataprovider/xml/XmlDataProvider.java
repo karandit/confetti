@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.confetti.core.Assignable;
 import org.confetti.core.Assignment;
+import org.confetti.core.Constraint;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -67,6 +68,10 @@ public class XmlDataProvider implements DataProvider {
 		@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stGroups.getObservableList(); }
 		@Override public Room getRoom() 									{ return null; }
 
+	}
+	
+	private static class ConstraintImpl implements Constraint {
+		
 	}
 	
 	private static abstract class EntityImpl implements Entity, Assignable {
@@ -163,6 +168,7 @@ public class XmlDataProvider implements DataProvider {
 	private ListMutator<Day> days = new ListMutator<>();
 	private ListMutator<Hour> hours = new ListMutator<>();
 	private ListMutator<Assignment> assignments = new ListMutator<>();
+	private ListMutator<Constraint> constraints = new ListMutator<>();
 	private ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 
 	//----------------------------- fields for xml persistence ---------------------------------------------------------
@@ -252,6 +258,7 @@ public class XmlDataProvider implements DataProvider {
 	@Override public ObservableList<Day> getDays() 						   { return days.getObservableList(); }
 	@Override public ObservableList<Hour> getHours() 				       { return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		   { return assignments.getObservableList(); }
+	@Override public ObservableList<Constraint> getConstraints() 		   { return constraints.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override

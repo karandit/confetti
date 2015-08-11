@@ -5,6 +5,7 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.Constraint;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -29,6 +30,7 @@ public class DataProviderImpl implements DataProvider {
 	private ListMutator<Day> days;
 	private ListMutator<Hour> hours;
 	private ListMutator<Assignment> assignments;
+	private ListMutator<Constraint> constraints;
 	private ValueMutator<Iterable<SolutionSlot>> solution;
 	
 	public DataProviderImpl() {
@@ -39,6 +41,7 @@ public class DataProviderImpl implements DataProvider {
 		this.days = new ListMutator<>();
 		this.hours = new ListMutator<>();
 		this.assignments = new ListMutator<>();
+		this.constraints = new ListMutator<>();
 		this.solution = new ValueMutator<>();
 		init();
 	}
@@ -105,6 +108,7 @@ public class DataProviderImpl implements DataProvider {
 	@Override public ObservableList<Day> getDays() 						{ return days.getObservableList(); }
 	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		{ return assignments.getObservableList(); }
+	@Override public ObservableList<Constraint> getConstraints() 		{ return constraints.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override

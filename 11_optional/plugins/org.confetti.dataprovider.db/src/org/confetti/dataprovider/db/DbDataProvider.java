@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.Constraint;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -63,6 +64,7 @@ public class DbDataProvider implements DataProvider {
 	private ListMutator<Day> days = new ListMutator<>();
 	private ListMutator<Hour> hours = new ListMutator<>();
 	private ListMutator<Assignment> assignments = new ListMutator<>();
+	private ListMutator<Constraint> constraints = new ListMutator<>();
 	private ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 	
 	private final SessionFactory sFact;
@@ -140,6 +142,7 @@ public class DbDataProvider implements DataProvider {
 	@Override public ObservableList<Day> getDays() 						   { return days.getObservableList(); }
 	@Override public ObservableList<Hour> getHours() 					   { return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		   { return assignments.getObservableList(); }
+	@Override public ObservableList<Constraint> getConstraints() 		   { return constraints.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	//----------------------------- DataProvider's Persister API -------------------------------------------------------
@@ -305,5 +308,6 @@ public class DbDataProvider implements DataProvider {
             allEntities.removeItem(entityToRemove);
         }
     }
+
     
 }
