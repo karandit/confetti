@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
 
 /**
  * @author Gabor Bubla
@@ -16,7 +17,8 @@ public class ConstraintDescr implements IConstraintElement {
     private final List<ConstraintField> fields = new LinkedList<>();
 
     public ConstraintDescr(IConfigurationElement element) {
-        id = element.getAttribute("id");
+        IExtension declaringExtension = element.getDeclaringExtension();
+    	id = declaringExtension.getNamespaceIdentifier() + "." + element.getAttribute("id");
         name = element.getAttribute("name");
         description = element.getAttribute("description");
         for (IConfigurationElement childrenElement : element.getChildren()) {

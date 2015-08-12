@@ -217,4 +217,9 @@ public class DataProviderImpl implements DataProvider {
 		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 
+	@Override
+	public Constraint addConstraint(String uid) {
+		throw new RuntimeException("Not implemented yet.");
+	}
+
 }

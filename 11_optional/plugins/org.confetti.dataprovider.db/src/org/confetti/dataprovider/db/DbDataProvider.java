@@ -49,6 +49,7 @@ import org.hibernate.Transaction;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.mysql.jdbc.NotImplemented;
 
 /**
  * @author Gabor Bubla
@@ -308,6 +309,11 @@ public class DbDataProvider implements DataProvider {
             allEntities.removeItem(entityToRemove);
         }
     }
+
+	@Override
+	public Constraint addConstraint(String uid) {
+		throw new RuntimeException("Not implemented yet.");
+	}
 
     
 }

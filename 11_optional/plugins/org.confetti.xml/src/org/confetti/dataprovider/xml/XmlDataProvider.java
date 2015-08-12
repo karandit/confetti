@@ -25,6 +25,7 @@ import org.confetti.observable.ValueMutator;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
+import org.confetti.xml.core.BaseConstraintXml;
 import org.confetti.xml.core.DayXml;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.HourXml;
@@ -36,6 +37,8 @@ import org.confetti.xml.core.SubjectXml;
 import org.confetti.xml.core.TeacherRef;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
+import org.confetti.xml.core.time.ConstraintBasicCompulsoryTime;
+import org.confetti.xml.core.time.TimeConstraint;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -71,6 +74,13 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	private static class ConstraintImpl implements Constraint {
+
+		private final String type;
+		public ConstraintImpl(final String type) {
+			this.type = type;
+		}
+		
+		@Override public String getConstraintType() { return type; }
 		
 	}
 	
@@ -333,7 +343,31 @@ public class XmlDataProvider implements DataProvider {
         assignments.addItem(assignment);
 	    return assignment;
 	}
+
+	@Override
+	public Constraint addConstraint(final String type) {
+		addXmlConstraint(type); 
+		save();
+		
+		ConstraintImpl constraint = new ConstraintImpl(type);
+		constraints.addItem(constraint);
+		return constraint;
+	}
 	
+	private BaseConstraintXml addXmlConstraint(final String type) {
+		String shortType = type.substring("org.confetti.fet.constraints.".length());
+		
+		switch (shortType) {
+			case "time.BasicCompulsoryTime": return addTimeXmlConstraint(new ConstraintBasicCompulsoryTime());
+			default: return null;
+		}
+	}
+
+	private TimeConstraint addTimeXmlConstraint(final TimeConstraint xmlTimeConstraint) {
+		instXml.getTimeConstraints().add(xmlTimeConstraint);
+		return xmlTimeConstraint;
+	}
+
 	@Override
 	public void setSolution(Iterable<SolutionSlot> solution) {
 	    this.solution.setValue(this, solution);

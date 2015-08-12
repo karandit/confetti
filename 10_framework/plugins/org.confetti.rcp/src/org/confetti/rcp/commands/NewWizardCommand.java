@@ -142,6 +142,7 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public void addStudentGroups(StudentGroup parent, List<String> names) { }
         @Override public void addRooms(List<String> names) { }
         @Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
+        @Override public Constraint addConstraint(String uid) { return null; }
         @Override public void setSolution(Iterable<SolutionSlot> solution) { }
         @Override public void removeSubjects(List<Subject> subjects) { }
         @Override public void removeTeachers(List<Teacher> teachers) { }

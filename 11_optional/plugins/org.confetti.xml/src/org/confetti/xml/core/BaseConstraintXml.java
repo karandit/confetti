@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Bubla Gabor
  */
 @XmlTransient
-public abstract class Constraint {
+public abstract class BaseConstraintXml {
 	
 	private double weight = 100.0;
 	private boolean active = true;
