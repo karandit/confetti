@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -65,11 +66,20 @@ public class ConstraintField {
             public Control createControl(Composite parent) {
                 return new Button(parent, SWT.CHECK);
             }
+            @Override
+            public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
+            	attrs.withBoolean(key, ((Button) ctrl).isEnabled());
+            }
+
         },
         Number{
             @Override
             public Control createControl(Composite parent) {
                 return createSpinnerField(parent, 1, 100, 98);
+            }
+            @Override
+            public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
+            	attrs.withDouble(key, ((Spinner) ctrl).getSelection());
             }
         },
         Day{
@@ -241,6 +251,7 @@ public class ConstraintField {
         };
 
         public abstract Control createControl(Composite area);
+        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { }
         
         public void applyLayout(Control ctrl) {
             GridDataFactory.fillDefaults().grab(true, false).applyTo(ctrl);
@@ -277,6 +288,5 @@ public class ConstraintField {
         return ctrl;
 
     }
-
     
 }

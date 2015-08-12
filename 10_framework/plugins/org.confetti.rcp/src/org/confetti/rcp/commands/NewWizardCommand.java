@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
+import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -142,7 +143,7 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public void addStudentGroups(StudentGroup parent, List<String> names) { }
         @Override public void addRooms(List<String> names) { }
         @Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
-        @Override public Constraint addConstraint(String uid) { return null; }
+        @Override public Constraint addConstraint(String type, ConstraintAttributes attrs) { return null; }
         @Override public void setSolution(Iterable<SolutionSlot> solution) { }
         @Override public void removeSubjects(List<Subject> subjects) { }
         @Override public void removeTeachers(List<Teacher> teachers) { }

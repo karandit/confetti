@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
+import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -218,7 +219,7 @@ public class DataProviderImpl implements DataProvider {
 	}
 
 	@Override
-	public Constraint addConstraint(String uid) {
+	public Constraint addConstraint(String uid, ConstraintAttributes attrs) {
 		throw new RuntimeException("Not implemented yet.");
 	}
 

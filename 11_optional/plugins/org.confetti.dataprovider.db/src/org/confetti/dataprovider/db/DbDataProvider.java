@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
+import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -49,7 +50,6 @@ import org.hibernate.Transaction;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-import com.mysql.jdbc.NotImplemented;
 
 /**
  * @author Gabor Bubla
@@ -311,7 +311,7 @@ public class DbDataProvider implements DataProvider {
     }
 
 	@Override
-	public Constraint addConstraint(String uid) {
+	public Constraint addConstraint(String uid, ConstraintAttributes attrs) {
 		throw new RuntimeException("Not implemented yet.");
 	}
 

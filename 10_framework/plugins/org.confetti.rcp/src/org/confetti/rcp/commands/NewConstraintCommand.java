@@ -2,6 +2,8 @@ package org.confetti.rcp.commands;
 
 import java.util.List;
 
+import org.confetti.core.ConstraintAttributes;
+import org.confetti.core.DataProvider;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.constraints.ConstraintDialog;
 import org.confetti.rcp.extensions.ConstraintDescr;
@@ -40,7 +42,6 @@ public class NewConstraintCommand extends AbstractHandler {
         dlg.setTitle("Open");
         dlg.setMessage("Choose a constraint");
         dlg.setValidator(new ISelectionStatusValidator() {
-			
 			@Override
 			public IStatus validate(Object[] selection) {
 				boolean isValid = selection.length > 0 && selection[0] instanceof ConstraintDescr;
@@ -48,22 +49,43 @@ public class NewConstraintCommand extends AbstractHandler {
 			}
 		});
         dlg.setInput(constraintsDescr); 
-        
         if (Window.OK != dlg.open()) {
             return null;
         }
+//        traverse(shell, "c:\\12_work\\30_confetti\\confetti_dialogs\\", constraintsDescr.toArray(new IConstraintElement[constraintsDescr.size()]));
+//        MessageDialog.openInformation(shell, "Generate screensots", "Capturing screenshots done.");
         Object[] selected = dlg.getResult();
-        if (selected == null || selected.length == 0) {
+        if (selected == null || selected.length == 0 || !(selected[0] instanceof ConstraintDescr)) {
             return null;
         }
         ConstraintDescr selectedDescr = (ConstraintDescr) selected[0];
-        
-        ConstraintDialog constraintDialog = new ConstraintDialog(shell, selectedDescr);
-        constraintDialog.open();
+        ConstraintAttributes attrs = new ConstraintAttributes();
+        ConstraintDialog constraintDialog = new ConstraintDialog(shell, selectedDescr, attrs);
+        if (Window.OK != constraintDialog.open()) {
+        	return null;
+        }
+		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		dp.addConstraint(selectedDescr.getId(), attrs);
         return null;
     }
-    
-    @Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
+
+	private void traverse(Shell shell, String path, IConstraintElement[] constrElems) {
+		int i = 1;
+		for (IConstraintElement constrElem : constrElems) {
+			if (constrElem instanceof ConstraintDescr) {
+				ConstraintDescr constraintDescr = (ConstraintDescr) constrElem;
+		        ConstraintDialog constraintDialog = new ConstraintDialog(shell, constraintDescr, null);
+		        constraintDialog.create();
+		        constraintDialog.print(path + String.format("%02d", i++) + "_" + constrElem.getName() + ".png");
+			}
+			
+			if (constrElem.hasChildren()) {
+				traverse(shell, path + String.format("%02d", i++) + "_" + constrElem.getName() + "_", constrElem.getChildren());
+			}
+		}
+	}
+
+	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
 
     private static enum ConstraintContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 		INSTANCE;

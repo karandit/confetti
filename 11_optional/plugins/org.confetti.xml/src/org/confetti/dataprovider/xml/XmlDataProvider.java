@@ -8,6 +8,7 @@ import java.util.Map;
 import org.confetti.core.Assignable;
 import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
+import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -345,8 +346,8 @@ public class XmlDataProvider implements DataProvider {
 	}
 
 	@Override
-	public Constraint addConstraint(final String type) {
-		addXmlConstraint(type); 
+	public Constraint addConstraint(final String type, ConstraintAttributes attrs) {
+		addXmlConstraint(type, attrs); 
 		save();
 		
 		ConstraintImpl constraint = new ConstraintImpl(type);
@@ -354,11 +355,11 @@ public class XmlDataProvider implements DataProvider {
 		return constraint;
 	}
 	
-	private BaseConstraintXml addXmlConstraint(final String type) {
+	private BaseConstraintXml addXmlConstraint(final String type, final ConstraintAttributes attrs) {
 		String shortType = type.substring("org.confetti.fet.constraints.".length());
 		
 		switch (shortType) {
-			case "time.BasicCompulsoryTime": return addTimeXmlConstraint(new ConstraintBasicCompulsoryTime());
+			case "time.BasicCompulsoryTime": return addTimeXmlConstraint(new ConstraintBasicCompulsoryTime(attrs));
 			default: return null;
 		}
 	}
