@@ -16,8 +16,12 @@ public class ConstraintBasicCompulsoryTime extends TimeConstraint {
 	}
 	
 	public ConstraintBasicCompulsoryTime(ConstraintAttributes attrs) {
-		setWeight(attrs.asDouble("weight-percentage"));
-		setActive(attrs.asBoolean("active"));
+		this(attrs.asDouble("weight-percentage"), attrs.asBoolean("active"));
+	}
+
+	public ConstraintBasicCompulsoryTime(double weight, boolean active) {
+		setWeight(weight);
+		setActive(active);
 	}
 	
 }
