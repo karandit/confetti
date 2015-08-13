@@ -3,9 +3,9 @@ package org.confetti.dummy;
 import org.confetti.core.EntityVisitor;
 import org.confetti.core.Room;
 
-public class RoomImpl extends EntityImpl implements Room {
+public class DummyRoom extends DummyEntity implements Room {
 
-	public RoomImpl(String name) {
+	public DummyRoom(String name) {
 		super(name);
 	}
 	

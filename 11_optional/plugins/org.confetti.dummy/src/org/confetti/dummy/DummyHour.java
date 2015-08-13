@@ -1,17 +1,17 @@
 package org.confetti.dummy;
 
-import org.confetti.core.Day;
+import org.confetti.core.Hour;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
 /**
  * @author Gabor Bubla
  */
-public class DayImpl implements Day {
+public class DummyHour implements Hour {
 
 	private final ValueMutator<String> name;
 	
-	public DayImpl(String name) {
+	public DummyHour(String name) {
 		this.name = new ValueMutator<>(this, name);
 	}
 	

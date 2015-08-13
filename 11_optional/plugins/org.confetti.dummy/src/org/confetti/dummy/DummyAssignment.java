@@ -8,13 +8,13 @@ import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
 
-public class AssignmentImpl implements Assignment {
+public class DummyAssignment implements Assignment {
 
 	private final Subject subj;
 	private final ListMutator<Teacher> teachers = new ListMutator<>();
 	private final ListMutator<StudentGroup> studentGroups = new ListMutator<>();
 
-	public AssignmentImpl(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
+	public DummyAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
 		this.subj = subject;
 		for (Teacher teacher : teachers) {
 			this.teachers.addItem(teacher);

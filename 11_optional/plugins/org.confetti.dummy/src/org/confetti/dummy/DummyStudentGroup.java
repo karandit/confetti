@@ -5,22 +5,22 @@ import org.confetti.core.StudentGroup;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
 
-public class StudentGroupImpl extends EntityImpl implements StudentGroup {
+public class DummyStudentGroup extends DummyEntity implements StudentGroup {
 
 	private final ListMutator<StudentGroup> children = new ListMutator<>();
 	private StudentGroup parent;
 
-	public StudentGroupImpl(String name) {
+	public DummyStudentGroup(String name) {
 		super(name);
 	}
 	
-	public StudentGroupImpl addChild(StudentGroupImpl child) {
+	public DummyStudentGroup addChild(DummyStudentGroup child) {
 		children.addItem(child);
 		child.parent = this;
 		return this;
 	}
 	
-	public void setParent(StudentGroupImpl parent) {
+	public void setParent(DummyStudentGroup parent) {
 		this.parent = parent;
 	}
 

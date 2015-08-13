@@ -50,38 +50,38 @@ public class DummyDataProvider implements DataProvider {
 	private void init() {
 		instName.setValue(this, "Test institute");
 		
-		days.addItem(new DayImpl("monday"));
-		days.addItem(new DayImpl("tuesday"));
-		days.addItem(new DayImpl("wednesday"));
-		days.addItem(new DayImpl("thursday"));
-		days.addItem(new DayImpl("friday"));
-		hours.addItem(new HourImpl("8:00"));
-		hours.addItem(new HourImpl("10:00"));
-		hours.addItem(new HourImpl("12:00"));
-		hours.addItem(new HourImpl("14:00"));
-		hours.addItem(new HourImpl("16:00"));
+		days.addItem(new DummyDay("monday"));
+		days.addItem(new DummyDay("tuesday"));
+		days.addItem(new DummyDay("wednesday"));
+		days.addItem(new DummyDay("thursday"));
+		days.addItem(new DummyDay("friday"));
+		hours.addItem(new DummyHour("8:00"));
+		hours.addItem(new DummyHour("10:00"));
+		hours.addItem(new DummyHour("12:00"));
+		hours.addItem(new DummyHour("14:00"));
+		hours.addItem(new DummyHour("16:00"));
 		
-		Subject subjMatek = new SubjectImpl("Math");
-		Subject subjInfo = new SubjectImpl("Computer science");
+		Subject subjMatek = new DummySubject("Math");
+		Subject subjInfo = new DummySubject("Computer science");
 		addSubject(subjMatek);
-		addSubject(new SubjectImpl("Literatute"));
+		addSubject(new DummySubject("Literatute"));
 		addSubject(subjInfo);
 		
-		Teacher teacher1 = new TeacherImpl("Smith");
+		Teacher teacher1 = new DummyTeacher("Smith");
 		addTeacher(teacher1);
-		addTeacher(new TeacherImpl("Tailor"));
+		addTeacher(new DummyTeacher("Tailor"));
 		
 		
 		
-		StudentGroupImpl group1721 = new StudentGroupImpl("1721");
+		DummyStudentGroup group1721 = new DummyStudentGroup("1721");
         studentGroups.addItem(group1721);
-		StudentGroupImpl group1721_1 = new StudentGroupImpl("1");
+		DummyStudentGroup group1721_1 = new DummyStudentGroup("1");
 		group1721.addChild(group1721_1);
-		group1721_1.addChild(new StudentGroupImpl("A"));
-		group1721_1.addChild(new StudentGroupImpl("B"));
-		group1721.addChild(new StudentGroupImpl("2"));
+		group1721_1.addChild(new DummyStudentGroup("A"));
+		group1721_1.addChild(new DummyStudentGroup("B"));
+		group1721.addChild(new DummyStudentGroup("2"));
 
-		StudentGroupImpl group2 = new StudentGroupImpl("1731");
+		DummyStudentGroup group2 = new DummyStudentGroup("1731");
         studentGroups.addItem(group2);
         
 		addRooms(asList("Room_1", "Room_2"));
@@ -115,7 +115,7 @@ public class DummyDataProvider implements DataProvider {
 	@Override
 	public void addSubjects(List<String> names) {
 		for (String name : names) {
-		    SubjectImpl subjectImpl = new SubjectImpl(name);
+		    DummySubject subjectImpl = new DummySubject(name);
             addSubject(subjectImpl);
         }
 	}
@@ -127,7 +127,7 @@ public class DummyDataProvider implements DataProvider {
 	@Override
 	public void addTeachers(List<String> names) {
         for (String name : names) {
-            TeacherImpl teacher = new TeacherImpl(name);
+            DummyTeacher teacher = new DummyTeacher(name);
             addTeacher(teacher);
         }
 	}
@@ -140,13 +140,13 @@ public class DummyDataProvider implements DataProvider {
 	public void addStudentGroups(StudentGroup parent, List<String> names) {
 		if (parent == null) {
 		    for (String name : names) {
-		        StudentGroupImpl studentGroup = new StudentGroupImpl(name);
+		        DummyStudentGroup studentGroup = new DummyStudentGroup(name);
 		        studentGroups.addItem(studentGroup);
             }
 		} else {
-    		StudentGroupImpl parentImpl = (StudentGroupImpl) parent;
+    		DummyStudentGroup parentImpl = (DummyStudentGroup) parent;
             for (String name : names) {
-                StudentGroupImpl studentGroup = new StudentGroupImpl(name);
+                DummyStudentGroup studentGroup = new DummyStudentGroup(name);
         		parentImpl.addChild(studentGroup);
         		studentGroup.setParent(parentImpl);
             }
@@ -156,14 +156,14 @@ public class DummyDataProvider implements DataProvider {
 	@Override
 	public void addRooms(List<String> names) {
         for (String name : names) {
-            RoomImpl room = new RoomImpl(name);
+            DummyRoom room = new DummyRoom(name);
             rooms.addItem(room);
         }
 	}
 	
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
-		AssignmentImpl assignment = new AssignmentImpl(subject, teachers, studentGroups);
+		DummyAssignment assignment = new DummyAssignment(subject, teachers, studentGroups);
 		assignments.addItem(assignment);
 		return assignment;
 	}
@@ -215,7 +215,7 @@ public class DummyDataProvider implements DataProvider {
 
 	@Override
 	public void rename(Entity entity, String newName) {
-		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
+		((DummyEntity) entity).getNameMutator().setValue(entity, newName);
 	}
 
 	@Override

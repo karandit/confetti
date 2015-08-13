@@ -3,9 +3,9 @@ package org.confetti.dummy;
 import org.confetti.core.EntityVisitor;
 import org.confetti.core.Subject;
 
-public class SubjectImpl extends EntityImpl implements Subject {
+public class DummySubject extends DummyEntity implements Subject {
 
-	public SubjectImpl(String name) {
+	public DummySubject(String name) {
 		super(name);
 	}
 	

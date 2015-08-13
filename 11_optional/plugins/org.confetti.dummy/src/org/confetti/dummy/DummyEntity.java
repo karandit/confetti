@@ -7,12 +7,12 @@ import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
-public abstract class EntityImpl implements Entity {
+public abstract class DummyEntity implements Entity {
 
 	private final ValueMutator<String> name;
 	private final ListMutator<Assignment> assignments = new ListMutator<>();
 	
-	public EntityImpl(String name) {
+	public DummyEntity(String name) {
 		this.name = new ValueMutator<>(this, name);
 	}
 	

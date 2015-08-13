@@ -3,9 +3,9 @@ package org.confetti.dummy;
 import org.confetti.core.EntityVisitor;
 import org.confetti.core.Teacher;
 
-public class TeacherImpl extends EntityImpl implements Teacher{
+public class DummyTeacher extends DummyEntity implements Teacher{
 
-	public TeacherImpl(String name) {
+	public DummyTeacher(String name) {
 		super(name);
 	}
 	
