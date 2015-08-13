@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.confetti.xml.core.ConstraintXmlVisitor;
+
 /**
  * @author Bubla Gabor
  */
@@ -37,4 +39,8 @@ public class ConstraintMinDaysBetweenActivities extends TimeConstraint {
 	public int getMinDays() { return minDays; }
 	public void setMinDays(int value) { this.minDays = value; }
 	
+	@Override
+	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+		return visitor.visitTime(this, param);
+	}
 }

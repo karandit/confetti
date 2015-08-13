@@ -25,4 +25,6 @@ public abstract class BaseConstraintXml {
 	public String getComment() { return comment; }
 	public void setComment(String comment) { this.comment = comment; }
 
+	protected abstract <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param);
+
 }

@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.confetti.xml.core.ConstraintXmlVisitor;
+
 /**
  * @author Bubla Gabor
  */
@@ -17,4 +19,8 @@ public class ConstraintStudentsEarlyMaxBeginningsAtSecondHour extends TimeConstr
 	public int getMaxBeginningsAtSecondHour() 			{ return maxBeginAt2ndHour; }
 	public void setMaxBeginningsAtSecondHour(int v) 	{ this.maxBeginAt2ndHour = v; }
 	
+	@Override
+	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+		return visitor.visitTime(this, param);
+	}
 }

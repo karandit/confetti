@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.confetti.xml.core.ConstraintXmlVisitor;
+
 /**
  * @author Bubla Gabor
  */
@@ -27,5 +29,10 @@ public class ConstraintActivityPreferredRoom extends SpaceConstraint {
 	@XmlElement(name = "Permanently_Locked")
 	public boolean isLocked() { return locked; }
 	public void setLocked(boolean locked) { this.locked = locked; }
+	
+	@Override
+	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+		return visitor.visitSpace(this, param);
+	}
 	
 }
