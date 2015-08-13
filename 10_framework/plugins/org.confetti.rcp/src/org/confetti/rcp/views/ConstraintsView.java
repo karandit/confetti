@@ -102,8 +102,11 @@ public class ConstraintsView extends ViewPart implements ObservableListener<Cons
 				return constraintDescr == null ? "" : constraintDescr.getName();
 			case 1: 
 				StringBuilder sb = new StringBuilder();
-				for (ConstraintAttribute attr : constraint.getAttributes()) {
-					sb.append(attr.getKey()).append("; ");
+				for (ConstraintAttribute<?> attr : constraint.getAttributes()) {
+					sb.append(attr.getKey())
+					.append(" = ")
+					.append(attr.getValue())
+					.append("; ");
 				}
 				return sb.toString();
 			default: return "";
