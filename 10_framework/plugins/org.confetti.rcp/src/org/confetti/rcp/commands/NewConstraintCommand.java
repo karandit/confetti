@@ -38,7 +38,7 @@ public class NewConstraintCommand extends AbstractHandler {
         };
         
         ElementTreeSelectionDialog dlg = new ElementTreeSelectionDialog(shell, labelProvider, 
-        		ConstraintContentProvider.INSTANCE);
+        		ConstraintElementContentProvider.INSTANCE);
         dlg.setTitle("Open");
         dlg.setMessage("Choose a constraint");
         dlg.setValidator(new ISelectionStatusValidator() {
@@ -87,7 +87,7 @@ public class NewConstraintCommand extends AbstractHandler {
 
 	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
 
-    private static enum ConstraintContentProvider implements IStructuredContentProvider, ITreeContentProvider {
+    private static enum ConstraintElementContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 		INSTANCE;
 
 		@Override public void dispose() { } 
