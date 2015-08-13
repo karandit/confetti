@@ -8,6 +8,6 @@ import org.confetti.xml.core.BaseConstraintXml;
  * @author Bubla Gabor
  */
 @XmlTransient
-public class SpaceConstraint extends BaseConstraintXml {
+public abstract class SpaceConstraint extends BaseConstraintXml {
 
 }
