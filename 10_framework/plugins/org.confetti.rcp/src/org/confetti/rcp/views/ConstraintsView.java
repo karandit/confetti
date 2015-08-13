@@ -1,6 +1,7 @@
 package org.confetti.rcp.views;
 
 import org.confetti.core.Constraint;
+import org.confetti.core.ConstraintAttribute;
 import org.confetti.core.DataProvider;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableListener;
@@ -99,6 +100,12 @@ public class ConstraintsView extends ViewPart implements ObservableListener<Cons
 				ConstraintRegistry reg = ConstraintRegistry.INSTANCE;
 				ConstraintDescr constraintDescr = reg.getConstraintDescrById(constraintType);
 				return constraintDescr == null ? "" : constraintDescr.getName();
+			case 1: 
+				StringBuilder sb = new StringBuilder();
+				for (ConstraintAttribute attr : constraint.getAttributes()) {
+					sb.append(attr.getKey()).append("; ");
+				}
+				return sb.toString();
 			default: return "";
 			}
 		}

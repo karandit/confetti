@@ -5,4 +5,5 @@ package org.confetti.core;
  */
 public interface Constraint {
 	String getConstraintType();
+	ConstraintAttributes getAttributes();
 }

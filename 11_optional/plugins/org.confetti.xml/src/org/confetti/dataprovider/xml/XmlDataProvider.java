@@ -77,11 +77,15 @@ public class XmlDataProvider implements DataProvider {
 	private static class ConstraintImpl implements Constraint {
 
 		private final String type;
-		public ConstraintImpl(final String type) {
+		private final ConstraintAttributes attrs;
+		
+		public ConstraintImpl(final String type, final ConstraintAttributes attrs) {
 			this.type = type;
+			this.attrs = attrs;
 		}
 		
 		@Override public String getConstraintType() { return type; }
+		@Override public ConstraintAttributes getAttributes() { return attrs; }
 		
 	}
 	
@@ -350,7 +354,7 @@ public class XmlDataProvider implements DataProvider {
 		addXmlConstraint(type, attrs); 
 		save();
 		
-		ConstraintImpl constraint = new ConstraintImpl(type);
+		ConstraintImpl constraint = new ConstraintImpl(type, attrs);
 		constraints.addItem(constraint);
 		return constraint;
 	}

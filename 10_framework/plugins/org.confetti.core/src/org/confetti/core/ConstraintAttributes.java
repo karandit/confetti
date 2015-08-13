@@ -1,9 +1,10 @@
 package org.confetti.core;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
-public class ConstraintAttributes {
+public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	
 	private Map<String, ConstraintAttribute<?>> attrs = new HashMap<>();
 
@@ -33,6 +34,11 @@ public class ConstraintAttributes {
 		
 		ConstraintAttribute<Boolean> foundAttr = (ConstraintAttribute<Boolean>) attrs.get(key);
 		return foundAttr.getValue();
+	}
+
+	@Override
+	public Iterator<ConstraintAttribute<?>> iterator() {
+		return attrs.values().iterator();
 	}
 
 }
