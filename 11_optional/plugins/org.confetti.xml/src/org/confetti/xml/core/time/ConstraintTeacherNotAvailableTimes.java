@@ -35,7 +35,7 @@ public class ConstraintTeacherNotAvailableTimes extends TimeConstraint {
 	public void setNotAvailableTimes(List<BreakTimeXml> value) { this.notAvailableTimes = value; }
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

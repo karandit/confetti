@@ -19,7 +19,7 @@ public class ConstraintTeacherMaxGapsPerDay extends TimeConstraint {
 	@XmlElement(name = "Max_Gaps") 		private int maxGaps;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

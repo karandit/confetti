@@ -16,7 +16,7 @@ public class ConstraintStudentsSetHomeRoom extends SpaceConstraint {
 	@XmlElement(name = "Room") private String room;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitSpace(this, param);
 	}
 }

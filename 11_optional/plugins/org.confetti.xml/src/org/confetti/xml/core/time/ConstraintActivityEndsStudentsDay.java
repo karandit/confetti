@@ -18,7 +18,7 @@ public class ConstraintActivityEndsStudentsDay extends TimeConstraint {
 	@XmlElement(name = "Activity_Id") 	int activityId;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

@@ -22,7 +22,7 @@ public class ConstraintStudentsSetNotAvailableTimes extends TimeConstraint {
 	@XmlElement(name = "Not_Available_Time") private List<BreakTimeXml> notAvailableTimes;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

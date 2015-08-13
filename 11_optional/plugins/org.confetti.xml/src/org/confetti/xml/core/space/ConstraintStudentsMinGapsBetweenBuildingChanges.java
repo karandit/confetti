@@ -15,7 +15,7 @@ public class ConstraintStudentsMinGapsBetweenBuildingChanges extends SpaceConstr
 	@XmlElement(name = "Min_Gaps_Between_Building_Changes") private int minGapsBetweenBuildingChanges;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitSpace(this, param);
 	}
 }

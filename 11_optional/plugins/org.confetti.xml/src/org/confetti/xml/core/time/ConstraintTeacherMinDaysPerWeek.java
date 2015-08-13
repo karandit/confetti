@@ -16,7 +16,7 @@ public class ConstraintTeacherMinDaysPerWeek extends TimeConstraint {
 	@XmlElement(name = "Minimum_Days_Per_Week") private int minDaysPerWeek;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

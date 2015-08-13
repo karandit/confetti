@@ -24,7 +24,7 @@ public class ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots extends Time
 	@XmlElement(name = "Max_Number_of_Simultaneous_Activities") private int maxNrOfSimultaneousActivities;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 

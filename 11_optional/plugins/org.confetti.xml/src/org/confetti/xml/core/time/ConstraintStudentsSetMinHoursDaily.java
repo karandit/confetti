@@ -20,7 +20,7 @@ public class ConstraintStudentsSetMinHoursDaily extends TimeConstraint {
 	@XmlElement(name = "Allow_Empty_Days") 	boolean allowEmptyDays;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

@@ -20,7 +20,7 @@ public class ConstraintStudentsMaxGapsPerWeek extends TimeConstraint {
 	public void setMaxGaps(int maxGaps) { this.maxGaps = maxGaps; }
 	
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

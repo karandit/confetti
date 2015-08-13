@@ -22,7 +22,7 @@ public class ConstraintActivitiesOccupyMaxDifferentRooms extends SpaceConstraint
 	@XmlElement(name = "Max_Number_of_Different_Rooms") private int maxNrOfDifferentRooms;
 	
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitSpace(this, param);
 	}
 }

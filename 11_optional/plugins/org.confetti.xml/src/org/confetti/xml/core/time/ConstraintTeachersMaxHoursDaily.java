@@ -15,7 +15,7 @@ public class ConstraintTeachersMaxHoursDaily extends TimeConstraint {
 	@XmlElement(name = "Maximum_Hours_Daily") private int maxHoursDaily;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

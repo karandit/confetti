@@ -20,7 +20,7 @@ public class ConstraintStudentsEarlyMaxBeginningsAtSecondHour extends TimeConstr
 	public void setMaxBeginningsAtSecondHour(int v) 	{ this.maxBeginAt2ndHour = v; }
 	
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

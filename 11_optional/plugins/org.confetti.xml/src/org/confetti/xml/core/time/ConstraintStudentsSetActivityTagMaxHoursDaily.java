@@ -20,7 +20,7 @@ public class ConstraintStudentsSetActivityTagMaxHoursDaily extends TimeConstrain
 	@XmlElement(name = "Activity_Tag") 				private String activityTag;
 	
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

@@ -22,7 +22,7 @@ public class ConstraintTeacherHomeRooms extends SpaceConstraint {
 	@XmlElement(name = "Preferred_Room") private List<String> rooms;
 	
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitSpace(this, param);
 	}
 }

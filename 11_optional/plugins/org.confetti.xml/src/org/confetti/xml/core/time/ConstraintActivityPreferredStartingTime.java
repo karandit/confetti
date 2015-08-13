@@ -36,7 +36,7 @@ public class ConstraintActivityPreferredStartingTime extends TimeConstraint {
 	public void setLocked(boolean locked) { this.locked = locked; }
 	
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

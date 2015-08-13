@@ -20,7 +20,7 @@ public class ConstraintActivitiesNotOverlapping extends TimeConstraint {
 	@XmlElement(name = "Activity_Id") 					private List<Long> activityIds;
 	
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}	
 }

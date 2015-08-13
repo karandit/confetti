@@ -16,7 +16,7 @@ public class ConstraintStudentsSetMaxBuildingChangesPerDay extends SpaceConstrai
 	@XmlElement(name = "Max_Building_Changes_Per_Day") private int maxBuildingChangesPerDay;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitSpace(this, param);
 	}
 }

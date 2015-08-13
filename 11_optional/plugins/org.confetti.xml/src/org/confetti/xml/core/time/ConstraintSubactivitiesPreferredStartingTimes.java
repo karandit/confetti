@@ -27,7 +27,7 @@ public class ConstraintSubactivitiesPreferredStartingTimes extends TimeConstrain
 	@XmlElement(name = "Preferred_Starting_Time") 				private List<PreferredStartingTimeXml> preferredStartingTimes;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

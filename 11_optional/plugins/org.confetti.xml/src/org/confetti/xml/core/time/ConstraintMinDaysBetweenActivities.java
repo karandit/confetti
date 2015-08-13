@@ -40,7 +40,7 @@ public class ConstraintMinDaysBetweenActivities extends TimeConstraint {
 	public void setMinDays(int value) { this.minDays = value; }
 	
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }

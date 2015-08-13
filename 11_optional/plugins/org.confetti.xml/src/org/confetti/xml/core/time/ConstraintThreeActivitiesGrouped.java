@@ -17,7 +17,7 @@ public class ConstraintThreeActivitiesGrouped extends TimeConstraint {
 	@XmlElement(name = "Third_Activity_Id") private int thirdActivityId;
 
 	@Override
-	protected <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
+	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
 	}
 }
