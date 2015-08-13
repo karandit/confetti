@@ -1,7 +1,9 @@
 package org.confetti.rcp.extensions;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -19,16 +21,28 @@ public enum ConstraintRegistry {
     /** The name of extension-point which is worked up. */
     private static final String CONSTRAINT_EXTENSION_POINT = "org.confetti.rcp.constraint"; //$NON-NLS-1$
     private List<IConstraintElement> descriptors = null;
+    private Map<String, ConstraintDescr> constraintDescrsById = null;
     
     public List<IConstraintElement> getExtensions() {
-        if (descriptors == null) {
-            descriptors = loadDescriptors();
-        }
+        init();
         return descriptors;
     }
+    
+    public ConstraintDescr getConstraintDescrById(String id) {
+        init();
+    	return constraintDescrsById.get(id);
+    }
 
-    //------------------------- helpers --------------------------------------------------------------------------------
-    private List<IConstraintElement> loadDescriptors() {
+	//------------------------- helpers --------------------------------------------------------------------------------
+	private void init() {
+		if (descriptors == null) {
+            descriptors = loadDescriptors();
+            IConstraintElement[] descrArr = descriptors.toArray(new IConstraintElement[descriptors.size()]);
+            constraintDescrsById = loadConstDescrsByType(descrArr);
+        }
+	}
+
+	private static List<IConstraintElement> loadDescriptors() {
         List<IConstraintElement> res = new LinkedList<>();
         IExtensionRegistry registry = Platform.getExtensionRegistry();
         if (registry == null) {
@@ -50,5 +64,18 @@ public enum ConstraintRegistry {
         }
         return res;
     }
-    
+
+    private static Map<String, ConstraintDescr> loadConstDescrsByType(IConstraintElement[] elements) {
+    	Map<String, ConstraintDescr> res = new HashMap<>();
+    	for (IConstraintElement element : elements) {
+			if (element instanceof ConstraintDescr) {
+				ConstraintDescr descr = (ConstraintDescr) element;
+				res.put(descr.getId(), descr);
+			}
+    		if (element.hasChildren()) {
+				res.putAll(loadConstDescrsByType(element.getChildren()));
+			}
+		}
+    	return res;
+	}
 }
