@@ -5,14 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.confetti.core.Assignable;
 import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
-import org.confetti.core.EntityVisitor;
 import org.confetti.core.Hour;
 import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
@@ -48,131 +46,6 @@ import com.google.common.collect.Lists;
  * @author Bubla Gabor
  */
 public class XmlDataProvider implements DataProvider {
-	
-	//----------------------------- inner classes ----------------------------------------------------------------------
-	private static class AssignmentImpl implements Assignment {
-
-	    private final Long id;
-		private final Subject subj;
-		private final ListMutator<Teacher> teachers = new ListMutator<>();
-		private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
-		
-		public AssignmentImpl(Long id, Subject subj) {
-            this.id = id;
-            this.subj = subj;
-			subj.addAssignment(this);
-		}
-
-		public void addTeacher(Teacher teacher) 			{ teachers.addItem(teacher); teacher.addAssignment(this);} 
-		public void addStudentGroup(StudentGroup group) 	{ stGroups.addItem(group); group.addAssignment(this);} 
-		
-		public Long getId() { return id; }
-		@Override public Subject getSubject() 								{ return subj; }
-		@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
-		@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stGroups.getObservableList(); }
-		@Override public Room getRoom() 									{ return null; }
-
-	}
-	
-	private static class ConstraintImpl implements Constraint {
-
-		private final String type;
-		private final ConstraintAttributes attrs;
-		
-		public ConstraintImpl(final String type, final ConstraintAttributes attrs) {
-			this.type = type;
-			this.attrs = attrs;
-		}
-		
-		@Override public String getConstraintType() { return type; }
-		@Override public ConstraintAttributes getAttributes() { return attrs; }
-		
-	}
-	
-	private static abstract class EntityImpl implements Entity, Assignable {
-
-		private final ValueMutator<String> name;
-		private final ListMutator<Assignment> assignments = new ListMutator<>();
-		
-		public EntityImpl(String name) {
-			this.name = new ValueMutator<>(this, name);
-		}
-		
-		@Override public ObservableValue<String> getName() 			  { return name.getObservableValue(); }
-		@Override public void addAssignment(Assignment assignment) 	  { assignments.addItem(assignment);}
-		@Override public void removeAssignment(Assignment assignment) { assignments.removeItem(assignment); }
-		@Override public ObservableList<Assignment> getAssignments()  { return assignments.getObservableList(); }
-		
-		public ValueMutator<String> getNameMutator() { return name; }
-
-	}
-	
-	private static class TeacherImpl extends EntityImpl implements Teacher {
-		public TeacherImpl(String name) { super(name); }
-
-		@Override
-		public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
-			return visitor.visitTeacher(this, param);
-		}
-	}
-
-	private static class SubjectImpl extends EntityImpl implements Subject {
-		public SubjectImpl(String name) { super(name); }
-
-		@Override
-		public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
-			return visitor.visitSubject(this, param);
-		}
-	}
-
-	private static class RoomImpl extends EntityImpl implements Room {
-		public RoomImpl(String name) { super(name); }
-
-		@Override
-		public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
-			return visitor.visitRoom(this, param);
-		}
-	}
-
-	private static class StudentGroupImpl extends EntityImpl implements StudentGroup {
-		
-		private final ListMutator<StudentGroup> children = new ListMutator<>();
-		
-		public StudentGroupImpl(String name) {
-			super(name);
-		}
-
-		public void addChild(StudentGroup child) 			{ children.addItem(child); }
-		@Override public ObservableList<StudentGroup> getChildren() 	{ return children.getObservableList(); }
-		@Override public StudentGroup getParent() 			{ return null; }
-
-		@Override
-		public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
-			return visitor.visitStudentGroup(this, param);
-		}
-	}
-	
-	private static class DayImpl implements Day {
-
-		private final ValueMutator<String> name;
-		public DayImpl(String name) {
-			this.name = new ValueMutator<>(this, name);
-		}
-		
-		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
-
-	}
-
-	private static class HourImpl implements Hour {
-
-		private final ValueMutator<String> name;
-		public HourImpl(String name) {
-			this.name = new ValueMutator<>(this, name);
-		}
-		
-		@Override public ObservableValue<String> getName() 			{ return name.getObservableValue(); }
-
-	}
 
 	//----------------------------- fields for UI client----------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
