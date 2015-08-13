@@ -76,55 +76,82 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	public XmlDataProvider(InstituteXml inst) {
-			this.instXml = inst;
-            for (SubjectXml subj : inst.getSubjects()) {
-				subjects.addItem(new SubjectImpl(subj.getName()));
-			}
-			for (TeacherXml teacher : inst.getTeachers()) {
-				teachers.addItem(new TeacherImpl(teacher.getName()));
-			}
-			for (RoomXml room : inst.getRooms()) {
-				rooms.addItem(new RoomImpl(room.getName()));
-			}
-			for (YearXml year : inst.getYears()) {
-				StudentGroupImpl studentGroup1 = new StudentGroupImpl(year.getName());
-				stdGroups.addItem(studentGroup1);
-				for (GroupXml group : year.getGroups()) {
-					StudentGroupImpl studentGroup2 = new StudentGroupImpl(group.getName());
-					studentGroup1.addChild(studentGroup2);
-					for (SubgroupXml subgroup : group.getSubgroups()) {
-						StudentGroupImpl studentGroup3 = new StudentGroupImpl(subgroup.getName());
-						studentGroup2.addChild(studentGroup3);
-					}
-				}
-			}
-			for (DayXml day : inst.getDays().getDays()) {
-				days.addItem(new DayImpl(day.getName()));
-			}
-			for (HourXml hour : inst.getHours().getHours()) {
-				hours.addItem(new HourImpl(hour.getName()));
-			}
+		this.instXml = inst;
+        createSubjects(inst);
+		createTeachers(inst);
+		createRooms(inst);
+		createStudentGroups(inst);
+		createDays(inst);
+		createHours(inst);
+		createAssignments(inst);
+	}
 
-			Iterable<Subject> allSubjects = subjects.getObservableList().getList();
-			Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
-			Map<String, StudentGroup> allStdGroups = collectStudentGroups(stdGroups.getObservableList().getList());
-			for (ActivityXml act : inst.getActivities()) {
-			    if (act.getId() > currentMaxId) {
-                    currentMaxId = act.getId();
-                }
-				AssignmentImpl ass = new AssignmentImpl(act.getId(), findByName(allSubjects, act.getSubject().getName()));
-				if (act.getStudents() != null) {
-					for (String stGroupName : act.getStudents()) {
-						ass.addStudentGroup(allStdGroups.get(stGroupName));
-					}
+	private void createAssignments(InstituteXml inst) {
+		Iterable<Subject> allSubjects = subjects.getObservableList().getList();
+		Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
+		Map<String, StudentGroup> allStdGroups = collectStudentGroups(stdGroups.getObservableList().getList());
+		for (ActivityXml act : inst.getActivities()) {
+		    if (act.getId() > currentMaxId) {
+		        currentMaxId = act.getId();
+		    }
+			AssignmentImpl ass = new AssignmentImpl(act.getId(), findByName(allSubjects, act.getSubject().getName()));
+			if (act.getStudents() != null) {
+				for (String stGroupName : act.getStudents()) {
+					ass.addStudentGroup(allStdGroups.get(stGroupName));
 				}
-				if (act.getTeachers() != null) {
-					for (TeacherRef teacherRef : act.getTeachers()) {
-						ass.addTeacher(findByName(allTeachers, teacherRef.getName()));
-					}
-				}
-				assignments.addItem(ass);
 			}
+			if (act.getTeachers() != null) {
+				for (TeacherRef teacherRef : act.getTeachers()) {
+					ass.addTeacher(findByName(allTeachers, teacherRef.getName()));
+				}
+			}
+			assignments.addItem(ass);
+		}
+	}
+
+	private void createHours(InstituteXml inst) {
+		for (HourXml hour : inst.getHours().getHours()) {
+			hours.addItem(new HourImpl(hour.getName()));
+		}
+	}
+
+	private void createDays(InstituteXml inst) {
+		for (DayXml day : inst.getDays().getDays()) {
+			days.addItem(new DayImpl(day.getName()));
+		}
+	}
+
+	private void createStudentGroups(InstituteXml inst) {
+		for (YearXml year : inst.getYears()) {
+			StudentGroupImpl studentGroup1 = new StudentGroupImpl(year.getName());
+			stdGroups.addItem(studentGroup1);
+			for (GroupXml group : year.getGroups()) {
+				StudentGroupImpl studentGroup2 = new StudentGroupImpl(group.getName());
+				studentGroup1.addChild(studentGroup2);
+				for (SubgroupXml subgroup : group.getSubgroups()) {
+					StudentGroupImpl studentGroup3 = new StudentGroupImpl(subgroup.getName());
+					studentGroup2.addChild(studentGroup3);
+				}
+			}
+		}
+	}
+
+	private void createRooms(InstituteXml inst) {
+		for (RoomXml room : inst.getRooms()) {
+			rooms.addItem(new RoomImpl(room.getName()));
+		}
+	}
+
+	private void createTeachers(InstituteXml inst) {
+		for (TeacherXml teacher : inst.getTeachers()) {
+			teachers.addItem(new TeacherImpl(teacher.getName()));
+		}
+	}
+
+	private void createSubjects(InstituteXml inst) {
+		for (SubjectXml subj : inst.getSubjects()) {
+			subjects.addItem(new SubjectImpl(subj.getName()));
+		}
 	}
 	
 	private Map<String, StudentGroup> collectStudentGroups(Iterable<StudentGroup> list) {
