@@ -7,6 +7,7 @@ import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
@@ -51,7 +52,7 @@ public abstract class AbstractEntityView<T extends StructuredViewer> extends Vie
 	protected void inputChanged(DataProvider oldDp, DataProvider newDp) {
 	}
 	
-	protected EntityTableLabelProvider getLabelProvider() { return new EntityTableLabelProvider(); }
+	protected LabelProvider getLabelProvider() { return new EntityTableLabelProvider(); }
 	protected IContentProvider getContentProvider() { return new ArrayContentProvider(); }
 	@Override public void setFocus() { viewer.getControl().setFocus(); }
 	
