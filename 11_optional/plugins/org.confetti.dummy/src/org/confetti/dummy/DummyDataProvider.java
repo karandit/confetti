@@ -21,7 +21,7 @@ import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
-public class DataProviderImpl implements DataProvider {
+public class DummyDataProvider implements DataProvider {
 
 	private ValueMutator<String> instName = new ValueMutator<>();
 	private ListMutator<Subject> subjects;
@@ -34,7 +34,7 @@ public class DataProviderImpl implements DataProvider {
 	private ListMutator<Constraint> constraints;
 	private ValueMutator<Iterable<SolutionSlot>> solution;
 	
-	public DataProviderImpl() {
+	public DummyDataProvider() {
 		this.subjects = new ListMutator<>();
 		this.teachers = new ListMutator<>();
 		this.studentGroups = new ListMutator<>();

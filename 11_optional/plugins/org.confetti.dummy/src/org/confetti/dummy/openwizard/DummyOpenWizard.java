@@ -1,6 +1,6 @@
 package org.confetti.dummy.openwizard;
 
-import org.confetti.dummy.DataProviderImpl;
+import org.confetti.dummy.DummyDataProvider;
 import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.PlatformUI;
@@ -20,7 +20,7 @@ public class DummyOpenWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
-	    DataProviderImpl dp = new DataProviderImpl();
+	    DummyDataProvider dp = new DummyDataProvider();
         ConfettiPlugin.getDefault().setDataProvider(dp, dp);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - Dummy");
 		return true;
