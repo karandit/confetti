@@ -36,8 +36,8 @@ import org.confetti.xml.core.SubjectXml;
 import org.confetti.xml.core.TeacherRef;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
-import org.confetti.xml.core.time.ConstraintBasicCompulsoryTime;
 import org.confetti.xml.core.time.TimeConstraint;
+import org.confetti.xml.core.time.misc.ConstraintBasicCompulsoryTime;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
