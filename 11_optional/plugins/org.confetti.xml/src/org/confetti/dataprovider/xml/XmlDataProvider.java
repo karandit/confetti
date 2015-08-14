@@ -26,6 +26,7 @@ import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.BaseConstraintXml;
 import org.confetti.xml.core.DayXml;
+import org.confetti.xml.core.GetConstraintTypeVisitor;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.HourXml;
 import org.confetti.xml.core.INameBean;
@@ -46,7 +47,9 @@ import com.google.common.collect.Lists;
  * @author Bubla Gabor
  */
 public class XmlDataProvider implements DataProvider {
-
+	//----------------------------- constants --------------------------------------------------------------------------
+	private static final String FET_CONSTRAINTS_NAMESPACE = "org.confetti.fet.constraints.";
+	
 	//----------------------------- fields for UI client----------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
 	private ListMutator<Teacher> teachers = new ListMutator<>();
@@ -84,6 +87,8 @@ public class XmlDataProvider implements DataProvider {
 		createDays(inst);
 		createHours(inst);
 		createAssignments(inst);
+		createConstraints(inst.getTimeConstraints());
+		createConstraints(inst.getSpaceConstraints());
 	}
 
 	private void createAssignments(InstituteXml inst) {
@@ -153,7 +158,15 @@ public class XmlDataProvider implements DataProvider {
 			subjects.addItem(new SubjectImpl(subj.getName()));
 		}
 	}
-	
+
+	private void createConstraints(List<? extends BaseConstraintXml> constraintsList) {
+		for (BaseConstraintXml constraint : constraintsList) {
+			String shortType = constraint.accept(GetConstraintTypeVisitor.INSTANCE, null);
+			String type = FET_CONSTRAINTS_NAMESPACE + shortType;
+			constraints.addItem(new ConstraintImpl(type, new ConstraintAttributes()));
+		}
+	}
+
 	private Map<String, StudentGroup> collectStudentGroups(Iterable<StudentGroup> list) {
 		Map<String, StudentGroup> res = new HashMap<>();
 		for (StudentGroup sg : list) {
@@ -260,7 +273,7 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	private BaseConstraintXml addXmlConstraint(final String type, final ConstraintAttributes attrs) {
-		String shortType = type.substring("org.confetti.fet.constraints.".length());
+		String shortType = type.substring(FET_CONSTRAINTS_NAMESPACE.length());
 		
 		switch (shortType) {
 			case "time.BasicCompulsoryTime": return addTimeXmlConstraint(new ConstraintBasicCompulsoryTime(attrs));
