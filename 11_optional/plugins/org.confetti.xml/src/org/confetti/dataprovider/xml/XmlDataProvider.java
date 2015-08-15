@@ -26,6 +26,7 @@ import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.BaseConstraintXml;
 import org.confetti.xml.core.DayXml;
+import org.confetti.xml.core.GetConstraintAttrVisitor;
 import org.confetti.xml.core.GetConstraintTypeVisitor;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.HourXml;
@@ -163,7 +164,9 @@ public class XmlDataProvider implements DataProvider {
 		for (BaseConstraintXml constraint : constraintsList) {
 			String shortType = constraint.accept(GetConstraintTypeVisitor.INSTANCE, null);
 			String type = FET_CONSTRAINTS_NAMESPACE + shortType;
-			constraints.addItem(new ConstraintImpl(type, new ConstraintAttributes()));
+			ConstraintAttributes attrs = constraint.accept(GetConstraintAttrVisitor.INSTANCE, new ConstraintAttributes());
+			if (attrs == null) attrs = new ConstraintAttributes();
+			constraints.addItem(new ConstraintImpl(type, attrs));
 		}
 	}
 
