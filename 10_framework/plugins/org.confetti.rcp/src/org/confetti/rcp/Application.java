@@ -10,7 +10,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * This class controls all aspects of the application's execution
  */
-public class Application implements IApplicatio {
+public class Application implements IApplication {
 
 	public Object start(IApplicationContext context) {
 		Display display = PlatformUI.createDisplay();
