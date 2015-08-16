@@ -121,57 +121,57 @@
          </category>
          <category name="Students">
 			<constraint id="time.NotAvailableTimesForAStudentGroup" name="A student group&apos;s not available times">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <week-field label="Not available times" name="not-available-times"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
 
             <separator/>
             <constraint id="time.MaxDaysPerWeekForAStudentGroup" name="Max days per week for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <day-field label="Max days per week" name="days"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxGapsPerDayForAStudentGroup" name="Max gaps per day for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <hour-field label="Max gaps per day" name="hours"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxGapsPerWeekForAStudentGroup" name="Max gaps per week for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <day-field label="Max gaps per week" name="days"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxBeginningsAtSecondHourForAStudentGroup" name="A student group begins early (max beginnings at second hour)">
             </constraint>
              <constraint id="time.MaxHoursPerDayForAStudentGroup" name="Max hours daily for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <hour-field label="Max hours daily" name="hours"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxHoursPerDayWithAnActivityTagForAStudentGroup" name="Max hours daily with an activity tag for a student group">
-			   <studentgroup-field label="Student group" name="studengroup"/>
+			   <studentgroup-field label="Student group" name="studentgroup"/>
                <hour-field label="Max hours daily" name="hours"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MinHoursPerDayForAStudentGroup" name="Min hours daily for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <hour-field label="Min hours daily" name="hours"/>
                <boolean-field label="Allow empty days" name="allow-empty-days"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxHoursContinuouslyForAStudentGroup" name="Max hours continuously for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <hour-field label="Max hours continuously" name="hours"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxHoursContinuouslyWithAnActivityTagForAStudentGroup" name="Max hours continuously with an activity tag for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <hour-field label="Max hours continuously" name="hours"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.HourlyIntervalMaxDaysPerWeekForAStudentGroup" name="A student group works in an hourly interval max days per week">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <period-field label="Interval" name="interval"/>
                <day-field label="Max days per week" name="days"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
@@ -406,29 +406,29 @@
          </category>
          <category name="Students">
             <constraint id="space.StudentGroupHasAHomeRoom" name="A student group has a home room">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <room-field label="Room" name="room"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
             <constraint id="space.StudentGroupHasSomeHomeRooms" name="A student group has a set of home rooms">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
                <rooms-set-field label="Rooms" name="rooms"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
 
             <separator/>
             <constraint id="space.MaxBuildingChangesPerDayForAStudentGroup" name="Max building changes per day for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
 			   <hour-field label="Max building changes per day" name="max-building-changes"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
             <constraint id="space.MaxBuildingChangesPerWeekForAStudentGroup" name="Max building changes per week for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
 			   <number-field label="Max building changes per week" name="max-building-changes"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
             <constraint id="space.MinGapsBetweenBuildingChangesForAStudentGroup" name="Min gaps between building changes for a student group">
-               <studentgroup-field label="Student group" name="studengroup"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
 			   <hour-field label="Min gaps between building changes" name="min-gaps"/>
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
