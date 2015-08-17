@@ -16,8 +16,8 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"active", "comment"})
 public class ConstraintTeacherMinHoursDaily extends TimeConstraint {
 	@XmlElement(name = "Teacher_Name") 			public String teacherName;
-	@XmlElement(name = "Minimum_Hours_Daily") 	private int minimumHoursDaily;
-	@XmlElement(name = "Allow_Empty_Days") 		private boolean allowEmptyDays;
+	@XmlElement(name = "Minimum_Hours_Daily") 	public int minimumHoursDaily;
+	@XmlElement(name = "Allow_Empty_Days") 		public boolean allowEmptyDays;
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

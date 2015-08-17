@@ -16,8 +16,8 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"maxHoursDaily", "students", "activityTag",
 		"active", "comment"})
 public class ConstraintStudentsSetActivityTagMaxHoursDaily extends TimeConstraint {
-	@XmlElement(name = "Maximum_Hours_Daily") 	private int maxHoursDaily;
-	@XmlElement(name = "Students") 				private String students;
+	@XmlElement(name = "Maximum_Hours_Daily") 	public int maxHoursDaily;
+	@XmlElement(name = "Students") 				public String students;
 	@XmlElement(name = "Activity_Tag") 				private String activityTag;
 	
 	@Override

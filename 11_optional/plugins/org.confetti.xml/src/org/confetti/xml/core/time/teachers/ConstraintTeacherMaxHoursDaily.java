@@ -14,7 +14,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 @XmlType(propOrder = { "weight", "teacherName", "maxHoursDaily", "active", "comment"})
 public class ConstraintTeacherMaxHoursDaily extends TimeConstraint {
 	@XmlElement(name = "Teacher_Name") public String teacherName;
-	@XmlElement(name = "Maximum_Hours_Daily") private int maxHoursDaily;
+	@XmlElement(name = "Maximum_Hours_Daily") public int maxHoursDaily;
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

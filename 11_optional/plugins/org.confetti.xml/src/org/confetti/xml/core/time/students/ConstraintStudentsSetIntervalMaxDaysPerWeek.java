@@ -16,10 +16,10 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"students", "intervalStartHour", "intervalEndHour", "maxDaysPerWeek", 
 		"active", "comment"})
 public class ConstraintStudentsSetIntervalMaxDaysPerWeek extends TimeConstraint {
-	@XmlElement(name = "Students") private String students;
+	@XmlElement(name = "Students") public String students;
 	@XmlElement(name = "Interval_Start_Hour") private String intervalStartHour;
 	@XmlElement(name = "Interval_End_Hour") private String intervalEndHour;
-	@XmlElement(name = "Max_Days_Per_Week") private int maxDaysPerWeek;
+	@XmlElement(name = "Max_Days_Per_Week") public int maxDaysPerWeek;
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
