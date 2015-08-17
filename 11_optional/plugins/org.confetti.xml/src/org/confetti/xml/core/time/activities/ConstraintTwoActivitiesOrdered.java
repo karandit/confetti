@@ -13,8 +13,8 @@ import org.confetti.xml.core.time.TimeConstraint;
 @XmlRootElement
 @XmlType(propOrder = { "weight", "firstActivityId", "secondActivityId", "active", "comment" })
 public class ConstraintTwoActivitiesOrdered extends TimeConstraint {
-	@XmlElement(name = "First_Activity_Id") private int firstActivityId;
-	@XmlElement(name = "Second_Activity_Id") private int secondActivityId;
+	@XmlElement(name = "First_Activity_Id") public int firstActivityId;
+	@XmlElement(name = "Second_Activity_Id") public int secondActivityId;
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

@@ -13,9 +13,9 @@ import org.confetti.xml.core.time.TimeConstraint;
 @XmlRootElement
 @XmlType(propOrder = { "weight", "firstActivityId", "secondActivityId", "thirdActivityId", "active", "comment" })
 public class ConstraintThreeActivitiesGrouped extends TimeConstraint {
-	@XmlElement(name = "First_Activity_Id") private int firstActivityId;
-	@XmlElement(name = "Second_Activity_Id") private int secondActivityId;
-	@XmlElement(name = "Third_Activity_Id") private int thirdActivityId;
+	@XmlElement(name = "First_Activity_Id") public int firstActivityId;
+	@XmlElement(name = "Second_Activity_Id") public int secondActivityId;
+	@XmlElement(name = "Third_Activity_Id") public int thirdActivityId;
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

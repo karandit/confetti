@@ -14,7 +14,7 @@ import org.confetti.xml.core.space.SpaceConstraint;
 @XmlType(propOrder = {"weight", "teacher", "minGapsBetweenBuildingChanges", "active", "comment"})
 public class ConstraintTeacherMinGapsBetweenBuildingChanges extends SpaceConstraint {
 	@XmlElement(name = "Teacher") public String teacher;
-	@XmlElement(name = "Min_Gaps_Between_Building_Changes") private int minGapsBetweenBuildingChanges;
+	@XmlElement(name = "Min_Gaps_Between_Building_Changes") public int minGapsBetweenBuildingChanges;
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

@@ -16,7 +16,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"activityId",
 		"active", "comment"})
 public class ConstraintActivityEndsStudentsDay extends TimeConstraint {
-	@XmlElement(name = "Activity_Id") 	int activityId;
+	@XmlElement(name = "Activity_Id") 	public int activityId;
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

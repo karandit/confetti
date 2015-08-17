@@ -19,7 +19,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"activityId", "nrOfPreferredTimeSlots", "preferredTimeSlots",
 		"active", "comment"})
 public class ConstraintActivityPreferredTimeSlots extends TimeConstraint {
-	@XmlElement(name = "Activity_Id") 						private long activityId;
+	@XmlElement(name = "Activity_Id") 						public long activityId;
 	@XmlElement(name = "Number_of_Preferred_Time_Slots") 	private int nrOfPreferredTimeSlots;
 	@XmlElement(name = "Preferred_Time_Slot") 				private List<PreferredTimeXml> preferredTimeSlots;
 

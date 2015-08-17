@@ -18,9 +18,9 @@ import org.confetti.xml.core.space.SpaceConstraint;
 		"activityId", "nrOfPreferredRooms", "preferredRooms",
 		"active", "comment"})
 public class ConstraintActivityPreferredRooms extends SpaceConstraint {
-	@XmlElement(name = "Activity_Id") private long activityId;
+	@XmlElement(name = "Activity_Id") public long activityId;
 	@XmlElement(name = "Number_of_Preferred_Rooms") private int nrOfPreferredRooms;
-	@XmlElement(name = "Preferred_Room") private List<String> preferredRooms;
+	@XmlElement(name = "Preferred_Room") public List<String> preferredRooms;
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

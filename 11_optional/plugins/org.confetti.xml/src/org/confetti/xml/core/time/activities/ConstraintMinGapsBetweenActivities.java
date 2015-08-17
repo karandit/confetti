@@ -20,8 +20,8 @@ import org.confetti.xml.core.time.TimeConstraint;
 public class ConstraintMinGapsBetweenActivities extends TimeConstraint {
 
 	@XmlElement(name = "Number_of_Activities") private int nrOfActivities;
-	@XmlElement(name = "Activity_Id") private List<Long> activityIds;
-	@XmlElement(name = "MinGaps") private int minGaps;
+	@XmlElement(name = "Activity_Id") public List<Long> activityIds;
+	@XmlElement(name = "MinGaps") public int minGaps;
 	
 
 	@Override

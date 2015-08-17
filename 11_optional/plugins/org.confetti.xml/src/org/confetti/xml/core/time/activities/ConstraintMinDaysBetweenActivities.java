@@ -20,7 +20,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 public class ConstraintMinDaysBetweenActivities extends TimeConstraint {
 	
 	private boolean consecutiveIfSameDay;
-	private int mumberOfActivities;
+	private int numberOfActivities;
 	private List<Long> activityId;
 	private int minDays;
 	
@@ -29,8 +29,8 @@ public class ConstraintMinDaysBetweenActivities extends TimeConstraint {
 	public void setConsecutiveIfSameDay(boolean value) { this.consecutiveIfSameDay = value; }
 	
 	@XmlElement(name = "Number_of_Activities")
-	public int getMumberOfActivities() { return mumberOfActivities; }
-	public void setMumberOfActivities(int value) { this.mumberOfActivities = value; }
+	public int getMumberOfActivities() { return numberOfActivities; }
+	public void setMumberOfActivities(int value) { this.numberOfActivities = value; }
 	
 	@XmlElement(name = "Activity_Id")
 	public List<Long> getActivityId() { return activityId; }

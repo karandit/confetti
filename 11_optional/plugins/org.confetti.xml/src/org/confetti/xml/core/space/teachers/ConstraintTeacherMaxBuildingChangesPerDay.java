@@ -14,7 +14,7 @@ import org.confetti.xml.core.space.SpaceConstraint;
 @XmlType(propOrder = {"weight", "teacher", "maxBuildingChangesPerDay", "active", "comment"})
 public class ConstraintTeacherMaxBuildingChangesPerDay extends SpaceConstraint {
 	@XmlElement(name = "Teacher") public String teacher;
-	@XmlElement(name = "Max_Building_Changes_Per_Day") private int maxBuildingChangesPerDay;
+	@XmlElement(name = "Max_Building_Changes_Per_Day") public int maxBuildingChangesPerDay;
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
