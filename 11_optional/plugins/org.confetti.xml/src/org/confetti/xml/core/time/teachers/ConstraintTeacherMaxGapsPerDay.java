@@ -16,7 +16,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"teacherName", "maxGaps",
 		"active", "comment"})
 public class ConstraintTeacherMaxGapsPerDay extends TimeConstraint {
-	@XmlElement(name = "Teacher_Name") 	private String teacherName;
+	@XmlElement(name = "Teacher_Name") 	public String teacherName;
 	@XmlElement(name = "Max_Gaps") 		private int maxGaps;
 
 	@Override

@@ -18,7 +18,7 @@ import org.confetti.xml.core.space.SpaceConstraint;
 		"teacher", "nrOfPreferredRooms", "rooms", 
 		"active", "comment"})
 public class ConstraintTeacherHomeRooms extends SpaceConstraint {
-	@XmlElement(name = "Teacher") private String teacher;
+	@XmlElement(name = "Teacher") public String teacher;
 	@XmlElement(name = "Number_of_Preferred_Rooms") private int nrOfPreferredRooms;
 	@XmlElement(name = "Preferred_Room") private List<String> rooms;
 	

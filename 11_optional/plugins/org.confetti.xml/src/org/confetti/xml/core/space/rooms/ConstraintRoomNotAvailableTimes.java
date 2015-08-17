@@ -19,7 +19,7 @@ import org.confetti.xml.core.time.BreakTimeXml;
 		"room", "nrOfNotAvailableTimes", "notAvailableTimes", 
 		"active", "comment"})
 public class ConstraintRoomNotAvailableTimes extends SpaceConstraint {
-	@XmlElement(name = "Room") private String room;
+	@XmlElement(name = "Room") public String room;
 	@XmlElement(name = "Number_of_Not_Available_Times") private int nrOfNotAvailableTimes;
 	@XmlElement(name = "Not_Available_Time") private List<BreakTimeXml> notAvailableTimes;
 	

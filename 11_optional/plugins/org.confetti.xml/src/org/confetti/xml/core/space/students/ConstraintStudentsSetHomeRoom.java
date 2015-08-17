@@ -14,7 +14,7 @@ import org.confetti.xml.core.space.SpaceConstraint;
 @XmlType(propOrder = { "weight", "students", "room", "active", "comment"})
 public class ConstraintStudentsSetHomeRoom extends SpaceConstraint {
 	@XmlElement(name = "Students") private String students;
-	@XmlElement(name = "Room") private String room;
+	@XmlElement(name = "Room") public String room;
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
