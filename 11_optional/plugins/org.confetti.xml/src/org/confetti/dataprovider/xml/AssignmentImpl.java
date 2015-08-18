@@ -11,7 +11,7 @@ import org.confetti.observable.ObservableList;
 /**
  * @author Kárándi Tamás
  */
-class AssignmentImpl implements Assignment {
+public class AssignmentImpl implements Assignment {
 
     private final Long id;
 	private final Subject subj;

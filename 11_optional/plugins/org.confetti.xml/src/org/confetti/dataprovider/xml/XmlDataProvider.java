@@ -25,11 +25,9 @@ import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.BaseConstraintXml;
-import org.confetti.xml.core.DayXml;
 import org.confetti.xml.core.GetConstraintAttrVisitor;
 import org.confetti.xml.core.GetConstraintTypeVisitor;
 import org.confetti.xml.core.GroupXml;
-import org.confetti.xml.core.HourXml;
 import org.confetti.xml.core.INameBean;
 import org.confetti.xml.core.InstituteXml;
 import org.confetti.xml.core.RoomXml;
@@ -41,7 +39,6 @@ import org.confetti.xml.core.YearXml;
 import org.confetti.xml.core.time.TimeConstraint;
 import org.confetti.xml.core.time.misc.ConstraintBasicCompulsoryTime;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 /**
@@ -81,21 +78,31 @@ public class XmlDataProvider implements DataProvider {
 	
 	public XmlDataProvider(InstituteXml inst) {
 		this.instXml = inst;
-        createSubjects(inst);
-		createTeachers(inst);
-		createRooms(inst);
+		inst.getDays().getDays()	.forEach(day -> days.addItem(new DayImpl(day.getName())));
+		inst.getHours().getHours()	.forEach(hour -> hours.addItem(new HourImpl(hour.getName())));
+        inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName())));
+		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
+		inst.getRooms()				.forEach(room -> rooms.addItem(new RoomImpl(room.getName())));
 		createStudentGroups(inst);
-		createDays(inst);
-		createHours(inst);
-		createAssignments(inst);
-		createConstraints(inst.getTimeConstraints());
-		createConstraints(inst.getSpaceConstraints());
+		
+		Map<String, StudentGroup> studentGroupsByName = collectStudentGroups(stdGroups.getObservableList().getList());
+		createAssignments(inst, studentGroupsByName);
+		
+		GetConstraintAttrVisitor attrVisitor = new GetConstraintAttrVisitor(
+				days.getObservableList().getList(),
+				hours.getObservableList().getList(),
+				teachers.getObservableList().getList(),
+				subjects.getObservableList().getList(),
+				rooms.getObservableList().getList(),
+				studentGroupsByName,
+				assignments.getObservableList().getList());
+		createConstraints(inst.getTimeConstraints(), attrVisitor);
+		createConstraints(inst.getSpaceConstraints(), attrVisitor);
 	}
 
-	private void createAssignments(InstituteXml inst) {
+	private void createAssignments(InstituteXml inst, Map<String, StudentGroup> allStdGroups) {
 		Iterable<Subject> allSubjects = subjects.getObservableList().getList();
 		Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
-		Map<String, StudentGroup> allStdGroups = collectStudentGroups(stdGroups.getObservableList().getList());
 		for (ActivityXml act : inst.getActivities()) {
 		    if (act.getId() > currentMaxId) {
 		        currentMaxId = act.getId();
@@ -115,18 +122,6 @@ public class XmlDataProvider implements DataProvider {
 		}
 	}
 
-	private void createHours(InstituteXml inst) {
-		for (HourXml hour : inst.getHours().getHours()) {
-			hours.addItem(new HourImpl(hour.getName()));
-		}
-	}
-
-	private void createDays(InstituteXml inst) {
-		for (DayXml day : inst.getDays().getDays()) {
-			days.addItem(new DayImpl(day.getName()));
-		}
-	}
-
 	private void createStudentGroups(InstituteXml inst) {
 		for (YearXml year : inst.getYears()) {
 			StudentGroupImpl studentGroup1 = new StudentGroupImpl(year.getName());
@@ -142,30 +137,12 @@ public class XmlDataProvider implements DataProvider {
 		}
 	}
 
-	private void createRooms(InstituteXml inst) {
-		for (RoomXml room : inst.getRooms()) {
-			rooms.addItem(new RoomImpl(room.getName()));
-		}
-	}
-
-	private void createTeachers(InstituteXml inst) {
-		for (TeacherXml teacher : inst.getTeachers()) {
-			teachers.addItem(new TeacherImpl(teacher.getName()));
-		}
-	}
-
-	private void createSubjects(InstituteXml inst) {
-		for (SubjectXml subj : inst.getSubjects()) {
-			subjects.addItem(new SubjectImpl(subj.getName()));
-		}
-	}
-
-	private void createConstraints(List<? extends BaseConstraintXml> constraintsList) {
+	private void createConstraints(List<? extends BaseConstraintXml> constraintsList, 
+			GetConstraintAttrVisitor attrVisitor) {
 		for (BaseConstraintXml constraint : constraintsList) {
 			String shortType = constraint.accept(GetConstraintTypeVisitor.INSTANCE, null);
 			String type = FET_CONSTRAINTS_NAMESPACE + shortType;
-			ConstraintAttributes attrs = constraint.accept(GetConstraintAttrVisitor.INSTANCE, new ConstraintAttributes());
-			if (attrs == null) attrs = new ConstraintAttributes();
+			ConstraintAttributes attrs = constraint.accept(attrVisitor, new ConstraintAttributes());
 			constraints.addItem(new ConstraintImpl(type, attrs));
 		}
 	}
@@ -194,58 +171,34 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void addSubjects(List<String> names) {
-	    for (String name : names) {
-	        instXml.getSubjects().add(new SubjectXml(name));
-        }
+	    names.forEach(name -> instXml.getSubjects().add(new SubjectXml(name)));
 	    save();
-	    
-	    for (String name : names) {
-	        SubjectImpl subjectImpl = new SubjectImpl(name);
-	        subjects.addItem(subjectImpl);
-        }
+	    names.forEach(name -> subjects.addItem(new SubjectImpl(name)));
 	}
 	
     @Override
 	public void addTeachers(List<String> names) {
-        for (String name : names) {
-            instXml.getTeachers().add(new TeacherXml(name));
-        }
+        names.forEach(name -> instXml.getTeachers().add(new TeacherXml(name)));
         save();
-        
-        for (String name : names) {
-            TeacherImpl teacherImpl = new TeacherImpl(name);
-            teachers.addItem(teacherImpl);
-        }
+        names.forEach(name -> teachers.addItem(new TeacherImpl(name)));
 	}
 	
 	@Override
 	public void addStudentGroups(StudentGroup parent, List<String> names) {
 	    if (parent == null) {
-	        List<StudentGroupImpl> groups = Lists.transform(names, new Function<String, StudentGroupImpl>() {
-                @Override public StudentGroupImpl apply(String name) { return  new StudentGroupImpl(name); }
-	        });
-            for (StudentGroupImpl group : groups) {
-                instXml.getYears().add(new YearXml(group));
-            }
+	        List<StudentGroupImpl> groups = Lists.transform(names, name -> new StudentGroupImpl(name));
+            groups.forEach(group -> instXml.getYears().add(new YearXml(group)));
 	        save();
-	        
-	        for (StudentGroupImpl group : groups) {
-                stdGroups.addItem(group);
-            }
+	        groups.forEach(group -> stdGroups.addItem(group));
         } else { //TODO implement if has parent
         }
 	}
 	
 	@Override
 	public void addRooms(List<String> names) {
-        for (String name : names) {
-            instXml.getRooms().add(new RoomXml(name));
-        }
+		names.forEach(name -> instXml.getRooms().add(new RoomXml(name)));
         save();
-        for (String name : names) {
-    		RoomImpl roomImpl = new RoomImpl(name);
-    		rooms.addItem(roomImpl);
-        }
+        names.forEach(name -> rooms.addItem(new RoomImpl(name)));
 	}
 	
 	@Override
@@ -255,12 +208,8 @@ public class XmlDataProvider implements DataProvider {
 	    save();
 	    
 	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, subject);
-	    for (Teacher teacher : teachers) {
-	        assignment.addTeacher(teacher);
-	    }
-	    for (StudentGroup studentGroup : studentGroups) {
-	        assignment.addStudentGroup(studentGroup);
-	    }
+	    teachers.forEach(teacher -> assignment.addTeacher(teacher));
+	    studentGroups.forEach(studentGroup -> assignment.addStudentGroup(studentGroup));
         assignments.addItem(assignment);
 	    return assignment;
 	}
@@ -306,12 +255,8 @@ public class XmlDataProvider implements DataProvider {
 	    save();
 	    
 	    assignment.getSubject().removeAssignment(assignment);
-        for (Teacher teacher : assignment.getTeachers().getList()) {
-            teacher.removeAssignment(assignment);
-        }
-        for (StudentGroup studentGroup : assignment.getStudentGroups().getList()) {
-            studentGroup.removeAssignment(assignment);
-        }
+        assignment.getTeachers().getList().forEach(teacher -> teacher.removeAssignment(assignment));
+        assignment.getStudentGroups().getList().forEach(studentGroup -> studentGroup.removeAssignment(assignment));
         assignments.removeItem(assignment);
 	}
 	
