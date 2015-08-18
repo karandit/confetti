@@ -8,6 +8,6 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(propOrder = {"day", "hour"})
 public class SelectedTimeXml {
-	@XmlElement(name = "Selected_Day") 		private String day;
-	@XmlElement(name = "Selected_Hour") 	private String hour;
+	@XmlElement(name = "Selected_Day") 		public String day;
+	@XmlElement(name = "Selected_Hour") 	public String hour;
 }

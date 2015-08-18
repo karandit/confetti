@@ -20,7 +20,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 public class ConstraintActivitiesSameStartingTime extends TimeConstraint {
 	@XmlElement(name = "Subject") private String subject;
 	@XmlElement(name = "Number_of_Activities") private int nrOfActivities;
-	@XmlElement(name = "Activity_Id") private List<Long> activityIds;
+	@XmlElement(name = "Activity_Id") public List<Long> activityIds;
 
 
 	@Override

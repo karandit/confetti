@@ -18,7 +18,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"active", "comment"})
 public class ConstraintActivitiesNotOverlapping extends TimeConstraint {
 	@XmlElement(name = "Number_of_Activities") 			private String nrOfActivities;
-	@XmlElement(name = "Activity_Id") 					private List<Long> activityIds;
+	@XmlElement(name = "Activity_Id") 					public List<Long> activityIds;
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

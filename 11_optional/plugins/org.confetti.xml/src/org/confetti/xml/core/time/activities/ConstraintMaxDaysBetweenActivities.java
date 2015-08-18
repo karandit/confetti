@@ -19,8 +19,8 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"active", "comment"})
 public class ConstraintMaxDaysBetweenActivities extends TimeConstraint {
 	@XmlElement(name = "Number_of_Activities") private int nrOfActivities;
-	@XmlElement(name = "Activity_Id") private List<Long> activityIds;
-	@XmlElement(name = "MaxDays") private int maxDays;
+	@XmlElement(name = "Activity_Id") public List<Long> activityIds;
+	@XmlElement(name = "MaxDays") public int maxDays;
 
 
 	@Override
