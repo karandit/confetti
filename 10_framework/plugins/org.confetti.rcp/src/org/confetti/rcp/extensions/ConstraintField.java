@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
@@ -74,6 +75,10 @@ public class ConstraintField {
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
             	attrs.withBoolean(key, ((Button) ctrl).isEnabled());
             }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return attrs.asBoolean(key).toString();
+            }
         },
         Number {
             @Override
@@ -82,7 +87,11 @@ public class ConstraintField {
             }
             @Override
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
-            	attrs.withDouble(key, ((Spinner) ctrl).getSelection());
+            	attrs.withDouble(key, (double) ((Spinner) ctrl).getSelection());
+            }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return attrs.asDouble(key).toString();
             }
         },
         Day {
@@ -96,6 +105,10 @@ public class ConstraintField {
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
             	attrs.withInteger(key, ((Spinner) ctrl).getSelection());
             }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return attrs.asInteger(key).toString();
+            }
         },
         Hour {
             @Override
@@ -107,6 +120,10 @@ public class ConstraintField {
             @Override
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
             	attrs.withInteger(key, ((Spinner) ctrl).getSelection());
+            }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return attrs.asInteger(key).toString();
             }
         },
         Week {
@@ -124,6 +141,12 @@ public class ConstraintField {
             @Override
             public void applyLayout(Control ctrl) {
                 GridDataFactory.fillDefaults().grab(true, true).applyTo(ctrl);
+            }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return Iterables.toString(
+            			Iterables.transform(attrs.asWeek(key), tuple -> tuple.getFirst().getName().getValue() 
+            			+ " " + tuple.getSecond().getName().getValue()));  
             }
         },
         Period {
@@ -152,6 +175,10 @@ public class ConstraintField {
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
             	attrs.withTeacher(key, FieldType.<Teacher>getItemFromCombo(ctrl));
             }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return attrs.asTeacher(key).getName().getValue();
+            }
         }, 
         StudentGroup {
             @Override
@@ -171,6 +198,10 @@ public class ConstraintField {
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
             	Tuple<StudentGroup, Integer> selected = FieldType.<Tuple<StudentGroup, Integer>> getItemFromCombo(ctrl);
 				attrs.withStudentGroup(key, selected.getFirst());
+            }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return attrs.asStudentGroup(key).getName().getValue();
             }
 
             private String indent(int count) {
@@ -211,7 +242,10 @@ public class ConstraintField {
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
             	attrs.withAssignment(key, FieldType.<Assignment>getItemFromCombo(ctrl));
             }
-
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return convertAssignmentToString(attrs.asAssignment(key));
+            }
             private String safeGetName(Entity ent) {
             	String name = AssignmentsView.getName(ent);
 				return name == null ? "" : name;
@@ -224,6 +258,11 @@ public class ConstraintField {
 				button.setText("AssignmentSet Field NOT IMPLEMENTED");
             	return button;
             }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return Iterables.toString(
+            			Iterables.transform(attrs.asAssignmentSet(key), x -> convertAssignmentToString(x)));
+            }
         }, 
         Room {
             @Override
@@ -235,6 +274,10 @@ public class ConstraintField {
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
             	attrs.withRoom(key, FieldType.<Room>getItemFromCombo(ctrl));
             }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return attrs.asRoom(key).getName().getValue();
+            }
         }, 
         RoomsSet {
             @Override
@@ -242,6 +285,11 @@ public class ConstraintField {
             	Button button = new Button(parent, SWT.PUSH);
 				button.setText("RoomSet Field NOT IMPLEMENTED");
             	return button;
+            }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return Iterables.toString(
+            			Iterables.transform(attrs.asRoomsSet(key), x -> x.getName().getValue()));
             }
         }, 
         Subject {
@@ -254,14 +302,37 @@ public class ConstraintField {
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
             	attrs.withSubject(key, FieldType.<Subject>getItemFromCombo(ctrl));
             }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return attrs.asSubject(key).getName().getValue();
+            }
         };
 
         public abstract Control createControl(Composite area);
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {}
+        public /* abstract */ void putValue(String key, Control ctrl, ConstraintAttributes attrs) {}
+        public /* abstract */  String prettyPrint(String key, ConstraintAttributes attrs) { return "+++"; }
         
         public void applyLayout(Control ctrl) {
             GridDataFactory.fillDefaults().grab(true, false).applyTo(ctrl);
         }
+
+        private static String convertAssignmentToString(Assignment ass) {
+			StringBuilder sb = new StringBuilder()
+        	.append("{")
+        	.append(ass.getSubject().getName().getValue())
+        	.append("/")
+        	.append(Iterables.toString(Iterables.transform(
+        			ass.getTeachers().getList(), x -> x.getName().getValue())))
+        	.append("/")
+        	.append(Iterables.toString(Iterables.transform(
+        			ass.getStudentGroups().getList(), x -> x.getName().getValue())));
+        	if (ass.getRoom() != null) {
+        		sb.append("/")
+        		.append(ass.getRoom().getName().getValue());
+        	}
+        	sb.append("}");
+			return sb.toString();
+		}
 
         private static Control createSpinnerField(Composite parent, int min, int max, int cur) {
 			Spinner spinner = new Spinner(parent, SWT.BORDER);
@@ -320,5 +391,15 @@ public class ConstraintField {
         getType().applyLayout(ctrl);
         return ctrl;
     }
+    //TODO: remove constraint
+	public String printValue(ConstraintAttributes attrs, Constraint constraint) {
+		try {
+			attrs.asObject(name); //TODO: remove it
+			return type.prettyPrint(name, attrs);
+		} catch (Exception e) {
+			System.out.println(constraint.getConstraintType() + " " + type + " " + name + " " + e);
+			return "***";
+		}
+	}
     
 }

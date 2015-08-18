@@ -1,11 +1,14 @@
 package org.confetti.rcp.views;
 
+import java.util.List;
+
 import org.confetti.core.Constraint;
-import org.confetti.core.ConstraintAttribute;
+import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.extensions.ConstraintDescr;
+import org.confetti.rcp.extensions.ConstraintField;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -69,18 +72,20 @@ public class ConstraintsView extends AbstractEntityView<TableViewer> implements 
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			Constraint constraint = (Constraint) element;
+			ConstraintRegistry reg = ConstraintRegistry.INSTANCE;
+			ConstraintDescr constraintDescr = reg.getConstraintDescrById(constraint.getConstraintType());
+
 			switch (columnIndex) {
 			case 0: 
-				String constraintType = constraint.getConstraintType();
-				ConstraintRegistry reg = ConstraintRegistry.INSTANCE;
-				ConstraintDescr constraintDescr = reg.getConstraintDescrById(constraintType);
 				return constraintDescr == null ? "" : constraintDescr.getName();
 			case 1: 
 				StringBuilder sb = new StringBuilder();
-				for (ConstraintAttribute<?> attr : constraint.getAttributes()) {
-					sb.append(attr.getKey())
+				ConstraintAttributes attrs = constraint.getAttributes();
+				List<ConstraintField> fields = constraintDescr.getFields();
+				for (ConstraintField constraintField : fields) {
+					sb.append(constraintField.getLabel())
 					.append(" = ")
-					.append(attr.getValue())
+					.append(constraintField.printValue(attrs, constraint))
 					.append("; ");
 				}
 				return sb.toString();
