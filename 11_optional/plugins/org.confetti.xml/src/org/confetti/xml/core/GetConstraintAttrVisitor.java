@@ -297,9 +297,6 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	//----- Students
 	@Override
 	public ConstraintAttributes visitTime(ConstraintStudentsSetNotAvailableTimes c, ConstraintAttributes p) {
-		if (c.notAvailableTimes == null) {
-			System.out.println("**** NULL ****");
-		}
 		return fillDefault(c, p)
 			.withStudentGroup("studentgroup", findStudentGroup(c.studentsName))
 			.withWeek("not-available-times", transform(c.notAvailableTimes, 
