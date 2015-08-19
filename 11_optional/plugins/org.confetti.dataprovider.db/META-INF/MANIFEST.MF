@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Relational Database provider
 Bundle-SymbolicName: org.confetti.dataprovider.db;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.confetti.rcp,
  org.eclipse.ui,
  org.confetti.core,

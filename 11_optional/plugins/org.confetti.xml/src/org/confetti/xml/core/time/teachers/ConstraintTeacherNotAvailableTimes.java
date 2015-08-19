@@ -1,5 +1,6 @@
 package org.confetti.xml.core.time.teachers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -22,7 +23,7 @@ public class ConstraintTeacherNotAvailableTimes extends TimeConstraint {
 	
 	private String teacher;
 	private int nrOfNotAvailableTimes;
-	private List<BreakTimeXml> notAvailableTimes;
+	private List<BreakTimeXml> notAvailableTimes = new ArrayList<>();
 	
 	@XmlElement(name = "Teacher")
 	public String getTeacher() { return teacher; }

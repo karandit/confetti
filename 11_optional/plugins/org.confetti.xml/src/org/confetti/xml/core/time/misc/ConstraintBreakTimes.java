@@ -1,5 +1,6 @@
 package org.confetti.xml.core.time.misc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -18,7 +19,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 public class ConstraintBreakTimes extends TimeConstraint {
 	
 	private int nrBreakTimes;
-	private List<BreakTimeXml> breakTimes; 
+	private List<BreakTimeXml> breakTimes = new ArrayList<>(); 
 	
 	@XmlElement(name = "Number_of_Break_Times")
 	public int getNrBreakTimes() { return nrBreakTimes; }

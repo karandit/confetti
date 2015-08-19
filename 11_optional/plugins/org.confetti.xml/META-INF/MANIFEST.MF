@@ -3,11 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Xml
 Bundle-SymbolicName: org.confetti.xml;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: lib/activation.jar,
- lib/jaxb-api.jar,
- lib/jaxb-impl.jar,
- lib/jsr173_1.0_api.jar,
- .
+Bundle-ClassPath: .
 Export-Package: org.confetti.dataprovider.xml,
  org.confetti.fet.engine.solution,
  org.confetti.xml,
@@ -31,5 +27,5 @@ Require-Bundle: org.confetti.core,
  org.eclipse.swt,
  org.eclipse.ui,
  com.google.guava
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.jface.wizard
