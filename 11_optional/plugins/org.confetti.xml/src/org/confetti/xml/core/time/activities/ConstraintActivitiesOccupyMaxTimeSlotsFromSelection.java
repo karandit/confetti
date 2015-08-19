@@ -1,5 +1,6 @@
 package org.confetti.xml.core.time.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -20,9 +21,9 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"active", "comment"})
 public class ConstraintActivitiesOccupyMaxTimeSlotsFromSelection extends TimeConstraint {
 	@XmlElement(name = "Number_of_Activities") 					private int nrActivities;
-	@XmlElement(name = "Activity_Id") 							public List<Long> activityIds;
+	@XmlElement(name = "Activity_Id") 							public List<Long> activityIds = new ArrayList<>();
 	@XmlElement(name = "Number_of_Selected_Time_Slots") 		private int nrOfSelectedTimeSlots;
-	@XmlElement(name = "Selected_Time_Slot") 					public List<SelectedTimeXml> selectedTimeSlots;
+	@XmlElement(name = "Selected_Time_Slot") 					public List<SelectedTimeXml> selectedTimeSlots = new ArrayList<>();
 	@XmlElement(name = "Max_Number_of_Occupied_Time_Slots") 	public int maxNrOfOccupiedTimeSlots;
 	
 	@Override

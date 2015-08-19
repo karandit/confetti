@@ -1,5 +1,6 @@
 package org.confetti.xml.core.space.subjects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -20,7 +21,7 @@ import org.confetti.xml.core.space.SpaceConstraint;
 public class ConstraintSubjectPreferredRooms extends SpaceConstraint {
 	@XmlElement(name = "Subject") public String subject;
 	@XmlElement(name = "Number_of_Preferred_Rooms") private int nrOfPreferredRooms;
-	@XmlElement(name = "Preferred_Room") public List<String> preferredRooms;
+	@XmlElement(name = "Preferred_Room") public List<String> preferredRooms = new ArrayList<>();
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

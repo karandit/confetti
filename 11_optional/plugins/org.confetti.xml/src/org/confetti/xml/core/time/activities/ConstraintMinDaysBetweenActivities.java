@@ -1,5 +1,6 @@
 package org.confetti.xml.core.time.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -21,7 +22,7 @@ public class ConstraintMinDaysBetweenActivities extends TimeConstraint {
 	
 	private boolean consecutiveIfSameDay;
 	private int numberOfActivities;
-	private List<Long> activityId;
+	private List<Long> activityId = new ArrayList<>();
 	private int minDays;
 	
 	@XmlElement(name = "Consecutive_If_Same_Day")

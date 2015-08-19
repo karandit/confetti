@@ -1,5 +1,6 @@
 package org.confetti.xml.core.space.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -19,7 +20,7 @@ import org.confetti.xml.core.space.SpaceConstraint;
 		"active", "comment"})
 public class ConstraintActivitiesSameRoomIfConsecutive extends SpaceConstraint {
 	@XmlElement(name = "Number_of_Activities") private int nrOfActivities;
-	@XmlElement(name = "Activity_Id") public List<Long> activityIds;
+	@XmlElement(name = "Activity_Id") public List<Long> activityIds = new ArrayList<>();
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

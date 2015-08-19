@@ -1,5 +1,6 @@
 package org.confetti.xml.core.time.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -25,7 +26,7 @@ public class ConstraintActivitiesPreferredTimeSlots extends TimeConstraint {
 	@XmlElement(name = "Subject_Name") 						private String subjectName;
 	@XmlElement(name = "Activity_Tag_Name") 				private String activityTagName;
 	@XmlElement(name = "Number_of_Preferred_Time_Slots") 	private int nrOfPreferredTimeSlots;
-	@XmlElement(name = "Preferred_Time_Slot") 				public List<PreferredTimeXml> preferredTimeSlots;
+	@XmlElement(name = "Preferred_Time_Slot") 				public List<PreferredTimeXml> preferredTimeSlots = new ArrayList<>();
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

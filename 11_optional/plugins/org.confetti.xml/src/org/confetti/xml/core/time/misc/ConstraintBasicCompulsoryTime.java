@@ -14,7 +14,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 @XmlType(name = "basicCompulsoryTime_type", propOrder = {"weight", "active", "comment"})
 public class ConstraintBasicCompulsoryTime extends TimeConstraint {
 	
-	ConstraintBasicCompulsoryTime() {
+	public ConstraintBasicCompulsoryTime() {
 	}
 	
 	public ConstraintBasicCompulsoryTime(ConstraintAttributes attrs) {

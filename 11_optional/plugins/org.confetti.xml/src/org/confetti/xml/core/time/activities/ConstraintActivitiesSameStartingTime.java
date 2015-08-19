@@ -1,5 +1,6 @@
 package org.confetti.xml.core.time.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -20,7 +21,7 @@ import org.confetti.xml.core.time.TimeConstraint;
 public class ConstraintActivitiesSameStartingTime extends TimeConstraint {
 	@XmlElement(name = "Subject") private String subject;
 	@XmlElement(name = "Number_of_Activities") private int nrOfActivities;
-	@XmlElement(name = "Activity_Id") public List<Long> activityIds;
+	@XmlElement(name = "Activity_Id") public List<Long> activityIds = new ArrayList<>();
 
 
 	@Override
