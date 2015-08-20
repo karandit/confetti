@@ -56,6 +56,7 @@ import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHours
 import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHoursDaily;
 import org.confetti.xml.core.time.students.ConstraintStudentsEarlyMaxBeginningsAtSecondHour;
 import org.confetti.xml.core.time.students.ConstraintStudentsIntervalMaxDaysPerWeek;
+import org.confetti.xml.core.time.students.ConstraintStudentsMaxDaysPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerDay;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxHoursContinuously;
@@ -65,6 +66,7 @@ import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHo
 import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHoursDaily;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetIntervalMaxDaysPerWeek;
+import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxDaysPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerDay;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxHoursContinuously;
@@ -144,6 +146,7 @@ public interface ConstraintXmlVisitor<R, P> {
 	R visitTime(ConstraintStudentsActivityTagMaxHoursDaily c, P p);
 	R visitTime(ConstraintStudentsEarlyMaxBeginningsAtSecondHour c, P p);
 	R visitTime(ConstraintStudentsIntervalMaxDaysPerWeek c, P p);
+	R visitTime(ConstraintStudentsMaxDaysPerWeek c, P p);
 	R visitTime(ConstraintStudentsMaxGapsPerDay c, P p);
 	R visitTime(ConstraintStudentsMaxGapsPerWeek c, P p);
 	R visitTime(ConstraintStudentsMaxHoursContinuously c, P p);
@@ -153,6 +156,7 @@ public interface ConstraintXmlVisitor<R, P> {
 	R visitTime(ConstraintStudentsSetActivityTagMaxHoursDaily c, P p);
 	R visitTime(ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour c, P p);
 	R visitTime(ConstraintStudentsSetIntervalMaxDaysPerWeek c, P p);
+	R visitTime(ConstraintStudentsSetMaxDaysPerWeek c, P p);
 	R visitTime(ConstraintStudentsSetMaxGapsPerDay c, P p);
 	R visitTime(ConstraintStudentsSetMaxGapsPerWeek c, P p);
 	R visitTime(ConstraintStudentsSetMaxHoursContinuously c, P p);

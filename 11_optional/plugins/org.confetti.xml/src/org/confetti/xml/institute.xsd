@@ -65,6 +65,8 @@
 
   <xs:element name="constraintStudentsMaxBuildingChangesPerWeek" type="constraintStudentsMaxBuildingChangesPerWeek"/>
 
+  <xs:element name="constraintStudentsMaxDaysPerWeek" type="constraintStudentsMaxDaysPerWeek"/>
+
   <xs:element name="constraintStudentsMaxGapsPerDay" type="constraintStudentsMaxGapsPerDay"/>
 
   <xs:element name="constraintStudentsMaxGapsPerWeek" type="constraintStudentsMaxGapsPerWeek"/>
@@ -92,6 +94,8 @@
   <xs:element name="constraintStudentsSetMaxBuildingChangesPerDay" type="constraintStudentsSetMaxBuildingChangesPerDay"/>
 
   <xs:element name="constraintStudentsSetMaxBuildingChangesPerWeek" type="constraintStudentsSetMaxBuildingChangesPerWeek"/>
+
+  <xs:element name="constraintStudentsSetMaxDaysPerWeek" type="constraintStudentsSetMaxDaysPerWeek"/>
 
   <xs:element name="constraintStudentsSetMaxGapsPerDay" type="constraintStudentsSetMaxGapsPerDay"/>
 
@@ -285,6 +289,7 @@
               <xs:element name="ConstraintTeachersMaxDaysPerWeek" type="constraintTeachersMaxDaysPerWeek"/>
               <xs:element name="ConstraintStudentsActivityTagMaxHoursContinuously" type="constraintStudentsActivityTagMaxHoursContinuously"/>
               <xs:element name="ConstraintStudentsSetMaxGapsPerWeek" type="constraintStudentsSetMaxGapsPerWeek"/>
+              <xs:element name="ConstraintStudentsSetMaxDaysPerWeek" type="constraintStudentsSetMaxDaysPerWeek"/>
               <xs:element name="ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour" type="constraintStudentsSetEarlyMaxBeginningsAtSecondHour"/>
               <xs:element name="ConstraintTeachersIntervalMaxDaysPerWeek" type="constraintTeachersIntervalMaxDaysPerWeek"/>
               <xs:element name="ConstraintStudentsIntervalMaxDaysPerWeek" type="constraintStudentsIntervalMaxDaysPerWeek"/>
@@ -303,6 +308,7 @@
               <xs:element name="ConstraintActivitiesSameStartingDay" type="constraintActivitiesSameStartingDay"/>
               <xs:element name="ConstraintSubactivitiesPreferredTimeSlots" type="constraintSubactivitiesPreferredTimeSlots"/>
               <xs:element name="ConstraintStudentsMinHoursDaily" type="constraintStudentsMinHoursDaily"/>
+              <xs:element name="ConstraintStudentsMaxDaysPerWeek" type="constraintStudentsMaxDaysPerWeek"/>
               <xs:element name="ConstraintSubactivitiesPreferredStartingTimes" type="constraintSubactivitiesPreferredStartingTimes"/>
               <xs:element name="ConstraintActivitiesEndStudentsDay" type="constraintActivitiesEndStudentsDay"/>
               <xs:element name="ConstraintStudentsSetIntervalMaxDaysPerWeek" type="constraintStudentsSetIntervalMaxDaysPerWeek"/>
@@ -879,6 +885,16 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="constraintStudentsSetMaxDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Students" type="xs:string" minOccurs="0"/>
+      <xs:element name="Max_Days_Per_Week" type="xs:int"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="constraintStudentsSetEarlyMaxBeginningsAtSecondHour">
     <xs:sequence>
       <xs:element name="Weight_Percentage" type="xs:double"/>
@@ -1063,6 +1079,15 @@
       <xs:element name="Weight_Percentage" type="xs:double"/>
       <xs:element name="Minimum_Hours_Daily" type="xs:int"/>
       <xs:element name="Allow_Empty_Days" type="xs:boolean"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintStudentsMaxDaysPerWeek">
+    <xs:sequence>
+      <xs:element name="Weight_Percentage" type="xs:double"/>
+      <xs:element name="Max_Days_Per_Week" type="xs:int"/>
       <xs:element name="Active" type="xs:boolean"/>
       <xs:element name="Comments" type="xs:string" minOccurs="0"/>
     </xs:sequence>

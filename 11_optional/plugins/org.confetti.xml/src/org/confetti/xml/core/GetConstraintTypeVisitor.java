@@ -56,6 +56,7 @@ import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHours
 import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHoursDaily;
 import org.confetti.xml.core.time.students.ConstraintStudentsEarlyMaxBeginningsAtSecondHour;
 import org.confetti.xml.core.time.students.ConstraintStudentsIntervalMaxDaysPerWeek;
+import org.confetti.xml.core.time.students.ConstraintStudentsMaxDaysPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerDay;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxHoursContinuously;
@@ -65,6 +66,7 @@ import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHo
 import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHoursDaily;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetIntervalMaxDaysPerWeek;
+import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxDaysPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerDay;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxHoursContinuously;
@@ -356,6 +358,11 @@ public enum GetConstraintTypeVisitor implements ConstraintXmlVisitor<String, Obj
 
 	//------------------------ Time - One StudentGroup -----------------------------------------------------------------
 	@Override
+	public String visitTime(ConstraintStudentsSetMaxDaysPerWeek c, Object p) {
+		return "time.MaxDaysPerWeekForAStudentGroup";
+	}
+
+	@Override
 	public String visitTime(ConstraintStudentsSetNotAvailableTimes c, Object p) {
 		return "time.NotAvailableTimesForAStudentGroup";
 	}
@@ -406,6 +413,11 @@ public enum GetConstraintTypeVisitor implements ConstraintXmlVisitor<String, Obj
 	}
 
 	//------------------------ Time - All StudentGroups ----------------------------------------------------------------
+	@Override
+	public String visitTime(ConstraintStudentsMaxDaysPerWeek c, Object p) {
+		return "time.MaxDaysPerWeekForAllStudentGroups";
+	}
+
 	@Override
 	public String visitTime(ConstraintStudentsMaxGapsPerDay c, Object p) {
 		return "time.MaxGapsPerDayForAllStudentGroups";

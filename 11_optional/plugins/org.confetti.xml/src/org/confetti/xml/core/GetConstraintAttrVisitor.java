@@ -72,6 +72,7 @@ import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHours
 import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHoursDaily;
 import org.confetti.xml.core.time.students.ConstraintStudentsEarlyMaxBeginningsAtSecondHour;
 import org.confetti.xml.core.time.students.ConstraintStudentsIntervalMaxDaysPerWeek;
+import org.confetti.xml.core.time.students.ConstraintStudentsMaxDaysPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerDay;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxHoursContinuously;
@@ -81,6 +82,7 @@ import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHo
 import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHoursDaily;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetIntervalMaxDaysPerWeek;
+import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxDaysPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerDay;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxHoursContinuously;
@@ -303,7 +305,13 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 					x -> new Tuple<>(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 
-// ---- not found time.MaxDaysPerWeekForAStudentGroup
+	@Override
+	public ConstraintAttributes visitTime(ConstraintStudentsSetMaxDaysPerWeek c, ConstraintAttributes p) {
+		return fillDefault(c, p)
+			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withDay("days", c.maxDaysPerWeek)
+	;}
+
 	@Override
 	public ConstraintAttributes visitTime(ConstraintStudentsSetMaxGapsPerDay c, ConstraintAttributes p) {
 		return fillDefault(c, p)
@@ -367,7 +375,12 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
-// ---- not found time.MaxDaysPerWeekForAllStudentGroups
+	@Override
+	public ConstraintAttributes visitTime(ConstraintStudentsMaxDaysPerWeek c, ConstraintAttributes p) {
+		return fillDefault(c, p)
+				.withDay("days", c.maxDaysPerWeek)
+	;}
+
 	@Override
 	public ConstraintAttributes visitTime(ConstraintStudentsMaxGapsPerDay c, ConstraintAttributes p) {
 		return fillDefault(c, p)

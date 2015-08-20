@@ -1,5 +1,6 @@
 package org.confetti.xml.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -12,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 public class DaysXml {
 
 	private int numbers;
-	private List<DayXml> days;
+	private List<DayXml> days = new ArrayList<>();
 
 	DaysXml() {
 	}

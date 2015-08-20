@@ -68,6 +68,7 @@ import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHours
 import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHoursDaily;
 import org.confetti.xml.core.time.students.ConstraintStudentsEarlyMaxBeginningsAtSecondHour;
 import org.confetti.xml.core.time.students.ConstraintStudentsIntervalMaxDaysPerWeek;
+import org.confetti.xml.core.time.students.ConstraintStudentsMaxDaysPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerDay;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsMaxHoursContinuously;
@@ -77,6 +78,7 @@ import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHo
 import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHoursDaily;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetIntervalMaxDaysPerWeek;
+import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxDaysPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerDay;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerWeek;
 import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxHoursContinuously;
@@ -237,6 +239,7 @@ public class InstituteXml {
 		@XmlElement(name = "ConstraintTeachersMaxDaysPerWeek", type = ConstraintTeachersMaxDaysPerWeek.class),
 		@XmlElement(name = "ConstraintStudentsActivityTagMaxHoursContinuously", type = ConstraintStudentsActivityTagMaxHoursContinuously.class),
 		@XmlElement(name = "ConstraintStudentsSetMaxGapsPerWeek", type = ConstraintStudentsSetMaxGapsPerWeek.class),
+		@XmlElement(name = "ConstraintStudentsSetMaxDaysPerWeek", type = ConstraintStudentsSetMaxDaysPerWeek.class),
 		@XmlElement(name = "ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour", type = ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour.class),
 		@XmlElement(name = "ConstraintTeachersIntervalMaxDaysPerWeek", type = ConstraintTeachersIntervalMaxDaysPerWeek.class),
 		@XmlElement(name = "ConstraintStudentsIntervalMaxDaysPerWeek", type = ConstraintStudentsIntervalMaxDaysPerWeek.class),
@@ -255,6 +258,7 @@ public class InstituteXml {
 		@XmlElement(name = "ConstraintActivitiesSameStartingDay", type = ConstraintActivitiesSameStartingDay.class),
 		@XmlElement(name = "ConstraintSubactivitiesPreferredTimeSlots", type = ConstraintSubactivitiesPreferredTimeSlots.class),
 		@XmlElement(name = "ConstraintStudentsMinHoursDaily", type = ConstraintStudentsMinHoursDaily.class),
+		@XmlElement(name = "ConstraintStudentsMaxDaysPerWeek", type = ConstraintStudentsMaxDaysPerWeek.class),
 		@XmlElement(name = "ConstraintSubactivitiesPreferredStartingTimes", type = ConstraintSubactivitiesPreferredStartingTimes.class),
 		@XmlElement(name = "ConstraintActivitiesEndStudentsDay", type = ConstraintActivitiesEndStudentsDay.class),
 		@XmlElement(name = "ConstraintStudentsSetIntervalMaxDaysPerWeek", type = ConstraintStudentsSetIntervalMaxDaysPerWeek.class),

@@ -1,5 +1,6 @@
 package org.confetti.xml.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -12,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 public class HoursXml {
 	
 	private int numbers;
-	private List<HourXml> hours;
+	private List<HourXml> hours = new ArrayList<>();
 	
 	HoursXml() {
 	}
