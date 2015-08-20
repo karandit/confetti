@@ -26,7 +26,6 @@ import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.BaseConstraintXml;
 import org.confetti.xml.core.GetConstraintAttrVisitor;
-import org.confetti.xml.core.GetConstraintTypeVisitor;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.INameBean;
 import org.confetti.xml.core.InstituteXml;
@@ -45,8 +44,6 @@ import com.google.common.collect.Lists;
  * @author Bubla Gabor
  */
 public class XmlDataProvider implements DataProvider {
-	//----------------------------- constants --------------------------------------------------------------------------
-	private static final String FET_CONSTRAINTS_NAMESPACE = "org.confetti.fet.constraints.";
 	
 	//----------------------------- fields for UI client----------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
@@ -137,14 +134,8 @@ public class XmlDataProvider implements DataProvider {
 		}
 	}
 
-	private void createConstraints(List<? extends BaseConstraintXml> constraintsList, 
-			GetConstraintAttrVisitor attrVisitor) {
-		for (BaseConstraintXml constraint : constraintsList) {
-			String shortType = constraint.accept(GetConstraintTypeVisitor.INSTANCE, null);
-			String type = FET_CONSTRAINTS_NAMESPACE + shortType;
-			ConstraintAttributes attrs = constraint.accept(attrVisitor, new ConstraintAttributes());
-			constraints.addItem(new ConstraintImpl(type, attrs));
-		}
+	private void createConstraints(List<? extends BaseConstraintXml> xmlConstraints, GetConstraintAttrVisitor visitor) {
+		xmlConstraints.forEach(xmlConstr -> constraints.addItem(xmlConstr.accept(visitor, null).build()));
 	}
 
 	private Map<String, StudentGroup> collectStudentGroups(Iterable<StudentGroup> list) {
@@ -225,7 +216,7 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	private BaseConstraintXml addXmlConstraint(final String type, final ConstraintAttributes attrs) {
-		String shortType = type.substring(FET_CONSTRAINTS_NAMESPACE.length());
+		String shortType = type.substring(ConstraintBuilder.FET_CONSTRAINTS_NAMESPACE.length());
 		
 		switch (shortType) {
 			case "time.BasicCompulsoryTime": return addTimeXmlConstraint(new ConstraintBasicCompulsoryTime(attrs));

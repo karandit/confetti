@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.confetti.core.Assignment;
-import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
@@ -15,6 +14,7 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.dataprovider.xml.AssignmentImpl;
+import org.confetti.dataprovider.xml.ConstraintBuilder;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 import org.confetti.xml.core.space.activities.ConstraintActivitiesOccupyMaxDifferentRooms;
@@ -112,7 +112,7 @@ import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxHoursDaily;
 import org.confetti.xml.core.time.teachers.ConstraintTeachersMinDaysPerWeek;
 import org.confetti.xml.core.time.teachers.ConstraintTeachersMinHoursDaily;
 
-public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<ConstraintAttributes, ConstraintAttributes> {
+public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<ConstraintBuilder, Object> {
 
 	private final Map<String, Day> daysByName;
 	private final Map<String, Hour> hoursByName;
@@ -142,329 +142,329 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	//----- Time constraints
 	//----- Miscellaneous
 	@Override
-	public ConstraintAttributes visitTime(ConstraintBasicCompulsoryTime c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintBasicCompulsoryTime c, Object p) {
+		return fillDefault("time.BasicCompulsoryTime", c)
 			.withBoolean("active", c.isActive())
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintBreakTimes c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintBreakTimes c, Object p) {
+		return fillDefault("time.BreakTimes", c)
 			.withWeek("break-times", transform(c.getBreakTimes(), 
 					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 	
 	//----- Teachers
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherNotAvailableTimes c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherNotAvailableTimes c, Object p) {
+		return fillDefault("time.NotAvailableTimesForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.getTeacher()))
 			.withWeek("not-available-times", transform(c.getNotAvailableTimes(), 
 					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherMaxDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherMaxDaysPerWeek c, Object p) {
+		return fillDefault("time.MaxDaysPerWeekForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherMinDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherMinDaysPerWeek c, Object p) {
+		return fillDefault("time.MinDaysPerWeekForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withDay("days", c.minDaysPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherMaxGapsPerDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherMaxGapsPerDay c, Object p) {
+		return fillDefault("time.MaxGapsPerDayForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withHour("hours", c.maxGaps)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherMaxGapsPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherMaxGapsPerWeek c, Object p) {
+		return fillDefault("time.MaxGapsPerWeekForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withDay("days", c.maxGaps)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherMaxHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherMaxHoursDaily c, Object p) {
+		return fillDefault("time.MaxHoursPerDayForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherActivityTagMaxHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherActivityTagMaxHoursDaily c, Object p) {
+		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherMinHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherMinHoursDaily c, Object p) {
+		return fillDefault("time.MinHoursPerDayForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withHour("hours", c.minimumHoursDaily)
 			.withBoolean("allow-empty-days", c.allowEmptyDays)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherMaxHoursContinuously c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherMaxHoursContinuously c, Object p) {
+		return fillDefault("time.MaxHoursContinuouslyForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherActivityTagMaxHoursContinuously c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherActivityTagMaxHoursContinuously c, Object p) {
+		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeacherIntervalMaxDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeacherIntervalMaxDaysPerWeek c, Object p) {
+		return fillDefault("time.HourlyIntervalMaxDaysPerWeekForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacherName))
 			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersMaxDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersMaxDaysPerWeek c, Object p) {
+		return fillDefault("time.MaxDaysPerWeekForAllTeachers", c)
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersMinDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersMinDaysPerWeek c, Object p) {
+		return fillDefault("time.MinDaysPerWeekForAllTeachers", c)
 			.withDay("days", c.minDaysPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersMaxGapsPerDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersMaxGapsPerDay c, Object p) {
+		return fillDefault("time.MaxGapsPerDayForAllTeachers", c)
 			.withHour("hours", c.maxGaps)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersMaxGapsPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersMaxGapsPerWeek c, Object p) {
+		return fillDefault("time.MaxGapsPerWeekForAllTeachers", c)
 			.withDay("days", c.maxGaps)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersMaxHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersMaxHoursDaily c, Object p) {
+		return fillDefault("time.MaxHoursPerDayForAllTeachers", c)
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersActivityTagMaxHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersActivityTagMaxHoursDaily c, Object p) {
+		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForAllTeachers", c)
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersMinHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersMinHoursDaily c, Object p) {
+		return fillDefault("time.MinHoursPerDayForAllTeachers", c)
 			.withHour("hours", c.minHoursDaily)
 			.withBoolean("allow-empty-days", c.allowEmptyDays)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersMaxHoursContinuously c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersMaxHoursContinuously c, Object p) {
+		return fillDefault("time.MaxHoursContinuouslyForAllTeachers", c)
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersActivityTagMaxHoursContinuously c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersActivityTagMaxHoursContinuously c, Object p) {
+		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForAllTeachers", c)
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTeachersIntervalMaxDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTeachersIntervalMaxDaysPerWeek c, Object p) {
+		return fillDefault("time.HourlyIntervalMaxDaysPerWeekForAllTeachers", c)
 			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	//----- Students
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetNotAvailableTimes c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetNotAvailableTimes c, Object p) {
+		return fillDefault("time.NotAvailableTimesForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.studentsName))
 			.withWeek("not-available-times", transform(c.notAvailableTimes, 
 					x -> new Tuple<>(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetMaxDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxDaysPerWeek c, Object p) {
+		return fillDefault("time.MaxDaysPerWeekForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetMaxGapsPerDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxGapsPerDay c, Object p) {
+		return fillDefault("time.MaxGapsPerDayForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withHour("hours", c.maxGaps)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetMaxGapsPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxGapsPerWeek c, Object p) {
+		return fillDefault("time.MaxGapsPerWeekForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withDay("days", c.maxGaps)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour c, Object p) {
+		return fillDefault("time.MaxBeginningsAtSecondHourForAStudentGroup", c)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetMaxHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxHoursDaily c, Object p) {
+		return fillDefault("time.MaxHoursPerDayForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetActivityTagMaxHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetActivityTagMaxHoursDaily c, Object p) {
+		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetMinHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetMinHoursDaily c, Object p) {
+		return fillDefault("time.MinHoursPerDayForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withHour("hours", c.minHoursDaily)
 			.withBoolean("allow-empty-days", c.allowEmptyDays)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetMaxHoursContinuously c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxHoursContinuously c, Object p) {
+		return fillDefault("time.MaxHoursContinuouslyForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetActivityTagMaxHoursContinuously c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetActivityTagMaxHoursContinuously c, Object p) {
+		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsSetIntervalMaxDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsSetIntervalMaxDaysPerWeek c, Object p) {
+		return fillDefault("time.HourlyIntervalMaxDaysPerWeekForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsMaxDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsMaxDaysPerWeek c, Object p) {
+		return fillDefault("time.MaxDaysPerWeekForAllStudentGroups", c)
 				.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsMaxGapsPerDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsMaxGapsPerDay c, Object p) {
+		return fillDefault("time.MaxGapsPerDayForAllStudentGroups", c)
 			.withHour("hours", c.maxGaps)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsMaxGapsPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsMaxGapsPerWeek c, Object p) {
+		return fillDefault("time.MaxGapsPerWeekForAllStudentGroups", c)
 			.withDay("days", c.getMaxGaps())
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsEarlyMaxBeginningsAtSecondHour c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsEarlyMaxBeginningsAtSecondHour c, Object p) {
+		return fillDefault("time.MaxBeginningsAtSecondHourForAllStudentGroups", c)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsMaxHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsMaxHoursDaily c, Object p) {
+		return fillDefault("time.MaxHoursPerDayForAllStudentGroups", c)
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsActivityTagMaxHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsActivityTagMaxHoursDaily c, Object p) {
+		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForAllStudentGroups", c)
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsMinHoursDaily c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsMinHoursDaily c, Object p) {
+		return fillDefault("time.MinHoursPerDayForAllStudentGroups", c)
 			.withHour("hours", c.minHoursDaily)
 			.withBoolean("allow-empty-days", c.allowEmptyDays)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsMaxHoursContinuously c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsMaxHoursContinuously c, Object p) {
+		return fillDefault("time.MaxHoursContinuouslyForAllStudentGroups", c)
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsActivityTagMaxHoursContinuously c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsActivityTagMaxHoursContinuously c, Object p) {
+		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForAllStudentGroups", c)
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintStudentsIntervalMaxDaysPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintStudentsIntervalMaxDaysPerWeek c, Object p) {
+		return fillDefault("time.HourlyIntervalMaxDaysPerWeekForAllStudentGroups", c)
 			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	//----- Activities
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivityPreferredStartingTime c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivityPreferredStartingTime c, Object p) {
+		return fillDefault("time.ActivityHasAPreferredStartingTime", c)
 			.withAssignment("assignment", findAssignment(c.getActivityId()))
 			.withPeriod("period", slot(findDay(c.getPreferredDay()), findHour(c.getPreferredHour())))
 			.withBoolean("locked", c.isLocked())
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivityPreferredStartingTimes c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivityPreferredStartingTimes c, Object p) {
+		return fillDefault("time.ActivityHasSomePreferredStartingTimes", c)
 			.withAssignment("assignment", findAssignment(c.activityId))
 			.withWeek("starting-times", transform(c.preferredStartingTimes, 
 					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivityPreferredTimeSlots c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivityPreferredTimeSlots c, Object p) {
+		return fillDefault("time.ActivityHasSomePreferredTimeSlots", c)
 			.withAssignment("assignment", findAssignment(c.activityId))
 			.withWeek("time-slots", transform(c.preferredTimeSlots, 
 					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivitiesPreferredStartingTimes c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivitiesPreferredStartingTimes c, Object p) {
+		return fillDefault("time.MoreActivitiesHaveSomePreferredStartingTimes", c)
 			.withAssignmentsCriteria("assignment", criteria(
 					maybeFindSubject(c.subjectName), maybeFindTeacher(c.teacherName), maybeFindStudentGroup(c.studentsName)))
 			.withWeek("starting-times", transform(c.preferredStartingTimes, 
@@ -472,8 +472,8 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivitiesPreferredTimeSlots c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivitiesPreferredTimeSlots c, Object p) {
+		return fillDefault("time.MoreActivitiesHaveSomePreferredTimeSlots", c)
 			.withAssignmentsCriteria("assignment", criteria(
 					maybeFindSubject(c.subjectName), maybeFindTeacher(c.teacherName), maybeFindStudentGroup(c.studentsName)))
 			.withWeek("time-slots", transform(c.preferredTimeSlots, 
@@ -481,115 +481,115 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintSubactivitiesPreferredStartingTimes c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintSubactivitiesPreferredStartingTimes c, Object p) {
+		return fillDefault("time.MoreSubActivitiesHaveSomePreferredStartingTimes", c)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintSubactivitiesPreferredTimeSlots c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintSubactivitiesPreferredTimeSlots c, Object p) {
+		return fillDefault("time.MoreSubActivitiesHaveSomePreferredTimeSlots", c)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintMinDaysBetweenActivities c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintMinDaysBetweenActivities c, Object p) {
+		return fillDefault("time.MinDaysBetweenActivities", c)
 			.withAssignmentsSet("assignment", transform(c.getActivityId(), id -> findAssignment(id)))
 			.withDay("min-days", c.getMinDays())
 			.withBoolean("force-consecutive", c.isConsecutiveIfSameDay())
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintMaxDaysBetweenActivities c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintMaxDaysBetweenActivities c, Object p) {
+		return fillDefault("time.MaxDaysBetweenActivities", c)
 			.withAssignmentsSet("assignment", transform(c.activityIds, id -> findAssignment(id)))
 			.withDay("max-days", c.maxDays)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivityEndsStudentsDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivityEndsStudentsDay c, Object p) {
+		return fillDefault("time.ActivityEndsStudentsDay", c)
 			.withAssignment("assignment", findAssignment(c.activityId))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivitiesEndStudentsDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivitiesEndStudentsDay c, Object p) {
+		return fillDefault("time.MoreActivitiesEndStudentsDay", c)
 				.withAssignmentsCriteria("assignments", criteria(
 		maybeFindSubject(c.subjectName), maybeFindTeacher(c.teacherName), maybeFindStudentGroup(c.studentsName)))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivitiesSameStartingTime c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivitiesSameStartingTime c, Object p) {
+		return fillDefault("time.MoreActivitiesHaveSameStartingTime", c)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivitiesSameStartingDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivitiesSameStartingDay c, Object p) {
+		return fillDefault("time.MoreActivitiesHaveSameStartingDay", c)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivitiesSameStartingHour c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivitiesSameStartingHour c, Object p) {
+		return fillDefault("time.MoreActivitiesHaveSameStartingHour", c)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivitiesOccupyMaxTimeSlotsFromSelection c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivitiesOccupyMaxTimeSlotsFromSelection c, Object p) {
+		return fillDefault("time.MoreActivitiesOccupyMaxTimeSlotsFromSelection", c)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
 			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(findDay(x.day), findHour(x.hour))))
 			.withInteger("max-occupied", c.maxNrOfOccupiedTimeSlots)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTwoActivitiesOrdered c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTwoActivitiesOrdered c, Object p) {
+		return fillDefault("time.TwoActivitiesAreOrdered", c)
 			.withAssignment("first-assignment", findAssignment(c.firstActivityId))
 			.withAssignment("second-assignment", findAssignment(c.secondActivityId))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTwoActivitiesConsecutive c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTwoActivitiesConsecutive c, Object p) {
+		return fillDefault("time.TwoActivitiesAreConsecutive", c)
 			.withAssignment("first-assignment", findAssignment(c.firstActivityId))
 			.withAssignment("second-assignment", findAssignment(c.secondActivityId))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintTwoActivitiesGrouped c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintTwoActivitiesGrouped c, Object p) {
+		return fillDefault("time.TwoActivitiesAreGrouped", c)
 			.withAssignment("first-assignment", findAssignment(c.firstActivityId))
 			.withAssignment("second-assignment", findAssignment(c.secondActivityId))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintThreeActivitiesGrouped c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintThreeActivitiesGrouped c, Object p) {
+		return fillDefault("time.ThreeActivitiesAreGrouped", c)
 			.withAssignment("first-assignment", findAssignment(c.firstActivityId))
 			.withAssignment("second-assignment", findAssignment(c.secondActivityId))
 			.withAssignment("third-assignment", findAssignment(c.thirdActivityId))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivitiesNotOverlapping c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivitiesNotOverlapping c, Object p) {
+		return fillDefault("time.MoreActivitiesAreNotOverlapping", c)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots c, Object p) {
+		return fillDefault("time.MaxSimultaneousActivitiesFromASetInTimeSlots", c)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
 			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(findDay(x.day), findHour(x.hour))))
 			.withInteger("max-simult", c.maxNrOfSimultaneousActivities)
 	;}
 
 	@Override
-	public ConstraintAttributes visitTime(ConstraintMinGapsBetweenActivities c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitTime(ConstraintMinGapsBetweenActivities c, Object p) {
+		return fillDefault("time.MinGapsBetweenActivities", c)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
 			.withHour("min-gaps", c.minGaps)
 	;}
@@ -597,15 +597,15 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	//----- Space constraints
 	//----- Miscellaneous
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintBasicCompulsorySpace c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintBasicCompulsorySpace c, Object p) {
+		return fillDefault("space.BasicCompulsorySpace", c)
 			.withBoolean("active", c.isActive())
 	;}
 
 	//----- Rooms
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintRoomNotAvailableTimes c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintRoomNotAvailableTimes c, Object p) {
+		return fillDefault("space.NotAvailableTimesForARoom", c)
 			.withRoom("room", findRoom(c.room))
 			.withWeek("not-available-times", transform(c.notAvailableTimes, 
 					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
@@ -613,181 +613,182 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 
 	//----- Teachers
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintTeacherHomeRoom c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintTeacherHomeRoom c, Object p) {
+		return fillDefault("space.TeacherHasAHomeRoom", c)
 			.withTeacher("teacher", findTeacher(c.teacher))
 			.withRoom("room", findRoom(c.room))
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintTeacherHomeRooms c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintTeacherHomeRooms c, Object p) {
+		return fillDefault("space.TeacherHasSomeHomeRooms", c)
 			.withTeacher("teacher", findTeacher(c.teacher))
 			.withRoomsSet("rooms", transform(c.rooms, x -> findRoom(x)))
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintTeacherMaxBuildingChangesPerDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintTeacherMaxBuildingChangesPerDay c, Object p) {
+		return fillDefault("space.MaxBuildingChangesPerDayForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacher))
 			.withHour("max-building-changes", c.maxBuildingChangesPerDay)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintTeacherMaxBuildingChangesPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintTeacherMaxBuildingChangesPerWeek c, Object p) {
+		return fillDefault("space.MaxBuildingChangesPerWeekForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacher))
 			.withInteger("max-building-changes", c.maxBuildingChangesPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintTeacherMinGapsBetweenBuildingChanges c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintTeacherMinGapsBetweenBuildingChanges c, Object p) {
+		return fillDefault("space.MinGapsBetweenBuildingChangesForATeacher", c)
 			.withTeacher("teacher", findTeacher(c.teacher))
 			.withHour("min-gaps", c.minGapsBetweenBuildingChanges)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintTeachersMaxBuildingChangesPerDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintTeachersMaxBuildingChangesPerDay c, Object p) {
+		return fillDefault("space.MaxBuildingChangesPerDayForAllTeachers", c)
 			.withHour("max-building-changes", c.maxBuildingChangesPerDay)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintTeachersMaxBuildingChangesPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintTeachersMaxBuildingChangesPerWeek c, Object p) {
+		return fillDefault("space.MaxBuildingChangesPerWeekForAllTeachers", c)
 			.withInteger("max-building-changes", c.maxBuildingChangesPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintTeachersMinGapsBetweenBuildingChanges c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintTeachersMinGapsBetweenBuildingChanges c, Object p) {
+		return fillDefault("space.MinGapsBetweenBuildingChangesForAllTeachers", c)
 			.withHour("min-gaps", c.minGapsBetweenBuildingChanges)
 	;}
 
 	//----- Students
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintStudentsSetHomeRoom c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintStudentsSetHomeRoom c, Object p) {
+		return fillDefault("space.StudentGroupHasAHomeRoom", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withRoom("room", findRoom(c.room))
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintStudentsSetHomeRooms c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintStudentsSetHomeRooms c, Object p) {
+		return fillDefault("space.StudentGroupHasSomeHomeRooms", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withRoomsSet("rooms", transform(c.rooms, x -> findRoom(x)))
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintStudentsSetMaxBuildingChangesPerDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintStudentsSetMaxBuildingChangesPerDay c, Object p) {
+		return fillDefault("space.MaxBuildingChangesPerDayForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withHour("max-building-changes", c.maxBuildingChangesPerDay)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintStudentsSetMaxBuildingChangesPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintStudentsSetMaxBuildingChangesPerWeek c, Object p) {
+		return fillDefault("space.MaxBuildingChangesPerWeekForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withInteger("max-building-changes", c.maxBuildingChangesPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintStudentsSetMinGapsBetweenBuildingChanges c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintStudentsSetMinGapsBetweenBuildingChanges c, Object p) {
+		return fillDefault("space.MinGapsBetweenBuildingChangesForAStudentGroup", c)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
 			.withHour("min-gaps", c.minGapsBetweenBuildingChanges)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintStudentsMaxBuildingChangesPerDay c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintStudentsMaxBuildingChangesPerDay c, Object p) {
+		return fillDefault("space.MaxBuildingChangesPerDayForAllStudentGroups", c)
 			.withHour("max-building-changes", c.maxBuildingChangesPerDay)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintStudentsMaxBuildingChangesPerWeek c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintStudentsMaxBuildingChangesPerWeek c, Object p) {
+		return fillDefault("space.MaxBuildingChangesPerWeekForAllStudentGroups", c)
 			.withInteger("max-building-changes", c.maxBuildingChangesPerWeek)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintStudentsMinGapsBetweenBuildingChanges c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintStudentsMinGapsBetweenBuildingChanges c, Object p) {
+		return fillDefault("space.MinGapsBetweenBuildingChangesForAllStudentGroups", c)
 			.withHour("min-gaps", c.minGapsBetweenBuildingChanges)
 	;}
 
 	//----- Subjects
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintSubjectPreferredRoom c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintSubjectPreferredRoom c, Object p) {
+		return fillDefault("space.SubjectHasAPreferredRoom", c)
 			.withSubject("subject", findSubject(c.subject))
 			.withRoom("room", findRoom(c.room))
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintSubjectPreferredRooms c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintSubjectPreferredRooms c, Object p) {
+		return fillDefault("space.SubjectHasSomePreferredRooms", c)
 			.withSubject("subject", findSubject(c.subject))
 			.withRoomsSet("rooms", transform(c.preferredRooms, x -> findRoom(x)))
 	;}
 
 	//----- Activity tags
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintActivityTagPreferredRoom c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintActivityTagPreferredRoom c, Object p) {
+		return fillDefault("space.ActivityTagHasAPreferredRoom", c)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintActivityTagPreferredRooms c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintActivityTagPreferredRooms c, Object p) {
+		return fillDefault("space.ActivityTagHasSomePreferredRooms", c)
 	;}
 
 	//----- Subjects and activity tags
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintSubjectActivityTagPreferredRoom c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintSubjectActivityTagPreferredRoom c, Object p) {
+		return fillDefault("space.SubjectAndActivityTagHaveAPreferredRoom", c)
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintSubjectActivityTagPreferredRooms c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintSubjectActivityTagPreferredRooms c, Object p) {
+		return fillDefault("space.SubjectAndActivityTagHaveSomePreferredRooms", c)
 	;}
 
 	//----- Activities
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintActivityPreferredRoom c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintActivityPreferredRoom c, Object p) {
+		return fillDefault("space.ActivityHasAPreferredRoom", c)
 			.withAssignment("assignment", findAssignment(c.getActivityId()))
 			.withRoom("room", findRoom(c.getRoom()))
 			.withBoolean("locked", c.isLocked())
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintActivityPreferredRooms c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintActivityPreferredRooms c, Object p) {
+		return fillDefault("space.ActivityHasSomePreferredRooms", c)
 			.withAssignment("assignment", findAssignment(c.activityId))
 			.withRoomsSet("rooms", transform(c.preferredRooms, x -> findRoom(x)))
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintActivitiesSameRoomIfConsecutive c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintActivitiesSameRoomIfConsecutive c, Object p) {
+		return fillDefault("space.SomeActivitiesAreInTheSameRoomIfTheyAreConsecutive", c)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
 	;}
 
 	@Override
-	public ConstraintAttributes visitSpace(ConstraintActivitiesOccupyMaxDifferentRooms c, ConstraintAttributes p) {
-		return fillDefault(c, p)
+	public ConstraintBuilder visitSpace(ConstraintActivitiesOccupyMaxDifferentRooms c, Object p) {
+		return fillDefault("space.SomeActivitiesOccupyMaxDifferentRooms", c)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
 			.withInteger("max-diff-rooms", c.maxNrOfDifferentRooms)
 	;}
 
 	//------------------- helpers --------------------------------------------------------------------------------------
-	private static ConstraintAttributes fillDefault(BaseConstraintXml c, ConstraintAttributes p) {
-		return p.withDouble("weight-percentage", c.getWeight());
+	private ConstraintBuilder fillDefault(String type, BaseConstraintXml c) {
+		return new ConstraintBuilder(type)
+			.withDouble("weight-percentage", c.getWeight());
 	}
 
 	private static Tuple<Day, Hour> slot(Day day, Hour hour) {
