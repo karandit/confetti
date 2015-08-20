@@ -70,7 +70,8 @@
       <complexType>
          <sequence>
             <element ref="boolean-field" minOccurs="0" maxOccurs="unbounded"/>
-            <element ref="number-field" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="integer-field" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="double-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="day-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="hour-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="teacher-field" minOccurs="0" maxOccurs="unbounded"/>
@@ -241,8 +242,7 @@
       </complexType>
    </element>
 
-
-   <element name="number-field">
+   <element name="integer-field">
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -319,6 +319,25 @@
    </element>
 
    <element name="week-field">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="label" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="double-field">
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>

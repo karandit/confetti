@@ -54,7 +54,8 @@ public class ConstraintField {
         fieldTypeMapping.put("boolean-field", FieldType.Boolean);
         fieldTypeMapping.put("day-field", FieldType.Day);
         fieldTypeMapping.put("hour-field", FieldType.Hour);
-        fieldTypeMapping.put("number-field", FieldType.Number);
+        fieldTypeMapping.put("double-field", FieldType.Double);
+        fieldTypeMapping.put("integer-field", FieldType.Integer);
         fieldTypeMapping.put("period-field", FieldType.Period);
         fieldTypeMapping.put("period-number-field", FieldType.PeriodNumber);
         fieldTypeMapping.put("teacher-field", FieldType.Teacher);
@@ -80,7 +81,7 @@ public class ConstraintField {
             	return attrs.asBoolean(key).toString();
             }
         },
-        Number {
+        Double {
             @Override
             public Control createControl(Composite parent) {
                 return createSpinnerField(parent, 1, 100, 98);
@@ -92,6 +93,20 @@ public class ConstraintField {
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
             	return attrs.asDouble(key).toString();
+            }
+        },
+        Integer {
+            @Override
+            public Control createControl(Composite parent) {
+                return createSpinnerField(parent, 1, 100, 98);
+            }
+            @Override
+            public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
+            	attrs.withInteger(key, ((Spinner) ctrl).getSelection());
+            }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	return attrs.asInteger(key).toString();
             }
         },
         Day {
