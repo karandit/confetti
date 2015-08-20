@@ -9,10 +9,6 @@ import org.confetti.rcp.extensions.ConstraintField;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -74,17 +70,4 @@ public class ConstraintDialog extends TrayDialog {
         }
         super.okPressed();
 	}
-    
-    public void print(String path) {
-		Control contents = getDialogArea();
-    	final Image image = new Image(getShell().getDisplay(), contents.getBounds());
-		GC gc = new GC(image);
-		contents.print(gc);
-		gc.dispose();
-
-		ImageLoader loader = new ImageLoader();
-		loader.data = new ImageData[] { image.getImageData() };
-		loader.save(path, SWT.IMAGE_PNG);
-    }
-    
 }

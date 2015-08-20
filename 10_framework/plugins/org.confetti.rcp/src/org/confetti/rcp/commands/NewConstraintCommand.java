@@ -52,8 +52,6 @@ public class NewConstraintCommand extends AbstractHandler {
         if (Window.OK != dlg.open()) {
             return null;
         }
-//        traverse(shell, "c:\\12_work\\30_confetti\\confetti_dialogs\\", constraintsDescr.toArray(new IConstraintElement[constraintsDescr.size()]));
-//        MessageDialog.openInformation(shell, "Generate screensots", "Capturing screenshots done.");
         Object[] selected = dlg.getResult();
         if (selected == null || selected.length == 0 || !(selected[0] instanceof ConstraintDescr)) {
             return null;
@@ -68,22 +66,6 @@ public class NewConstraintCommand extends AbstractHandler {
 		dp.addConstraint(selectedDescr.getId(), attrs);
         return null;
     }
-
-	private void traverse(Shell shell, String path, IConstraintElement[] constrElems) {
-		int i = 1;
-		for (IConstraintElement constrElem : constrElems) {
-			if (constrElem instanceof ConstraintDescr) {
-				ConstraintDescr constraintDescr = (ConstraintDescr) constrElem;
-		        ConstraintDialog constraintDialog = new ConstraintDialog(shell, constraintDescr, null);
-		        constraintDialog.create();
-		        constraintDialog.print(path + String.format("%02d", i++) + "_" + constrElem.getName() + ".png");
-			}
-			
-			if (constrElem.hasChildren()) {
-				traverse(shell, path + String.format("%02d", i++) + "_" + constrElem.getName() + "_", constrElem.getChildren());
-			}
-		}
-	}
 
 	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
 
