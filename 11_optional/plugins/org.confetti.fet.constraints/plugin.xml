@@ -241,13 +241,13 @@
          	<constraint id="time.MoreActivitiesHaveSomePreferredStartingTimes" name="A set of activities has a set of preferred starting times">
          	   <assignments-set-field label="Assignment" name="assignment"/>
          	   <week-field label="Starting times" name="starting-times"/>
-               <boolean-field label="Duration" name="duration-enabled"/>
+               <!--boolean-field label="Duration" name="duration-enabled"/-->
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
          	<constraint id="time.MoreActivitiesHaveSomePreferredTimeSlots" name="A set of activities has a set of preferred time slots">
          	   <assignments-set-field label="Assignment" name="assignment"/>
          	   <week-field label="Time slots" name="time-slots"/>
-               <boolean-field label="Duration" name="duration-enabled"/>
+               <!--boolean-field label="Duration" name="duration-enabled"/-->
                <number-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
 

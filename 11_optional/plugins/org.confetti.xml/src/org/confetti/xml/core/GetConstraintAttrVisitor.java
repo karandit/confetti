@@ -467,7 +467,6 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 			.withAssignmentsSet("assignment", null)
 			.withWeek("starting-times", transform(c.preferredStartingTimes, 
 					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
-			.withBoolean("duration-enabled", null)
 	;}
 
 	@Override
@@ -476,7 +475,6 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 			.withAssignmentsSet("assignment", null)
 			.withWeek("time-slots", transform(c.preferredTimeSlots, 
 					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
-			.withBoolean("duration-enabled", null)
 	;}
 
 	@Override
