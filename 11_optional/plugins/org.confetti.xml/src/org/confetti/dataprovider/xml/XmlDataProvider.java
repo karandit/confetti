@@ -25,7 +25,7 @@ import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.BaseConstraintXml;
-import org.confetti.xml.core.GetConstraintAttrVisitor;
+import org.confetti.xml.core.ConstraintFactory;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.INameBean;
 import org.confetti.xml.core.InstituteXml;
@@ -85,7 +85,7 @@ public class XmlDataProvider implements DataProvider {
 		Map<String, StudentGroup> studentGroupsByName = collectStudentGroups(stdGroups.getObservableList().getList());
 		createAssignments(inst, studentGroupsByName);
 		
-		GetConstraintAttrVisitor attrVisitor = new GetConstraintAttrVisitor(
+		ConstraintFactory attrVisitor = new ConstraintFactory(
 				days.getObservableList().getList(),
 				hours.getObservableList().getList(),
 				teachers.getObservableList().getList(),
@@ -134,7 +134,7 @@ public class XmlDataProvider implements DataProvider {
 		}
 	}
 
-	private void createConstraints(List<? extends BaseConstraintXml> xmlConstraints, GetConstraintAttrVisitor visitor) {
+	private void createConstraints(List<? extends BaseConstraintXml> xmlConstraints, ConstraintFactory visitor) {
 		xmlConstraints.forEach(xmlConstr -> constraints.addItem(xmlConstr.accept(visitor, null).build()));
 	}
 

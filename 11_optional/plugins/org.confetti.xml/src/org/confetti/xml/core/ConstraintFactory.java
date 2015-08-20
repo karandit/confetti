@@ -112,7 +112,7 @@ import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxHoursDaily;
 import org.confetti.xml.core.time.teachers.ConstraintTeachersMinDaysPerWeek;
 import org.confetti.xml.core.time.teachers.ConstraintTeachersMinHoursDaily;
 
-public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<ConstraintBuilder, Object> {
+public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder, Object> {
 
 	private final Map<String, Day> daysByName;
 	private final Map<String, Hour> hoursByName;
@@ -122,7 +122,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	private final Map<String, Room> roomsByName;
 	private final Map<Long, Assignment> assignmentsById;
 
-	public GetConstraintAttrVisitor(
+	public ConstraintFactory(
 			final Iterable<Day> days,
 			final Iterable<Hour> hours,
 			final Iterable<Teacher> teachers, 
