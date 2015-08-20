@@ -60,7 +60,6 @@ public class ConstraintField {
         fieldTypeMapping.put("double-field", FieldType.Double);
         fieldTypeMapping.put("integer-field", FieldType.Integer);
         fieldTypeMapping.put("period-field", FieldType.Period);
-        fieldTypeMapping.put("period-number-field", FieldType.PeriodNumber);
         fieldTypeMapping.put("teacher-field", FieldType.Teacher);
         fieldTypeMapping.put("studentgroup-field", FieldType.StudentGroup);
         fieldTypeMapping.put("week-field", FieldType.Week);
@@ -172,14 +171,6 @@ public class ConstraintField {
             public Control createControl(Composite parent) {
             	Button button = new Button(parent, SWT.PUSH);
 				button.setText("Period Field NOT IMPLEMENTED");
-            	return button;
-            }
-        },
-        PeriodNumber {
-            @Override
-            public Control createControl(Composite parent) {
-            	Button button = new Button(parent, SWT.PUSH);
-				button.setText("PeriodNumber Field NOT IMPLEMENTED");
             	return button;
             }
         },
