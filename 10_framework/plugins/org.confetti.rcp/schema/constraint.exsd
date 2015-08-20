@@ -81,6 +81,7 @@
             <element ref="studentgroup-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="week-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="assignment-field" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="assignments-criteria-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="assignments-set-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="period-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="period-number-field" minOccurs="0" maxOccurs="unbounded"/>
@@ -129,6 +130,25 @@
    </element>
 
    <element name="assignments-set-field">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="label" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="assignments-criteria-field">
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>

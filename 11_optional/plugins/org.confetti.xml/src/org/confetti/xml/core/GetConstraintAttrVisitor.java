@@ -15,6 +15,7 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.dataprovider.xml.AssignmentImpl;
+import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 import org.confetti.xml.core.space.activities.ConstraintActivitiesOccupyMaxDifferentRooms;
 import org.confetti.xml.core.space.activities.ConstraintActivitiesSameRoomIfConsecutive;
@@ -464,7 +465,8 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	@Override
 	public ConstraintAttributes visitTime(ConstraintActivitiesPreferredStartingTimes c, ConstraintAttributes p) {
 		return fillDefault(c, p)
-			.withAssignmentsSet("assignment", null)
+			.withAssignmentsCriteria("assignment", criteria(
+					maybeFindSubject(c.subjectName), maybeFindTeacher(c.teacherName), maybeFindStudentGroup(c.studentsName)))
 			.withWeek("starting-times", transform(c.preferredStartingTimes, 
 					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
@@ -472,7 +474,8 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	@Override
 	public ConstraintAttributes visitTime(ConstraintActivitiesPreferredTimeSlots c, ConstraintAttributes p) {
 		return fillDefault(c, p)
-			.withAssignmentsSet("assignment", null)
+			.withAssignmentsCriteria("assignment", criteria(
+					maybeFindSubject(c.subjectName), maybeFindTeacher(c.teacherName), maybeFindStudentGroup(c.studentsName)))
 			.withWeek("time-slots", transform(c.preferredTimeSlots, 
 					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
@@ -511,7 +514,8 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	@Override
 	public ConstraintAttributes visitTime(ConstraintActivitiesEndStudentsDay c, ConstraintAttributes p) {
 		return fillDefault(c, p)
-			.withAssignmentsSet("assignments", null)
+				.withAssignmentsCriteria("assignments", criteria(
+		maybeFindSubject(c.subjectName), maybeFindTeacher(c.teacherName), maybeFindStudentGroup(c.studentsName)))
 	;}
 
 	@Override
@@ -790,6 +794,10 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 		return new Tuple<>(day, hour);
 	}
 	
+	private static Triple<Subject, Teacher, StudentGroup> criteria(Subject subj, Teacher tea, StudentGroup sg) {
+		return new Triple<Subject, Teacher, StudentGroup>(subj, tea, sg);
+	}
+	
 	private static <T extends Nameable> Map<String, T> storeByName(final Iterable<T> items) {
 		Map<String, T> itemsByName = new HashMap<>();
 		for (T item : items) {
@@ -825,12 +833,24 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 		return safeGet(teacherName, teachersByName, "Teacher");
 	}
 	
+	private Teacher maybeFindTeacher(final String teacherName) {
+		return teachersByName.get(teacherName);
+	}
+	
 	private StudentGroup findStudentGroup(final String studentGroupName) {
 		return safeGet(studentGroupName, studentGroupsByName, "Student group");
 	}
 
+	private StudentGroup maybeFindStudentGroup(final String studentGroupName) {
+		return studentGroupsByName.get(studentGroupName);
+	}
+
 	private Subject findSubject(final String subjectName) {
 		return safeGet(subjectName, subjectsByName, "Subject");
+	}
+
+	private Subject maybeFindSubject(final String subjectName) {
+		return subjectsByName.get(subjectName);
 	}
 
 	private Room findRoom(final String roomName) {

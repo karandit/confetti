@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 
 public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
@@ -31,6 +32,7 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public ConstraintAttributes withRoomsSet(String key, Iterable<Room> v) 				{ return withT(key, v); }
 	public ConstraintAttributes withAssignment(String key, Assignment v) 				{ return withT(key, v); }
 	public ConstraintAttributes withAssignmentsSet(String key, Iterable<Assignment> v) 	{ return withT(key, v); }
+	public ConstraintAttributes withAssignmentsCriteria(String key, Triple<Subject, Teacher, StudentGroup> v) 	{ return withT(key, v); }
 	public ConstraintAttributes withPeriod(String key, Object v) 						{ return withT(key, v); }
 
 	//------------------------------- asXXX methods --------------------------------------------------------------------
@@ -47,6 +49,7 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public Iterable<Room> asRoomsSet(String key)										{ return asT(key); }
 	public Assignment asAssignment(String key)											{ return asT(key); }
 	public Iterable<Assignment> asAssignmentSet(String key)								{ return asT(key); }
+	public Triple<Subject, Teacher, StudentGroup> asAssignmentsCriteria(String key) 	{ return asT(key); }
 	 
 	//------------------------------- helpers --------------------------------------------------------------------------
 	@SuppressWarnings("unchecked")

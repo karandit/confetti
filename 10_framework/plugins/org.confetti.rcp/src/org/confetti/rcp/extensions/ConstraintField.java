@@ -23,6 +23,7 @@ import org.confetti.observable.ObservableList;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.constraints.ConstraintFieldWeekModel;
 import org.confetti.rcp.views.AssignmentsView;
+import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -42,7 +43,8 @@ import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableNoScrollModel;
 
 /**
- * @author Gabor Bubla
+ * @author Bubla Gábor 
+ * @author Kárándi Tamás
  */
 public class ConstraintField {
     
@@ -51,6 +53,7 @@ public class ConstraintField {
     static {
         fieldTypeMapping.put("assignment-field", FieldType.Assignment);
         fieldTypeMapping.put("assignments-set-field", FieldType.AssignmentsSet);
+        fieldTypeMapping.put("assignments-criteria-field", FieldType.AssignmentsCriteria);
         fieldTypeMapping.put("boolean-field", FieldType.Boolean);
         fieldTypeMapping.put("day-field", FieldType.Day);
         fieldTypeMapping.put("hour-field", FieldType.Hour);
@@ -261,10 +264,6 @@ public class ConstraintField {
             public String prettyPrint(String key, ConstraintAttributes attrs) {
             	return convertAssignmentToString(attrs.asAssignment(key));
             }
-            private String safeGetName(Entity ent) {
-            	String name = AssignmentsView.getName(ent);
-				return name == null ? "" : name;
-            }
         },
         AssignmentsSet {
             @Override
@@ -277,6 +276,23 @@ public class ConstraintField {
             public String prettyPrint(String key, ConstraintAttributes attrs) {
             	return Iterables.toString(
             			Iterables.transform(attrs.asAssignmentSet(key), x -> convertAssignmentToString(x)));
+            }
+        }, 
+        AssignmentsCriteria {
+            @Override
+            public Control createControl(Composite parent) {
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("AssignmentsCriteria Field NOT IMPLEMENTED");
+            	return button;
+            }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	Triple<Subject, Teacher, StudentGroup> triple = attrs.asAssignmentsCriteria(key);
+            	return String.format("%s %s %s"
+                		, safeGetName(triple.getFirst())
+                		, safeGetName(triple.getSecond())
+                		, safeGetName(triple.getThird())
+                		);
             }
         }, 
         Room {
@@ -329,6 +345,11 @@ public class ConstraintField {
         
         public void applyLayout(Control ctrl) {
             GridDataFactory.fillDefaults().grab(true, false).applyTo(ctrl);
+        }
+
+        private static String safeGetName(Entity ent) {
+        	String name = AssignmentsView.getName(ent);
+			return name == null ? "" : name;
         }
 
         private static String convertAssignmentToString(Assignment ass) {

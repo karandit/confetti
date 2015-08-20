@@ -16,9 +16,9 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"teacherName", "studentsName", "subjectName", "activityTagName",
 		"active", "comment"})
 public class ConstraintActivitiesEndStudentsDay extends TimeConstraint {
-	@XmlElement(name = "Teacher_Name") private String teacherName;
-	@XmlElement(name = "Students_Name") private String studentsName;
-	@XmlElement(name = "Subject_Name") private String subjectName;
+	@XmlElement(name = "Teacher_Name") public String teacherName;
+	@XmlElement(name = "Students_Name") public String studentsName;
+	@XmlElement(name = "Subject_Name") public String subjectName;
 	@XmlElement(name = "Activity_Tag_Name") private String activityTagName;
 	
 	@Override
