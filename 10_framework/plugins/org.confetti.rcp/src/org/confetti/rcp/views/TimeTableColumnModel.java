@@ -1,6 +1,5 @@
 package org.confetti.rcp.views;
 
-import static com.google.common.collect.Iterables.size;
 import static de.kupzog.ktable.renderers.DefaultCellRenderer.STYLE_PUSH;
 
 import org.confetti.core.DataProvider;
@@ -20,13 +19,13 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	private static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
 	
 	//----------------------------- fields -----------------------------------------------------------------------------
-	private final DataProvider dp;
+//	private final DataProvider dp;
 	private final StudentGroup sg;
 
 	//----------------------------- constructors -----------------------------------------------------------------------
 	public TimeTableColumnModel(KTable table, DataProvider dp, StudentGroup sg) {
 		super(table);
-		this.dp = dp;
+//		this.dp = dp;
 		this.sg = sg;
 	}
 	

@@ -42,6 +42,7 @@ public class VerifyEntriesWizardPage extends ModelableWizardPage<VerifyEntriesMo
 			
 			@Override
 			public String getColumnText(Object element, int columnIndex) {
+				@SuppressWarnings("unchecked")
 				Tuple<String, Problem> nameAndProblem = (Tuple<String, Problem>) element;
 				switch (columnIndex) {
 				case 0: return nameAndProblem.getFirst();

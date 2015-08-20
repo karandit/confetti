@@ -80,6 +80,7 @@ public class NewConstraintCommand extends AbstractHandler {
 		@Override public boolean hasChildren(Object e) { return ((IConstraintElement) e).hasChildren(); }
 		@Override
 		public Object[] getElements(Object e) {
+			@SuppressWarnings("unchecked")
 			List<IConstraintElement> list = (List<IConstraintElement>) e;
 			return list.toArray(new IConstraintElement[list.size()]);
 		}

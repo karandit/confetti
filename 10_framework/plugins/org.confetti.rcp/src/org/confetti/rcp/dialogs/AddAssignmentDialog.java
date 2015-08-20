@@ -173,9 +173,11 @@ public class AddAssignmentDialog extends Dialog {
             IStructuredSelection selection = (IStructuredSelection) subjectsViewer.getSelection();
             Subject subject = (Subject) selection.getFirstElement();
             selection = (IStructuredSelection) teachersViewer.getSelection();
-            List<Teacher> teachers = selection.toList();
+            @SuppressWarnings("unchecked")
+			List<Teacher> teachers = selection.toList();
             selection = (IStructuredSelection) studentgroupsViewer.getSelection();
-            List<StudentGroup> studentGroups = selection.toList();
+            @SuppressWarnings("unchecked")
+			List<StudentGroup> studentGroups = selection.toList();
             
             //create the assignment
             ConfettiPlugin.getDefault().getDataProvider().getValue().addAssignment(subject, teachers, studentGroups);

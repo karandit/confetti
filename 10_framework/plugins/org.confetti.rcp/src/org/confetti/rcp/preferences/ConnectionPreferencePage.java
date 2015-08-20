@@ -113,7 +113,8 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
         @Override public Image getColumnImage(Object element, int columnIndex) { return null; }
         @Override
         public String getColumnText(Object element, int columnIndex) {
-            Tuple<String, String> tuple = (Tuple<String, String>) element; 
+            @SuppressWarnings("unchecked")
+			Tuple<String, String> tuple = (Tuple<String, String>) element; 
             switch (columnIndex) {
                 case 0:     return tuple.getFirst();
                 default:    return tuple.getSecond();
@@ -203,7 +204,8 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
             
             //get the selection
             IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-            Tuple<String, String> selectedConn = (Tuple<String, String>) selection.getFirstElement();
+            @SuppressWarnings("unchecked")
+			Tuple<String, String> selectedConn = (Tuple<String, String>) selection.getFirstElement();
             ConnectionDescr foundConn = ConnectionRegistry.INSTANCE.getConnectionByType(selectedConn.getSecond());
             if (foundConn != null) {
                 SelectedConnectionDialog dialog = new SelectedConnectionDialog(shell, getPreferenceStore(), 
@@ -237,7 +239,8 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
             
             //get the selection
             IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-            Tuple<String, String> selectedConn = (Tuple<String, String>) selection.getFirstElement();
+            @SuppressWarnings("unchecked")
+			Tuple<String, String> selectedConn = (Tuple<String, String>) selection.getFirstElement();
             
             //confirmation dialog
             if (!MessageDialog.openConfirm(shell, "Remove connection", 
