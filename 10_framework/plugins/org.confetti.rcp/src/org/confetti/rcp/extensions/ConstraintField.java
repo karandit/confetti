@@ -173,6 +173,12 @@ public class ConstraintField {
 				button.setText("Period Field NOT IMPLEMENTED");
             	return button;
             }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	Tuple<Day, Hour> period = attrs.asPeriod(key);
+				return period.getFirst().getName().getValue() +
+						" " + period.getSecond().getName().getValue();
+            }
         },
         Teacher {
             @Override

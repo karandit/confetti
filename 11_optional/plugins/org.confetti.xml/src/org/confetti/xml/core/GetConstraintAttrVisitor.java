@@ -442,7 +442,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	public ConstraintAttributes visitTime(ConstraintActivityPreferredStartingTime c, ConstraintAttributes p) {
 		return fillDefault(c, p)
 			.withAssignment("assignment", findAssignment(c.getActivityId()))
-			.withPeriod("period", null)
+			.withPeriod("period", slot(findDay(c.getPreferredDay()), findHour(c.getPreferredHour())))
 			.withBoolean("locked", c.isLocked())
 	;}
 

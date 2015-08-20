@@ -25,6 +25,7 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public ConstraintAttributes withDay(final String key, final Integer v) 				{ return withT(key, v); }
 	public ConstraintAttributes withHour(final String key, final Integer v) 			{ return withT(key, v); }
 	public ConstraintAttributes withWeek(String key, Iterable<Tuple<Day, Hour>> v) 		{ return withT(key, v); }
+	public ConstraintAttributes withPeriod(String key, Tuple<Day, Hour> v)				{ return withT(key, v); }
 	public ConstraintAttributes withSubject(String key, Subject v) 						{ return withT(key, v); }
 	public ConstraintAttributes withTeacher(String key, Teacher v) 						{ return withT(key, v); }
 	public ConstraintAttributes withStudentGroup(String key, StudentGroup v) 			{ return withT(key, v); }
@@ -33,7 +34,6 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public ConstraintAttributes withAssignment(String key, Assignment v) 				{ return withT(key, v); }
 	public ConstraintAttributes withAssignmentsSet(String key, Iterable<Assignment> v) 	{ return withT(key, v); }
 	public ConstraintAttributes withAssignmentsCriteria(String key, Triple<Subject, Teacher, StudentGroup> v) 	{ return withT(key, v); }
-	public ConstraintAttributes withPeriod(String key, Object v) 						{ return withT(key, v); }
 
 	//------------------------------- asXXX methods --------------------------------------------------------------------
 	//TODO: remove this method
@@ -42,6 +42,7 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public Double asDouble(final String key) 											{ return asT(key); }
 	public Boolean asBoolean(final String key) 											{ return asT(key); }
 	public Iterable<Tuple<Day, Hour>> asWeek(final String key) 							{ return asT(key); }
+	public Tuple<Day, Hour> asPeriod(final String key) 									{ return asT(key); }
 	public Subject asSubject(String key)  												{ return asT(key); }
 	public Teacher asTeacher(String key)  												{ return asT(key); }
 	public StudentGroup asStudentGroup(String key)  									{ return asT(key); }
