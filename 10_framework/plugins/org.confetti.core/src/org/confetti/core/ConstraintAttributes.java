@@ -26,6 +26,7 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public ConstraintAttributes withHour(final String key, final Integer v) 			{ return withT(key, v); }
 	public ConstraintAttributes withWeek(String key, Iterable<Tuple<Day, Hour>> v) 		{ return withT(key, v); }
 	public ConstraintAttributes withPeriod(String key, Tuple<Day, Hour> v)				{ return withT(key, v); }
+	public ConstraintAttributes withInterval(String key, Tuple<Hour, Hour> v)			{ return withT(key, v); }
 	public ConstraintAttributes withSubject(String key, Subject v) 						{ return withT(key, v); }
 	public ConstraintAttributes withTeacher(String key, Teacher v) 						{ return withT(key, v); }
 	public ConstraintAttributes withStudentGroup(String key, StudentGroup v) 			{ return withT(key, v); }
@@ -43,6 +44,7 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public Boolean asBoolean(final String key) 											{ return asT(key); }
 	public Iterable<Tuple<Day, Hour>> asWeek(final String key) 							{ return asT(key); }
 	public Tuple<Day, Hour> asPeriod(final String key) 									{ return asT(key); }
+	public Tuple<Hour, Hour> asInterval(final String key) 								{ return asT(key); }
 	public Subject asSubject(String key)  												{ return asT(key); }
 	public Teacher asTeacher(String key)  												{ return asT(key); }
 	public StudentGroup asStudentGroup(String key)  									{ return asT(key); }

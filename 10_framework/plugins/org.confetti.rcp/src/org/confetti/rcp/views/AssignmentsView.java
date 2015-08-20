@@ -3,6 +3,7 @@ package org.confetti.rcp.views;
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
+import org.confetti.core.Nameable;
 import org.confetti.core.Subject;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.ConfettiPlugin;
@@ -169,7 +170,7 @@ public class AssignmentsView extends ViewPart {
 		}
 
 	}
-	public static String getName(Entity ent) { return ent == null ? null : ent.getName().getValue(); }
+	public static String getName(Nameable ent) { return ent == null ? null : ent.getName().getValue(); }
 	
 	public static <T extends Entity> String toStr(Iterable<T> items) {
 		StringBuilder sb = new StringBuilder();

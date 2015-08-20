@@ -12,7 +12,6 @@ import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
-import org.confetti.core.Entity;
 import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
 import org.confetti.core.Room;
@@ -60,6 +59,7 @@ public class ConstraintField {
         fieldTypeMapping.put("double-field", FieldType.Double);
         fieldTypeMapping.put("integer-field", FieldType.Integer);
         fieldTypeMapping.put("period-field", FieldType.Period);
+        fieldTypeMapping.put("interval-field", FieldType.Interval);
         fieldTypeMapping.put("teacher-field", FieldType.Teacher);
         fieldTypeMapping.put("studentgroup-field", FieldType.StudentGroup);
         fieldTypeMapping.put("week-field", FieldType.Week);
@@ -178,6 +178,19 @@ public class ConstraintField {
             	Tuple<Day, Hour> period = attrs.asPeriod(key);
 				return period.getFirst().getName().getValue() +
 						" " + period.getSecond().getName().getValue();
+            }
+        },
+        Interval {
+            @Override
+            public Control createControl(Composite parent) {
+            	Button button = new Button(parent, SWT.PUSH);
+				button.setText("Interval Field NOT IMPLEMENTED");
+            	return button;
+            }
+            @Override
+            public String prettyPrint(String key, ConstraintAttributes attrs) {
+            	Tuple<Hour, Hour> interval = attrs.asInterval(key);
+				return safeGetName(interval.getFirst()) + " " + safeGetName(interval.getSecond());
             }
         },
         Teacher {
@@ -338,13 +351,16 @@ public class ConstraintField {
 
         public abstract Control createControl(Composite area);
         public /* abstract */ void putValue(String key, Control ctrl, ConstraintAttributes attrs) {}
-        public /* abstract */  String prettyPrint(String key, ConstraintAttributes attrs) { return "+++"; }
+        public /* abstract */  String prettyPrint(String key, ConstraintAttributes attrs) { 
+        	System.out.println(key + "+++");
+        	
+        	return "+++"; }
         
         public void applyLayout(Control ctrl) {
             GridDataFactory.fillDefaults().grab(true, false).applyTo(ctrl);
         }
 
-        private static String safeGetName(Entity ent) {
+        private static String safeGetName(Nameable ent) {
         	String name = AssignmentsView.getName(ent);
 			return name == null ? "" : name;
         }

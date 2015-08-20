@@ -69,7 +69,7 @@
             </constraint>
             <constraint id="time.HourlyIntervalMaxDaysPerWeekForATeacher" name="A teacher works in an hourly interval max days per week">
                <teacher-field label="Teacher" name="teacher"/>
-               <period-field label="Interval" name="interval"/>
+               <interval-field label="Interval" name="interval"/>
                <day-field label="Max days per week" name="days"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
@@ -113,7 +113,7 @@
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
             <constraint id="time.HourlyIntervalMaxDaysPerWeekForAllTeachers" name="All teachers work in an hourly interval max days per week">
-               <period-field label="Interval" name="interval"/>
+               <interval-field label="Interval" name="interval"/>
                <day-field label="Max days per week" name="days"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
@@ -172,7 +172,7 @@
             </constraint>
              <constraint id="time.HourlyIntervalMaxDaysPerWeekForAStudentGroup" name="A student group works in an hourly interval max days per week">
                <studentgroup-field label="Student group" name="studentgroup"/>
-               <period-field label="Interval" name="interval"/>
+               <interval-field label="Interval" name="interval"/>
                <day-field label="Max days per week" name="days"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
@@ -214,7 +214,7 @@
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.HourlyIntervalMaxDaysPerWeekForAllStudentGroups" name="All student groups work in an hourly interval max days per week">
-               <period-field label="Interval" name="interval"/>
+               <interval-field label="Interval" name="interval"/>
                <day-field label="Max days per week" name="days"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>

@@ -84,6 +84,7 @@
             <element ref="assignments-criteria-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="assignments-set-field" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="period-field" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="interval-field" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="id" type="string" use="required">
             <annotation>
@@ -376,6 +377,25 @@
    </element>
 
    <element name="period-field">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="label" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="interval-field">
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>

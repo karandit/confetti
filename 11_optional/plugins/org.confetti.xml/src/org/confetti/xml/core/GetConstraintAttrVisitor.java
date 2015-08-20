@@ -231,7 +231,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	public ConstraintAttributes visitTime(ConstraintTeacherIntervalMaxDaysPerWeek c, ConstraintAttributes p) {
 		return fillDefault(c, p)
 			.withTeacher("teacher", findTeacher(c.teacherName))
-			.withPeriod("interval", null)
+			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
@@ -293,7 +293,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	@Override
 	public ConstraintAttributes visitTime(ConstraintTeachersIntervalMaxDaysPerWeek c, ConstraintAttributes p) {
 		return fillDefault(c, p)
-			.withPeriod("interval", null)
+			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
@@ -372,7 +372,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	public ConstraintAttributes visitTime(ConstraintStudentsSetIntervalMaxDaysPerWeek c, ConstraintAttributes p) {
 		return fillDefault(c, p)
 			.withStudentGroup("studentgroup", findStudentGroup(c.students))
-			.withPeriod("interval", null)
+			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
@@ -433,7 +433,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	@Override
 	public ConstraintAttributes visitTime(ConstraintStudentsIntervalMaxDaysPerWeek c, ConstraintAttributes p) {
 		return fillDefault(c, p)
-			.withPeriod("interval", null)
+			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
@@ -827,6 +827,10 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 
 	private Hour findHour(final String hourName) {
 		return safeGet(hourName, hoursByName, "Hour");
+	}
+	
+	private Hour maybeFindHour(String hourName) {
+		return hoursByName.get(hourName);
 	}
 
 	private Teacher findTeacher(final String teacherName) {
