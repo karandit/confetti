@@ -148,7 +148,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	public ConstraintAttributes visitTime(ConstraintBreakTimes c, ConstraintAttributes p) {
 		return fillDefault(c, p)
 			.withWeek("break-times", transform(c.getBreakTimes(), 
-					x -> new Tuple<Day, Hour>(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 	
 	//----- Teachers
@@ -157,7 +157,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 		return fillDefault(c, p)
 			.withTeacher("teacher", findTeacher(c.getTeacher()))
 			.withWeek("not-available-times", transform(c.getNotAvailableTimes(), 
-					x -> new Tuple<Day, Hour>(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 
 	@Override
@@ -437,7 +437,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 		return fillDefault(c, p)
 			.withAssignment("assignment", findAssignment(c.activityId))
 			.withWeek("starting-times", transform(c.preferredStartingTimes, 
-					x -> new Tuple<Day, Hour>(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 
 	@Override
@@ -445,7 +445,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 		return fillDefault(c, p)
 			.withAssignment("assignment", findAssignment(c.activityId))
 			.withWeek("time-slots", transform(c.preferredTimeSlots, 
-					x -> new Tuple<Day, Hour>(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 
 	@Override
@@ -453,7 +453,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 		return fillDefault(c, p)
 			.withAssignmentsSet("assignment", null)
 			.withWeek("starting-times", transform(c.preferredStartingTimes, 
-					x -> new Tuple<Day, Hour>(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 			.withBoolean("duration-enabled", null)
 	;}
 
@@ -462,7 +462,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 		return fillDefault(c, p)
 			.withAssignmentsSet("assignment", null)
 			.withWeek("time-slots", transform(c.preferredTimeSlots, 
-					x -> new Tuple<Day, Hour>(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 			.withBoolean("duration-enabled", null)
 	;}
 
@@ -525,7 +525,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	public ConstraintAttributes visitTime(ConstraintActivitiesOccupyMaxTimeSlotsFromSelection c, ConstraintAttributes p) {
 		return fillDefault(c, p)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
-			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> new Tuple<Day, Hour>(findDay(x.day), findHour(x.hour))))
+			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(findDay(x.day), findHour(x.hour))))
 			.withInteger("max-occupied", c.maxNrOfOccupiedTimeSlots)
 	;}
 
@@ -568,7 +568,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 	public ConstraintAttributes visitTime(ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots c, ConstraintAttributes p) {
 		return fillDefault(c, p)
 			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
-			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> new Tuple<Day, Hour>(findDay(x.day), findHour(x.hour))))
+			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(findDay(x.day), findHour(x.hour))))
 			.withInteger("max-simult", c.maxNrOfSimultaneousActivities)
 	;}
 
@@ -593,7 +593,7 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 		return fillDefault(c, p)
 			.withRoom("room", findRoom(c.room))
 			.withWeek("not-available-times", transform(c.notAvailableTimes, 
-					x -> new Tuple<Day, Hour>(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
 	;}
 
 	//----- Teachers
@@ -775,6 +775,10 @@ public class GetConstraintAttrVisitor implements ConstraintXmlVisitor<Constraint
 		return p.withDouble("weight-percentage", c.getWeight());
 	}
 
+	private static Tuple<Day, Hour> slot(Day day, Hour hour) {
+		return new Tuple<>(day, hour);
+	}
+	
 	private static <T extends Nameable> Map<String, T> storeByName(final Iterable<T> items) {
 		Map<String, T> itemsByName = new HashMap<>();
 		for (T item : items) {
