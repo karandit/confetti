@@ -13,6 +13,14 @@ import org.confetti.xml.core.time.TimeConstraint;
 @XmlType(name = "basicCompulsoryTime_type", propOrder = {"weight", "active", "comment"})
 public class ConstraintBasicCompulsoryTime extends TimeConstraint {
 	
+	public ConstraintBasicCompulsoryTime() {
+	}
+
+	public ConstraintBasicCompulsoryTime(double weight, boolean active) {
+		setWeight(weight);
+		setActive(active);
+	}
+
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitTime(this, param);
