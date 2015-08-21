@@ -1,33 +1,40 @@
 package org.confetti.rcp.commands;
 
+import org.confetti.core.Constraint;
+import org.confetti.core.ConstraintAttributes;
+import org.confetti.rcp.constraints.ConstraintDialog;
+import org.confetti.rcp.extensions.ConstraintDescr;
+import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.handlers.HandlerUtil;
 
+/**
+ * @author Kárándi Tamás
+ */
 public class EditConstraintCommand extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-	    Shell shell = Display.getDefault().getActiveShell();
-	    MessageDialog.openInformation(shell, "Warning", "not implemented yet.");
-//		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-//	    if (!selection.toString().equals("<empty selection>") 
-//	    		&& selection != null 
-//	    		&& selection instanceof IStructuredSelection) {
-//	        IStructuredSelection strucSelection = (IStructuredSelection) selection;
-//	        final Entity firstSelected = (Entity) strucSelection.getFirstElement();
-//            if (MessageDialog.openConfirm(shell, "Delete", "The selected Entity will be deleted! \n Are you sure?")) {
-//	        	if (firstSelected.accept(DeleteEntityVisitor.INSTANCE, null)) {
-//	        	    //deleted succesfully
-//	        	} else {
-//	        	    MessageDialog.openError(shell, "Delete", "The selected Entity could not be deleted, because it has Assignments. \n"
-//	        	            + "Please delete it's assignments in the Assignments view first!");
-//	        	}
-//	        }
-//	    }
+		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
+	    if (selection == null || selection.isEmpty()
+	    		|| !(selection instanceof IStructuredSelection) ) {
+	    	return null;
+	    }
+        IStructuredSelection strucSelection = (IStructuredSelection) selection;
+        Constraint constraint = (Constraint) strucSelection.getFirstElement();
+        Shell shell = Display.getDefault().getActiveShell();
+        ConstraintRegistry reg = ConstraintRegistry.INSTANCE;
+		ConstraintDescr constraintDescr = reg.getConstraintDescrById(constraint.getConstraintType());
+		ConstraintAttributes attrs = constraint.getAttributes();
+		ConstraintDialog constraintDialog = new ConstraintDialog(shell, constraintDescr, attrs);
+		constraintDialog.open();
+        
 	    return null;
 	}
 
