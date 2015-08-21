@@ -8,6 +8,13 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(propOrder = {"day", "hour"})
 public class PreferredTimeXml {
+	PreferredTimeXml() {
+	}
+
+	public PreferredTimeXml(final String day, final String hour) {
+		this.day = day;
+		this.hour = hour;
+	}
 	
 	private String day;
 	private String hour;

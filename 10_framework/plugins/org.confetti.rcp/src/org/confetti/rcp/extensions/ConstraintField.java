@@ -285,7 +285,7 @@ public class ConstraintField {
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
             	return Iterables.toString(
-            			Iterables.transform(attrs.asAssignmentSet(key), x -> convertAssignmentToString(x)));
+            			Iterables.transform(attrs.asAssignmentsSet(key), x -> convertAssignmentToString(x)));
             }
         }, 
         AssignmentsCriteria {

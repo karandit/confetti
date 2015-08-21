@@ -42,6 +42,9 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public Integer asInteger(final String key) 											{ return asT(key); }
 	public Double asDouble(final String key) 											{ return asT(key); }
 	public Boolean asBoolean(final String key) 											{ return asT(key); }
+	public Integer asDay(String key) 													{ return asT(key); }
+	public Integer asHour(String key) 													{ return asT(key); }
+	
 	public Iterable<Tuple<Day, Hour>> asWeek(final String key) 							{ return asT(key); }
 	public Tuple<Day, Hour> asPeriod(final String key) 									{ return asT(key); }
 	public Tuple<Hour, Hour> asInterval(final String key) 								{ return asT(key); }
@@ -51,7 +54,7 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public Room asRoom(String key)  													{ return asT(key); }
 	public Iterable<Room> asRoomsSet(String key)										{ return asT(key); }
 	public Assignment asAssignment(String key)											{ return asT(key); }
-	public Iterable<Assignment> asAssignmentSet(String key)								{ return asT(key); }
+	public Iterable<Assignment> asAssignmentsSet(String key)							{ return asT(key); }
 	public Triple<Subject, Teacher, StudentGroup> asAssignmentsCriteria(String key) 	{ return asT(key); }
 	 
 	//------------------------------- helpers --------------------------------------------------------------------------

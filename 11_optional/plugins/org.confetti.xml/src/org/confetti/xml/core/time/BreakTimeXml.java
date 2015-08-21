@@ -12,6 +12,13 @@ public class BreakTimeXml {
 	private String day;
 	private String hour;
 	
+	BreakTimeXml() {}
+	
+	public BreakTimeXml(final String day, final String hour) {
+		this.day = day;
+		this.hour = hour;
+	}
+	
 	@XmlElement(name = "Day")
 	public String getDay() { return day; }
 	public void setDay(String day) { this.day = day; }
