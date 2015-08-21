@@ -53,6 +53,22 @@
             </iterate>
          </with>
       </definition>
+      <definition
+            id="editConstraintAvailable">
+         <with
+               variable="selection">
+            <count
+                  value="1">
+            </count>
+            <iterate
+                  ifEmpty="false"
+                  operator="and">
+               <instanceof
+                     value="org.confetti.core.Constraint">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
    </extension>
 
    <extension
@@ -170,6 +186,12 @@
             description="Delete Assignment"
             id="org.confetti.rcp.deleteAssignmentCommand"
             name="Delete Assignment">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.EditConstraintCommand"
+            description="Edit Constraint"
+            id="org.confetti.rcp.editConstraintCommand"
+            name="Edit Constraint">
       </command>
       <command
             defaultHandler="org.confetti.rcp.commands.ResetPerspectiveCommand"
@@ -536,6 +558,21 @@
                id="org.confetti.rcp.baseConstraints.pulldown"
                label="New Constraint"
                style="push">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.confetti.rcp.constraintsView">
+         <command
+               commandId="org.confetti.rcp.editConstraintCommand"
+               label="Edit"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="editConstraintAvailable">
+               </reference>
+            </visibleWhen>
          </command>
       </menuContribution>
       <menuContribution
