@@ -151,6 +151,7 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public void removeRooms(List<Room> rooms) { }
         @Override public void removeAssignment(Assignment assignment) { }
         @Override public void rename(Entity entity, String newName) { }
+		@Override public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) { }
     }
 
 }

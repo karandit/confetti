@@ -19,5 +19,5 @@ public interface DataPersister {
     void removeAssignment(Assignment assignment);
     
     void rename(Entity entity, String newName);
-    
+    void updateConstraint(Constraint constraint, ConstraintAttributes attrs);
 }

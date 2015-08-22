@@ -223,4 +223,9 @@ public class DummyDataProvider implements DataProvider {
 		throw new RuntimeException("Not implemented yet.");
 	}
 
+	@Override
+	public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
+		throw new RuntimeException("Not implemented yet.");
+	}
+
 }

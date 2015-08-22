@@ -468,7 +468,15 @@ public class XmlDataProvider implements DataProvider {
 	    save();
 		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
-	
+
+	@Override
+	public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
+		BaseConstraintXml xmlConstraint = ((ConstraintImpl) constraint).getXmlConstraint();
+		xmlConstraint.accept(ConstraintSetter.INSTANCE, attrs);
+		save();
+		//TODO:
+	}
+
 	//----------------------------- helpers ----------------------------------------------------------------------------
 	public void save() {
         try {
