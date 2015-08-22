@@ -40,7 +40,8 @@ import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableNoScrollModel;
 
 public enum FieldType {
-    Boolean {
+	
+    Boolean("boolean-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             return new Button(parent, SWT.CHECK);
@@ -54,7 +55,7 @@ public enum FieldType {
         	return attrs.asBoolean(key).toString();
         }
     },
-    Double {
+    Double("double-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             return createSpinnerField(parent, 1, 100, 98);
@@ -68,7 +69,7 @@ public enum FieldType {
         	return attrs.asDouble(key).toString();
         }
     },
-    Integer {
+    Integer("integer-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             return createSpinnerField(parent, 1, 100, 98);
@@ -82,7 +83,7 @@ public enum FieldType {
         	return attrs.asInteger(key).toString();
         }
     },
-    Day {
+    Day("day-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             Iterable<Day> days = ConfettiPlugin.getDefault().getDataProvider().getValue().getDays().getList();
@@ -98,7 +99,7 @@ public enum FieldType {
         	return attrs.asInteger(key).toString();
         }
     },
-    Hour {
+    Hour("hour-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             Iterable<Hour> hours = ConfettiPlugin.getDefault().getDataProvider().getValue().getHours().getList();
@@ -114,7 +115,7 @@ public enum FieldType {
         	return attrs.asInteger(key).toString();
         }
     },
-    Week {
+    Week("week-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
     		final KTable ktable = new KTable(parent, SWT.NONE);
@@ -136,7 +137,7 @@ public enum FieldType {
         			tuple -> safeGetName(tuple.getFirst()) + " " + safeGetName(tuple.getSecond())));
         }
     },
-    Period {
+    Period("period-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	Button button = new Button(parent, SWT.PUSH);
@@ -149,7 +150,7 @@ public enum FieldType {
 			return safeGetName(period.getFirst()) + " " + safeGetName(period.getSecond());
         }
     },
-    Interval {
+    Interval("interval-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	Button button = new Button(parent, SWT.PUSH);
@@ -162,7 +163,7 @@ public enum FieldType {
 			return safeGetName(interval.getFirst()) + " " + safeGetName(interval.getSecond());
         }
     },
-    Teacher {
+    Teacher("teacher-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
@@ -177,7 +178,7 @@ public enum FieldType {
         	return safeGetName(attrs.asTeacher(key));
         }
     }, 
-    StudentGroup {
+    StudentGroup("studentgroup-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
@@ -218,7 +219,7 @@ public enum FieldType {
 			return res;
 		}
     },
-    Assignment {
+    Assignment("assignment-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
@@ -244,7 +245,7 @@ public enum FieldType {
         	return convertAssignmentToString(attrs.asAssignment(key));
         }
     },
-    AssignmentsSet {
+    AssignmentsSet("assignments-set-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	Button button = new Button(parent, SWT.PUSH);
@@ -256,7 +257,7 @@ public enum FieldType {
         	return Iterables.toString(transform(attrs.asAssignmentsSet(key), FieldType::convertAssignmentToString));
         }
     }, 
-    AssignmentsCriteria {
+    AssignmentsCriteria("assignments-criteria-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	Button button = new Button(parent, SWT.PUSH);
@@ -273,13 +274,11 @@ public enum FieldType {
             		);
         }
     }, 
-    Room {
+    Room("room-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            Room room = (Room) attribute.getValue();
-			System.out.println("FieldType.Room " + room.getName().getValue());
-        	return createComboField(parent, dp.getRooms().getList(), room);
+            return createComboField(parent, dp.getRooms().getList(), (Room) attribute.getValue());
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
@@ -290,7 +289,7 @@ public enum FieldType {
         	return safeGetName(attrs.asRoom(key));
         }
     }, 
-    RoomsSet {
+    RoomsSet("rooms-set-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	Button button = new Button(parent, SWT.PUSH);
@@ -302,7 +301,7 @@ public enum FieldType {
         	return Iterables.toString(transform(attrs.asRoomsSet(key), FieldType::safeGetName));
         }
     }, 
-    Subject {
+    Subject("subject-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
@@ -318,14 +317,31 @@ public enum FieldType {
         }
     };
 
+    private String type;
+
+	private FieldType(final String type) {
+		this.type = type;
+	}
+    
+	public static FieldType getByType(String name) {
+		for (FieldType fieldType : values()) {
+			if (fieldType.type.equals(name)) {
+				return fieldType;
+			}
+		}
+		return null;
+	}
+
+    //---------------------- API abstract methods ----------------------------------------------------------------------
     public abstract Control createControl(Composite area, ConstraintAttribute<?> attribute);
     public /* abstract */ void putValue(String key, Control ctrl, ConstraintAttributes attrs) {}
     public abstract String prettyPrint(String key, ConstraintAttributes attrs); 
     
+    //---------------------- API methods -------------------------------------------------------------------------------
     public void applyLayout(Control ctrl) {
         GridDataFactory.fillDefaults().grab(true, false).applyTo(ctrl);
     }
-
+    
     //---------------- helpers -----------------------------------------------------------------------------------------
     private static String safeGetName(Nameable ent) {
     	String name = AssignmentsView.getName(ent);
