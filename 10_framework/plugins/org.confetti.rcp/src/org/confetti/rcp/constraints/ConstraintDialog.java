@@ -3,6 +3,7 @@ package org.confetti.rcp.constraints;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.confetti.core.ConstraintAttribute;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintField;
@@ -56,7 +57,10 @@ public class ConstraintDialog extends TrayDialog {
             Label label = new Label(area, SWT.NONE);
             label.setText(field.getLabel());
             GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.TOP).applyTo(label);
-            Control ctrl = field.createControl(area);
+            ConstraintAttribute<?> attribute = attrs.asAttribute(field.getName());
+            
+            
+            Control ctrl = field.createControl(area, attribute);
             controls.put(field, ctrl);
         }
         return area;

@@ -1,5 +1,6 @@
 package org.confetti.rcp.extensions;
 
+import static com.google.common.collect.Iterables.transform;
 import static org.confetti.rcp.views.AssignmentsView.toStr;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
+import org.confetti.core.ConstraintAttribute;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
@@ -29,6 +31,7 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -71,7 +74,7 @@ public class ConstraintField {
     public enum FieldType {
         Boolean {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
                 return new Button(parent, SWT.CHECK);
             }
             @Override
@@ -85,7 +88,7 @@ public class ConstraintField {
         },
         Double {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
                 return createSpinnerField(parent, 1, 100, 98);
             }
             @Override
@@ -99,7 +102,7 @@ public class ConstraintField {
         },
         Integer {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
                 return createSpinnerField(parent, 1, 100, 98);
             }
             @Override
@@ -113,7 +116,7 @@ public class ConstraintField {
         },
         Day {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
                 Iterable<Day> days = ConfettiPlugin.getDefault().getDataProvider().getValue().getDays().getList();
                 int daysCount = Iterables.size(days);
                 return createSpinnerField(parent, 1, daysCount, daysCount);
@@ -129,7 +132,7 @@ public class ConstraintField {
         },
         Hour {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
                 Iterable<Hour> hours = ConfettiPlugin.getDefault().getDataProvider().getValue().getHours().getList();
                 int hoursCount = Iterables.size(hours);
                 return createSpinnerField(parent, 1, hoursCount, hoursCount);
@@ -145,7 +148,7 @@ public class ConstraintField {
         },
         Week {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         		final KTable ktable = new KTable(parent, SWT.NONE);
         		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
         		
@@ -161,14 +164,13 @@ public class ConstraintField {
             }
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
-            	return Iterables.toString(
-            			Iterables.transform(attrs.asWeek(key), tuple -> safeGetName(tuple.getFirst()) 
-            			+ " " + safeGetName(tuple.getSecond())));  
+            	return Iterables.toString(transform(attrs.asWeek(key), 
+            			tuple -> safeGetName(tuple.getFirst()) + " " + safeGetName(tuple.getSecond())));
             }
         },
         Period {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             	Button button = new Button(parent, SWT.PUSH);
 				button.setText("Period Field NOT IMPLEMENTED");
             	return button;
@@ -181,7 +183,7 @@ public class ConstraintField {
         },
         Interval {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             	Button button = new Button(parent, SWT.PUSH);
 				button.setText("Interval Field NOT IMPLEMENTED");
             	return button;
@@ -194,9 +196,9 @@ public class ConstraintField {
         },
         Teacher {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-                return createComboField(parent, dp.getTeachers().getList());
+                return createComboField(parent, dp.getTeachers().getList(), null);
             }
             @Override
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
@@ -209,10 +211,10 @@ public class ConstraintField {
         }, 
         StudentGroup {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
             	List<Tuple<StudentGroup, Integer>> groups = flatHierarchy(0, dp.getStudentGroups());
-                return createComboField(parent, groups, new LabelProvider(){
+                return createComboField(parent, groups, null, new LabelProvider(){
                     @Override
                     public String getText(Object element) {
                     	@SuppressWarnings("unchecked")
@@ -250,9 +252,9 @@ public class ConstraintField {
         },
         Assignment {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
                 DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            	return createComboField(parent, dp.getAssignments().getList(), new LabelProvider(){
+            	return createComboField(parent, dp.getAssignments().getList(), null, new LabelProvider(){
                     @Override
                     public String getText(Object element) {
                     	Assignment ass = (Assignment) element;
@@ -276,20 +278,19 @@ public class ConstraintField {
         },
         AssignmentsSet {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             	Button button = new Button(parent, SWT.PUSH);
 				button.setText("AssignmentSet Field NOT IMPLEMENTED");
             	return button;
             }
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
-            	return Iterables.toString(
-            			Iterables.transform(attrs.asAssignmentsSet(key), FieldType::convertAssignmentToString));
+            	return Iterables.toString(transform(attrs.asAssignmentsSet(key), FieldType::convertAssignmentToString));
             }
         }, 
         AssignmentsCriteria {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             	Button button = new Button(parent, SWT.PUSH);
 				button.setText("AssignmentsCriteria Field NOT IMPLEMENTED");
             	return button;
@@ -306,9 +307,11 @@ public class ConstraintField {
         }, 
         Room {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-                return createComboField(parent, dp.getRooms().getList());
+                Room room = (Room) attribute.getValue();
+				System.out.println("FieldType.Room " + room.getName().getValue());
+            	return createComboField(parent, dp.getRooms().getList(), room);
             }
             @Override
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
@@ -321,22 +324,21 @@ public class ConstraintField {
         }, 
         RoomsSet {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             	Button button = new Button(parent, SWT.PUSH);
 				button.setText("RoomSet Field NOT IMPLEMENTED");
             	return button;
             }
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
-            	return Iterables.toString(
-            			Iterables.transform(attrs.asRoomsSet(key), FieldType::safeGetName));
+            	return Iterables.toString(transform(attrs.asRoomsSet(key), FieldType::safeGetName));
             }
         }, 
         Subject {
             @Override
-            public Control createControl(Composite parent) {
+            public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-                return createComboField(parent, dp.getSubjects().getList());
+                return createComboField(parent, dp.getSubjects().getList(), null);
             }
             @Override
             public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
@@ -348,7 +350,7 @@ public class ConstraintField {
             }
         };
 
-        public abstract Control createControl(Composite area);
+        public abstract Control createControl(Composite area, ConstraintAttribute<?> attribute);
         public /* abstract */ void putValue(String key, Control ctrl, ConstraintAttributes attrs) {}
         public abstract String prettyPrint(String key, ConstraintAttributes attrs); 
         
@@ -397,8 +399,9 @@ public class ConstraintField {
         	return (T) Iterables.get(list, selectionIndex);
 		}
         
-		private static Control createComboField(Composite parent, Iterable<? extends Nameable> items) {
-			return createComboField(parent, items, new LabelProvider(){
+		private static <T extends Nameable >Control createComboField(Composite parent, 
+				Iterable<T> items, T item) {
+			return createComboField(parent, items, item, new LabelProvider(){
                 @Override
                 public String getText(Object element) {
                 	return ((Nameable) element).getName().getValue();
@@ -406,13 +409,16 @@ public class ConstraintField {
             });
 		}
 		
-		private static Control createComboField(Composite parent, Iterable<?> items, 
+		private static Control createComboField(Composite parent, Iterable<?> items, Object selectedItem,
 				LabelProvider labelProvider) {
 			ComboViewer combo = new ComboViewer(parent, SWT.READ_ONLY);
             combo.setContentProvider(ArrayContentProvider.getInstance());
             combo.setLabelProvider(labelProvider);
 			combo.setInput(items);
             combo.getControl().setData(items);
+            if (selectedItem != null) {
+            	combo.setSelection(new StructuredSelection(selectedItem));
+            }
             return combo.getControl();
 		}
     }
@@ -431,8 +437,8 @@ public class ConstraintField {
     public String getLabel() { return label; }
     public FieldType getType() { return type; }
 
-    public Control createControl(Composite area) {
-        Control ctrl = getType().createControl(area);
+    public Control createControl(Composite area, ConstraintAttribute<?> attribute) {
+        Control ctrl = getType().createControl(area, attribute);
         getType().applyLayout(ctrl);
         return ctrl;
     }

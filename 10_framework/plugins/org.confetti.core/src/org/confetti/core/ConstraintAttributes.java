@@ -37,7 +37,14 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public ConstraintAttributes withAssignmentsCriteria(String key, Triple<Subject, Teacher, StudentGroup> v) 	{ return withT(key, v); }
 
 	//------------------------------- asXXX methods --------------------------------------------------------------------
+	public ConstraintAttribute<?> asAttribute(final String key) {
+		if (!attrs.containsKey(key)) {
+			throw new RuntimeException("Value not found for key " + key);
+		}
+		return attrs.get(key);
+	}
 	//TODO: remove this method
+
 	public Object asObject(final String key) 											{ return asT(key); }
 	public Integer asInteger(final String key) 											{ return asT(key); }
 	public Double asDouble(final String key) 											{ return asT(key); }
@@ -69,4 +76,5 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 		attrs.put(key, new ConstraintAttribute<T>(key, value));
 		return this;
 	}
+
 }
