@@ -3,8 +3,10 @@ package org.confetti.rcp.constraints;
 import static com.google.common.collect.Iterables.transform;
 import static org.confetti.rcp.views.AssignmentsView.toStr;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.ConstraintAttribute;
@@ -35,6 +37,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Spinner;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableNoScrollModel;
@@ -182,20 +185,21 @@ public enum FieldType {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-        	List<Tuple<StudentGroup, Integer>> groups = flatHierarchy(0, dp.getStudentGroups());
-            return createComboField(parent, groups, (StudentGroup) attribute.getValue(), new LabelProvider(){
+        	List<Tuple<StudentGroup, Integer>> groupsAndIndents = flatHierarchy(0, dp.getStudentGroups());
+            List<StudentGroup> groups = Lists.transform(groupsAndIndents, x -> x.getFirst());
+        	Map<StudentGroup, Integer> indents = new HashMap<>();
+        	groupsAndIndents.forEach(x -> indents.put(x.getFirst(), x.getSecond()));
+        	return createComboField(parent, groups, (StudentGroup) attribute.getValue(), new LabelProvider(){
                 @Override
                 public String getText(Object element) {
-                	@SuppressWarnings("unchecked")
-					Tuple<StudentGroup, Integer> tuple = (Tuple<StudentGroup, Integer>) element;
-                    return indent(tuple.getSecond()) + tuple.getFirst().getName().getValue();
+					StudentGroup sg = (StudentGroup) element;
+                    return indent(indents.get(sg)) + safeGetName(sg);
                 }
             });
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
-        	Tuple<StudentGroup, Integer> selected = FieldType.<Tuple<StudentGroup, Integer>> getItemFromCombo(ctrl);
-			attrs.withStudentGroup(key, selected.getFirst());
+        	attrs.withStudentGroup(key, FieldType.<StudentGroup> getItemFromCombo(ctrl));
         }
         @Override
         public String prettyPrint(String key, ConstraintAttributes attrs) {
