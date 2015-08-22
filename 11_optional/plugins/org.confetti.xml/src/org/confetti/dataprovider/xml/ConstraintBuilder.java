@@ -11,6 +11,7 @@ import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
+import org.confetti.xml.core.BaseConstraintXml;
 
 public class ConstraintBuilder {
 	//----------------------------- constants --------------------------------------------------------------------------
@@ -23,8 +24,8 @@ public class ConstraintBuilder {
 		this.type = type;
 	}
 	
-	public Constraint build() {
-		return new ConstraintImpl(FET_CONSTRAINTS_NAMESPACE + type, attrs);
+	public Constraint build(final BaseConstraintXml xmlConstraint) {
+		return new ConstraintImpl(xmlConstraint, FET_CONSTRAINTS_NAMESPACE + type, attrs);
 	}
 	
 	public ConstraintBuilder withInteger(final String key, final Integer v) {

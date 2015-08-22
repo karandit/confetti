@@ -188,8 +188,8 @@ public class XmlDataProvider implements DataProvider {
 				rooms.getObservableList().getList(),
 				studentGroupsByName,
 				assignments.getObservableList().getList());
-		createConstraints(inst.getTimeConstraints(), attrVisitor);
-		createConstraints(inst.getSpaceConstraints(), attrVisitor);
+		inst.getTimeConstraints().forEach(x -> createConstraint(x, attrVisitor));
+		inst.getSpaceConstraints().forEach(x -> createConstraint(x, attrVisitor));
 	}
 	
 	private void createAssignments(InstituteXml inst, Map<String, StudentGroup> allStdGroups) {
@@ -229,8 +229,8 @@ public class XmlDataProvider implements DataProvider {
 		}
 	}
 
-	private void createConstraints(List<? extends BaseConstraintXml> xmlConstraints, ConstraintFactory visitor) {
-		xmlConstraints.forEach(xmlConstr -> constraints.addItem(xmlConstr.accept(visitor, null).build()));
+	private void createConstraint(BaseConstraintXml xmlConstr, ConstraintFactory visitor) {
+		constraints.addItem(xmlConstr.accept(visitor, null).build(xmlConstr));
 	}
 
 	private Map<String, StudentGroup> collectStudentGroups(Iterable<StudentGroup> list) {
@@ -303,23 +303,26 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public Constraint addConstraint(final String type, ConstraintAttributes attrs) {
 		String shortType = type.substring(ConstraintBuilder.FET_CONSTRAINTS_NAMESPACE.length());
+		BaseConstraintXml xmlConstr = null;
 		if (shortType.startsWith("time")) {
 			TimeConstraint newTimeXmlConstraint = newTimeXmlConstraint(shortType);
 			newTimeXmlConstraint.accept(ConstraintSetter.INSTANCE, attrs);
 			instXml.getTimeConstraints().add(newTimeXmlConstraint);
+			xmlConstr = newTimeXmlConstraint;
 		} else {
 			SpaceConstraint newSpaceXmlConstraint = newSpaceXmlConstraint(shortType);
 			newSpaceXmlConstraint.accept(ConstraintSetter.INSTANCE, attrs);
 			instXml.getSpaceConstraints().add(newSpaceXmlConstraint);
+			xmlConstr = newSpaceXmlConstraint;
 		}
 		save();
 		
-		ConstraintImpl constraint = new ConstraintImpl(type, attrs);
+		ConstraintImpl constraint = new ConstraintImpl(xmlConstr, type, attrs);
 		constraints.addItem(constraint);
 		return constraint;
 	}
 
-	private TimeConstraint newTimeXmlConstraint(final String shortType) {
+	private static TimeConstraint newTimeXmlConstraint(final String shortType) {
 		switch (shortType) {
 		//----- Miscellaneous
 		case "time.BasicCompulsoryTime": return new ConstraintBasicCompulsoryTime();
@@ -395,7 +398,7 @@ public class XmlDataProvider implements DataProvider {
 		}
 	}
 
-	private SpaceConstraint newSpaceXmlConstraint(final String shortType) {
+	private static SpaceConstraint newSpaceXmlConstraint(final String shortType) {
 		switch (shortType) {
 		//----- Miscellaneous
 		case "space.BasicCompulsorySpace": return new ConstraintBasicCompulsorySpace();
