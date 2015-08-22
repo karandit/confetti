@@ -47,9 +47,12 @@ public enum FieldType {
     Boolean("boolean-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-            return new Button(parent, SWT.CHECK);
+            Button button = new Button(parent, SWT.CHECK);
+			java.lang.Boolean value = safeGet(attribute, java.lang.Boolean.FALSE);
+			button.setSelection(value);
+            return button;
         }
-        @Override
+		@Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
         	attrs.withBoolean(key, ((Button) ctrl).isEnabled());
         }
@@ -61,7 +64,9 @@ public enum FieldType {
     Double("double-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-            return createSpinnerField(parent, 1, 100, 98);
+        	//TODO: spinner doesn't support decimal values
+        	Double defVal = safeGet(attribute, new Double(98.0));
+        	return createSpinnerField(parent, 0, 100, defVal.intValue());
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
@@ -75,7 +80,7 @@ public enum FieldType {
     Integer("integer-field") {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-            return createSpinnerField(parent, 1, 100, 98);
+            return createSpinnerField(parent, 0, 100, safeGet(attribute, new Integer(98)));
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
@@ -91,7 +96,7 @@ public enum FieldType {
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             Iterable<Day> days = ConfettiPlugin.getDefault().getDataProvider().getValue().getDays().getList();
             int daysCount = Iterables.size(days);
-            return createSpinnerField(parent, 1, daysCount, daysCount);
+            return createSpinnerField(parent, 0, daysCount, safeGet(attribute, daysCount));
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
@@ -107,7 +112,7 @@ public enum FieldType {
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             Iterable<Hour> hours = ConfettiPlugin.getDefault().getDataProvider().getValue().getHours().getList();
             int hoursCount = Iterables.size(hours);
-            return createSpinnerField(parent, 1, hoursCount, hoursCount);
+            return createSpinnerField(parent, 0, hoursCount, safeGet(attribute, hoursCount));
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
@@ -123,7 +128,7 @@ public enum FieldType {
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
     		final KTable ktable = new KTable(parent, SWT.NONE);
     		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-    		
+    		//TODO: implement pre-selection
     		DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
 			KTableNoScrollModel model = new ConstraintFieldWeekModel(ktable, dp);
 			ktable.setModel(model);
@@ -352,6 +357,15 @@ public enum FieldType {
     	String name = AssignmentsView.getName(ent);
 		return name == null ? "" : name;
     }
+    
+    @SuppressWarnings("unchecked")
+	private static <T> T safeGet(ConstraintAttribute<?> attribute, T defaultValue) {
+		if (attribute != null && attribute.getValue() != null) {
+			return (T) attribute.getValue();
+		}
+    	return defaultValue;
+	}
+    
 
     private static String convertAssignmentToString(Assignment ass) {
 		StringBuilder sb = new StringBuilder()
