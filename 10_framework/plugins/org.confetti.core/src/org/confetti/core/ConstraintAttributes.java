@@ -44,7 +44,6 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public Boolean asBoolean(final String key) 											{ return asT(key); }
 	public Integer asDay(String key) 													{ return asT(key); }
 	public Integer asHour(String key) 													{ return asT(key); }
-	
 	public Iterable<Tuple<Day, Hour>> asWeek(final String key) 							{ return asT(key); }
 	public Tuple<Day, Hour> asPeriod(final String key) 									{ return asT(key); }
 	public Tuple<Hour, Hour> asInterval(final String key) 								{ return asT(key); }

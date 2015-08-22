@@ -162,8 +162,8 @@ public class ConstraintField {
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
             	return Iterables.toString(
-            			Iterables.transform(attrs.asWeek(key), tuple -> tuple.getFirst().getName().getValue() 
-            			+ " " + tuple.getSecond().getName().getValue()));  
+            			Iterables.transform(attrs.asWeek(key), tuple -> safeGetName(tuple.getFirst()) 
+            			+ " " + safeGetName(tuple.getSecond())));  
             }
         },
         Period {
@@ -176,8 +176,7 @@ public class ConstraintField {
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
             	Tuple<Day, Hour> period = attrs.asPeriod(key);
-				return period.getFirst().getName().getValue() +
-						" " + period.getSecond().getName().getValue();
+				return safeGetName(period.getFirst()) + " " + safeGetName(period.getSecond());
             }
         },
         Interval {
@@ -205,7 +204,7 @@ public class ConstraintField {
             }
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
-            	return attrs.asTeacher(key).getName().getValue();
+            	return safeGetName(attrs.asTeacher(key));
             }
         }, 
         StudentGroup {
@@ -229,7 +228,7 @@ public class ConstraintField {
             }
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
-            	return attrs.asStudentGroup(key).getName().getValue();
+            	return safeGetName(attrs.asStudentGroup(key));
             }
 
             private String indent(int count) {
@@ -285,7 +284,7 @@ public class ConstraintField {
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
             	return Iterables.toString(
-            			Iterables.transform(attrs.asAssignmentsSet(key), x -> convertAssignmentToString(x)));
+            			Iterables.transform(attrs.asAssignmentsSet(key), FieldType::convertAssignmentToString));
             }
         }, 
         AssignmentsCriteria {
@@ -317,7 +316,7 @@ public class ConstraintField {
             }
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
-            	return attrs.asRoom(key).getName().getValue();
+            	return safeGetName(attrs.asRoom(key));
             }
         }, 
         RoomsSet {
@@ -330,7 +329,7 @@ public class ConstraintField {
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
             	return Iterables.toString(
-            			Iterables.transform(attrs.asRoomsSet(key), x -> x.getName().getValue()));
+            			Iterables.transform(attrs.asRoomsSet(key), FieldType::safeGetName));
             }
         }, 
         Subject {
@@ -345,16 +344,13 @@ public class ConstraintField {
             }
             @Override
             public String prettyPrint(String key, ConstraintAttributes attrs) {
-            	return attrs.asSubject(key).getName().getValue();
+            	return safeGetName(attrs.asSubject(key));
             }
         };
 
         public abstract Control createControl(Composite area);
         public /* abstract */ void putValue(String key, Control ctrl, ConstraintAttributes attrs) {}
-        public /* abstract */  String prettyPrint(String key, ConstraintAttributes attrs) { 
-        	System.out.println(key + "+++");
-        	
-        	return "+++"; }
+        public abstract String prettyPrint(String key, ConstraintAttributes attrs); 
         
         public void applyLayout(Control ctrl) {
             GridDataFactory.fillDefaults().grab(true, false).applyTo(ctrl);
@@ -368,16 +364,16 @@ public class ConstraintField {
         private static String convertAssignmentToString(Assignment ass) {
 			StringBuilder sb = new StringBuilder()
         	.append("{")
-        	.append(ass.getSubject().getName().getValue())
+        	.append(safeGetName(ass.getSubject()))
         	.append("/")
         	.append(Iterables.toString(Iterables.transform(
-        			ass.getTeachers().getList(), x -> x.getName().getValue())))
+        			ass.getTeachers().getList(), FieldType::safeGetName)))
         	.append("/")
         	.append(Iterables.toString(Iterables.transform(
-        			ass.getStudentGroups().getList(), x -> x.getName().getValue())));
+        			ass.getStudentGroups().getList(), FieldType::safeGetName)));
         	if (ass.getRoom() != null) {
         		sb.append("/")
-        		.append(ass.getRoom().getName().getValue());
+        		.append(safeGetName(ass.getRoom()));
         	}
         	sb.append("}");
 			return sb.toString();
