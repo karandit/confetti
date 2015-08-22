@@ -6,7 +6,6 @@ import java.util.Map;
 import org.confetti.core.ConstraintAttribute;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.rcp.extensions.ConstraintDescr;
-import org.confetti.rcp.extensions.ConstraintField;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;

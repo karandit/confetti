@@ -1,4 +1,4 @@
-package org.confetti.rcp.extensions;
+package org.confetti.rcp.constraints;
 
 import static com.google.common.collect.Iterables.transform;
 import static org.confetti.rcp.views.AssignmentsView.toStr;
@@ -22,7 +22,6 @@ import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.rcp.constraints.ConstraintFieldWeekModel;
 import org.confetti.rcp.views.AssignmentsView;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;

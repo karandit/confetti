@@ -3,6 +3,7 @@ package org.confetti.rcp.extensions;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.confetti.rcp.constraints.ConstraintField;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 
