@@ -167,7 +167,7 @@ public enum FieldType {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            return createComboField(parent, dp.getTeachers().getList(), null);
+            return createComboField(parent, dp.getTeachers().getList(), (Teacher) attribute.getValue());
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
@@ -183,7 +183,7 @@ public enum FieldType {
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
         	List<Tuple<StudentGroup, Integer>> groups = flatHierarchy(0, dp.getStudentGroups());
-            return createComboField(parent, groups, null, new LabelProvider(){
+            return createComboField(parent, groups, (StudentGroup) attribute.getValue(), new LabelProvider(){
                 @Override
                 public String getText(Object element) {
                 	@SuppressWarnings("unchecked")
@@ -223,7 +223,8 @@ public enum FieldType {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-        	return createComboField(parent, dp.getAssignments().getList(), null, new LabelProvider(){
+        	return createComboField(parent, dp.getAssignments().getList(), 
+        			(Assignment) attribute.getValue(), new LabelProvider(){
                 @Override
                 public String getText(Object element) {
                 	Assignment ass = (Assignment) element;
@@ -305,7 +306,7 @@ public enum FieldType {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            return createComboField(parent, dp.getSubjects().getList(), null);
+            return createComboField(parent, dp.getSubjects().getList(), (Subject) attribute.getValue());
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
