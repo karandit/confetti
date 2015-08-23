@@ -2,6 +2,8 @@ package org.confetti.rcp.commands;
 
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
+import org.confetti.core.DataProvider;
+import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.constraints.ConstraintDialog;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
@@ -10,6 +12,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -33,8 +36,12 @@ public class EditConstraintCommand extends AbstractHandler {
 		ConstraintDescr constraintDescr = reg.getConstraintDescrById(constraint.getConstraintType());
 		ConstraintAttributes attrs = constraint.getAttributes().getValue();
 		ConstraintDialog constraintDialog = new ConstraintDialog(shell, constraintDescr, attrs);
-		constraintDialog.open();
-        
+        if (Window.OK != constraintDialog.open()) {
+        	return null;
+        }
+		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		dp.updateConstraint(constraint, attrs);
+
 	    return null;
 	}
 

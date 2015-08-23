@@ -41,8 +41,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListDialog;
 
-import com.google.common.base.Function;
-
 /**
  * @author Gabor Bubla
  */
@@ -118,12 +116,8 @@ public class NewWizardCommand extends AbstractHandler {
         
         public EmptyDataProvider(String name, Iterable<String> days, Iterable<String> hours) {
             this.name = new ValueMutator<>(this, name);
-            this.days = new ListMutator<>(transform(days, new Function<String, Day>() {
-                @Override public Day apply(String arg) { return new UserInputDay(arg); }
-            }));
-            this.hours = new ListMutator<>(transform(hours, new Function<String, Hour>() {
-                @Override public Hour apply(String arg) { return new UserInputHour(arg); }
-            }));
+            this.days = new ListMutator<>(transform(days, x -> new UserInputDay(x)));
+            this.hours = new ListMutator<>(transform(hours, x -> new UserInputHour(x)));
         }
         
         @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
