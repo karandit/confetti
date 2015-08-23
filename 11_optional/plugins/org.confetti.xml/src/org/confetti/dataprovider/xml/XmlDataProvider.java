@@ -301,7 +301,7 @@ public class XmlDataProvider implements DataProvider {
 	}
 
 	@Override
-	public Constraint addConstraint(final String type, ConstraintAttributes attrs) {
+	public void addConstraint(final String type, ConstraintAttributes attrs) {
 		String shortType = type.substring(ConstraintBuilder.FET_CONSTRAINTS_NAMESPACE.length());
 		BaseConstraintXml xmlConstr = null;
 		if (shortType.startsWith("time")) {
@@ -317,9 +317,7 @@ public class XmlDataProvider implements DataProvider {
 		}
 		save();
 		
-		ConstraintImpl constraint = new ConstraintImpl(xmlConstr, type, attrs);
-		constraints.addItem(constraint);
-		return constraint;
+		constraints.addItem(new ConstraintImpl(xmlConstr, type, attrs));
 	}
 
 	private static TimeConstraint newTimeXmlConstraint(final String shortType) {

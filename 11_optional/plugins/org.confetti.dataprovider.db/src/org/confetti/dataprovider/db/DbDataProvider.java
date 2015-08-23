@@ -311,7 +311,7 @@ public class DbDataProvider implements DataProvider {
     }
 
 	@Override
-	public Constraint addConstraint(String uid, ConstraintAttributes attrs) {
+	public void addConstraint(String uid, ConstraintAttributes attrs) {
 		throw new RuntimeException("Not implemented yet.");
 	}
 
