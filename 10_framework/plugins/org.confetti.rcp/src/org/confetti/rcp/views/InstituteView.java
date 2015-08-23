@@ -36,8 +36,21 @@ public class InstituteView extends AbstractView<TreeViewer> {
 	
 	@Override protected Object getInput(DataProvider dp) { return dp; }
 	@Override protected IContentProvider getContentProvider() { return new AllEntitiesContentProvider(); }
-
+	@Override
+	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
+		Root.All.setProvider(newDp);
+	}
 	//----------------------------- helper classes ---------------------------------------------------------------------
+	enum Root implements Nameable {
+		All;
+		
+		void setProvider(DataProvider dp) {
+			this.obsInstituteName = dp == null ? null : dp.getName();
+		}
+		private ObservableValue<String> obsInstituteName;
+		@Override public ObservableValue<String> getName() { return obsInstituteName; }
+	}
+	
 	enum Containers implements Nameable {
 		AllSubjects("All subjects") {
 			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getSubjects().getList(); }
@@ -95,6 +108,9 @@ public class InstituteView extends AbstractView<TreeViewer> {
 		@Override
 		public Object[] getChildren(Object parent) {
 			if (parent instanceof DataProvider) {
+				return Root.values();
+			}
+			if (parent instanceof Root) {
 				return Containers.values();
 			}
 			if (parent instanceof Containers) {
@@ -110,6 +126,9 @@ public class InstituteView extends AbstractView<TreeViewer> {
 		@Override
 		public boolean hasChildren(Object parent) {
 			if (parent instanceof DataProvider) {
+				return true;
+			}
+			if (parent instanceof Root) {
 				return true;
 			}
 			if (parent instanceof Containers) {

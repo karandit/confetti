@@ -19,7 +19,7 @@ public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 	
 	protected abstract T createViewer(Composite parent);
 	protected abstract Object getInput(DataProvider dp);
-	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) { };
+	protected abstract void dataProviderChanged(DataProvider oldDp, DataProvider newDp);
 
 	@Override
 	public void createPartControl(Composite parent) {

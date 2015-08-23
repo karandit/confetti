@@ -170,6 +170,7 @@ public class XmlDataProvider implements DataProvider {
 	
 	public XmlDataProvider(InstituteXml inst) {
 		this.instXml = inst;
+		instName.setValue(this, inst.getName());
 		inst.getDays().getDays()	.forEach(day -> days.addItem(new DayImpl(day.getName())));
 		inst.getHours().getHours()	.forEach(hour -> hours.addItem(new HourImpl(hour.getName())));
         inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName())));
