@@ -18,7 +18,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
-public class ConstraintsView extends AbstractEntityView<TableViewer> implements ObservableListener<Constraint> {
+public class ConstraintsView extends AbstractView<TableViewer> implements ObservableListener<Constraint> {
 
 	public static final String ID = "org.confetti.rcp.constraintsView";
 	

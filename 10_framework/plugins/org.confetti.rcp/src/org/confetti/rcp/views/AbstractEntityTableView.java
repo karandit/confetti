@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.TableColumn;
  * @author Gabor Bubla
  *
  */
-public abstract class AbstractEntityTableView<T extends Entity> extends AbstractEntityView<TableViewer> implements ObservableListener<T> {
+public abstract class AbstractEntityTableView<T extends Entity> extends AbstractView<TableViewer> implements ObservableListener<T> {
 
 	private TableViewer tableViewer;
 	private ObservableListener<String> nameListener;

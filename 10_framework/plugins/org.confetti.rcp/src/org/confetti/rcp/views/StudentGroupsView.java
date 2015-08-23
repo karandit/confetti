@@ -20,7 +20,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
 
-public class StudentGroupsView extends AbstractEntityView<TreeViewer> implements ObservableListener<StudentGroup> {
+public class StudentGroupsView extends AbstractView<TreeViewer> implements ObservableListener<StudentGroup> {
 
 	public static final String ID = "org.confetti.rcp.studentGroupsView";
     

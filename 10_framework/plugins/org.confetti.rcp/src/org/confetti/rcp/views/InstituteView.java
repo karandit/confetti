@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * @author Bubla Gabor
  */
-public class InstituteView extends AbstractEntityView<TreeViewer> {
+public class InstituteView extends AbstractView<TreeViewer> {
 
 	public static final String ID = "org.confetti.rcp.instituteView";
 

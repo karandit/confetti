@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.ViewPart;
 
-public abstract class AbstractEntityView<T extends StructuredViewer> extends ViewPart{
+public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 
 	private T viewer;
 	
