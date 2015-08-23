@@ -1,5 +1,7 @@
 package org.confetti.rcp.views;
 
+import static org.confetti.rcp.views.AbstractEntityTableView.createColumn;
+
 import java.util.List;
 
 import org.confetti.core.Constraint;
@@ -23,14 +25,22 @@ public class ConstraintsView extends AbstractView<TableViewer> implements Observ
 	public static final String ID = "org.confetti.rcp.constraintsView";
 	
 	private TableViewer viewer;
-	
+	private ObservableListener<ConstraintAttributes> attrListener;
+
 	@Override
 	protected TableViewer createViewer(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
-		AbstractEntityTableView.createColumn(table, "Type", 170);
-		AbstractEntityTableView.createColumn(table, "Details", 200);
+		createColumn(table, "Type", 170);
+		createColumn(table, "Details", 200);
+		
 		viewer = new TableViewer(table);
+		attrListener = new ObservableListener<ConstraintAttributes>() {
+			@Override
+			public void valueChanged(Object src, ConstraintAttributes oldValue, ConstraintAttributes newValue) {
+				viewer.refresh(src, true);
+			}
+		};
 		return viewer;
 	}
 	
@@ -42,6 +52,12 @@ public class ConstraintsView extends AbstractView<TableViewer> implements Observ
 	@Override
 	public void valueChanged(Object src, Constraint oldValue, Constraint newValue) {
 		viewer.refresh();
+		if (oldValue != null) {
+			oldValue.getAttributes().detachListener(attrListener);
+		}
+		if (newValue != null) {
+			newValue.getAttributes().attachListener(attrListener);
+		}
 	}
 
 	@Override
@@ -58,10 +74,16 @@ public class ConstraintsView extends AbstractView<TableViewer> implements Observ
 		if (oldDp != null) {
 			ObservableList<Constraint> obsList = getObservableList(oldDp);
 			obsList.detachListener(this);
+			for (Constraint constr : obsList.getList()) {
+				constr.getAttributes().detachListener(attrListener);
+			}
 		}
 		if (newDp != null) {
 			ObservableList<Constraint> obsList = getObservableList(newDp);
 			obsList.attachListener(this);
+			for (Constraint constr : obsList.getList()) {
+				constr.getAttributes().attachListener(attrListener);
+			}
 		}
 	}
 

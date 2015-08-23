@@ -12,6 +12,14 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	//------------------------------- fields ---------------------------------------------------------------------------
 	private final Map<String, ConstraintAttribute<?>> attrs = new HashMap<>();
 
+	//------------------------------- Constructors ---------------------------------------------------------------------
+	public ConstraintAttributes() {
+		
+	}
+
+	public ConstraintAttributes(final ConstraintAttributes origin) {
+		this.attrs.putAll(origin.attrs);
+	}
 	//------------------------------- Iterable's methods ---------------------------------------------------------------
 	@Override
 	public Iterator<ConstraintAttribute<?>> iterator() {

@@ -13,8 +13,9 @@ public class ObservableValue<T> {
 
 	void setValue(Object src, T newValue) {
 		if (!areEqual(newValue, value)) {
+			T oldValue = value;
 			value = newValue;
-			notifyListeners(src, value, newValue);
+			notifyListeners(src, oldValue, newValue);
 		}
 	}
 	
