@@ -49,12 +49,12 @@ public class ConstraintsView extends AbstractView<TableViewer> implements Observ
 		return getObservableList(dp).getList();
 	}
 
-	private ObservableList<Constraint> getObservableList(DataProvider dp) {
+	private static ObservableList<Constraint> getObservableList(DataProvider dp) {
 		return dp.getConstraints();
 	}
 	
 	@Override
-	protected void inputChanged(DataProvider oldDp, DataProvider newDp) {
+	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
 		if (oldDp != null) {
 			ObservableList<Constraint> obsList = getObservableList(oldDp);
 			obsList.detachListener(this);

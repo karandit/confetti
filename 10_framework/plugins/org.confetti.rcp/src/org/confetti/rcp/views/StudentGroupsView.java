@@ -47,7 +47,7 @@ public class StudentGroupsView extends AbstractView<TreeViewer> implements Obser
 	@Override protected IContentProvider getContentProvider() 	{ return new StudentGroupContentProvider(); }
 
 	@Override
-	protected void inputChanged(DataProvider oldDp, DataProvider newDp) {
+	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
 	    if (oldDp != null) {
             ObservableList<StudentGroup> obsList = oldDp.getStudentGroups();
             obsList.detachListener(this);

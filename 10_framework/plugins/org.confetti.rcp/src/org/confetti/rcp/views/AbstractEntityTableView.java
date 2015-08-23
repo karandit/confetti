@@ -42,7 +42,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 	protected abstract ObservableList<T> getObservableList(DataProvider dp);
 	
 	@Override
-	protected void inputChanged(DataProvider oldDp, DataProvider newDp) {
+	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
 		if (oldDp != null) {
 			ObservableList<T> obsList = getObservableList(oldDp);
 			obsList.detachListener(this);

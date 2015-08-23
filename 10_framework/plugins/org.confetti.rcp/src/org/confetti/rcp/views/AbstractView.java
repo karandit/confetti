@@ -19,6 +19,7 @@ public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 	
 	protected abstract T createViewer(Composite parent);
 	protected abstract Object getInput(DataProvider dp);
+	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) { };
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -30,12 +31,12 @@ public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 			
 			@Override
 			public void valueChanged(Object src, DataProvider oldDp, DataProvider newDp) {
-				inputChanged(oldDp, newDp);
+				dataProviderChanged(oldDp, newDp);
 				viewer.setInput(getNullSafeInput(newDp));
 			}
 		});
 		viewer.setInput(getNullSafeInput(dpObs.getValue()));
-		inputChanged(null, dpObs.getValue());
+		dataProviderChanged(null, dpObs.getValue());
 		
 		//create context menu
 		MenuManager menuManager = new MenuManager();
@@ -47,9 +48,6 @@ public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 
 	private Object getNullSafeInput(DataProvider newDp) {
 		return newDp == null ? null : getInput(newDp);
-	}
-
-	protected void inputChanged(DataProvider oldDp, DataProvider newDp) {
 	}
 	
 	protected LabelProvider getLabelProvider() { return new EntityTableLabelProvider(); }
