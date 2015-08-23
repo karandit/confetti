@@ -471,10 +471,11 @@ public class XmlDataProvider implements DataProvider {
 
 	@Override
 	public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
-		BaseConstraintXml xmlConstraint = ((ConstraintImpl) constraint).getXmlConstraint();
+		ConstraintImpl constraintImpl = (ConstraintImpl) constraint;
+		BaseConstraintXml xmlConstraint = constraintImpl.getXmlConstraint();
 		xmlConstraint.accept(ConstraintSetter.INSTANCE, attrs);
 		save();
-		//TODO:
+		constraintImpl.getAttrsMutator().setValue(constraint, attrs);
 	}
 
 	//----------------------------- helpers ----------------------------------------------------------------------------

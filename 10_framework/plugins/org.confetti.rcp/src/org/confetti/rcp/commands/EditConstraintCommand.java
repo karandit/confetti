@@ -31,7 +31,7 @@ public class EditConstraintCommand extends AbstractHandler {
         Shell shell = Display.getDefault().getActiveShell();
         ConstraintRegistry reg = ConstraintRegistry.INSTANCE;
 		ConstraintDescr constraintDescr = reg.getConstraintDescrById(constraint.getConstraintType());
-		ConstraintAttributes attrs = constraint.getAttributes();
+		ConstraintAttributes attrs = constraint.getAttributes().getValue();
 		ConstraintDialog constraintDialog = new ConstraintDialog(shell, constraintDescr, attrs);
 		constraintDialog.open();
         

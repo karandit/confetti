@@ -80,7 +80,7 @@ public class ConstraintsView extends AbstractEntityView<TableViewer> implements 
 				return constraintDescr == null ? "" : constraintDescr.getName();
 			case 1: 
 				StringBuilder sb = new StringBuilder();
-				ConstraintAttributes attrs = constraint.getAttributes();
+				ConstraintAttributes attrs = constraint.getAttributes().getValue();
 				List<ConstraintField> fields = constraintDescr.getFields();
 				for (ConstraintField constraintField : fields) {
 					sb.append(constraintField.getLabel())
