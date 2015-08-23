@@ -20,12 +20,13 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
-public class ConstraintsView extends AbstractView<TableViewer> implements ObservableListener<Constraint> {
+public class ConstraintsView extends AbstractView<TableViewer> {
 
 	public static final String ID = "org.confetti.rcp.constraintsView";
 	
 	private TableViewer viewer;
 	private ObservableListener<ConstraintAttributes> attrListener;
+	private ObservableListener<Constraint> constrListener;
 
 	@Override
 	protected TableViewer createViewer(Composite parent) {
@@ -36,9 +37,23 @@ public class ConstraintsView extends AbstractView<TableViewer> implements Observ
 		
 		viewer = new TableViewer(table);
 		attrListener = new ObservableListener<ConstraintAttributes>() {
+			/* Some attribute's values of a constraint changed. */
 			@Override
 			public void valueChanged(Object src, ConstraintAttributes oldValue, ConstraintAttributes newValue) {
 				viewer.refresh(src, true);
+			}
+		};
+		constrListener = new ObservableListener<Constraint>() {
+			/* An existing constraint removed or a new constraint added. */
+			@Override
+			public void valueChanged(Object src, Constraint oldValue, Constraint newValue) {
+				viewer.refresh();
+				if (oldValue != null) {
+					oldValue.getAttributes().detachListener(attrListener);
+				}
+				if (newValue != null) {
+					newValue.getAttributes().attachListener(attrListener);
+				}
 			}
 		};
 		return viewer;
@@ -50,17 +65,6 @@ public class ConstraintsView extends AbstractView<TableViewer> implements Observ
 	}
 
 	@Override
-	public void valueChanged(Object src, Constraint oldValue, Constraint newValue) {
-		viewer.refresh();
-		if (oldValue != null) {
-			oldValue.getAttributes().detachListener(attrListener);
-		}
-		if (newValue != null) {
-			newValue.getAttributes().attachListener(attrListener);
-		}
-	}
-
-	@Override
 	protected Object getInput(DataProvider dp) {
 		return getObservableList(dp).getList();
 	}
@@ -69,18 +73,19 @@ public class ConstraintsView extends AbstractView<TableViewer> implements Observ
 		return dp.getConstraints();
 	}
 	
+	/* A new dataprovider (Fet xml file, database, web api...) loaded. */
 	@Override
 	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
 		if (oldDp != null) {
 			ObservableList<Constraint> obsList = getObservableList(oldDp);
-			obsList.detachListener(this);
+			obsList.detachListener(constrListener);
 			for (Constraint constr : obsList.getList()) {
 				constr.getAttributes().detachListener(attrListener);
 			}
 		}
 		if (newDp != null) {
 			ObservableList<Constraint> obsList = getObservableList(newDp);
-			obsList.attachListener(this);
+			obsList.attachListener(constrListener);
 			for (Constraint constr : obsList.getList()) {
 				constr.getAttributes().attachListener(attrListener);
 			}
