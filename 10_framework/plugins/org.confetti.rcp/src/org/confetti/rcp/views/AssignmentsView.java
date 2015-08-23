@@ -118,12 +118,14 @@ public class AssignmentsView extends ViewPart {
 					//TODO detach this listener somewhere? :/
 //					source.getName().attachListener(nameListener);
 					tableViewer.setInput(source.getAssignments().getList());
-					if (source instanceof Subject) {
-						assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
-					} else {
-						assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), source);
-					}
+					assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), 
+							(source instanceof Subject) ? null : source);
 					return;
+				} else if (first instanceof InstituteView.Root) {
+					DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+					tableViewer.setInput(dp.getAssignments().getList());
+					assignModel(ktable, dp, null);
+                    return;
 				}
 			}
 		};
