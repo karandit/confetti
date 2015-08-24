@@ -7,6 +7,7 @@ import static org.confetti.rcp.views.StudentGroupsView.createColumn;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Nameable;
 import org.confetti.core.StudentGroup;
+import org.confetti.observable.ObservableListener;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -24,12 +25,17 @@ public class InstituteView extends AbstractView<TreeViewer> {
 
 	public static final String ID = "org.confetti.rcp.instituteView";
 
+	private ObservableListener<String> instNameListener;
+
 	@Override
 	protected TreeViewer createViewer(Composite parent) {
 		TreeViewer viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 		viewer.getTree().setHeaderVisible(true);
 		createColumn(viewer, "Name", 170);
 		createColumn(viewer, "#", 50);
+		instNameListener = (Object src, String oldValue, String newValue) -> {
+			viewer.refresh(Root.All, true);
+		};
 
 		return viewer;
 	}
@@ -38,7 +44,14 @@ public class InstituteView extends AbstractView<TreeViewer> {
 	@Override protected IContentProvider getContentProvider() { return new AllEntitiesContentProvider(); }
 	@Override
 	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
+		if (oldDp != null) {
+			oldDp.getName().detachListener(instNameListener);
+		}
+		if (newDp != null) {
+			newDp.getName().attachListener(instNameListener);
+		}
 	}
+	
 	//----------------------------- helper classes ---------------------------------------------------------------------
 	
 	enum Containers implements Nameable {
