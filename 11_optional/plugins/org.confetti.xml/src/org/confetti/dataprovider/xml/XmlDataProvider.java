@@ -142,6 +142,7 @@ public class XmlDataProvider implements DataProvider {
 	
 	//----------------------------- fields for UI client----------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
+	private ValueMutator<String> instComment = new ValueMutator<>();
 	private ListMutator<Teacher> teachers = new ListMutator<>();
 	private ListMutator<Subject> subjects = new ListMutator<>();
 	private ListMutator<StudentGroup> stdGroups = new ListMutator<>();
@@ -171,6 +172,7 @@ public class XmlDataProvider implements DataProvider {
 	public XmlDataProvider(InstituteXml inst) {
 		this.instXml = inst;
 		instName.setValue(this, inst.getName());
+		instComment.setValue(this, inst.getComment());
 		inst.getDays().getDays()	.forEach(day -> days.addItem(new DayImpl(day.getName())));
 		inst.getHours().getHours()	.forEach(hour -> hours.addItem(new HourImpl(hour.getName())));
         inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName())));
@@ -246,6 +248,7 @@ public class XmlDataProvider implements DataProvider {
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
 	@Override public String getInformation()                               { return file.getAbsolutePath(); }
 	@Override public ObservableValue<String> getName() 					   { return instName.getObservableValue(); }
+	@Override public ObservableValue<String> getComment() 				   { return instComment.getObservableValue(); }
 	@Override public ObservableList<Subject> getSubjects() 				   { return subjects.getObservableList(); }
 	@Override public ObservableList<Teacher> getTeachers() 				   { return teachers.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	   { return stdGroups.getObservableList(); }
@@ -256,6 +259,15 @@ public class XmlDataProvider implements DataProvider {
 	@Override public ObservableList<Constraint> getConstraints() 		   { return constraints.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
+	@Override
+	public void updateInstituteNameAndComment(String newName, String newComment) {
+		instXml.setName(newName);
+		instXml.setComment(newComment);
+		save();
+		instName.setValue(this, newName);
+		instComment.setValue(this, newComment);
+	}
+
 	@Override
 	public void addSubjects(List<String> names) {
 	    names.forEach(name -> instXml.getSubjects().add(new SubjectXml(name)));

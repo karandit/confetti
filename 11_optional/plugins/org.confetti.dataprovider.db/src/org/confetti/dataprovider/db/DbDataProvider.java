@@ -58,6 +58,7 @@ public class DbDataProvider implements DataProvider {
 
 	//----------------------------- fields -----------------------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
+	private ValueMutator<String> instComment = new ValueMutator<>();
 	private ListMutator<Teacher> teachers = new ListMutator<>();
 	private ListMutator<Subject> subjects = new ListMutator<>();
 	private ListMutator<StudentGroup> stdGroups = new ListMutator<>();
@@ -136,6 +137,7 @@ public class DbDataProvider implements DataProvider {
 	//----------------------------- DataProvider's Accessor API --------------------------------------------------------
 	@Override public String getInformation()                               { return info; }
 	@Override public ObservableValue<String> getName() 					   { return instName.getObservableValue(); }
+	@Override public ObservableValue<String> getComment() 				   { return instComment.getObservableValue(); }
 	@Override public ObservableList<Teacher> getTeachers() 				   { return teachers.getObservableList(); }
 	@Override public ObservableList<Subject> getSubjects() 				   { return subjects.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	   { return stdGroups.getObservableList(); }
@@ -320,4 +322,9 @@ public class DbDataProvider implements DataProvider {
 		throw new RuntimeException("Not implemented yet.");
 	}
     
+	@Override
+	public void updateInstituteNameAndComment(String newName, String newComment) {
+		throw new RuntimeException("Not implemented yet.");
+	}
+
 }

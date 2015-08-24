@@ -2,6 +2,7 @@ package org.confetti.rcp.wizards;
 
 import org.confetti.rcp.wizards.models.EditInstituteModel;
 import org.confetti.rcp.wizards.pages.EditNameAndCommentPage;
+import org.confetti.rcp.wizards.pages.IWizardPageNavigatable;
 import org.eclipse.jface.wizard.Wizard;
 
 public class EditInstituteWizard extends Wizard {
@@ -20,6 +21,7 @@ public class EditInstituteWizard extends Wizard {
 
 	@Override
 	public boolean performFinish() {
+		((IWizardPageNavigatable) getPages()[0]).pageHid(); 
 		return true;
 	}
 }

@@ -24,6 +24,7 @@ import org.confetti.observable.ValueMutator;
 public class DummyDataProvider implements DataProvider {
 
 	private ValueMutator<String> instName = new ValueMutator<>();
+	private ValueMutator<String> instComment = new ValueMutator<>();
 	private ListMutator<Subject> subjects;
 	private ListMutator<Teacher> teachers;
 	private ListMutator<StudentGroup> studentGroups;
@@ -49,6 +50,7 @@ public class DummyDataProvider implements DataProvider {
 
 	private void init() {
 		instName.setValue(this, "Test institute");
+		instComment.setValue(this, "a half implemented data provider");
 		
 		days.addItem(new DummyDay("monday"));
 		days.addItem(new DummyDay("tuesday"));
@@ -102,6 +104,7 @@ public class DummyDataProvider implements DataProvider {
 	//-----------------DataProvider's API-------------------------------------------------------------------------------
 	@Override public String getInformation() { return "Dummy"; }
 	@Override public ObservableValue<String> getName() 					{ return instName.getObservableValue(); }
+	@Override public ObservableValue<String> getComment() 				{ return instComment.getObservableValue(); }
 	@Override public ObservableList<Subject> getSubjects() 				{ return subjects.getObservableList(); }
 	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return studentGroups.getObservableList(); }
@@ -225,6 +228,11 @@ public class DummyDataProvider implements DataProvider {
 
 	@Override
 	public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
+		throw new RuntimeException("Not implemented yet.");
+	}
+
+	@Override
+	public void updateInstituteNameAndComment(String newName, String newComment) {
 		throw new RuntimeException("Not implemented yet.");
 	}
 

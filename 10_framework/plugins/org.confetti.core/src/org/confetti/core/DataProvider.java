@@ -6,7 +6,8 @@ import org.confetti.observable.ObservableValue;
 public interface DataProvider extends Nameable, DataPersister {
     
     String getInformation();
-    
+	ObservableValue<String> getComment();
+
 	ObservableList<Subject> getSubjects();
 	ObservableList<Teacher> getTeachers();
 	ObservableList<StudentGroup> getStudentGroups();

@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface DataPersister {
 
+	void updateInstituteNameAndComment(String newName, String newComment);
+	
     void addSubjects(List<String> names);
     void addTeachers(List<String> names);
     void addStudentGroups(StudentGroup parent, List<String> names);

@@ -81,7 +81,7 @@ public class NewWizardCommand extends AbstractHandler {
         List<String> days = getEntries(model.getDaysModel());
         List<String> hours = getEntries(model.getHoursModel());
         
-        EmptyDataProvider dp = new EmptyDataProvider(model.getName(), days, hours);
+        EmptyDataProvider dp = new EmptyDataProvider(model.getName(), model.getComment(), days, hours);
         WizardDialog dialog = new WizardDialog(shell, wizardFactory.createWizard(dp));
         watchWizardDialog(dialog);
         dialog.open();
@@ -100,6 +100,7 @@ public class NewWizardCommand extends AbstractHandler {
     private static class EmptyDataProvider implements DataProvider {
 
         private final ValueMutator<String> name;
+        private final ValueMutator<String> comment;
         private final ListMutator<Day> days;
         private final ListMutator<Hour> hours;
         
@@ -114,13 +115,15 @@ public class NewWizardCommand extends AbstractHandler {
             @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
         }
         
-        public EmptyDataProvider(String name, Iterable<String> days, Iterable<String> hours) {
+        public EmptyDataProvider(String name, String comment, Iterable<String> days, Iterable<String> hours) {
             this.name = new ValueMutator<>(this, name);
+            this.comment = new ValueMutator<>(this, comment);
             this.days = new ListMutator<>(transform(days, x -> new UserInputDay(x)));
             this.hours = new ListMutator<>(transform(hours, x -> new UserInputHour(x)));
         }
         
         @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
+		@Override public ObservableValue<String> getComment() { return comment.getObservableValue(); }
         @Override public ObservableList<Day> getDays() { return days.getObservableList(); }
         @Override public ObservableList<Hour> getHours() { return hours.getObservableList(); }
         @Override public String getInformation() { return null; }
@@ -146,6 +149,7 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public void removeAssignment(Assignment assignment) { }
         @Override public void rename(Entity entity, String newName) { }
 		@Override public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) { }
+		@Override public void updateInstituteNameAndComment(String newName, String newComment) { }
     }
 
 }
