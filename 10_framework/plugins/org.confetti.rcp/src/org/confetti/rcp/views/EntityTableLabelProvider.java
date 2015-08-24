@@ -5,6 +5,7 @@ import static org.confetti.rcp.ConfettiPlugin.IMG_SMALL_STUDENTGROUP;
 import static org.confetti.rcp.ConfettiPlugin.IMG_SMALL_SUBJECT;
 import static org.confetti.rcp.ConfettiPlugin.IMG_SMALL_TEACHER;
 
+import org.confetti.core.Assignable;
 import org.confetti.core.Entity;
 import org.confetti.core.EntityVisitor;
 import org.confetti.core.Nameable;
@@ -17,6 +18,8 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+
+import com.google.common.collect.Iterables;
 
 public class EntityTableLabelProvider extends LabelProvider implements ITableLabelProvider {
 
@@ -47,17 +50,14 @@ public class EntityTableLabelProvider extends LabelProvider implements ITableLab
 	 	
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
-		if (element instanceof Nameable) {
-			return getTextByColumn(columnIndex, ((Nameable) element).getName().getValue());
-		} 
-		return null;
-	}
-
-	private String getTextByColumn(int columnIndex, String name) {
 		switch (columnIndex) {
-		case 0: return name;
-		case 1: return "1/4";
-		default: return "";
+			case 0: return element instanceof Nameable 
+					? ((Nameable) element).getName().getValue() 
+					: "";
+			case 1: return element instanceof Assignable 
+					? Integer.toString(Iterables.size(((Assignable) element).getAssignments().getList())) 
+					: "";
+			default: return "";
 		}
 	}
 }
