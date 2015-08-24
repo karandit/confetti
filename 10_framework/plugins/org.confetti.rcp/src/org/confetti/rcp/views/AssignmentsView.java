@@ -102,11 +102,12 @@ public class AssignmentsView extends ViewPart {
 			    if (AssignmentsView.ID.equals(part.getSite().getId())) {
 				    return;
 				}
-			    
+			    DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+
 			    //empty the view when selection is empty
 				if (selection.isEmpty()) {
 				    tableViewer.setInput(null);
-				    assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), null);
+				    assignModel(ktable, dp, null);
                     return;
                 }
 				
@@ -118,13 +119,15 @@ public class AssignmentsView extends ViewPart {
 					//TODO detach this listener somewhere? :/
 //					source.getName().attachListener(nameListener);
 					tableViewer.setInput(source.getAssignments().getList());
-					assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), 
-							(source instanceof Subject) ? null : source);
+					assignModel(ktable, dp, (source instanceof Subject) ? null : source);
 					return;
 				} else if (first instanceof InstituteView.Root) {
-					DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
 					tableViewer.setInput(dp.getAssignments().getList());
 					assignModel(ktable, dp, null);
+                    return;
+				} else if (first instanceof InstituteView.Containers) {
+				    tableViewer.setInput(null);
+				    assignModel(ktable, dp, null);
                     return;
 				}
 			}
@@ -163,7 +166,7 @@ public class AssignmentsView extends ViewPart {
 		public String getColumnText(Object element, int columnIndex) {
 			Assignment assignment = (Assignment) element;
 			switch (columnIndex) {
-				case 0: return "1/4";
+				case 0: return "";
 				case 1:	return getName(assignment.getSubject());
 				case 2:	return toStr(assignment.getTeachers().getList());
 				case 3:	return toStr(assignment.getStudentGroups().getList());
