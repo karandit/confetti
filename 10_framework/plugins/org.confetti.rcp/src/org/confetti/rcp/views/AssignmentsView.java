@@ -121,7 +121,7 @@ public class AssignmentsView extends ViewPart {
 					tableViewer.setInput(source.getAssignments().getList());
 					assignModel(ktable, dp, (source instanceof Subject) ? null : source);
 					return;
-				} else if (first instanceof InstituteView.Root) {
+				} else if (first instanceof Root) {
 					tableViewer.setInput(dp.getAssignments().getList());
 					assignModel(ktable, dp, null);
                     return;

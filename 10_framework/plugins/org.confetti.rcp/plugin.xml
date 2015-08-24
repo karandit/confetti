@@ -69,6 +69,24 @@
             </iterate>
          </with>
       </definition>
+      <definition
+            id="editInstituteAvailable">
+         <with
+               variable="selection">
+            <count
+                  value="1">
+            </count>
+            <iterate
+                  ifEmpty="false"
+                  operator="and">
+               <instanceof
+                     value="org.confetti.rcp.views.Root">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+
+
    </extension>
 
    <extension
@@ -192,6 +210,12 @@
             description="Edit Constraint"
             id="org.confetti.rcp.editConstraintCommand"
             name="Edit Constraint">
+      </command>
+      <command
+            defaultHandler="org.confetti.rcp.commands.EditInstituteCommand"
+            description="Edit Institute"
+            id="org.confetti.rcp.editInstituteCommand"
+            name="Edit Institute">
       </command>
       <command
             defaultHandler="org.confetti.rcp.commands.ResetPerspectiveCommand"
@@ -426,6 +450,17 @@
                   checkEnabled="false">
                <reference
                      definitionId="deleteEntityAvailable">
+               </reference>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.confetti.rcp.editInstituteCommand"
+               label="Edit"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="editInstituteAvailable">
                </reference>
             </visibleWhen>
          </command>

@@ -9,7 +9,6 @@ import org.confetti.core.Nameable;
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
-import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -41,14 +40,6 @@ public class InstituteView extends AbstractView<TreeViewer> {
 	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
 	}
 	//----------------------------- helper classes ---------------------------------------------------------------------
-	enum Root implements Nameable {
-		All;
-		
-		@Override
-		public ObservableValue<String> getName() {
-			return ConfettiPlugin.getDefault().getDataProvider().getValue().getName();
-		}
-	}
 	
 	enum Containers implements Nameable {
 		AllSubjects("All subjects") {
