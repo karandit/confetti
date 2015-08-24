@@ -36,17 +36,12 @@ public class ConstraintsView extends AbstractView<TableViewer> {
 		createColumn(table, "Details", 200);
 		
 		viewer = new TableViewer(table);
-		attrListener = new ObservableListener<ConstraintAttributes>() {
-			/* Some attribute's values of a constraint changed. */
-			@Override
-			public void valueChanged(Object src, ConstraintAttributes oldValue, ConstraintAttributes newValue) {
+		/* Some attribute's values of a constraint changed. */
+		attrListener = (Object src, ConstraintAttributes oldValue, ConstraintAttributes newValue) -> {
 				viewer.refresh(src, true);
-			}
 		};
-		constrListener = new ObservableListener<Constraint>() {
-			/* An existing constraint removed or a new constraint added. */
-			@Override
-			public void valueChanged(Object src, Constraint oldValue, Constraint newValue) {
+		/* An existing constraint removed or a new constraint added. */
+		constrListener = (Object src, Constraint oldValue, Constraint newValue) -> {
 				viewer.refresh();
 				if (oldValue != null) {
 					oldValue.getAttributes().detachListener(attrListener);
@@ -54,7 +49,6 @@ public class ConstraintsView extends AbstractView<TableViewer> {
 				if (newValue != null) {
 					newValue.getAttributes().attachListener(attrListener);
 				}
-			}
 		};
 		return viewer;
 	}

@@ -20,12 +20,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
 
-public class StudentGroupsView extends AbstractView<TreeViewer> implements ObservableListener<StudentGroup> {
+public class StudentGroupsView extends AbstractView<TreeViewer> {
 
 	public static final String ID = "org.confetti.rcp.studentGroupsView";
     
 	private TreeViewer treeViewer;
 	private ObservableListener<String> nameListener;
+	private ObservableListener<StudentGroup> listListener;
 
 	@Override
 	protected TreeViewer createViewer(Composite parent) {
@@ -34,11 +35,17 @@ public class StudentGroupsView extends AbstractView<TreeViewer> implements Obser
 		createColumn(treeViewer, "Name", 170);
 		createColumn(treeViewer, "#", 50);
 		
-		nameListener = new ObservableListener<String>() {
-            @Override
-            public void valueChanged(Object src, String oldValue, String newValue) {
+		nameListener = (Object src, String oldValue, String newValue) -> {
                 treeViewer.refresh(src, true);
-            }
+        };
+        listListener = (Object src, StudentGroup oldValue, StudentGroup newValue) -> {
+        	treeViewer.refresh();
+		    if (oldValue != null) {
+	            oldValue.getName().detachListener(nameListener);
+	        }
+	        if (newValue != null) {
+	            newValue.getName().attachListener(nameListener);
+	        }
         };
 		return treeViewer;
 	}
@@ -50,28 +57,17 @@ public class StudentGroupsView extends AbstractView<TreeViewer> implements Obser
 	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
 	    if (oldDp != null) {
             ObservableList<StudentGroup> obsList = oldDp.getStudentGroups();
-            obsList.detachListener(this);
+            obsList.detachListener(listListener);
             for (Entity entity : obsList.getList()) {
                 entity.getName().detachListener(nameListener);
             }
         }
         if (newDp != null) {
             ObservableList<StudentGroup> obsList = newDp.getStudentGroups();
-            obsList.attachListener(this);
+            obsList.attachListener(listListener);
             for (Entity entity : obsList.getList()) {
                 entity.getName().attachListener(nameListener);
             }
-        }
-	}
-	
-	@Override
-	public void valueChanged(Object src, StudentGroup oldValue, StudentGroup newValue) {
-	    treeViewer.refresh();
-	    if (oldValue != null) {
-            oldValue.getName().detachListener(nameListener);
-        }
-        if (newValue != null) {
-            newValue.getName().attachListener(nameListener);
         }
 	}
 	

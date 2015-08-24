@@ -1,7 +1,6 @@
 package org.confetti.rcp.views;
 
 import org.confetti.core.DataProvider;
-import org.confetti.observable.ObservableListener;
 import org.confetti.observable.ObservableValue;
 import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.action.MenuManager;
@@ -27,13 +26,9 @@ public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 		viewer.setContentProvider(getContentProvider());
 		viewer.setLabelProvider(getLabelProvider());
 		ObservableValue<DataProvider> dpObs = ConfettiPlugin.getDefault().getDataProvider();
-		dpObs.attachListener(new ObservableListener<DataProvider>() {
-			
-			@Override
-			public void valueChanged(Object src, DataProvider oldDp, DataProvider newDp) {
+		dpObs.attachListener((Object src, DataProvider oldDp, DataProvider newDp) -> {
 				dataProviderChanged(oldDp, newDp);
 				viewer.setInput(getNullSafeInput(newDp));
-			}
 		});
 		viewer.setInput(getNullSafeInput(dpObs.getValue()));
 		dataProviderChanged(null, dpObs.getValue());

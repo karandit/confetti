@@ -28,15 +28,10 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		createColumn(table, "#", 50);
 		
 		tableViewer = new TableViewer(table);
-		nameListener = new ObservableListener<String>() {
-			@Override
-			public void valueChanged(Object src, String oldValue, String newValue) {
+		nameListener = (Object src, String oldValue, String newValue) -> {
 				tableViewer.refresh(src, true);
-			}
 		};
-		listListener = new ObservableListener<T>() {
-			@Override
-			public void valueChanged(Object src, T oldValue, T newValue) {
+		listListener = (Object src, T oldValue, T newValue) -> {
 				tableViewer.refresh();
 				if (oldValue != null) {
 					oldValue.getName().detachListener(nameListener);
@@ -44,7 +39,6 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 				if (newValue != null) {
 					newValue.getName().attachListener(nameListener);
 				}
-			}
 		};
 		return tableViewer;
 	}
