@@ -4,8 +4,6 @@ import static org.confetti.rcp.ConfettiPlugin.getImageDescriptor;
 
 import org.confetti.rcp.wizards.models.EditNameAndCommentModel;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -24,7 +22,6 @@ implements IWizardPageNavigatable {
 	public EditNameAndCommentPage(EditNameAndCommentModel model) {
 		super("pageName", "Name", getImageDescriptor(model.getImageKey()), model);
 		setDescription("Set the name and the comment");
-		setPageComplete(false);
 	}
 
 	@Override
@@ -45,17 +42,22 @@ implements IWizardPageNavigatable {
 		Label name = new Label(compo, SWT.NONE);
 		name.setText("Name");
 		txtName = new Text(compo, SWT.BORDER);
+		txtName.setText(getSafe(getModel().getName()));
+		setPageComplete(!txtName.getText().isEmpty());
 		txtName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		txtName.addModifyListener(new ModifyListener() {
-			@Override public void modifyText(ModifyEvent e) { setPageComplete(!txtName.getText().isEmpty()); }
-		});
+		txtName.addModifyListener(e -> { setPageComplete(!txtName.getText().isEmpty()); });
 		
 		//Comment part
 		Label cmnt = new Label(compo, SWT.NONE);
 		cmnt.setText("Comment");
 		txtComment = new Text(compo, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		txtComment.setText(getSafe(getModel().getComment()));
 		txtComment.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		setControl(compo);
+	}
+
+	private static String getSafe(final String value) {
+		return value == null ? "" : value;
 	}
 }
