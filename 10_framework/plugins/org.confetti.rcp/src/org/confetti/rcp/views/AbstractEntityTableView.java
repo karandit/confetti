@@ -59,7 +59,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		if (oldDp != null) {
 			ObservableList<T> obsList = getObservableList(oldDp);
 			obsList.detachListener(listListener);
-			for (Entity entity : obsList.getList()) {
+			for (T entity : obsList.getList()) {
 				entity.getName().detachListener(nameListener);
 				entity.getAssignments().detachListener(assgCountListener);
 			}
@@ -67,7 +67,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		if (newDp != null) {
 			ObservableList<T> obsList = getObservableList(newDp);
 			obsList.attachListener(listListener);
-			for (Entity entity : obsList.getList()) {
+			for (T entity : obsList.getList()) {
 				entity.getName().attachListener(nameListener);
 				entity.getAssignments().attachListener(assgCountListener);
 			}
@@ -78,11 +78,6 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		TableColumn tc = new TableColumn(table, SWT.LEFT);
 		tc.setText(title);
 		tc.setWidth(width);
-	}
-	
-	@Override
-	public void dispose() {
-		super.dispose();
 	}
 	
 }

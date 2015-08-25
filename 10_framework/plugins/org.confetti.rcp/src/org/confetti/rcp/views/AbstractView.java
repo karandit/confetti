@@ -1,6 +1,7 @@
 package org.confetti.rcp.views;
 
 import org.confetti.core.DataProvider;
+import org.confetti.observable.ObservableListener;
 import org.confetti.observable.ObservableValue;
 import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.action.MenuManager;
@@ -15,6 +16,7 @@ import org.eclipse.ui.part.ViewPart;
 public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 
 	private T viewer;
+	private ObservableListener<DataProvider> dpListener;
 	
 	protected abstract T createViewer(Composite parent);
 	protected abstract Object getInput(DataProvider dp);
@@ -26,10 +28,11 @@ public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 		viewer.setContentProvider(getContentProvider());
 		viewer.setLabelProvider(getLabelProvider());
 		ObservableValue<DataProvider> dpObs = ConfettiPlugin.getDefault().getDataProvider();
-		dpObs.attachListener((Object src, DataProvider oldDp, DataProvider newDp) -> {
+		dpListener = (Object src, DataProvider oldDp, DataProvider newDp) -> {
 				dataProviderChanged(oldDp, newDp);
 				viewer.setInput(getNullSafeInput(newDp));
-		});
+		};
+		dpObs.attachListener(dpListener);
 		viewer.setInput(getNullSafeInput(dpObs.getValue()));
 		dataProviderChanged(null, dpObs.getValue());
 		
@@ -48,5 +51,13 @@ public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 	protected LabelProvider getLabelProvider() { return new EntityTableLabelProvider(); }
 	protected IContentProvider getContentProvider() { return new ArrayContentProvider(); }
 	@Override public void setFocus() { viewer.getControl().setFocus(); }
+
+	@Override
+	public void dispose() {
+		ObservableValue<DataProvider> dpObs = ConfettiPlugin.getDefault().getDataProvider();
+		dpObs.detachListener(dpListener);
+		dataProviderChanged(dpObs.getValue(), null);
+		super.dispose();
+	}
 	
 }
