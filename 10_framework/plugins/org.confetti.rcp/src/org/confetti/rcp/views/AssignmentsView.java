@@ -95,9 +95,7 @@ public class AssignmentsView extends ViewPart {
 
 	private void assignListener(final TableViewer tableViewer, final KTable ktable) {
 		ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
-		selectionListener = new ISelectionListener() {
-			@Override
-			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		selectionListener = (IWorkbenchPart part, ISelection selection) -> {
 				//do nothing when the selection comes from this view
 			    if (AssignmentsView.ID.equals(part.getSite().getId())) {
 				    return;
@@ -130,7 +128,6 @@ public class AssignmentsView extends ViewPart {
 				    assignModel(ktable, dp, null);
                     return;
 				}
-			}
 		};
         selectionService.addSelectionListener(selectionListener);
 	}
