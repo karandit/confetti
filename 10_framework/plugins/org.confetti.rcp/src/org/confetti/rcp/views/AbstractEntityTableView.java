@@ -1,5 +1,6 @@
 package org.confetti.rcp.views;
 
+import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
 import org.confetti.observable.ObservableList;
@@ -18,6 +19,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 
 	private TableViewer tableViewer;
 	private ObservableListener<String> nameListener;
+	private ObservableListener<Assignment> assgCountListener;
 	private ObservableListener<T> listListener;
 	
 	@Override
@@ -31,13 +33,18 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		nameListener = (Object src, String oldValue, String newValue) -> {
 				tableViewer.refresh(src, true);
 		};
+        assgCountListener = (Object src, Assignment oldValue, Assignment newValue) -> {
+    		tableViewer.refresh(src, true);
+        };
 		listListener = (Object src, T oldValue, T newValue) -> {
 				tableViewer.refresh();
 				if (oldValue != null) {
 					oldValue.getName().detachListener(nameListener);
+		            oldValue.getAssignments().detachListener(assgCountListener);
 				}
 				if (newValue != null) {
 					newValue.getName().attachListener(nameListener);
+		            newValue.getAssignments().attachListener(assgCountListener);
 				}
 		};
 		return tableViewer;
@@ -54,6 +61,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 			obsList.detachListener(listListener);
 			for (Entity entity : obsList.getList()) {
 				entity.getName().detachListener(nameListener);
+				entity.getAssignments().detachListener(assgCountListener);
 			}
 		}
 		if (newDp != null) {
@@ -61,6 +69,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 			obsList.attachListener(listListener);
 			for (Entity entity : obsList.getList()) {
 				entity.getName().attachListener(nameListener);
+				entity.getAssignments().attachListener(assgCountListener);
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import static com.google.common.collect.Iterables.isEmpty;
 import static com.google.common.collect.Iterables.toArray;
 import static org.confetti.rcp.views.StudentGroupsView.createColumn;
 
+import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Nameable;
 import org.confetti.core.StudentGroup;
@@ -26,6 +27,7 @@ public class InstituteView extends AbstractView<TreeViewer> {
 	public static final String ID = "org.confetti.rcp.instituteView";
 
 	private ObservableListener<String> instNameListener;
+	private ObservableListener<Assignment> assgCountListener;
 
 	@Override
 	protected TreeViewer createViewer(Composite parent) {
@@ -36,7 +38,9 @@ public class InstituteView extends AbstractView<TreeViewer> {
 		instNameListener = (Object src, String oldValue, String newValue) -> {
 			viewer.refresh(Root.All, true);
 		};
-
+        assgCountListener = (Object src, Assignment oldValue, Assignment newValue) -> {
+    		viewer.refresh(Root.All, true);
+	};
 		return viewer;
 	}
 	
@@ -46,14 +50,15 @@ public class InstituteView extends AbstractView<TreeViewer> {
 	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
 		if (oldDp != null) {
 			oldDp.getName().detachListener(instNameListener);
+			oldDp.getAssignments().detachListener(assgCountListener);
 		}
 		if (newDp != null) {
 			newDp.getName().attachListener(instNameListener);
+			newDp.getAssignments().attachListener(assgCountListener);
 		}
 	}
 	
 	//----------------------------- helper classes ---------------------------------------------------------------------
-	
 	enum Containers implements Nameable {
 		AllSubjects("All subjects") {
 			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getSubjects().getList(); }

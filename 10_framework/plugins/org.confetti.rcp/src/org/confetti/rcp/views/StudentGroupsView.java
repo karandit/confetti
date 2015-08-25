@@ -5,8 +5,8 @@ import static com.google.common.collect.Iterables.toArray;
 
 import java.util.List;
 
+import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
-import org.confetti.core.Entity;
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableListener;
@@ -26,6 +26,7 @@ public class StudentGroupsView extends AbstractView<TreeViewer> {
     
 	private TreeViewer treeViewer;
 	private ObservableListener<String> nameListener;
+	private ObservableListener<Assignment> assgCountListener;
 	private ObservableListener<StudentGroup> listListener;
 
 	@Override
@@ -38,13 +39,18 @@ public class StudentGroupsView extends AbstractView<TreeViewer> {
 		nameListener = (Object src, String oldValue, String newValue) -> {
                 treeViewer.refresh(src, true);
         };
+        assgCountListener = (Object src, Assignment oldValue, Assignment newValue) -> {
+        		treeViewer.refresh(src, true);
+		};
         listListener = (Object src, StudentGroup oldValue, StudentGroup newValue) -> {
         	treeViewer.refresh();
 		    if (oldValue != null) {
 	            oldValue.getName().detachListener(nameListener);
-	        }
+	            oldValue.getAssignments().detachListener(assgCountListener);
+		    }
 	        if (newValue != null) {
 	            newValue.getName().attachListener(nameListener);
+	            newValue.getAssignments().attachListener(assgCountListener);
 	        }
         };
 		return treeViewer;
@@ -58,15 +64,19 @@ public class StudentGroupsView extends AbstractView<TreeViewer> {
 	    if (oldDp != null) {
             ObservableList<StudentGroup> obsList = oldDp.getStudentGroups();
             obsList.detachListener(listListener);
-            for (Entity entity : obsList.getList()) {
-                entity.getName().detachListener(nameListener);
+            for (StudentGroup studentGroup : obsList.getList()) {
+                studentGroup.getName().detachListener(nameListener);
+                studentGroup.getAssignments().detachListener(assgCountListener);
+                //TODO: the sub studentgroups are not monitored
             }
         }
         if (newDp != null) {
             ObservableList<StudentGroup> obsList = newDp.getStudentGroups();
             obsList.attachListener(listListener);
-            for (Entity entity : obsList.getList()) {
-                entity.getName().attachListener(nameListener);
+            for (StudentGroup studentGroup : obsList.getList()) {
+                studentGroup.getName().attachListener(nameListener);
+                studentGroup.getAssignments().attachListener(assgCountListener);
+                //TODO: the sub studentgroups are not monitored
             }
         }
 	}
