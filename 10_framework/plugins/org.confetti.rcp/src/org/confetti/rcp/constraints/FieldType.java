@@ -1,338 +1,110 @@
 package org.confetti.rcp.constraints;
 
-import static com.google.common.collect.Iterables.transform;
-import static org.confetti.rcp.views.AssignmentsView.toStr;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.confetti.core.Assignment;
-import org.confetti.core.ConstraintAttribute;
-import org.confetti.core.ConstraintAttributes;
-import org.confetti.core.DataProvider;
-import org.confetti.core.Day;
-import org.confetti.core.Hour;
-import org.confetti.core.Nameable;
-import org.confetti.core.Room;
-import org.confetti.core.StudentGroup;
-import org.confetti.core.Subject;
-import org.confetti.core.Teacher;
-import org.confetti.observable.ObservableList;
-import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.rcp.views.AssignmentsView;
-import org.confetti.util.Triple;
-import org.confetti.util.Tuple;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Spinner;
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-
-import de.kupzog.ktable.KTable;
-import de.kupzog.ktable.KTableNoScrollModel;
-
 public enum FieldType {
 	
     Boolean("boolean-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-            Button button = new Button(parent, SWT.CHECK);
-			java.lang.Boolean value = safeGet(attribute, java.lang.Boolean.FALSE);
-			button.setSelection(value);
-            return button;
-        }
 		@Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
-        	attrs.withBoolean(key, ((Button) ctrl).isEnabled());
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return attrs.asBoolean(key).toString();
-        }
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitBoolean(p1, p2);
+		}
     },
     Double("double-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	//TODO: spinner doesn't support decimal values
-        	Double defVal = safeGet(attribute, new Double(98.0));
-        	return createSpinnerField(parent, 0, 100, defVal.intValue());
-        }
-        @Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
-        	attrs.withDouble(key, (double) ((Spinner) ctrl).getSelection());
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return attrs.asDouble(key).toString();
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitDouble(p1, p2);
+		}
     },
     Integer("integer-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-            return createSpinnerField(parent, 0, 100, safeGet(attribute, new Integer(98)));
-        }
-        @Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
-        	attrs.withInteger(key, ((Spinner) ctrl).getSelection());
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return attrs.asInteger(key).toString();
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitInteger(p1, p2);
+		}
     },
     Day("day-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-            Iterable<Day> days = ConfettiPlugin.getDefault().getDataProvider().getValue().getDays().getList();
-            int daysCount = Iterables.size(days);
-            return createSpinnerField(parent, 0, daysCount, safeGet(attribute, daysCount));
-        }
-        @Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
-        	attrs.withInteger(key, ((Spinner) ctrl).getSelection());
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return attrs.asInteger(key).toString();
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitDay(p1, p2);
+		}
     },
     Hour("hour-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-            Iterable<Hour> hours = ConfettiPlugin.getDefault().getDataProvider().getValue().getHours().getList();
-            int hoursCount = Iterables.size(hours);
-            return createSpinnerField(parent, 0, hoursCount, safeGet(attribute, hoursCount));
-        }
-        @Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
-        	attrs.withInteger(key, ((Spinner) ctrl).getSelection());
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return attrs.asInteger(key).toString();
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitHour(p1, p2);
+		}
     },
     Week("week-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-    		final KTable ktable = new KTable(parent, SWT.NONE);
-    		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
-    		//TODO: implement pre-selection
-    		DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-			KTableNoScrollModel model = new ConstraintFieldWeekModel(ktable, dp);
-			ktable.setModel(model);
-			model.initialize();
-        	return ktable;
-        }
-        @Override
-        public void applyLayout(Control ctrl) {
-            GridDataFactory.fillDefaults().grab(true, true).applyTo(ctrl);
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return Iterables.toString(transform(attrs.asWeek(key), 
-        			tuple -> safeGetName(tuple.getFirst()) + " " + safeGetName(tuple.getSecond())));
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitWeek(p1, p2);
+		}
     },
     Period("period-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	Button button = new Button(parent, SWT.PUSH);
-			button.setText("Period Field NOT IMPLEMENTED");
-        	return button;
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	Tuple<Day, Hour> period = attrs.asPeriod(key);
-			return safeGetName(period.getFirst()) + " " + safeGetName(period.getSecond());
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitPeriod(p1, p2);
+		}
     },
     Interval("interval-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	Button button = new Button(parent, SWT.PUSH);
-			button.setText("Interval Field NOT IMPLEMENTED");
-        	return button;
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	Tuple<Hour, Hour> interval = attrs.asInterval(key);
-			return safeGetName(interval.getFirst()) + " " + safeGetName(interval.getSecond());
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitInterval(p1, p2);
+		}
     },
     Teacher("teacher-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            return createComboField(parent, dp.getTeachers().getList(), FieldType.<Teacher>safeGet(attribute, null));
-        }
-        @Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
-        	attrs.withTeacher(key, FieldType.<Teacher>getItemFromCombo(ctrl));
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return safeGetName(attrs.asTeacher(key));
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitTeacher(p1, p2);
+		}
     }, 
     StudentGroup("studentgroup-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-        	List<Tuple<StudentGroup, Integer>> groupsAndIndents = flatHierarchy(0, dp.getStudentGroups());
-            List<StudentGroup> groups = Lists.transform(groupsAndIndents, x -> x.getFirst());
-        	Map<StudentGroup, Integer> indents = new HashMap<>();
-        	groupsAndIndents.forEach(x -> indents.put(x.getFirst(), x.getSecond()));
-        	return createComboField(parent, groups, FieldType.<Teacher>safeGet(attribute, null), new LabelProvider(){
-                @Override
-                public String getText(Object element) {
-					StudentGroup sg = (StudentGroup) element;
-                    return indent(indents.get(sg)) + safeGetName(sg);
-                }
-            });
-        }
-        @Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
-        	attrs.withStudentGroup(key, FieldType.<StudentGroup> getItemFromCombo(ctrl));
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return safeGetName(attrs.asStudentGroup(key));
-        }
-
-        private String indent(int count) {
-        	StringBuilder sb = new StringBuilder();
-        	for (int i = 0; i < count; i++) {
-				sb.append("  ");
-			}
-        	return sb.toString();
-        }
-        
-		private List<Tuple<StudentGroup, Integer>> flatHierarchy(int depth, ObservableList<StudentGroup> studentGroups) {
-			List<Tuple<StudentGroup, Integer>> res = new LinkedList<>();
-			for (StudentGroup sg : studentGroups.getList()) {
-				res.add(new Tuple<>(sg, depth));
-				res.addAll(flatHierarchy(depth + 1, sg.getChildren()));
-			}
-			return res;
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitStudentGroup(p1, p2);
 		}
     },
     Assignment("assignment-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-            DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-        	return createComboField(parent, dp.getAssignments().getList(), 
-        			FieldType.<Assignment>safeGet(attribute, null), new LabelProvider(){
-                @Override
-                public String getText(Object element) {
-                	Assignment ass = (Assignment) element;
-                    return String.format("[%-30s][%-30s][%-30s][%-20s]"
-                    		, safeGetName(ass.getSubject())
-                    		, toStr(ass.getStudentGroups().getList())
-                    		, toStr(ass.getTeachers().getList())
-                    		, safeGetName(ass.getRoom())
-                    		);
-                }
-            });
-        }
-        @Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
-        	attrs.withAssignment(key, FieldType.<Assignment>getItemFromCombo(ctrl));
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return convertAssignmentToString(attrs.asAssignment(key));
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitAssignment(p1, p2);
+		}
     },
     AssignmentsSet("assignments-set-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	Button button = new Button(parent, SWT.PUSH);
-			button.setText("AssignmentSet Field NOT IMPLEMENTED");
-        	return button;
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return Iterables.toString(transform(attrs.asAssignmentsSet(key), FieldType::convertAssignmentToString));
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitAssignmentsSet(p1, p2);
+		}
     }, 
     AssignmentsCriteria("assignments-criteria-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	Button button = new Button(parent, SWT.PUSH);
-			button.setText("AssignmentsCriteria Field NOT IMPLEMENTED");
-        	return button;
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	Triple<Subject, Teacher, StudentGroup> triple = attrs.asAssignmentsCriteria(key);
-        	return String.format("%s %s %s"
-            		, safeGetName(triple.getFirst())
-            		, safeGetName(triple.getSecond())
-            		, safeGetName(triple.getThird())
-            		);
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitAssignmentsCriteria(p1, p2);
+		}
     }, 
     Room("room-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            return createComboField(parent, dp.getRooms().getList(), FieldType.<Room>safeGet(attribute, null));
-        }
-        @Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
-        	attrs.withRoom(key, FieldType.<Room>getItemFromCombo(ctrl));
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return safeGetName(attrs.asRoom(key));
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitRoom(p1, p2);
+		}
     }, 
     RoomsSet("rooms-set-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	Button button = new Button(parent, SWT.PUSH);
-			button.setText("RoomSet Field NOT IMPLEMENTED");
-        	return button;
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return Iterables.toString(transform(attrs.asRoomsSet(key), FieldType::safeGetName));
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitRoomsSet(p1, p2);
+		}
     }, 
     Subject("subject-field") {
-        @Override
-        public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
-        	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            return createComboField(parent, dp.getSubjects().getList(), FieldType.<Subject>safeGet(attribute, null));
-        }
-        @Override
-        public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
-        	attrs.withSubject(key, FieldType.<Subject>getItemFromCombo(ctrl));
-        }
-        @Override
-        public String prettyPrint(String key, ConstraintAttributes attrs) {
-        	return safeGetName(attrs.asSubject(key));
-        }
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitSubject(p1, p2);
+		}
     };
 
     private String type;
-
 	private FieldType(final String type) {
 		this.type = type;
 	}
     
+	//---------------------- API ---------------------------------------------------------------------------------------
 	public static FieldType getByType(String name) {
 		for (FieldType fieldType : values()) {
 			if (fieldType.type.equals(name)) {
@@ -342,87 +114,6 @@ public enum FieldType {
 		return null;
 	}
 
-    //---------------------- API abstract methods ----------------------------------------------------------------------
-    public abstract Control createControl(Composite area, ConstraintAttribute<?> attribute);
-    public /* abstract */ void putValue(String key, Control ctrl, ConstraintAttributes attrs) {}
-    public abstract String prettyPrint(String key, ConstraintAttributes attrs); 
+    public abstract <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2); 
     
-    //---------------------- API methods -------------------------------------------------------------------------------
-    public void applyLayout(Control ctrl) {
-        GridDataFactory.fillDefaults().grab(true, false).applyTo(ctrl);
-    }
-    
-    //---------------- helpers -----------------------------------------------------------------------------------------
-    private static String safeGetName(Nameable ent) {
-    	String name = AssignmentsView.getName(ent);
-		return name == null ? "" : name;
-    }
-    
-    @SuppressWarnings("unchecked")
-	private static <T> T safeGet(ConstraintAttribute<?> attribute, T defaultValue) {
-		if (attribute != null && attribute.getValue() != null) {
-			return (T) attribute.getValue();
-		}
-    	return defaultValue;
-	}
-    
-
-    private static String convertAssignmentToString(Assignment ass) {
-		StringBuilder sb = new StringBuilder()
-    	.append("{")
-    	.append(safeGetName(ass.getSubject()))
-    	.append("/")
-    	.append(Iterables.toString(Iterables.transform(
-    			ass.getTeachers().getList(), FieldType::safeGetName)))
-    	.append("/")
-    	.append(Iterables.toString(Iterables.transform(
-    			ass.getStudentGroups().getList(), FieldType::safeGetName)));
-    	if (ass.getRoom() != null) {
-    		sb.append("/")
-    		.append(safeGetName(ass.getRoom()));
-    	}
-    	sb.append("}");
-		return sb.toString();
-	}
-
-    private static Control createSpinnerField(Composite parent, int min, int max, int cur) {
-		Spinner spinner = new Spinner(parent, SWT.BORDER);
-        spinner.setMinimum(min);
-        spinner.setMaximum(max);
-        spinner.setIncrement(1);
-        spinner.setPageIncrement(1);
-        spinner.setSelection(cur);
-        return spinner;
-	}
-
-    private static <T> T getItemFromCombo(Control ctrl) {
-		Combo combo = (Combo) ctrl;
-    	int selectionIndex = combo.getSelectionIndex();
-    	@SuppressWarnings("unchecked")
-		Iterable<T> list = (Iterable<T>) combo.getData();
-    	return (T) Iterables.get(list, selectionIndex);
-	}
-    
-	private static <T extends Nameable >Control createComboField(Composite parent, 
-			Iterable<T> items, T item) {
-		return createComboField(parent, items, item, new LabelProvider(){
-            @Override
-            public String getText(Object element) {
-            	return ((Nameable) element).getName().getValue();
-            }
-        });
-	}
-	
-	private static Control createComboField(Composite parent, Iterable<?> items, Object selectedItem,
-			LabelProvider labelProvider) {
-		ComboViewer combo = new ComboViewer(parent, SWT.READ_ONLY);
-        combo.setContentProvider(ArrayContentProvider.getInstance());
-        combo.setLabelProvider(labelProvider);
-		combo.setInput(items);
-        combo.getControl().setData(items);
-        if (selectedItem != null) {
-        	combo.setSelection(new StructuredSelection(selectedItem));
-        }
-        return combo.getControl();
-	}
 }

@@ -1,5 +1,10 @@
 package org.confetti.rcp.views;
 
+import static com.google.common.collect.Lists.transform;
+import static java.lang.String.format;
+import static java.lang.String.join;
+import static org.confetti.rcp.constraints.FieldTypePrettyPrintVisitor.PRETTY_PRINT;
+
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.rcp.extensions.ConstraintDescr;
@@ -7,8 +12,6 @@ import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-
-import com.google.common.collect.Lists;
 
 class ConstraintLabelProvider extends LabelProvider implements ITableLabelProvider {
 
@@ -28,9 +31,10 @@ class ConstraintLabelProvider extends LabelProvider implements ITableLabelProvid
 				return constraintDescr.getName();
 			case 1: 
 				ConstraintAttributes attrs = constraint.getAttributes().getValue();
-				return 	String.join("; ", 
-						Lists.transform(constraintDescr.getFields(), field -> 
-						String.format("%s = %s", field.getLabel(), field.printValue(attrs, constraint))));
+				return 
+					join("; ", 
+					transform(constraintDescr.getFields(), field -> 
+					format("%s = %s", field.getLabel(), field.getType().accept(PRETTY_PRINT, field.getName(), attrs))));
 			default: return "";
 		}
 	}

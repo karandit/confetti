@@ -59,7 +59,8 @@ public class ConstraintDialog extends TrayDialog {
             ConstraintAttribute<?> attribute = attrs.asAttribute(field.getName());
             
             
-            Control ctrl = field.createControl(area, attribute);
+            Control ctrl = field.getType().accept(FieldTypeCreateControlVisitor.INSTANCE, area, attribute);
+            field.getType().accept(FieldTypeApplyLayoutVisitor.INSTANCE, ctrl, null);
             controls.put(field, ctrl);
         }
         return area;
@@ -67,9 +68,10 @@ public class ConstraintDialog extends TrayDialog {
 
     @Override
 	protected void okPressed() {
+    	FieldTypePutValueVisitor visitor = new FieldTypePutValueVisitor(attrs);
         for (Map.Entry<ConstraintField, Control> entry : controls.entrySet()) {
         	ConstraintField field = entry.getKey();
-        	field.getType().putValue(field.getName(), entry.getValue(), attrs);
+        	field.getType().accept(visitor, field.getName(), entry.getValue());
         }
         super.okPressed();
 	}
