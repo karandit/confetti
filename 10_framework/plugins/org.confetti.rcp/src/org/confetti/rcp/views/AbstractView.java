@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.part.ViewPart;
 
 public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
@@ -36,14 +37,9 @@ public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 		viewer.setInput(getNullSafeInput(dpObs.getValue()));
 		dataProviderChanged(null, dpObs.getValue());
 		
-		//create context menu
-		MenuManager menuManager = new MenuManager();
-		Menu menu = menuManager.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuManager, viewer);
-		getSite().setSelectionProvider(viewer);
+		createContextMenu(viewer, getSite());
 	}
-
+	
 	private Object getNullSafeInput(DataProvider newDp) {
 		return newDp == null ? null : getInput(newDp);
 	}
@@ -60,4 +56,12 @@ public abstract class AbstractView<T extends StructuredViewer> extends ViewPart{
 		super.dispose();
 	}
 	
+	static void createContextMenu(StructuredViewer viewer, IWorkbenchPartSite site) {
+		MenuManager menuManager = new MenuManager();
+		Menu menu = menuManager.createContextMenu(viewer.getControl());
+		viewer.getControl().setMenu(menu);
+		site.registerContextMenu(menuManager, viewer);
+		site.setSelectionProvider(viewer);
+	}
+
 }

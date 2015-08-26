@@ -7,10 +7,8 @@ import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.Constraintable;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableListener;
-import org.confetti.rcp.constraints.ConstraintField;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -20,11 +18,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
+
+import com.google.common.collect.Lists;
 
 public class ConstraintsView extends ViewPart {
 	
@@ -67,12 +66,7 @@ public class ConstraintsView extends ViewPart {
 		};
 		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	
-		//create context menu
-		MenuManager menuManager = new MenuManager();
-		Menu menu = menuManager.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuManager, viewer);
-		getSite().setSelectionProvider(viewer);
+		AbstractView.createContextMenu(viewer, getSite());
 	}
 
 	@Override
@@ -117,19 +111,14 @@ public class ConstraintsView extends ViewPart {
 			ConstraintDescr constraintDescr = reg.getConstraintDescrById(constraint.getConstraintType());
 
 			switch (columnIndex) {
-			case 0: 
-				return constraintDescr == null ? "" : constraintDescr.getName();
-			case 1: 
-				StringBuilder sb = new StringBuilder();
-				ConstraintAttributes attrs = constraint.getAttributes().getValue();
-				for (ConstraintField constraintField : constraintDescr.getFields()) {
-					sb.append(constraintField.getLabel())
-					.append(" = ")
-					.append(constraintField.printValue(attrs, constraint))
-					.append("; ");
-				}
-				return sb.toString();
-			default: return "";
+				case 0: 
+					return constraintDescr == null ? "" : constraintDescr.getName();
+				case 1: 
+					ConstraintAttributes attrs = constraint.getAttributes().getValue();
+					return 	String.join("; ", 
+							Lists.transform(constraintDescr.getFields(), field -> 
+							String.format("%s = %s", field.getLabel(), field.printValue(attrs, constraint))));
+				default: return "";
 			}
 		}
 	}

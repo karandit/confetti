@@ -8,7 +8,6 @@ import org.confetti.core.Subject;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.util.Tuple;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -20,10 +19,8 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
@@ -66,13 +63,7 @@ public class AssignmentsView extends ViewPart {
 //			}
 //		};
 		
-		//create context menu
-		MenuManager menuManager = new MenuManager();
-		Menu menu = menuManager.createContextMenu(tableViewer.getControl());
-		tableViewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuManager, tableViewer);
-		getSite().setSelectionProvider(tableViewer);
-		
+		AbstractView.createContextMenu(tableViewer, getSite());
 		return tableViewer;
 	}
 	
@@ -94,7 +85,6 @@ public class AssignmentsView extends ViewPart {
 	}
 
 	private void assignListener(final TableViewer tableViewer, final KTable ktable) {
-		ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
 		selectionListener = (IWorkbenchPart part, ISelection selection) -> {
 				//do nothing when the selection comes from this view
 			    if (AssignmentsView.ID.equals(part.getSite().getId())) {
@@ -129,7 +119,7 @@ public class AssignmentsView extends ViewPart {
                     return;
 				}
 		};
-        selectionService.addSelectionListener(selectionListener);
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
 	}
 
 	private void assignModel(final KTable ktable, DataProvider dp, Entity ent) {
@@ -145,15 +135,11 @@ public class AssignmentsView extends ViewPart {
 	
 	@Override
 	public void dispose() {
-	    ISelectionService selectionService = this.getSite().getWorkbenchWindow().getSelectionService();
-	    selectionService.removeSelectionListener(selectionListener);
-	    
+	    getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(selectionListener);
 	    super.dispose();
 	}
 
-	@Override
-	public void setFocus() {
-	}
+	@Override public void setFocus() { }
 
 	private static class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvider {
 
