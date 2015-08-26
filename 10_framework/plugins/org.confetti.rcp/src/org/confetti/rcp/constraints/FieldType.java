@@ -175,7 +175,7 @@ public enum FieldType {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            return createComboField(parent, dp.getTeachers().getList(), (Teacher) attribute.getValue());
+            return createComboField(parent, dp.getTeachers().getList(), FieldType.<Teacher>safeGet(attribute, null));
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) { 
@@ -194,7 +194,7 @@ public enum FieldType {
             List<StudentGroup> groups = Lists.transform(groupsAndIndents, x -> x.getFirst());
         	Map<StudentGroup, Integer> indents = new HashMap<>();
         	groupsAndIndents.forEach(x -> indents.put(x.getFirst(), x.getSecond()));
-        	return createComboField(parent, groups, (StudentGroup) attribute.getValue(), new LabelProvider(){
+        	return createComboField(parent, groups, FieldType.<Teacher>safeGet(attribute, null), new LabelProvider(){
                 @Override
                 public String getText(Object element) {
 					StudentGroup sg = (StudentGroup) element;
@@ -233,7 +233,7 @@ public enum FieldType {
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
             DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
         	return createComboField(parent, dp.getAssignments().getList(), 
-        			(Assignment) attribute.getValue(), new LabelProvider(){
+        			FieldType.<Assignment>safeGet(attribute, null), new LabelProvider(){
                 @Override
                 public String getText(Object element) {
                 	Assignment ass = (Assignment) element;
@@ -288,7 +288,7 @@ public enum FieldType {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            return createComboField(parent, dp.getRooms().getList(), (Room) attribute.getValue());
+            return createComboField(parent, dp.getRooms().getList(), FieldType.<Room>safeGet(attribute, null));
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
@@ -315,7 +315,7 @@ public enum FieldType {
         @Override
         public Control createControl(Composite parent, ConstraintAttribute<?> attribute) {
         	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-            return createComboField(parent, dp.getSubjects().getList(), (Subject) attribute.getValue());
+            return createComboField(parent, dp.getSubjects().getList(), FieldType.<Subject>safeGet(attribute, null));
         }
         @Override
         public void putValue(String key, Control ctrl, ConstraintAttributes attrs) {
