@@ -1,5 +1,6 @@
 package org.confetti.rcp.views;
 
+import org.confetti.core.Assignable;
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
@@ -11,12 +12,9 @@ import org.confetti.util.Tuple;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -32,7 +30,6 @@ public class AssignmentsView extends ViewPart {
 	public final static String ID = "org.confetti.rcp.assignmentsView";
 	
 	private ISelectionListener selectionListener;
-//	private ObservableListener<String> nameListener;
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -40,10 +37,30 @@ public class AssignmentsView extends ViewPart {
 		form.setLayout(new FillLayout());
 		TableViewer tableViewer = createAssigmentsList(form);
 		KTable ktable = createTimeTable(form);
-		assignListener(tableViewer, ktable);
+		selectionListener = (IWorkbenchPart part, ISelection selection) -> {
+		    if (AssignmentsView.ID.equals(part.getSite().getId())) {
+			    return; //do nothing when the selection comes from this view
+			}
+
+		    Tuple<Iterable<Assignment>, Entity> input = getInput(selection);
+		    tableViewer.setInput(input.getFirst());
+		    assignModel(ktable, ConfettiPlugin.getDefault().getDataProvider().getValue(), input.getSecond());
+		};
+
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
+		AbstractView.createContextMenu(tableViewer, getSite());
 	}
 
-	private TableViewer createAssigmentsList(Composite parent) {
+	@Override
+	public void dispose() {
+	    getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(selectionListener);
+	    super.dispose();
+	}
+
+	@Override public void setFocus() { }
+
+	//---------------------------- helpers -----------------------------------------------------------------------------
+	private static TableViewer createAssigmentsList(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
 		AbstractEntityTableView.createColumn(table, "#", 50);
@@ -55,19 +72,10 @@ public class AssignmentsView extends ViewPart {
 		TableViewer tableViewer = new TableViewer(table);
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer.setLabelProvider(new AssignmentLabelProvider());
-		
-//		nameListener = new ObservableListener<String>() {
-//			@Override
-//			public void valueChanged(Object src, String oldValue, String newValue) {
-//				tableViewer.refresh();
-//			}
-//		};
-		
-		AbstractView.createContextMenu(tableViewer, getSite());
 		return tableViewer;
 	}
 	
-	private KTable createTimeTable(Composite parent) {
+	private static KTable createTimeTable(Composite parent) {
 		final KTable ktable = new KTable(parent, SWT.NONE);
 		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 		
@@ -84,45 +92,22 @@ public class AssignmentsView extends ViewPart {
 		return ktable;
 	}
 
-	private void assignListener(final TableViewer tableViewer, final KTable ktable) {
-		selectionListener = (IWorkbenchPart part, ISelection selection) -> {
-				//do nothing when the selection comes from this view
-			    if (AssignmentsView.ID.equals(part.getSite().getId())) {
-				    return;
-				}
-			    DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-
-			    //empty the view when selection is empty
-				if (selection.isEmpty()) {
-				    tableViewer.setInput(null);
-				    assignModel(ktable, dp, null);
-                    return;
-                }
-				
-				//if the selection is Entity show it's Assignments and SolutionSlot 
-				IStructuredSelection strSel = (IStructuredSelection) selection;
-				Object first = strSel.getFirstElement();
-				if (first instanceof Entity) {
-					Entity source = (Entity) first;
-					//TODO detach this listener somewhere? :/
-//					source.getName().attachListener(nameListener);
-					tableViewer.setInput(source.getAssignments().getList());
-					assignModel(ktable, dp, (source instanceof Subject) ? null : source);
-					return;
-				} else if (first instanceof Root) {
-					tableViewer.setInput(dp.getAssignments().getList());
-					assignModel(ktable, dp, null);
-                    return;
-				} else if (first instanceof InstituteView.Containers) {
-				    tableViewer.setInput(null);
-				    assignModel(ktable, dp, null);
-                    return;
-				}
-		};
-		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
+	private static Tuple<Iterable<Assignment>, Entity> getInput(ISelection selection) {
+		if (selection.isEmpty()) {
+			return new Tuple<>(null, null); //empty the view when selection is empty
+		}
+		
+		Object first = ((IStructuredSelection) selection).getFirstElement();
+		if (first instanceof Entity) {
+			Entity source = (Entity) first;
+			return new Tuple<>(source.getAssignments().getList(), (source instanceof Subject) ? null : source);
+		} else if (first instanceof Root) {
+			return new Tuple<>(((Assignable) first).getAssignments().getList(), null);
+		} 
+		return new Tuple<>(null, null); // instanceof InstituteView.Containers
 	}
 
-	private void assignModel(final KTable ktable, DataProvider dp, Entity ent) {
+	private static void assignModel(final KTable ktable, DataProvider dp, Entity ent) {
 		final KTableNoScrollModel model;
 		if (dp == null || ent == null) {
 			model = new TimeTableNotAvailableModel(ktable);
@@ -133,31 +118,6 @@ public class AssignmentsView extends ViewPart {
 		model.initialize();
 	}
 	
-	@Override
-	public void dispose() {
-	    getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(selectionListener);
-	    super.dispose();
-	}
-
-	@Override public void setFocus() { }
-
-	private static class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvider {
-
-		@Override public Image getColumnImage(Object element, int columnIndex) { return null; }
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-			Assignment assignment = (Assignment) element;
-			switch (columnIndex) {
-				case 0: return "";
-				case 1:	return getName(assignment.getSubject());
-				case 2:	return toStr(assignment.getTeachers().getList());
-				case 3:	return toStr(assignment.getStudentGroups().getList());
-				default : return getName(assignment.getRoom());
-			}
-		}
-
-	}
 	public static String getName(Nameable ent) { return ent == null ? null : ent.getName().getValue(); }
 	
 	public static <T extends Entity> String toStr(Iterable<T> items) {
