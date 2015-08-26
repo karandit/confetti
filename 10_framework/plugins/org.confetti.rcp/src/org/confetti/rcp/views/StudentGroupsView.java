@@ -24,14 +24,13 @@ public class StudentGroupsView extends AbstractView<TreeViewer> {
 
 	public static final String ID = "org.confetti.rcp.studentGroupsView";
     
-	private TreeViewer treeViewer;
 	private ObservableListener<String> nameListener;
 	private ObservableListener<Assignment> assgCountListener;
 	private ObservableListener<StudentGroup> listListener;
 
 	@Override
 	protected TreeViewer createViewer(Composite parent) {
-		treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
+		TreeViewer treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 		treeViewer.getTree().setHeaderVisible(true);
 		createColumn(treeViewer, "Name", 170);
 		createColumn(treeViewer, "#", 50);

@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.TableColumn;
  */
 public abstract class AbstractEntityTableView<T extends Entity> extends AbstractView<TableViewer> {
 
-	private TableViewer tableViewer;
 	private ObservableListener<String> nameListener;
 	private ObservableListener<Assignment> assgCountListener;
 	private ObservableListener<T> listListener;
@@ -28,8 +27,8 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		table.setHeaderVisible(true);
 		createColumn(table, "Name", 170);
 		createColumn(table, "#", 50);
-		
-		tableViewer = new TableViewer(table);
+		TableViewer tableViewer = new TableViewer(table);
+
 		nameListener = (Object src, String oldValue, String newValue) -> {
 				tableViewer.refresh(src, true);
 		};
@@ -59,18 +58,18 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 		if (oldDp != null) {
 			ObservableList<T> obsList = getObservableList(oldDp);
 			obsList.detachListener(listListener);
-			for (T entity : obsList.getList()) {
+			obsList.getList().forEach(entity -> {
 				entity.getName().detachListener(nameListener);
 				entity.getAssignments().detachListener(assgCountListener);
-			}
+			});
 		}
 		if (newDp != null) {
 			ObservableList<T> obsList = getObservableList(newDp);
 			obsList.attachListener(listListener);
-			for (T entity : obsList.getList()) {
+			obsList.getList().forEach(entity -> {
 				entity.getName().attachListener(nameListener);
 				entity.getAssignments().attachListener(assgCountListener);
-			}
+			});
 		}
 	}
 

@@ -35,12 +35,13 @@ public class InstituteView extends AbstractView<TreeViewer> {
 		viewer.getTree().setHeaderVisible(true);
 		createColumn(viewer, "Name", 170);
 		createColumn(viewer, "#", 50);
+		
 		instNameListener = (Object src, String oldValue, String newValue) -> {
 			viewer.refresh(Root.All, true);
 		};
         assgCountListener = (Object src, Assignment oldValue, Assignment newValue) -> {
     		viewer.refresh(Root.All, true);
-	};
+        };
 		return viewer;
 	}
 	
