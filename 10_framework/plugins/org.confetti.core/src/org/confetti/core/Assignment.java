@@ -2,7 +2,7 @@ package org.confetti.core;
 
 import org.confetti.observable.ObservableList;
 
-public interface Assignment {
+public interface Assignment extends Constraintable {
 
 	Subject getSubject();
 	ObservableList<Teacher> getTeachers();
