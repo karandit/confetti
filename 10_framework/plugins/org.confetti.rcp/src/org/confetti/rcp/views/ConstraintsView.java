@@ -30,6 +30,8 @@ public class ConstraintsView extends ViewPart {
 	public static final String ID = "org.confetti.rcp.constraintsView";
 	
 	private ISelectionListener selectionListener;
+	private ObservableListener<ConstraintAttributes> attrListener; 
+	private ObservableListener<Constraint> listListener;
 	private ObservableList<Constraint> actualList;
 	
 	@Override
@@ -37,13 +39,13 @@ public class ConstraintsView extends ViewPart {
 		final TableViewer viewer = createViewer(parent);
 		
 		/* Some attribute's values of a constraint changed. */
-		ObservableListener<ConstraintAttributes> attrListener = 
+		attrListener = 
 				(Object src, ConstraintAttributes oldValue, ConstraintAttributes newValue) -> {
 					viewer.refresh(src, true);
 		};
 		
 		/* An existing constraint removed or a new constraint added. */
-		ObservableListener<Constraint> listListener = (Object src, Constraint oldValue, Constraint newValue) -> {
+		listListener = (Object src, Constraint oldValue, Constraint newValue) -> {
 				viewer.refresh();
 				if (oldValue != null) { oldValue.getAttributes().detachListener(attrListener); }
 				if (newValue != null) { newValue.getAttributes().attachListener(attrListener); }
@@ -53,15 +55,9 @@ public class ConstraintsView extends ViewPart {
 			    if (ConstraintsView.ID.equals(part.getSite().getId())) {
 				    return; //do nothing when the selection comes from this view
 				}
-				if (actualList != null) {
-					actualList.detachListener(listListener);
-					actualList.getList().forEach(constr -> constr.getAttributes().detachListener(attrListener));
-				}
+				detachListeners();
 				actualList = getInput(selection);
-				if (actualList != null) {
-					actualList.attachListener(listListener);
-					actualList.getList().forEach(constr -> constr.getAttributes().attachListener(attrListener));
-				}
+				attachListeners();
 				viewer.setInput(actualList == null ? null : actualList.getList());
 		};
 		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(selectionListener);
@@ -69,10 +65,25 @@ public class ConstraintsView extends ViewPart {
 		AbstractView.createContextMenu(viewer, getSite());
 	}
 
+	private void attachListeners() {
+		if (actualList != null) {
+			actualList.attachListener(listListener);
+			actualList.getList().forEach(constr -> constr.getAttributes().attachListener(attrListener));
+		}
+	}
+
+	private void detachListeners() {
+		if (actualList != null) {
+			actualList.detachListener(listListener);
+			actualList.getList().forEach(constr -> constr.getAttributes().detachListener(attrListener));
+		}
+	}
+
 	@Override
 	public void dispose() {
-	    getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(selectionListener);
-	    super.dispose();
+		getSite().getWorkbenchWindow().getSelectionService().removeSelectionListener(selectionListener);
+		detachListeners();
+		super.dispose();
 	}
 
 	@Override public void setFocus() { } 
