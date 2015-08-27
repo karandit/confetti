@@ -21,6 +21,8 @@ import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
+import org.confetti.rcp.extensions.ConstraintDescr;
+import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
@@ -183,7 +185,7 @@ public class XmlDataProvider implements DataProvider {
 		Map<String, StudentGroup> studentGroupsByName = collectStudentGroups(stdGroups.getObservableList().getList());
 		createAssignments(inst, studentGroupsByName);
 		
-		ConstraintFactory attrVisitor = new ConstraintFactory(
+		ConstraintFactory factory = new ConstraintFactory(
 				days.getObservableList().getList(),
 				hours.getObservableList().getList(),
 				teachers.getObservableList().getList(),
@@ -191,8 +193,8 @@ public class XmlDataProvider implements DataProvider {
 				rooms.getObservableList().getList(),
 				studentGroupsByName,
 				assignments.getObservableList().getList());
-		inst.getTimeConstraints().forEach(x -> createConstraint(x, attrVisitor));
-		inst.getSpaceConstraints().forEach(x -> createConstraint(x, attrVisitor));
+		inst.getTimeConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build(x)));
+		inst.getSpaceConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build(x)));
 	}
 	
 	private void createAssignments(InstituteXml inst, Map<String, StudentGroup> allStdGroups) {
@@ -230,10 +232,6 @@ public class XmlDataProvider implements DataProvider {
 				}
 			}
 		}
-	}
-
-	private void createConstraint(BaseConstraintXml xmlConstr, ConstraintFactory visitor) {
-		constraints.addItem(xmlConstr.accept(visitor, null).build(xmlConstr));
 	}
 
 	private Map<String, StudentGroup> collectStudentGroups(Iterable<StudentGroup> list) {
@@ -330,7 +328,12 @@ public class XmlDataProvider implements DataProvider {
 		}
 		save();
 		
-		constraints.addItem(new ConstraintImpl(xmlConstr, type, attrs));
+		Constraint constr = new ConstraintImpl(xmlConstr, type, attrs);
+		constraints.addItem(constr);
+		
+		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
+		FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
+		constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));
 	}
 
 	private static TimeConstraint newTimeXmlConstraint(final String shortType) {
