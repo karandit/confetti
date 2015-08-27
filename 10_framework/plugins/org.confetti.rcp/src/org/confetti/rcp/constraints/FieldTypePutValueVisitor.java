@@ -6,6 +6,7 @@ import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
+import org.confetti.rcp.extensions.FieldTypeVisitor2;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Control;

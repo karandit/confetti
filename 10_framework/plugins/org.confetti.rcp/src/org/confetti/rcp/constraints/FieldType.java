@@ -1,5 +1,7 @@
 package org.confetti.rcp.constraints;
 
+import org.confetti.rcp.extensions.FieldTypeVisitor2;
+
 public enum FieldType {
 	
     Boolean("boolean-field") {

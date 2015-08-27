@@ -10,6 +10,7 @@ import org.confetti.core.Hour;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
+import org.confetti.rcp.extensions.FieldTypeVisitor2;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 

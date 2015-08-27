@@ -19,6 +19,7 @@ import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
 import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.extensions.FieldTypeVisitor2;
 import org.confetti.rcp.views.AssignmentsView;
 import org.confetti.util.Tuple;
 import org.eclipse.jface.viewers.ArrayContentProvider;

@@ -6,4 +6,3 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.confetti.xml;bundle-version="1.0.0",
  org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: org.confetti.rcp.constraints
