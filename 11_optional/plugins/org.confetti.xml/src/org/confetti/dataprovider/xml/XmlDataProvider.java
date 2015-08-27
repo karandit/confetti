@@ -35,7 +35,6 @@ import org.confetti.xml.core.InstituteXml;
 import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubgroupXml;
 import org.confetti.xml.core.SubjectXml;
-import org.confetti.xml.core.TeacherRef;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
 import org.confetti.xml.core.space.SpaceConstraint;
@@ -180,10 +179,13 @@ public class XmlDataProvider implements DataProvider {
         inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName())));
 		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
 		inst.getRooms()				.forEach(room -> rooms.addItem(new RoomImpl(room.getName())));
-		createStudentGroups(inst);
+		inst.getYears()				.forEach(year -> stdGroups.addItem(createStudentGroup(year)));
 		
 		Map<String, StudentGroup> studentGroupsByName = collectStudentGroups(stdGroups.getObservableList().getList());
-		createAssignments(inst, studentGroupsByName);
+		Iterable<Subject> allSubjects = subjects.getObservableList().getList();
+		Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
+		inst.getActivities().forEach(act -> assignments.addItem(createAssignment(act, 
+				studentGroupsByName, allSubjects, allTeachers)));
 		
 		ConstraintFactory factory = new ConstraintFactory(
 				days.getObservableList().getList(),
@@ -197,41 +199,32 @@ public class XmlDataProvider implements DataProvider {
 		inst.getSpaceConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build(x)));
 	}
 	
-	private void createAssignments(InstituteXml inst, Map<String, StudentGroup> allStdGroups) {
-		Iterable<Subject> allSubjects = subjects.getObservableList().getList();
-		Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
-		for (ActivityXml act : inst.getActivities()) {
-		    if (act.getId() > currentMaxId) {
-		        currentMaxId = act.getId();
-		    }
-			AssignmentImpl ass = new AssignmentImpl(act.getId(), findByName(allSubjects, act.getSubject().getName()));
-			if (act.getStudents() != null) {
-				for (String stGroupName : act.getStudents()) {
-					ass.addStudentGroup(allStdGroups.get(stGroupName));
-				}
-			}
-			if (act.getTeachers() != null) {
-				for (TeacherRef teacherRef : act.getTeachers()) {
-					ass.addTeacher(findByName(allTeachers, teacherRef.getName()));
-				}
-			}
-			assignments.addItem(ass);
+	private AssignmentImpl createAssignment(ActivityXml act , Map<String, StudentGroup> allStdGroups,
+		Iterable<Subject> allSubjects, Iterable<Teacher> allTeachers) {
+	    if (act.getId() > currentMaxId) {
+	        currentMaxId = act.getId();
+	    }
+		AssignmentImpl ass = new AssignmentImpl(act.getId(), findByName(allSubjects, act.getSubject().getName()));
+		if (act.getStudents() != null) {
+			act.getStudents().forEach(stGroupName -> ass.addStudentGroup(allStdGroups.get(stGroupName)));
 		}
+		if (act.getTeachers() != null) {
+			act.getTeachers().forEach(teacherRef -> ass.addTeacher(findByName(allTeachers, teacherRef.getName())));
+		}
+		return ass;
 	}
 
-	private void createStudentGroups(InstituteXml inst) {
-		for (YearXml year : inst.getYears()) {
-			StudentGroupImpl studentGroup1 = new StudentGroupImpl(year.getName());
-			stdGroups.addItem(studentGroup1);
-			for (GroupXml group : year.getGroups()) {
-				StudentGroupImpl studentGroup2 = new StudentGroupImpl(group.getName());
-				studentGroup1.addChild(studentGroup2);
-				for (SubgroupXml subgroup : group.getSubgroups()) {
-					StudentGroupImpl studentGroup3 = new StudentGroupImpl(subgroup.getName());
-					studentGroup2.addChild(studentGroup3);
-				}
+	private StudentGroupImpl createStudentGroup(YearXml year) {
+		StudentGroupImpl studentGroup1 = new StudentGroupImpl(year.getName());
+		for (GroupXml group : year.getGroups()) {
+			StudentGroupImpl studentGroup2 = new StudentGroupImpl(group.getName());
+			studentGroup1.addChild(studentGroup2);
+			for (SubgroupXml subgroup : group.getSubgroups()) {
+				StudentGroupImpl studentGroup3 = new StudentGroupImpl(subgroup.getName());
+				studentGroup2.addChild(studentGroup3);
 			}
 		}
+		return studentGroup1;
 	}
 
 	private Map<String, StudentGroup> collectStudentGroups(Iterable<StudentGroup> list) {
