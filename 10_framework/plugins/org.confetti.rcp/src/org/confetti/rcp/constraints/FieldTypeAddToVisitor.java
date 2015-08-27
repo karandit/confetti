@@ -3,7 +3,7 @@ package org.confetti.rcp.constraints;
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 
-public class FieldTypeAddToVisitor implements FieldTypeVisitor<Object, String, Constraint> {
+public class FieldTypeAddToVisitor implements FieldTypeVisitor2<Object, String, Constraint> {
 
 //	private final ConstraintAttributes attrs;
 

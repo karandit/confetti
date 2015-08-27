@@ -37,7 +37,7 @@ import com.google.common.collect.Lists;
 import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableNoScrollModel;
 
-public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, Composite, ConstraintAttribute<?>> {
+public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor2<Control, Composite, ConstraintAttribute<?>> {
 	INSTANCE;
 	
 	@Override

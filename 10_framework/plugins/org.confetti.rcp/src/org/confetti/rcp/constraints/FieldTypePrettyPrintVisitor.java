@@ -15,7 +15,7 @@ import org.confetti.util.Tuple;
 
 import com.google.common.collect.Iterables;
 
-public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor<String, String, ConstraintAttributes> {
+public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor2<String, String, ConstraintAttributes> {
 	PRETTY_PRINT;
 
 	@Override

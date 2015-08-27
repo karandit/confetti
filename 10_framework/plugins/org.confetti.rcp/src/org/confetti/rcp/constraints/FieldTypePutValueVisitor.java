@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Spinner;
 
 import com.google.common.collect.Iterables;
 
-public class FieldTypePutValueVisitor implements FieldTypeVisitor<ConstraintAttributes, String, Control> {
+public class FieldTypePutValueVisitor implements FieldTypeVisitor2<ConstraintAttributes, String, Control> {
 
 	private final ConstraintAttributes attrs;
 	public FieldTypePutValueVisitor(final ConstraintAttributes attrs) {
