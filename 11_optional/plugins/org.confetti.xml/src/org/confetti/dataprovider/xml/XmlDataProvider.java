@@ -21,6 +21,9 @@ import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
+import org.confetti.rcp.constraints.FieldTypeAddToVisitor;
+import org.confetti.rcp.extensions.ConstraintDescr;
+import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
@@ -322,9 +325,9 @@ public class XmlDataProvider implements DataProvider {
 		Constraint constr = new ConstraintImpl(xmlConstr, type, attrs);
 		constraints.addItem(constr);
 		
-//		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
-//		FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
-//		constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));
+		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
+		FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
+		constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));
 	}
 
 	private static TimeConstraint newTimeXmlConstraint(final String shortType) {
