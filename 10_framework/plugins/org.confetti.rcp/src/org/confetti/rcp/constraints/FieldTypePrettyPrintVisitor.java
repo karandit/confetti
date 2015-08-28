@@ -6,11 +6,11 @@ import static org.confetti.rcp.constraints.FieldTypeCreateControlVisitor.safeGet
 import org.confetti.core.Assignment;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.Day;
+import org.confetti.core.FieldTypeVisitor2;
 import org.confetti.core.Hour;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
-import org.confetti.rcp.extensions.FieldTypeVisitor2;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 

@@ -1,6 +1,6 @@
 package org.confetti.rcp.constraints;
 
-import org.confetti.rcp.extensions.FieldTypeVisitor2;
+import org.confetti.core.FieldTypeVisitor2;
 
 public enum FieldType {
 	

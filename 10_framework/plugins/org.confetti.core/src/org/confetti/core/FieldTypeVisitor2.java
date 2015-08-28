@@ -1,4 +1,4 @@
-package org.confetti.rcp.extensions;
+package org.confetti.core;
 
 public interface FieldTypeVisitor2<R, P1, P2> {
 	

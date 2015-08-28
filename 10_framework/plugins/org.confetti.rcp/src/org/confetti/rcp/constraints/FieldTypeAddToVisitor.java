@@ -2,7 +2,7 @@ package org.confetti.rcp.constraints;
 
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
-import org.confetti.rcp.extensions.FieldTypeVisitor2;
+import org.confetti.core.FieldTypeVisitor2;
 
 public class FieldTypeAddToVisitor implements FieldTypeVisitor2<Object, String, Constraint> {
 
