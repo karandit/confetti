@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
@@ -307,18 +308,9 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public void addConstraint(final String type, ConstraintAttributes attrs) {
 		String shortType = type.substring(ConstraintBuilder.FET_CONSTRAINTS_NAMESPACE.length());
-		BaseConstraintXml xmlConstr = null;
-		if (shortType.startsWith("time")) {
-			TimeConstraint newTimeXmlConstraint = newTimeXmlConstraint(shortType);
-			newTimeXmlConstraint.accept(ConstraintSetter.INSTANCE, attrs);
-			instXml.getTimeConstraints().add(newTimeXmlConstraint);
-			xmlConstr = newTimeXmlConstraint;
-		} else {
-			SpaceConstraint newSpaceXmlConstraint = newSpaceXmlConstraint(shortType);
-			newSpaceXmlConstraint.accept(ConstraintSetter.INSTANCE, attrs);
-			instXml.getSpaceConstraints().add(newSpaceXmlConstraint);
-			xmlConstr = newSpaceXmlConstraint;
-		}
+		BaseConstraintXml xmlConstr = shortType.startsWith("time")
+			? newXmlConstraint(instXml.getTimeConstraints(), XmlDataProvider::newTimeXmlConstraint, attrs, shortType)
+			: newXmlConstraint(instXml.getSpaceConstraints(), XmlDataProvider::newSpaceXmlConstraint, attrs, shortType);
 		save();
 		
 		Constraint constr = new ConstraintImpl(xmlConstr, type, attrs);
@@ -327,6 +319,14 @@ public class XmlDataProvider implements DataProvider {
 		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
 		FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
 		constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));
+	}
+
+	private <T extends BaseConstraintXml> T newXmlConstraint(List<T> xmlCons, Function<String, T> fact, 
+			ConstraintAttributes attrs, String shortType) {
+		T xmlConstr = fact.apply(shortType);
+		xmlConstr.accept(ConstraintSetter.INSTANCE, attrs);
+		xmlCons.add(xmlConstr);
+		return xmlConstr;
 	}
 
 	private static TimeConstraint newTimeXmlConstraint(final String shortType) {
