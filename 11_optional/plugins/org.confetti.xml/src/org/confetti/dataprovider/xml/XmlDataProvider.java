@@ -21,7 +21,6 @@ import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
-import org.confetti.rcp.constraints.FieldTypeAddToVisitor;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.xml.FAOException;
