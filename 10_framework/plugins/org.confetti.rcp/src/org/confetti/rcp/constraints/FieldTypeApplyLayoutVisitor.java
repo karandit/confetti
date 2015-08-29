@@ -1,10 +1,10 @@
 package org.confetti.rcp.constraints;
 
-import org.confetti.core.FieldTypeVisitor2;
+import org.confetti.core.FieldTypeVisitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.widgets.Control;
 
-public enum FieldTypeApplyLayoutVisitor implements FieldTypeVisitor2<Object, Control, Object> {
+public enum FieldTypeApplyLayoutVisitor implements FieldTypeVisitor<Object, Control, Object> {
 	INSTANCE;
 
 	@Override public Object visitBoolean(Control ctrl, Object p2) 				{ return applyTo(ctrl); }

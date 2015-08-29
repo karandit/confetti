@@ -11,7 +11,7 @@ import org.confetti.core.Assignment;
 import org.confetti.core.ConstraintAttribute;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
-import org.confetti.core.FieldTypeVisitor2;
+import org.confetti.core.FieldTypeVisitor;
 import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
 import org.confetti.core.Room;
@@ -38,7 +38,7 @@ import com.google.common.collect.Lists;
 import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableNoScrollModel;
 
-public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor2<Control, Composite, ConstraintAttribute<?>> {
+public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, Composite, ConstraintAttribute<?>> {
 	INSTANCE;
 	
 	@Override

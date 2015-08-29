@@ -1,6 +1,6 @@
 package org.confetti.core;
 
-public interface FieldTypeVisitor2<R, P1, P2> {
+public interface FieldTypeVisitor<R, P1, P2> {
 	
 	R visitBoolean(P1 p1, P2 p2);
 	R visitDouble(P1 p1, P2 p2);

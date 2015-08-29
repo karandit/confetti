@@ -6,7 +6,7 @@ import static org.confetti.rcp.constraints.FieldTypeCreateControlVisitor.safeGet
 import org.confetti.core.Assignment;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.Day;
-import org.confetti.core.FieldTypeVisitor2;
+import org.confetti.core.FieldTypeVisitor;
 import org.confetti.core.Hour;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
@@ -16,7 +16,7 @@ import org.confetti.util.Tuple;
 
 import com.google.common.collect.Iterables;
 
-public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor2<String, String, ConstraintAttributes> {
+public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor<String, String, ConstraintAttributes> {
 	PRETTY_PRINT;
 
 	@Override

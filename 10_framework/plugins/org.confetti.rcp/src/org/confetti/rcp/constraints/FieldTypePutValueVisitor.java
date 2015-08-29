@@ -2,7 +2,7 @@ package org.confetti.rcp.constraints;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.ConstraintAttributes;
-import org.confetti.core.FieldTypeVisitor2;
+import org.confetti.core.FieldTypeVisitor;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Spinner;
 
 import com.google.common.collect.Iterables;
 
-public class FieldTypePutValueVisitor implements FieldTypeVisitor2<ConstraintAttributes, String, Control> {
+public class FieldTypePutValueVisitor implements FieldTypeVisitor<ConstraintAttributes, String, Control> {
 
 	private final ConstraintAttributes attrs;
 	public FieldTypePutValueVisitor(final ConstraintAttributes attrs) {
