@@ -15,7 +15,6 @@ public interface DataProvider extends Nameable, Constraintable, DataPersister {
 	ObservableList<Day> getDays();
 	ObservableList<Hour> getHours();
 	ObservableList<Assignment> getAssignments();
-	ObservableList<Constraint> getConstraints();
 	ObservableValue<Iterable<SolutionSlot>> getSolution();
 	
 }

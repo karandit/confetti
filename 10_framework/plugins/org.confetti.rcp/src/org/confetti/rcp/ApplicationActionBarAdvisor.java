@@ -27,7 +27,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         super(configurer);
     }
     
-    protected void makeActions(final IWorkbenchWindow window) {
+    @Override
+	protected void makeActions(final IWorkbenchWindow window) {
         aboutAction = ActionFactory.ABOUT.create(window);
         register(aboutAction);
         
@@ -35,7 +36,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         register(newWindowAction);
     }
     
-    protected void fillMenuBar(IMenuManager menuBar) {
+    @Override
+	protected void fillMenuBar(IMenuManager menuBar) {
         MenuManager helpMenu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
         
         // Add a group marker indicating where action set menus will appear.
