@@ -9,6 +9,7 @@ import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.dataprovider.xml.ConstraintBuilder;
 import org.confetti.dataprovider.xml.Repo;
+import org.confetti.rcp.constraints.IConstraintRegistry;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 import org.confetti.xml.core.space.activities.ConstraintActivitiesOccupyMaxDifferentRooms;
@@ -109,8 +110,10 @@ import org.confetti.xml.core.time.teachers.ConstraintTeachersMinHoursDaily;
 public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder, Object> {
 
 	private final Repo repo;
+	private IConstraintRegistry constrReg;
 	
-	public ConstraintFactory(final Repo repo) {
+	public ConstraintFactory(IConstraintRegistry constrReg, final Repo repo) {
+		this.constrReg = constrReg;
 		this.repo = repo;
 	}
 
@@ -768,7 +771,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 
 	//------------------- helpers --------------------------------------------------------------------------------------
 	private ConstraintBuilder fillDefault(String type, BaseConstraintXml c) {
-		return new ConstraintBuilder(type)
+		return new ConstraintBuilder(constrReg, type)
 			.withDouble("weight-percentage", c.getWeight());
 	}
 

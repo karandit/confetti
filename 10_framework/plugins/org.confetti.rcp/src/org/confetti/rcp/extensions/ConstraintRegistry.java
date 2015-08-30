@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.confetti.rcp.constraints.IConstraintRegistry;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -14,7 +15,7 @@ import org.eclipse.core.runtime.Platform;
 /**
  * @author Gabor Bubla
  */
-public enum ConstraintRegistry {
+public enum ConstraintRegistry implements IConstraintRegistry {
 
     INSTANCE;
     
@@ -28,7 +29,8 @@ public enum ConstraintRegistry {
         return descriptors;
     }
     
-    public ConstraintDescr getConstraintDescrById(String id) {
+    @Override
+	public ConstraintDescr getConstraintDescrById(String id) {
         init();
     	return constraintDescrsById.get(id);
     }

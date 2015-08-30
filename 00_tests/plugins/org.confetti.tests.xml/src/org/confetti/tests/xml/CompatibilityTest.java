@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.confetti.dataprovider.xml.XmlDataProvider;
+import org.confetti.rcp.constraints.IConstraintRegistry;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.InstituteXml;
@@ -16,10 +17,12 @@ import org.junit.Test;
  */
 public class CompatibilityTest {
 
+	private static final IConstraintRegistry emptyReg = id -> null; 
+	
 	private static void importFet(final String path) throws FAOException {
 		try (InputStream is = openStream(path)) {
 			InstituteXml  inst =  new InstituteFAO().importFrom(is);
-			new XmlDataProvider(inst);
+			new XmlDataProvider(emptyReg, inst, null);
 			System.out.println(inst.getVersion() + "\t" + inst.getName());
 		} catch (IOException e) {
 			throw new FAOException(e);
