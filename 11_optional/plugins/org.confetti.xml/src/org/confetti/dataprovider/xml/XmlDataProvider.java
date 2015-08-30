@@ -184,7 +184,7 @@ public class XmlDataProvider implements DataProvider {
 			.withSubjects(subjects.getObservableList().getList())
 			.withTeachers(teachers.getObservableList().getList())
 			.withStudentGroups(stdGroups.getObservableList().getList());
-		inst.getActivities().forEach(act -> assignments.addItem(createAssignment(act, repo)));
+		inst.getActivities()		.forEach(act -> assignments.addItem(createAssignment(act, repo)));
 		
 		ConstraintFactory factory = new ConstraintFactory(repo
 				.withDays(days.getObservableList().getList())
