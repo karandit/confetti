@@ -1,9 +1,7 @@
 package org.confetti.dataprovider.xml;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 import org.confetti.core.Assignment;
@@ -182,35 +180,32 @@ public class XmlDataProvider implements DataProvider {
 		inst.getRooms()				.forEach(room -> rooms.addItem(new RoomImpl(room.getName())));
 		inst.getYears()				.forEach(year -> stdGroups.addItem(createStudentGroup(year)));
 		
-		Map<String, StudentGroup> studentGroupsByName = collectStudentGroups(stdGroups.getObservableList().getList());
-		Iterable<Subject> allSubjects = subjects.getObservableList().getList();
-		Iterable<Teacher> allTeachers = teachers.getObservableList().getList();
-		inst.getActivities().forEach(act -> assignments.addItem(createAssignment(act, 
-				studentGroupsByName, allSubjects, allTeachers)));
+		final Repo repo = new Repo()
+			.withSubjects(subjects.getObservableList().getList())
+			.withTeachers(teachers.getObservableList().getList())
+			.withStudentGroups(stdGroups.getObservableList().getList());
+		inst.getActivities().forEach(act -> assignments.addItem(createAssignment(act, repo)));
 		
-		ConstraintFactory factory = new ConstraintFactory(
-				days.getObservableList().getList(),
-				hours.getObservableList().getList(),
-				allTeachers,
-				allSubjects,
-				rooms.getObservableList().getList(),
-				studentGroupsByName,
-				assignments.getObservableList().getList());
+		ConstraintFactory factory = new ConstraintFactory(repo
+				.withDays(days.getObservableList().getList())
+				.withHours(hours.getObservableList().getList())
+				.withRooms(rooms.getObservableList().getList())
+				.withAssignments(assignments.getObservableList().getList())
+		);
 		inst.getTimeConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build(x)));
 		inst.getSpaceConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build(x)));
 	}
 	
-	private AssignmentImpl createAssignment(ActivityXml act , Map<String, StudentGroup> allStdGroups,
-		Iterable<Subject> allSubjects, Iterable<Teacher> allTeachers) {
+	private AssignmentImpl createAssignment(ActivityXml act, Repo repo) {
 	    if (act.getId() > currentMaxId) {
 	        currentMaxId = act.getId();
 	    }
-		AssignmentImpl ass = new AssignmentImpl(act.getId(), findByName(allSubjects, act.getSubject().getName()));
+		AssignmentImpl ass = new AssignmentImpl(act.getId(), repo.findSubject(act.getSubject().getName()));
 		if (act.getStudents() != null) {
-			act.getStudents().forEach(stGroupName -> ass.addStudentGroup(allStdGroups.get(stGroupName)));
+			act.getStudents().forEach(stGroupName -> ass.addStudentGroup(repo.findStudentGroup(stGroupName)));
 		}
 		if (act.getTeachers() != null) {
-			act.getTeachers().forEach(teacherRef -> ass.addTeacher(findByName(allTeachers, teacherRef.getName())));
+			act.getTeachers().forEach(teacherRef -> ass.addTeacher(repo.findTeacher(teacherRef.getName())));
 		}
 		return ass;
 	}
@@ -226,15 +221,6 @@ public class XmlDataProvider implements DataProvider {
 			}
 		}
 		return studentGroup1;
-	}
-
-	private Map<String, StudentGroup> collectStudentGroups(Iterable<StudentGroup> list) {
-		Map<String, StudentGroup> res = new HashMap<>();
-		for (StudentGroup sg : list) {
-			res.put(sg.getName().getValue(), sg);
-			res.putAll(collectStudentGroups(sg.getChildren().getList()));
-		}
-		return res;
 	}
 
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
@@ -494,15 +480,6 @@ public class XmlDataProvider implements DataProvider {
         }
 	 }
     
-	private static <T extends Entity> T findByName(Iterable<T> items, String name) {
-		for (T item : items) {
-			if (item.getName().getValue().equals(name)) {
-				return item;
-			}
-		}
-		return null;
-	}
-
 	static <T extends INameBean> T findXmlByName(Iterable<T> items, String name) {
         for (T item : items) {
             if (item.getName().equals(name)) {

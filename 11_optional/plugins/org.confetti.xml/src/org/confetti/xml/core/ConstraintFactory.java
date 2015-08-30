@@ -2,19 +2,13 @@ package org.confetti.xml.core;
 
 import static com.google.common.collect.Iterables.transform;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.confetti.core.Assignment;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
-import org.confetti.core.Nameable;
-import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
-import org.confetti.dataprovider.xml.AssignmentImpl;
 import org.confetti.dataprovider.xml.ConstraintBuilder;
+import org.confetti.dataprovider.xml.Repo;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 import org.confetti.xml.core.space.activities.ConstraintActivitiesOccupyMaxDifferentRooms;
@@ -114,31 +108,12 @@ import org.confetti.xml.core.time.teachers.ConstraintTeachersMinHoursDaily;
 
 public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder, Object> {
 
-	private final Map<String, Day> daysByName;
-	private final Map<String, Hour> hoursByName;
-	private final Map<String, StudentGroup> studentGroupsByName;
-	private final Map<String, Teacher> teachersByName;
-	private final Map<String, Subject> subjectsByName;
-	private final Map<String, Room> roomsByName;
-	private final Map<Long, Assignment> assignmentsById;
-
-	public ConstraintFactory(
-			final Iterable<Day> days,
-			final Iterable<Hour> hours,
-			final Iterable<Teacher> teachers, 
-			final Iterable<Subject> subjects,
-			final Iterable<Room> rooms,
-			final Map<String, StudentGroup> studentGroups,
-			final Iterable<Assignment> assignments) {
-		this.daysByName = storeByName(days);
-		this.hoursByName = storeByName(hours);
-		this.studentGroupsByName = studentGroups;
-		this.teachersByName = storeByName(teachers);
-		this.subjectsByName = storeByName(subjects);
-		this.roomsByName = storeByName(rooms);
-		this.assignmentsById = storeById(assignments);
-	}
+	private Repo repo;
 	
+	public ConstraintFactory(final Repo repo) {
+		this.repo = repo;
+	}
+
 	//----- Time constraints
 	//----- Miscellaneous
 	@Override
@@ -151,64 +126,64 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitTime(ConstraintBreakTimes c, Object p) {
 		return fillDefault("time.BreakTimes", c)
 			.withWeek("break-times", transform(c.getBreakTimes(), 
-					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 	
 	//----- Teachers
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherNotAvailableTimes c, Object p) {
 		return fillDefault("time.NotAvailableTimesForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.getTeacher()))
+			.withTeacher("teacher", repo.findTeacher(c.getTeacher()))
 			.withWeek("not-available-times", transform(c.getNotAvailableTimes(), 
-					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherMaxDaysPerWeek c, Object p) {
 		return fillDefault("time.MaxDaysPerWeekForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherMinDaysPerWeek c, Object p) {
 		return fillDefault("time.MinDaysPerWeekForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withDay("days", c.minDaysPerWeek)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherMaxGapsPerDay c, Object p) {
 		return fillDefault("time.MaxGapsPerDayForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withHour("hours", c.maxGaps)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherMaxGapsPerWeek c, Object p) {
 		return fillDefault("time.MaxGapsPerWeekForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withDay("days", c.maxGaps)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherMaxHoursDaily c, Object p) {
 		return fillDefault("time.MaxHoursPerDayForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherActivityTagMaxHoursDaily c, Object p) {
 		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherMinHoursDaily c, Object p) {
 		return fillDefault("time.MinHoursPerDayForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withHour("hours", c.minimumHoursDaily)
 			.withBoolean("allow-empty-days", c.allowEmptyDays)
 	;}
@@ -216,22 +191,22 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherMaxHoursContinuously c, Object p) {
 		return fillDefault("time.MaxHoursContinuouslyForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherActivityTagMaxHoursContinuously c, Object p) {
 		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeacherIntervalMaxDaysPerWeek c, Object p) {
 		return fillDefault("time.HourlyIntervalMaxDaysPerWeekForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacherName))
-			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
+			.withTeacher("teacher", repo.findTeacher(c.teacherName))
+			.withInterval("interval", new Tuple<>(repo.findHour(c.intervalStartHour), repo.maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
@@ -293,7 +268,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTeachersIntervalMaxDaysPerWeek c, Object p) {
 		return fillDefault("time.HourlyIntervalMaxDaysPerWeekForAllTeachers", c)
-			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
+			.withInterval("interval", new Tuple<>(repo.findHour(c.intervalStartHour), repo.maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
@@ -301,29 +276,29 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetNotAvailableTimes c, Object p) {
 		return fillDefault("time.NotAvailableTimesForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.studentsName))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.studentsName))
 			.withWeek("not-available-times", transform(c.notAvailableTimes, 
-					x -> new Tuple<>(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> new Tuple<>(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxDaysPerWeek c, Object p) {
 		return fillDefault("time.MaxDaysPerWeekForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxGapsPerDay c, Object p) {
 		return fillDefault("time.MaxGapsPerDayForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("hours", c.maxGaps)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxGapsPerWeek c, Object p) {
 		return fillDefault("time.MaxGapsPerWeekForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withDay("days", c.maxGaps)
 	;}
 
@@ -335,21 +310,21 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxHoursDaily c, Object p) {
 		return fillDefault("time.MaxHoursPerDayForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetActivityTagMaxHoursDaily c, Object p) {
 		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursDaily)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetMinHoursDaily c, Object p) {
 		return fillDefault("time.MinHoursPerDayForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("hours", c.minHoursDaily)
 			.withBoolean("allow-empty-days", c.allowEmptyDays)
 	;}
@@ -357,22 +332,22 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetMaxHoursContinuously c, Object p) {
 		return fillDefault("time.MaxHoursContinuouslyForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetActivityTagMaxHoursContinuously c, Object p) {
 		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursContinuously)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetIntervalMaxDaysPerWeek c, Object p) {
 		return fillDefault("time.HourlyIntervalMaxDaysPerWeekForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
-			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
+			.withInterval("interval", new Tuple<>(repo.findHour(c.intervalStartHour), repo.maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
@@ -433,7 +408,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsIntervalMaxDaysPerWeek c, Object p) {
 		return fillDefault("time.HourlyIntervalMaxDaysPerWeekForAllStudentGroups", c)
-			.withInterval("interval", new Tuple<>(findHour(c.intervalStartHour), maybeFindHour(c.intervalEndHour)))
+			.withInterval("interval", new Tuple<>(repo.findHour(c.intervalStartHour), repo.maybeFindHour(c.intervalEndHour)))
 			.withDay("days", c.maxDaysPerWeek)
 	;}
 
@@ -441,43 +416,47 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivityPreferredStartingTime c, Object p) {
 		return fillDefault("time.ActivityHasAPreferredStartingTime", c)
-			.withAssignment("assignment", findAssignment(c.getActivityId()))
-			.withPeriod("period", slot(findDay(c.getPreferredDay()), findHour(c.getPreferredHour())))
+			.withAssignment("assignment", repo.findAssignment(c.getActivityId()))
+			.withPeriod("period", slot(repo.findDay(c.getPreferredDay()), repo.findHour(c.getPreferredHour())))
 			.withBoolean("locked", c.isLocked())
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivityPreferredStartingTimes c, Object p) {
 		return fillDefault("time.ActivityHasSomePreferredStartingTimes", c)
-			.withAssignment("assignment", findAssignment(c.activityId))
+			.withAssignment("assignment", repo.findAssignment(c.activityId))
 			.withWeek("starting-times", transform(c.preferredStartingTimes, 
-					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivityPreferredTimeSlots c, Object p) {
 		return fillDefault("time.ActivityHasSomePreferredTimeSlots", c)
-			.withAssignment("assignment", findAssignment(c.activityId))
+			.withAssignment("assignment", repo.findAssignment(c.activityId))
 			.withWeek("time-slots", transform(c.preferredTimeSlots, 
-					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesPreferredStartingTimes c, Object p) {
 		return fillDefault("time.MoreActivitiesHaveSomePreferredStartingTimes", c)
 			.withAssignmentsCriteria("assignment", criteria(
-					maybeFindSubject(c.subjectName), maybeFindTeacher(c.teacherName), maybeFindStudentGroup(c.studentsName)))
+					repo.maybeFindSubject(c.subjectName), 
+					repo.maybeFindTeacher(c.teacherName), 
+					repo.maybeFindStudentGroup(c.studentsName)))
 			.withWeek("starting-times", transform(c.preferredStartingTimes, 
-					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesPreferredTimeSlots c, Object p) {
 		return fillDefault("time.MoreActivitiesHaveSomePreferredTimeSlots", c)
 			.withAssignmentsCriteria("assignment", criteria(
-					maybeFindSubject(c.subjectName), maybeFindTeacher(c.teacherName), maybeFindStudentGroup(c.studentsName)))
+					repo.maybeFindSubject(c.subjectName), 
+					repo.maybeFindTeacher(c.teacherName), 
+					repo.maybeFindStudentGroup(c.studentsName)))
 			.withWeek("time-slots", transform(c.preferredTimeSlots, 
-					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
 	@Override
@@ -493,7 +472,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintMinDaysBetweenActivities c, Object p) {
 		return fillDefault("time.MinDaysBetweenActivities", c)
-			.withAssignmentsSet("assignment", transform(c.getActivityId(), id -> findAssignment(id)))
+			.withAssignmentsSet("assignment", transform(c.getActivityId(), id -> repo.findAssignment(id)))
 			.withDay("min-days", c.getMinDays())
 			.withBoolean("force-consecutive", c.isConsecutiveIfSameDay())
 	;}
@@ -501,96 +480,98 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintMaxDaysBetweenActivities c, Object p) {
 		return fillDefault("time.MaxDaysBetweenActivities", c)
-			.withAssignmentsSet("assignment", transform(c.activityIds, id -> findAssignment(id)))
+			.withAssignmentsSet("assignment", transform(c.activityIds, id -> repo.findAssignment(id)))
 			.withDay("max-days", c.maxDays)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivityEndsStudentsDay c, Object p) {
 		return fillDefault("time.ActivityEndsStudentsDay", c)
-			.withAssignment("assignment", findAssignment(c.activityId))
+			.withAssignment("assignment", repo.findAssignment(c.activityId))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesEndStudentsDay c, Object p) {
 		return fillDefault("time.MoreActivitiesEndStudentsDay", c)
 				.withAssignmentsCriteria("assignments", criteria(
-		maybeFindSubject(c.subjectName), maybeFindTeacher(c.teacherName), maybeFindStudentGroup(c.studentsName)))
+						repo.maybeFindSubject(c.subjectName), 
+						repo.maybeFindTeacher(c.teacherName), 
+						repo.maybeFindStudentGroup(c.studentsName)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesSameStartingTime c, Object p) {
 		return fillDefault("time.MoreActivitiesHaveSameStartingTime", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesSameStartingDay c, Object p) {
 		return fillDefault("time.MoreActivitiesHaveSameStartingDay", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesSameStartingHour c, Object p) {
 		return fillDefault("time.MoreActivitiesHaveSameStartingHour", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesOccupyMaxTimeSlotsFromSelection c, Object p) {
 		return fillDefault("time.MoreActivitiesOccupyMaxTimeSlotsFromSelection", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
-			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(findDay(x.day), findHour(x.hour))))
+			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(repo.findDay(x.day), repo.findHour(x.hour))))
 			.withInteger("max-occupied", c.maxNrOfOccupiedTimeSlots)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTwoActivitiesOrdered c, Object p) {
 		return fillDefault("time.TwoActivitiesAreOrdered", c)
-			.withAssignment("first-assignment", findAssignment(c.firstActivityId))
-			.withAssignment("second-assignment", findAssignment(c.secondActivityId))
+			.withAssignment("first-assignment", repo.findAssignment(c.firstActivityId))
+			.withAssignment("second-assignment", repo.findAssignment(c.secondActivityId))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTwoActivitiesConsecutive c, Object p) {
 		return fillDefault("time.TwoActivitiesAreConsecutive", c)
-			.withAssignment("first-assignment", findAssignment(c.firstActivityId))
-			.withAssignment("second-assignment", findAssignment(c.secondActivityId))
+			.withAssignment("first-assignment", repo.findAssignment(c.firstActivityId))
+			.withAssignment("second-assignment", repo.findAssignment(c.secondActivityId))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintTwoActivitiesGrouped c, Object p) {
 		return fillDefault("time.TwoActivitiesAreGrouped", c)
-			.withAssignment("first-assignment", findAssignment(c.firstActivityId))
-			.withAssignment("second-assignment", findAssignment(c.secondActivityId))
+			.withAssignment("first-assignment", repo.findAssignment(c.firstActivityId))
+			.withAssignment("second-assignment", repo.findAssignment(c.secondActivityId))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintThreeActivitiesGrouped c, Object p) {
 		return fillDefault("time.ThreeActivitiesAreGrouped", c)
-			.withAssignment("first-assignment", findAssignment(c.firstActivityId))
-			.withAssignment("second-assignment", findAssignment(c.secondActivityId))
-			.withAssignment("third-assignment", findAssignment(c.thirdActivityId))
+			.withAssignment("first-assignment", repo.findAssignment(c.firstActivityId))
+			.withAssignment("second-assignment", repo.findAssignment(c.secondActivityId))
+			.withAssignment("third-assignment", repo.findAssignment(c.thirdActivityId))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesNotOverlapping c, Object p) {
 		return fillDefault("time.MoreActivitiesAreNotOverlapping", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots c, Object p) {
 		return fillDefault("time.MaxSimultaneousActivitiesFromASetInTimeSlots", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
-			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(findDay(x.day), findHour(x.hour))))
+			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(repo.findDay(x.day), repo.findHour(x.hour))))
 			.withInteger("max-simult", c.maxNrOfSimultaneousActivities)
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintMinGapsBetweenActivities c, Object p) {
 		return fillDefault("time.MinGapsBetweenActivities", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
 			.withHour("min-gaps", c.minGaps)
 	;}
 
@@ -606,44 +587,44 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintRoomNotAvailableTimes c, Object p) {
 		return fillDefault("space.NotAvailableTimesForARoom", c)
-			.withRoom("room", findRoom(c.room))
+			.withRoom("room", repo.findRoom(c.room))
 			.withWeek("not-available-times", transform(c.notAvailableTimes, 
-					x -> slot(findDay(x.getDay()), findHour(x.getHour()))))
+					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
 	//----- Teachers
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintTeacherHomeRoom c, Object p) {
 		return fillDefault("space.TeacherHasAHomeRoom", c)
-			.withTeacher("teacher", findTeacher(c.teacher))
-			.withRoom("room", findRoom(c.room))
+			.withTeacher("teacher", repo.findTeacher(c.teacher))
+			.withRoom("room", repo.findRoom(c.room))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintTeacherHomeRooms c, Object p) {
 		return fillDefault("space.TeacherHasSomeHomeRooms", c)
-			.withTeacher("teacher", findTeacher(c.teacher))
-			.withRoomsSet("rooms", transform(c.rooms, x -> findRoom(x)))
+			.withTeacher("teacher", repo.findTeacher(c.teacher))
+			.withRoomsSet("rooms", transform(c.rooms, x -> repo.findRoom(x)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintTeacherMaxBuildingChangesPerDay c, Object p) {
 		return fillDefault("space.MaxBuildingChangesPerDayForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacher))
+			.withTeacher("teacher", repo.findTeacher(c.teacher))
 			.withHour("max-building-changes", c.maxBuildingChangesPerDay)
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintTeacherMaxBuildingChangesPerWeek c, Object p) {
 		return fillDefault("space.MaxBuildingChangesPerWeekForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacher))
+			.withTeacher("teacher", repo.findTeacher(c.teacher))
 			.withInteger("max-building-changes", c.maxBuildingChangesPerWeek)
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintTeacherMinGapsBetweenBuildingChanges c, Object p) {
 		return fillDefault("space.MinGapsBetweenBuildingChangesForATeacher", c)
-			.withTeacher("teacher", findTeacher(c.teacher))
+			.withTeacher("teacher", repo.findTeacher(c.teacher))
 			.withHour("min-gaps", c.minGapsBetweenBuildingChanges)
 	;}
 
@@ -669,35 +650,35 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintStudentsSetHomeRoom c, Object p) {
 		return fillDefault("space.StudentGroupHasAHomeRoom", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
-			.withRoom("room", findRoom(c.room))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
+			.withRoom("room", repo.findRoom(c.room))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintStudentsSetHomeRooms c, Object p) {
 		return fillDefault("space.StudentGroupHasSomeHomeRooms", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
-			.withRoomsSet("rooms", transform(c.rooms, x -> findRoom(x)))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
+			.withRoomsSet("rooms", transform(c.rooms, x -> repo.findRoom(x)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintStudentsSetMaxBuildingChangesPerDay c, Object p) {
 		return fillDefault("space.MaxBuildingChangesPerDayForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("max-building-changes", c.maxBuildingChangesPerDay)
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintStudentsSetMaxBuildingChangesPerWeek c, Object p) {
 		return fillDefault("space.MaxBuildingChangesPerWeekForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withInteger("max-building-changes", c.maxBuildingChangesPerWeek)
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintStudentsSetMinGapsBetweenBuildingChanges c, Object p) {
 		return fillDefault("space.MinGapsBetweenBuildingChangesForAStudentGroup", c)
-			.withStudentGroup("studentgroup", findStudentGroup(c.students))
+			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("min-gaps", c.minGapsBetweenBuildingChanges)
 	;}
 
@@ -723,15 +704,15 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintSubjectPreferredRoom c, Object p) {
 		return fillDefault("space.SubjectHasAPreferredRoom", c)
-			.withSubject("subject", findSubject(c.subject))
-			.withRoom("room", findRoom(c.room))
+			.withSubject("subject", repo.findSubject(c.subject))
+			.withRoom("room", repo.findRoom(c.room))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintSubjectPreferredRooms c, Object p) {
 		return fillDefault("space.SubjectHasSomePreferredRooms", c)
-			.withSubject("subject", findSubject(c.subject))
-			.withRoomsSet("rooms", transform(c.preferredRooms, x -> findRoom(x)))
+			.withSubject("subject", repo.findSubject(c.subject))
+			.withRoomsSet("rooms", transform(c.preferredRooms, x -> repo.findRoom(x)))
 	;}
 
 	//----- Activity tags
@@ -760,28 +741,28 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintActivityPreferredRoom c, Object p) {
 		return fillDefault("space.ActivityHasAPreferredRoom", c)
-			.withAssignment("assignment", findAssignment(c.getActivityId()))
-			.withRoom("room", findRoom(c.getRoom()))
+			.withAssignment("assignment", repo.findAssignment(c.getActivityId()))
+			.withRoom("room", repo.findRoom(c.getRoom()))
 			.withBoolean("locked", c.isLocked())
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintActivityPreferredRooms c, Object p) {
 		return fillDefault("space.ActivityHasSomePreferredRooms", c)
-			.withAssignment("assignment", findAssignment(c.activityId))
-			.withRoomsSet("rooms", transform(c.preferredRooms, x -> findRoom(x)))
+			.withAssignment("assignment", repo.findAssignment(c.activityId))
+			.withRoomsSet("rooms", transform(c.preferredRooms, x -> repo.findRoom(x)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintActivitiesSameRoomIfConsecutive c, Object p) {
 		return fillDefault("space.SomeActivitiesAreInTheSameRoomIfTheyAreConsecutive", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintActivitiesOccupyMaxDifferentRooms c, Object p) {
 		return fillDefault("space.SomeActivitiesOccupyMaxDifferentRooms", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
 			.withInteger("max-diff-rooms", c.maxNrOfDifferentRooms)
 	;}
 
@@ -796,74 +777,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	}
 	
 	private static Triple<Subject, Teacher, StudentGroup> criteria(Subject subj, Teacher tea, StudentGroup sg) {
-		return new Triple<Subject, Teacher, StudentGroup>(subj, tea, sg);
+		return new Triple<>(subj, tea, sg);
 	}
 	
-	private static <T extends Nameable> Map<String, T> storeByName(final Iterable<T> items) {
-		Map<String, T> itemsByName = new HashMap<>();
-		for (T item : items) {
-			itemsByName.put(item.getName().getValue(), item);
-		}
-		return itemsByName;
-	}
-
-	private static Map<Long, Assignment> storeById(final Iterable<Assignment> assignments) {
-		Map<Long, Assignment> itemsByName = new HashMap<>();
-		for (Assignment item : assignments) {
-			itemsByName.put(((AssignmentImpl) item).getId(), item);
-		}
-		return itemsByName;
-	}
-
-	private static <K, V> V safeGet(K key, Map<K, V> store, String errMsg) {
-		if (!store.containsKey(key)) {
-			throw new RuntimeException(errMsg + " with name '" + key + "' not found.");
-		}
-		return store.get(key);
-	}
-	
-	private Day findDay(final String dayName) {
-		return safeGet(dayName, daysByName, "Day");
-	}
-
-	private Hour findHour(final String hourName) {
-		return safeGet(hourName, hoursByName, "Hour");
-	}
-	
-	private Hour maybeFindHour(String hourName) {
-		return hoursByName.get(hourName);
-	}
-
-	private Teacher findTeacher(final String teacherName) {
-		return safeGet(teacherName, teachersByName, "Teacher");
-	}
-	
-	private Teacher maybeFindTeacher(final String teacherName) {
-		return teachersByName.get(teacherName);
-	}
-	
-	private StudentGroup findStudentGroup(final String studentGroupName) {
-		return safeGet(studentGroupName, studentGroupsByName, "Student group");
-	}
-
-	private StudentGroup maybeFindStudentGroup(final String studentGroupName) {
-		return studentGroupsByName.get(studentGroupName);
-	}
-
-	private Subject findSubject(final String subjectName) {
-		return safeGet(subjectName, subjectsByName, "Subject");
-	}
-
-	private Subject maybeFindSubject(final String subjectName) {
-		return subjectsByName.get(subjectName);
-	}
-
-	private Room findRoom(final String roomName) {
-		return safeGet(roomName, roomsByName, "Room");
-	}
-
-	private Assignment findAssignment(final long id) {
-		return safeGet(id, assignmentsById, "Assignment");
-	}
-
 }
