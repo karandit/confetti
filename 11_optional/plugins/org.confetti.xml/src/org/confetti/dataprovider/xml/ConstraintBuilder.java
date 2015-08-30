@@ -25,7 +25,8 @@ public class ConstraintBuilder {
 	}
 	
 	public Constraint build(final BaseConstraintXml xmlConstraint) {
-		return new ConstraintImpl(xmlConstraint, FET_CONSTRAINTS_NAMESPACE + type, attrs);
+		ConstraintImpl constr = new ConstraintImpl(xmlConstraint, FET_CONSTRAINTS_NAMESPACE + type, attrs);
+		return constr;
 	}
 	
 	public ConstraintBuilder withInteger(final String key, final Integer v) {

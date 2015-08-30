@@ -191,8 +191,8 @@ public class XmlDataProvider implements DataProvider {
 		ConstraintFactory factory = new ConstraintFactory(
 				days.getObservableList().getList(),
 				hours.getObservableList().getList(),
-				teachers.getObservableList().getList(),
-				subjects.getObservableList().getList(),
+				allTeachers,
+				allSubjects,
 				rooms.getObservableList().getList(),
 				studentGroupsByName,
 				assignments.getObservableList().getList());
