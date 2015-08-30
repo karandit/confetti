@@ -265,7 +265,7 @@ public class ExportTimetableWizard extends Wizard {
     }
 
     private List<List<String>> createEmptyTimeTable(int hoursSize, int daysSize) {
-        List<List<String>> emptyTimetable = new ArrayList<List<String>>();
+        List<List<String>> emptyTimetable = new ArrayList<>();
         for (int i = 0; i < hoursSize; i++) {
             List<String> hoursList = new ArrayList<>();
             for (int j = 0; j < daysSize; j++) {

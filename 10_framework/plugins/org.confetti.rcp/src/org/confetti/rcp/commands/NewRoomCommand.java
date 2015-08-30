@@ -13,7 +13,7 @@ public class NewRoomCommand extends AbstractNewEntityHandler<Room> {
 	@Override
 	protected NewEntityWizardModel<Room> createModel() {
 		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-		return new NewEntityWizardModel<Room>(
+		return new NewEntityWizardModel<>(
 				getNames(dp.getRooms().getList()), 
 				new EntityCreator<Room>() { @Override public void createEntities(List<String> names) { dp.addRooms(names); }}, 
 				"New Room", 

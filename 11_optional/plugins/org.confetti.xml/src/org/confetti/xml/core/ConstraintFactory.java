@@ -108,7 +108,7 @@ import org.confetti.xml.core.time.teachers.ConstraintTeachersMinHoursDaily;
 
 public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder, Object> {
 
-	private Repo repo;
+	private final Repo repo;
 	
 	public ConstraintFactory(final Repo repo) {
 		this.repo = repo;

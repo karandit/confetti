@@ -74,7 +74,7 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	}
 	
 	private <T> ConstraintAttributes withT(final String key, final T value) {
-		attrs.put(key, new ConstraintAttribute<T>(key, value));
+		attrs.put(key, new ConstraintAttribute<>(key, value));
 		return this;
 	}
 

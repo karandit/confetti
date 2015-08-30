@@ -112,7 +112,7 @@ public class AssignmentsView extends ViewPart {
 		if (dp == null || ent == null) {
 			model = new TimeTableNotAvailableModel(ktable);
 		} else {
-			model = ent.accept(TimeTableModelFactory.INSTANCE, new Tuple<DataProvider, KTable>(dp, ktable));
+			model = ent.accept(TimeTableModelFactory.INSTANCE, new Tuple<>(dp, ktable));
 		}
 		ktable.setModel(model);
 		model.initialize();

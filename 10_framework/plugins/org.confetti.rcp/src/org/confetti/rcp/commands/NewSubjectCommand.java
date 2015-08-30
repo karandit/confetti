@@ -13,7 +13,7 @@ public class NewSubjectCommand extends AbstractNewEntityHandler<Subject> {
 	@Override
 	protected NewEntityWizardModel<Subject> createModel() {
 		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-		return new NewEntityWizardModel<Subject>(
+		return new NewEntityWizardModel<>(
 				getNames(dp.getSubjects().getList()),
 				new EntityCreator<Subject>() { @Override public void createEntities(List<String> names) { dp.addSubjects(names); }}, 
 				"New Subject", 
