@@ -21,8 +21,12 @@ public class CompatibilityTest {
 			InstituteXml  inst =  new InstituteFAO().importFrom(is);
 			new XmlDataProvider(inst);
 			System.out.println(inst.getVersion() + "\t" + inst.getName());
-		} catch (IOException e) {
+		} catch (Exception e) {
+			System.out.println("CompatibilityTest.importFet() ++++++++++++++++++++++++");
+			e.printStackTrace();
 			throw new FAOException(e);
+//		} catch (IOException e) {
+//			throw new FAOException(e);
 		} 
 	}
 
