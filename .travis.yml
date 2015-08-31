@@ -5,6 +5,7 @@ jdk:
 script: mvn clean verify
 after_success:
   - mvn jacoco:report coveralls:jacoco
+after-failure: cat /home/travis/build/karandit/confetti/00_tests/plugins/org.confetti.tests.xml/target/surefire-reports/*
 notifications:
   webhooks:
     urls:
