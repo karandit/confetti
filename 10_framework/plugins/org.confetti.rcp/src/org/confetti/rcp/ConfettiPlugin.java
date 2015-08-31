@@ -73,7 +73,15 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	 */
 	@Override
 	public void start(BundleContext context) throws Exception {
-		super.start(context);
+		System.out.println("ConfettiPlugin.start() *****************************************************");
+		try {
+			super.start(context);
+			
+		} catch (Exception e) {
+			System.out.println("ConfettiPlugin.start() EXCEPTION $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	/**
@@ -81,6 +89,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
+		System.out.println("ConfettiPlugin.stop() #############################################################");
 		super.stop(context);
 		plugin = null;
 	}
