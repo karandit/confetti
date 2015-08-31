@@ -12,17 +12,17 @@ import org.confetti.util.Tuple;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Plugin;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ConfettiPlugin extends AbstractUIPlugin {
+public class ConfettiPlugin extends Plugin {
 
     //--------------------------- constants ----------------------------------------------------------------------------
 	public static final String IMG_SMALL_SUBJECT 		= "small_subject";
@@ -66,6 +66,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	 */
 	public ConfettiPlugin() {
 		plugin = this;
+		System.out.println("ConfettiPlugin.ConfettiPlugin() %%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 	}
 
 	/**
@@ -101,7 +102,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 		return plugin;
 	}
 	
-	@Override
+//	@Override
 	protected void initializeImageRegistry(ImageRegistry reg) {
 		//Library-Books-16.png
 		//Teacher-02-16.png
@@ -128,6 +129,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 		registerImage(reg, IMG_SAMPLE, 				"sample.gif"); //$NON-NLS-1$
 		registerImage(reg, IMG_SAMPLE2, 			"sample2.gif"); //$NON-NLS-1$
 		registerImage(reg, IMG_SAMPLE3, 			"sample3.gif"); //$NON-NLS-1$
+		System.out.println("ConfettiPlugin.initializeImageRegistry()");
 	}
 
 	/**
@@ -158,7 +160,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String key) {
-		return getDefault().getImageRegistry().getDescriptor(key);
+		return null;//getDefault().getImageRegistry().getDescriptor(key);
 	}
 	
 	public ObservableValue<DataProvider> getDataProvider() {
@@ -178,16 +180,26 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	}
 	
     public List<Tuple<String, String>> getConnectionSettings() {
-	    IPreferenceStore preferenceStore = getPreferenceStore();
+//	    IPreferenceStore preferenceStore = getPreferenceStore();
 	    List<Tuple<String, String>> connNamesAndTypes = new LinkedList<>();
-        String connNamesCSV = preferenceStore.getString(KEY_CONNECTIONS);
-        String[] connNames = connNamesCSV.split(",");
-        for (String connName : connNames) {
-            if (!connName.isEmpty()) {
-                String connType = preferenceStore.getString(connName + "_" + KEY_TYPE);
-                connNamesAndTypes.add(new Tuple<>(connName, connType));
-            }
-        }
+//        String connNamesCSV = preferenceStore.getString(KEY_CONNECTIONS);
+//        String[] connNames = connNamesCSV.split(",");
+//        for (String connName : connNames) {
+//            if (!connName.isEmpty()) {
+//                String connType = preferenceStore.getString(connName + "_" + KEY_TYPE);
+//                connNamesAndTypes.add(new Tuple<>(connName, connType));
+//            }
+//        }
         return connNamesAndTypes;
+	}
+
+	public IPreferenceStore getPreferenceStore() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ImageRegistry getImageRegistry() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
