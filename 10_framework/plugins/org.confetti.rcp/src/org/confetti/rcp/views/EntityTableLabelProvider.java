@@ -34,12 +34,11 @@ public class EntityTableLabelProvider extends LabelProvider implements ITableLab
 	}
 	
 	@Override public Image getColumnImage(Object element, int columnIndex) { 
-//		ImageRegistry imageRegistry = ConfettiPlugin.getDefault().getImageRegistry();
-//		switch (columnIndex) {
-//		case 0:  	return imageRegistry.get(getImageKey(element));
-//		default: 	return null;
-//		}
-		return null;
+		ImageRegistry imageRegistry = ConfettiPlugin.getDefault().getImageRegistry();
+		switch (columnIndex) {
+		case 0:  	return imageRegistry.get(getImageKey(element));
+		default: 	return null;
+		}
 	}
 
 	private String getImageKey(Object element) {

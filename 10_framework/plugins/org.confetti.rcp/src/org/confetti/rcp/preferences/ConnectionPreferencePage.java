@@ -53,7 +53,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
 	@Override
 	public void init(IWorkbench workbench) {
 	    noDefaultAndApplyButton();
-//	    setPreferenceStore(ConfettiPlugin.getDefault().getPreferenceStore());
+	    setPreferenceStore(ConfettiPlugin.getDefault().getPreferenceStore());
 	    connectionSettings = ConfettiPlugin.getDefault().getConnectionSettings();
 	}
 	

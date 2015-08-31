@@ -1,5 +1,6 @@
 package org.confetti.rcp;
 
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,18 +9,20 @@ import org.confetti.core.DataProvider;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 import org.confetti.util.Tuple;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ConfettiPlugin 
-implements org.osgi.framework.BundleActivator
-//extends AbstractUIPlugin 
-{
+public class ConfettiPlugin extends AbstractUIPlugin {
 
     //--------------------------- constants ----------------------------------------------------------------------------
 	public static final String IMG_SMALL_SUBJECT 		= "small_subject";
@@ -72,7 +75,7 @@ implements org.osgi.framework.BundleActivator
 	public void start(BundleContext context) throws Exception {
 		System.out.println("ConfettiPlugin.start() *****************************************************");
 		try {
-//			super.start(context);
+			super.start(context);
 			
 		} catch (Exception e) {
 			System.out.println("ConfettiPlugin.start() EXCEPTION $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
@@ -87,7 +90,7 @@ implements org.osgi.framework.BundleActivator
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		System.out.println("ConfettiPlugin.stop() #############################################################");
-//		super.stop(context);
+		super.stop(context);
 		plugin = null;
 	}
 
@@ -98,7 +101,7 @@ implements org.osgi.framework.BundleActivator
 		return plugin;
 	}
 	
-//	@Override
+	@Override
 	protected void initializeImageRegistry(ImageRegistry reg) {
 		//Library-Books-16.png
 		//Teacher-02-16.png
@@ -134,17 +137,17 @@ implements org.osgi.framework.BundleActivator
 	 * @param fileName the path of the image, relative to the <code>icons/</code> directory of this plug-in.
 	 */
 	private void registerImage(final ImageRegistry registry, final String key, final String fileName) {
-//		try {
-//			final IPath path = new Path("icons/" + fileName); //$NON-NLS-1$
-//			// URL url = find(path); // deprecated
-//			final URL url = FileLocator.find(getBundle(), path, null);
-//			if (url != null) {
-//				final ImageDescriptor desc = ImageDescriptor.createFromURL(url);
-//				registry.put(key, desc);
-//			}
-//		} catch (final Exception e) {
-//			//ignore it
-//		}
+		try {
+			final IPath path = new Path("icons/" + fileName); //$NON-NLS-1$
+			// URL url = find(path); // deprecated
+			final URL url = FileLocator.find(getBundle(), path, null);
+			if (url != null) {
+				final ImageDescriptor desc = ImageDescriptor.createFromURL(url);
+				registry.put(key, desc);
+			}
+		} catch (final Exception e) {
+			//ignore it
+		}
 	}
 	
 	/**
@@ -155,7 +158,7 @@ implements org.osgi.framework.BundleActivator
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String key) {
-		return null; //getDefault().getImageRegistry().getDescriptor(key);
+		return getDefault().getImageRegistry().getDescriptor(key);
 	}
 	
 	public ObservableValue<DataProvider> getDataProvider() {
@@ -175,16 +178,16 @@ implements org.osgi.framework.BundleActivator
 	}
 	
     public List<Tuple<String, String>> getConnectionSettings() {
-//	    IPreferenceStore preferenceStore = getPreferenceStore();
+	    IPreferenceStore preferenceStore = getPreferenceStore();
 	    List<Tuple<String, String>> connNamesAndTypes = new LinkedList<>();
-//        String connNamesCSV = preferenceStore.getString(KEY_CONNECTIONS);
-//        String[] connNames = connNamesCSV.split(",");
-//        for (String connName : connNames) {
-//            if (!connName.isEmpty()) {
-//                String connType = preferenceStore.getString(connName + "_" + KEY_TYPE);
-//                connNamesAndTypes.add(new Tuple<>(connName, connType));
-//            }
-//        }
+        String connNamesCSV = preferenceStore.getString(KEY_CONNECTIONS);
+        String[] connNames = connNamesCSV.split(",");
+        for (String connName : connNames) {
+            if (!connName.isEmpty()) {
+                String connType = preferenceStore.getString(connName + "_" + KEY_TYPE);
+                connNamesAndTypes.add(new Tuple<>(connName, connType));
+            }
+        }
         return connNamesAndTypes;
 	}
 }
