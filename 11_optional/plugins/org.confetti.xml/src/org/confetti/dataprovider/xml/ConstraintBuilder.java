@@ -9,8 +9,8 @@ import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
-import org.confetti.rcp.constraints.IConstraintRegistry;
 import org.confetti.rcp.extensions.ConstraintDescr;
+import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 import org.confetti.xml.core.BaseConstraintXml;
@@ -20,19 +20,16 @@ public class ConstraintBuilder {
 	public static final String FET_CONSTRAINTS_NAMESPACE = "org.confetti.fet.constraints.";
 
 	private final String type;
-	private IConstraintRegistry constrReg;
 	private final ConstraintAttributes attrs = new ConstraintAttributes();
-
 	
-	public ConstraintBuilder(IConstraintRegistry constrReg, final String type) {
-		this.constrReg = constrReg;
+	public ConstraintBuilder(final String type) {
 		this.type = type;
 	}
 	
 	public Constraint build(final BaseConstraintXml xmlConstraint) {
 		ConstraintImpl constr = new ConstraintImpl(xmlConstraint, FET_CONSTRAINTS_NAMESPACE + type, attrs);
 		
-		ConstraintDescr constraintDescr = constrReg.getConstraintDescrById(type);
+		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
 		if (constraintDescr != null) {
 			FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
 			constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));

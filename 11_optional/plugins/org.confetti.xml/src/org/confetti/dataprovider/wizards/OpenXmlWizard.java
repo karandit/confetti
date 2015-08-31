@@ -2,7 +2,6 @@ package org.confetti.dataprovider.wizards;
 
 import org.confetti.dataprovider.xml.XmlDataProvider;
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.xml.FAOException;
 import org.eclipse.jface.wizard.Wizard;
 
@@ -22,7 +21,7 @@ public class OpenXmlWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		try {
-			XmlDataProvider dp = new XmlDataProvider(ConstraintRegistry.INSTANCE, model.getFile());
+			XmlDataProvider dp = new XmlDataProvider(model.getFile());
             ConfettiPlugin.getDefault().setDataProvider(dp, dp);
 		} catch (FAOException e) {
 			// TODO Auto-generated catch block

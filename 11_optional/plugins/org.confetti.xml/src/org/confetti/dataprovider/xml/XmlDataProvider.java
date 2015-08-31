@@ -20,7 +20,6 @@ import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
-import org.confetti.rcp.constraints.IConstraintRegistry;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.xml.FAOException;
@@ -160,12 +159,17 @@ public class XmlDataProvider implements DataProvider {
     private long currentMaxId = 0;
 
 	//----------------------------- constructors -----------------------------------------------------------------------
-    public XmlDataProvider(IConstraintRegistry constrReg, File file) throws FAOException {
-		this(constrReg, new InstituteFAO().importFrom(file), file);
+    public XmlDataProvider(InstituteXml inst, File file) throws FAOException {
+        this(inst);
+        this.file = file;
+    }
+    
+    public XmlDataProvider(File file) throws FAOException {
+		this(new InstituteFAO().importFrom(file));
+        this.file = file;
 	}
 	
-    public XmlDataProvider(IConstraintRegistry constrReg, InstituteXml inst, File file) throws FAOException {
-		this.file = file;
+	public XmlDataProvider(InstituteXml inst) {
 		this.instXml = inst;
 		instName.setValue(this, inst.getName());
 		instComment.setValue(this, inst.getComment());
@@ -182,7 +186,7 @@ public class XmlDataProvider implements DataProvider {
 			.withStudentGroups(stdGroups.getObservableList().getList());
 		inst.getActivities()		.forEach(act -> assignments.addItem(createAssignment(act, repo)));
 		
-		ConstraintFactory factory = new ConstraintFactory(constrReg, repo
+		ConstraintFactory factory = new ConstraintFactory(repo
 				.withDays(days.getObservableList().getList())
 				.withHours(hours.getObservableList().getList())
 				.withRooms(rooms.getObservableList().getList())

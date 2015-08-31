@@ -4,6 +4,5 @@ Bundle-Name: Xml
 Bundle-SymbolicName: org.confetti.tests.xml
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.confetti.xml;bundle-version="1.0.0",
- org.junit,
- org.confetti.rcp;bundle-version="1.0.0"
+ org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
