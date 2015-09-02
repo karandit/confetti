@@ -2,16 +2,9 @@ sudo: false
 language: java
 jdk:
   - oraclejdk8
-env: DISPLAY=:99.0
-before_script:
-  - sh -e /etc/init.d/xvfb start
-  - sleep 10 # give xvfb some time to start
-script: 
-  - export
-  - mvn clean verify
+script: mvn clean verify
 after_success:
   - mvn jacoco:report coveralls:jacoco
-after_failure: cat /home/travis/build/karandit/confetti/00_tests/plugins/org.confetti.tests.xml/target/surefire-reports/*
 notifications:
   webhooks:
     urls:
