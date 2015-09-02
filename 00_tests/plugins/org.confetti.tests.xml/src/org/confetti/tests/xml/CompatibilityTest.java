@@ -18,7 +18,6 @@ public class CompatibilityTest {
 
 	private static void importFet(final String path) throws FAOException {
 		try (InputStream is = openStream(path)) {
-			System.out.println(path);
 			InstituteXml  inst =  new InstituteFAO().importFrom(is);
 			new XmlDataProvider(inst);
 			System.out.println(inst.getVersion() + "\t" + inst.getName());
