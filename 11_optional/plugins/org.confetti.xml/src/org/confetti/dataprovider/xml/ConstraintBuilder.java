@@ -27,9 +27,10 @@ public class ConstraintBuilder {
 	}
 	
 	public Constraint build(final BaseConstraintXml xmlConstraint) {
-		ConstraintImpl constr = new ConstraintImpl(xmlConstraint, FET_CONSTRAINTS_NAMESPACE + type, attrs);
+		String fullType = FET_CONSTRAINTS_NAMESPACE + type;
+		ConstraintImpl constr = new ConstraintImpl(xmlConstraint, fullType, attrs);
 		
-		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
+		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(fullType);
 		if (constraintDescr != null) {
 			FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
 			constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));
