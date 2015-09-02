@@ -11,7 +11,6 @@ import org.confetti.core.Assignment;
 import org.confetti.core.ConstraintAttribute;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
-import org.confetti.core.FieldTypeVisitor;
 import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
 import org.confetti.core.Room;

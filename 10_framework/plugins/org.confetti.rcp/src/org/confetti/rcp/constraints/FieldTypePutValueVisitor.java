@@ -2,7 +2,6 @@ package org.confetti.rcp.constraints;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.ConstraintAttributes;
-import org.confetti.core.FieldTypeVisitor;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;

@@ -1,4 +1,4 @@
-package org.confetti.core;
+package org.confetti.rcp.constraints;
 
 public interface FieldTypeVisitor<R, P1, P2> {
 	

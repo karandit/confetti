@@ -2,10 +2,10 @@ package org.confetti.dataprovider.xml;
 
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
-import org.confetti.core.FieldTypeVisitor;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
+import org.confetti.rcp.constraints.FieldTypeVisitor;
 import org.confetti.util.Triple;
 
 public class FieldTypeAddToVisitor implements FieldTypeVisitor<Object, String, Constraint> {

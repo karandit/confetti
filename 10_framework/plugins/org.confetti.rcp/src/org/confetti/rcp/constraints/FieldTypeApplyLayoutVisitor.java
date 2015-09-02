@@ -1,6 +1,5 @@
 package org.confetti.rcp.constraints;
 
-import org.confetti.core.FieldTypeVisitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.widgets.Control;
 
