@@ -31,7 +31,7 @@
 		<!--tycho-repo.url>https://oss.sonatype.org/content/groups/public/</tycho-repo.url-->
 	 	<kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
 		<elver-repo.url>http://www.elver.org/eclipse/2.1.0/update</elver-repo.url>
-		<orbit-repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository</orbit-repo.url>
+		<orbit-repo.url>http://powermock-osgi.googlecode.com/svn/updateSite/1.5.6.0/</orbit-repo.url>
 	</properties>
 
 	<dependencies>

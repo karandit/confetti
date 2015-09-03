@@ -36,7 +36,23 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	@Override public int getFixedSelectableRowCount() 							{ return 0; }
 
 	@Override public int doGetColumnCount() 									{ return 2 + dagWidth(sg);}
+	@Override public int doGetRowCount() 										{ return dagDepth(sg); }
+	// + size(dp.getDays().getList()) * size(dp.getHours().getList());
+	
+	@Override public int getInitialColumnWidth(int col) 						{ return 60; }
+	@Override public int getInitialRowHeight(int row) 							{ return 48; }
+	@Override public int getRowHeightMinimum() 									{ return 24; }
+	
+	@Override public boolean isColumnResizable(int col) 						{ return false; }
+	@Override public boolean isRowResizable(int row) 							{ return false; }
 
+	@Override public KTableCellEditor doGetCellEditor(int arg0, int arg1) 		{ return null; }
+	@Override public KTableCellRenderer doGetCellRenderer(int col, int row) 	{ return (row == 0 || col == 1 || col == 0) ? FIXED_RENDERER : RENDERER; }
+	
+	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 		{ }
+	@Override public Object doGetContentAt(int col, int row) 					{ return "alam"; }
+
+	//----------------------------- helpers ----------------------------------------------------------------------------
 	private static int dagWidth(StudentGroup sg) {
 		int childWidth = 0;
 		for (StudentGroup child : sg.getChildren().getList()) {
@@ -50,26 +66,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 		for (StudentGroup child : sg.getChildren().getList()) {
 			childDepth = Math.max(childDepth, dagDepth(child));
 		}
-		return 1 +  childDepth;
-	}
-	
-	
-
-	@Override
-	public int doGetRowCount() {
-		return dagDepth(sg); // + size(dp.getDays().getList()) * size(dp.getHours().getList());
+		return 1 + childDepth;
 	}
 
-	@Override public int getInitialColumnWidth(int col) 						{ return 60; }
-	@Override public int getInitialRowHeight(int row) 							{ return 48; }
-	@Override public int getRowHeightMinimum() 									{ return 24; }
-	
-	@Override public boolean isColumnResizable(int col) 						{ return false; }
-	@Override public boolean isRowResizable(int row) 							{ return false; }
-
-	@Override public KTableCellEditor doGetCellEditor(int arg0, int arg1) 		{ return null; }
-	@Override public KTableCellRenderer doGetCellRenderer(int col, int row) 	{ return (row == 0 || col == 1 || col == 0) ? FIXED_RENDERER : RENDERER; }
-	
-	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 		{ }
-	@Override public Object doGetContentAt(int col, int row) 					{ return "alam"; }
 }
