@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.confetti.rcp.wizards.models.InsertEntriesModel;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
@@ -27,9 +25,7 @@ public class InsertEntriesWizardPage extends ModelableWizardPage<InsertEntriesMo
 	@Override
 	public void createControl(Composite parent) {
 		text = new Text(parent, SWT.MULTI| SWT.BORDER | SWT.V_SCROLL);
-		text.addModifyListener(new ModifyListener() {
-			@Override public void modifyText(ModifyEvent e) { setPageComplete(!text.getText().isEmpty()); }
-		});
+		text.addModifyListener(e-> setPageComplete(!text.getText().isEmpty()));
 		setControl(text);
 	}
 

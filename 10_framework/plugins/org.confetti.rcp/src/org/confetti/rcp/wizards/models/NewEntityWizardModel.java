@@ -1,5 +1,6 @@
 package org.confetti.rcp.wizards.models;
 
+import static com.google.common.collect.Lists.transform;
 import static org.confetti.rcp.wizards.models.Problem.ALREADY_EXISTS;
 import static org.confetti.rcp.wizards.models.Problem.DUPLICATED_NAME;
 import static org.confetti.rcp.wizards.models.Problem.OK;
@@ -9,9 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.confetti.util.Tuple;
-
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
 
 public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntriesModel {
 	
@@ -67,10 +65,7 @@ public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntrie
 	//------------------------ NewEntityWizardModel --------------------------------------------------------------------
 	public String getWizardTitle() { return mWizardTitle; }
 	public void createEntities() {
-	    List<String> names = Lists.transform(getResult(), new Function<Tuple<String, Problem>, String>() {
-            @Override public String apply(Tuple<String, Problem> tuple) { return tuple.getFirst(); }
-        });
-	    mCreator.createEntities(names);
+	    mCreator.createEntities(transform(getResult(), (Tuple<String, Problem> tuple) -> tuple.getFirst()));
 	}
 
 	//------------------------ helpers ---------------------------------------------------------------------------------

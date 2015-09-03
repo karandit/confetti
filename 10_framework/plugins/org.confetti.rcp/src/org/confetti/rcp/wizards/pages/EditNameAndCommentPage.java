@@ -45,7 +45,7 @@ implements IWizardPageNavigatable {
 		txtName.setText(getSafe(getModel().getName()));
 		setPageComplete(!txtName.getText().isEmpty());
 		txtName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		txtName.addModifyListener(e -> { setPageComplete(!txtName.getText().isEmpty()); });
+		txtName.addModifyListener(e -> setPageComplete(!txtName.getText().isEmpty()));
 		
 		//Comment part
 		Label cmnt = new Label(compo, SWT.NONE);

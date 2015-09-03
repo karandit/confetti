@@ -7,7 +7,6 @@ import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -28,9 +27,7 @@ public class FolderChooseWizardPage extends WizardPage {
     public void createControl(Composite parent) {
         Composite composite = new Composite(parent, SWT.NONE);
         final DirectoryFieldEditor fieldEditor = new DirectoryFieldEditor("DirectoryFieldEditor", "Directory:", composite);
-        fieldEditor.getTextControl(composite).addModifyListener(new ModifyListener() {
-            @Override
-            public void modifyText(ModifyEvent e) {
+        fieldEditor.getTextControl(composite).addModifyListener((ModifyEvent e) -> {
                 String stringValue = fieldEditor.getStringValue();
                 if (null != stringValue && !stringValue.equals("")) {
                     File folderPath = new File(stringValue);
@@ -44,7 +41,7 @@ public class FolderChooseWizardPage extends WizardPage {
                     setPageComplete(false);
                 }
             }
-        });
+        );
         setControl(composite);
     }
 

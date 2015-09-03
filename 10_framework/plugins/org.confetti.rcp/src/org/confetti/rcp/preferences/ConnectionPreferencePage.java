@@ -11,7 +11,6 @@ import org.confetti.rcp.extensions.ConnectionDescr;
 import org.confetti.rcp.extensions.ConnectionFactory;
 import org.confetti.rcp.extensions.ConnectionRegistry;
 import org.confetti.util.Tuple;
-import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -135,9 +134,8 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
             Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
             
             // Connection name
-            InputDialog inputDlg = new InputDialog(shell, "Connection name", "Specify a name for the connection", "", new IInputValidator() {
-                @Override
-                public String isValid(String newText) {
+            InputDialog inputDlg = new InputDialog(shell, "Connection name", "Specify a name for the connection", "", 
+            		(String newText) -> {
                     if (newText.isEmpty()) {
                         return "Please enter the connection name";
                     }
@@ -148,7 +146,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
                     }
                     return null;
                 }
-            });
+            );
             if (Window.OK != inputDlg.open()) {
                 return;
             }
