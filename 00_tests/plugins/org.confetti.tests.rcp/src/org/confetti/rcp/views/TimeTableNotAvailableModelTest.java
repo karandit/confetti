@@ -2,9 +2,13 @@ package org.confetti.rcp.views;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import de.kupzog.ktable.renderers.FixedCellRenderer;
 
 public class TimeTableNotAvailableModelTest {
 	
@@ -33,8 +37,8 @@ public class TimeTableNotAvailableModelTest {
 	@Test public void testIsColumnResizable() 				{ assertFalse(sut.isColumnResizable(0)); } 
 	@Test public void testIsRowResizable() 					{ assertFalse(sut.isRowResizable(0)); } 
 	
-	@Test public void testDoGetCellEditorIntInt() 			{ assertEquals(0, sut.getFixedSelectableRowCount()); } 
-	@Test public void testDoGetCellRendererIntInt() 		{ assertEquals(0, sut.getFixedSelectableRowCount()); } 
+	@Test public void testDoGetCellEditor() 				{ assertNull(sut.getCellEditor(0, 0)); } 
+	@Test public void testDoGetCellRenderer() 				{ assertTrue(sut.getCellRenderer(0, 0) instanceof FixedCellRenderer); } 
 
 	@Test public void testDoGetContentAt() 					{ assertEquals(CONTENT, sut.getContentAt(0, 0)); }
 

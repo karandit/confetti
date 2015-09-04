@@ -11,6 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.expressions
 Bundle-ActivationPolicy: lazy
 Export-Package: de.kupzog.ktable,
+ de.kupzog.ktable.renderers;x-friends:="org.confetti.tests.rcp",
  org.confetti.rcp,
  org.confetti.rcp.constraints,
  org.confetti.rcp.extensions,
