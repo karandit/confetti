@@ -74,7 +74,7 @@ public class FieldTypeAddToVisitor implements FieldTypeVisitor<Object, String, C
 		if (crit.getSecond() != null) {
 			((TeacherImpl) crit.getSecond()).addConstraint(target);
 		}
-		if (crit.getFirst() != null) {
+		if (crit.getThird() != null) {
 			((StudentGroupImpl) crit.getThird()).addConstraint(target);
 		}
 		return null;
