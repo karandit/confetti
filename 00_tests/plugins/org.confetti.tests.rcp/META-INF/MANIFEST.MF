@@ -8,5 +8,6 @@ Require-Bundle: org.junit,
  org.confetti.rcp,
  org.mockito.mockito-core;bundle-version="1.9.5",
  org.objenesis;bundle-version="2.1.0",
- org.confetti.core
+ org.confetti.core,
+ org.eclipse.swt
 Import-Package: org.confetti.core
