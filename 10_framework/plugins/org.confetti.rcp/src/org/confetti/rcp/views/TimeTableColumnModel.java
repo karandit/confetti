@@ -1,5 +1,7 @@
 package org.confetti.rcp.views;
 
+import static com.google.common.collect.Iterables.isEmpty;
+import static com.google.common.collect.Iterables.size;
 import static de.kupzog.ktable.renderers.DefaultCellRenderer.STYLE_PUSH;
 
 import org.confetti.core.DataProvider;
@@ -23,14 +25,19 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 //	private final StudentGroup sg;
 	private final int namesWidth;
 	private final int namesHeight;
+	private final int slotLines;
 	
 	//----------------------------- constructors -----------------------------------------------------------------------
 	public TimeTableColumnModel(KTable table, DataProvider dp, StudentGroup sg) {
 		super(table);
 //		this.dp = dp;
 //		this.sg = sg;
-		this.namesWidth = calcWidth(sg);
+		this.namesWidth = calcWidth(0, sg).x;
 		this.namesHeight = calcHeight(sg) - 1;
+		if (!isEmpty(sg.getChildren().getList())) {
+			
+		}
+		this.slotLines = size(dp.getDays().getList()) * size(dp.getHours().getList());
 	}
 	
 	//----------------------------- KTableNoScrollModel's API ----------------------------------------------------------
@@ -40,7 +47,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	@Override public int getFixedSelectableRowCount() 							{ return 0; }
 
 	@Override public int doGetColumnCount() 									{ return 2 + namesWidth;}
-	@Override public int doGetRowCount() 										{ return namesHeight; }
+	@Override public int doGetRowCount() 										{ return namesHeight + slotLines; }
 	
 	@Override public int getInitialColumnWidth(int col) 						{ return 60; }
 	@Override public int getInitialRowHeight(int row) 							{ return 48; }
@@ -70,12 +77,17 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	}
 	
 	//----------------------------- helpers ----------------------------------------------------------------------------
-	private static int calcWidth(StudentGroup sg) {
+	private static Point calcWidth(int row, StudentGroup sg) {
 		int childWidth = 0;
 		for (StudentGroup child : sg.getChildren().getList()) {
-			childWidth += calcWidth(child);
+			
+			int length = calcWidth(row + 1, child).x;
+			System.out.println("TimeTableColumnModel.calcWidth() " 
+					+ child.getName().getValue() 
+					+ "\trow " + row + " offset " + childWidth + " length " + length);
+			childWidth += length;
 		}
-		return Math.max(1, childWidth);
+		return new Point(Math.max(1, childWidth), row);
 	}
 
 	private static int calcHeight(StudentGroup sg) {

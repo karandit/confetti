@@ -28,19 +28,19 @@ public class TimeTableModelTest {
 	public void setup() {
 		DataProvider dp = mock(DataProvider.class);
 		
-		ListMutator<Day> days = new ListMutator<>();
-		days.addItem(mockName(Day.class, "Monday"));
-		days.addItem(mockName(Day.class, "Tuesday"));
-		days.addItem(mockName(Day.class, "Wednesday"));
-		days.addItem(mockName(Day.class, "Thursday"));
-		days.addItem(mockName(Day.class, "Friday"));
+		ListMutator<Day> days = mockListName(Day.class, 
+				"Monday", 
+				"Tuesday", 
+				"Wednesday", 
+				"Thursday", 
+				"Friday");
 		when(dp.getDays()).thenReturn(days.getObservableList());
 
-		ListMutator<Hour> hours = new ListMutator<>();
-		hours.addItem(mockName(Hour.class, "08 :00 - 08:45"));
-		hours.addItem(mockName(Hour.class, "09 :00 - 09:45"));
-		hours.addItem(mockName(Hour.class, "10 :00 - 10:45"));
-		hours.addItem(mockName(Hour.class, "11 :00 - 11:45"));
+		ListMutator<Hour> hours = mockListName(Hour.class, 
+				"08 :00 - 08:45", 
+				"09 :00 - 09:45", 
+				"10 :00 - 10:45", 
+				"11 :00 - 11:45");
 		when(dp.getHours()).thenReturn(hours.getObservableList());
 		
 		sut = new TimeTableModel(null, dp);
@@ -91,10 +91,17 @@ public class TimeTableModelTest {
 	}
 
 	//---------------------- helpers -----------------------------------------------------------------------------------
-	private <T extends Nameable> T mockName(Class<T> clazz, String name) {
+	public static <T extends Nameable> T mockName(Class<T> clazz, String name) {
 		T nameable = mock(clazz);
-		when(nameable.getName()).thenReturn(new ValueMutator<>(this, name).getObservableValue());
+		when(nameable.getName()).thenReturn(new ValueMutator<>(null, name).getObservableValue());
 		return nameable;
+	}
+	public static <T extends Nameable> ListMutator<T> mockListName(Class<T> clazz, String... names) {
+		ListMutator<T> list = new ListMutator<>();
+		for (String name : names) {
+			list.addItem(mockName(clazz, name));
+		}
+		return list;
 	}
 
 }

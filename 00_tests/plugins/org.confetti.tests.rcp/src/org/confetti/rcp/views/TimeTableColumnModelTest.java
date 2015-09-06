@@ -1,6 +1,7 @@
 package org.confetti.rcp.views;
 
 import static java.util.Arrays.asList;
+import static org.confetti.rcp.views.TimeTableModelTest.mockListName;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -9,6 +10,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.confetti.core.DataProvider;
+import org.confetti.core.Day;
+import org.confetti.core.Hour;
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ValueMutator;
@@ -35,10 +38,6 @@ public class TimeTableColumnModelTest  {
 	 * |  A  | 10 |                                         |
 	 * |  Y  +----+-----------------------------------------+
 	 * |     | 11 |                                         |
-	 * |     +----+-----------------------------------------+
-	 * |     | 12 |                                         |
-	 * |     +----+-----------------------------------------+
-	 * |     | 13 |                                         |
 	 * +-----+----+-----------------------------------------+
 	 * |  T  | 08 |                                         | 
 	 * |  U  +----+-----------------------------------------+ 
@@ -47,18 +46,12 @@ public class TimeTableColumnModelTest  {
 	 * |  D  | 10 |                                         |
 	 * |  A  +----+-----------------------------------------+
 	 * |  Y  | 11 |                                         |
-	 * |     +----+-----------------------------------------+
-	 * |     | 12 |                                         |
-	 * |     +----+-----------------------------------------+
-	 * |     | 13 |                                         |
 	 * +-----+----+-----------------------------------------+
 	 * 
 	 * 
 	 */
 	@Before
 	public void setUp() {
-		DataProvider dp = mock(DataProvider.class);
-		when(dp.getDays()).thenReturn(null);
 		StudentGroup sg = mockStudentGroup("A", 
 							mockStudentGroup("AA",
 								mockStudentGroup("AA1"),
@@ -68,7 +61,14 @@ public class TimeTableColumnModelTest  {
 								mockStudentGroup("AB1"),
 								mockStudentGroup("AB2")
 							)
-		);
+						);
+
+		DataProvider dp = mock(DataProvider.class);
+		ListMutator<Day> days = mockListName(Day.class, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+		when(dp.getDays()).thenReturn(days.getObservableList());
+		ListMutator<Hour> hours = mockListName(Hour.class, "08", "09", "10", "11");
+		when(dp.getHours()).thenReturn(hours.getObservableList());
+		
 		sut = new TimeTableColumnModel(null, dp, sg);
 		sut.initialize();
 	}
@@ -78,8 +78,8 @@ public class TimeTableColumnModelTest  {
 	@Test public void testGetFixedSelectableColumnCount() 	{ assertEquals(0, sut.getFixedSelectableColumnCount()); }
 	@Test public void testGetFixedSelectableRowCount() 		{ assertEquals(0, sut.getFixedSelectableRowCount()); }
 
-	@Test public void testDoGetRowCount() 					{ assertEquals(2, sut.doGetRowCount()); }
-	@Test public void testDoGetColumnCount() 				{ assertEquals(6, sut.doGetColumnCount()); }
+	@Test public void testDoGetRowCount() 					{ assertEquals(2 + 20, sut.doGetRowCount()); }
+	@Test public void testDoGetColumnCount() 				{ assertEquals(2 + 4, sut.doGetColumnCount()); }
 	
 	@Test public void testGetInitialColumnWidth() 			{ assertEquals(60, sut.getInitialColumnWidth(0)); } 
 	@Test public void testGetInitialRowHeight() 			{ assertEquals(48, sut.getInitialRowHeight(0)); } 
@@ -117,14 +117,14 @@ public class TimeTableColumnModelTest  {
 
 //	@Test public void testDoGetContentAt() 					{ assertEquals(CONTENT, sut.getContentAt(0, 0)); }
 	//----------------------- helpers ----------------------------------------------------------------------------------
-	private StudentGroup mockStudentGroup(String name, StudentGroup...children) {
+	public static StudentGroup mockStudentGroup(String name, StudentGroup...children) {
 		StudentGroup sg = mock(StudentGroup.class);
-		when(sg.getName()).thenReturn(new ValueMutator<>(this, name).getObservableValue());
+		when(sg.getName()).thenReturn(new ValueMutator<>(null, name).getObservableValue());
 		when(sg.getChildren()).thenReturn(new ListMutator<>(asList(children)).getObservableList());
 		return sg;
 	}
 	
-	private void assertPoint(int x, int y, Point actualPoint) {
+	public static void assertPoint(int x, int y, Point actualPoint) {
 		assertEquals(new Point(x, y), actualPoint);
 	}
 
