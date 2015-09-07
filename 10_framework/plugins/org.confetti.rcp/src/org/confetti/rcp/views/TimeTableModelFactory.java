@@ -10,23 +10,23 @@ import org.confetti.core.Teacher;
 import org.confetti.util.Tuple;
 
 import de.kupzog.ktable.KTable;
-import de.kupzog.ktable.KTableNoScrollModel;
+import de.kupzog.ktable.KTableDefaultModel;
 
-enum TimeTableModelFactory implements EntityVisitor<KTableNoScrollModel , Tuple<DataProvider, KTable>> {
+enum TimeTableModelFactory implements EntityVisitor<KTableDefaultModel, Tuple<DataProvider, KTable>> {
 	
 	INSTANCE;
 
-	@Override public KTableNoScrollModel visitSubject(Subject e, Tuple<DataProvider, KTable> p) { return create(e, p); }
-	@Override public KTableNoScrollModel visitTeacher(Teacher e, Tuple<DataProvider, KTable> p) { return create(e, p); }
-	@Override public KTableNoScrollModel visitRoom(Room e, Tuple<DataProvider, KTable> p) 		{ return create(e, p); }
+	@Override public KTableDefaultModel visitSubject(Subject e, Tuple<DataProvider, KTable> p) { return create(e, p); }
+	@Override public KTableDefaultModel visitTeacher(Teacher e, Tuple<DataProvider, KTable> p) { return create(e, p); }
+	@Override public KTableDefaultModel visitRoom(Room e, Tuple<DataProvider, KTable> p) 		{ return create(e, p); }
 
 	@Override
-	public KTableNoScrollModel visitStudentGroup(StudentGroup sg, Tuple<DataProvider, KTable> p) {
+	public KTableDefaultModel visitStudentGroup(StudentGroup sg, Tuple<DataProvider, KTable> p) {
 		return new TimeTableColumnModel(p.getSecond(), p.getFirst(), sg);
 	}
 
 	//----------------- helper -----------------------------------------------------------------------------------------
-	private KTableNoScrollModel create(Entity e, Tuple<DataProvider, KTable> p) {
+	private KTableDefaultModel create(Entity e, Tuple<DataProvider, KTable> p) {
 		return new TimeTableModel(p.getSecond(), p.getFirst(), e); 
 	}
 

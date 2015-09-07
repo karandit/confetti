@@ -23,7 +23,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
 import de.kupzog.ktable.KTable;
-import de.kupzog.ktable.KTableNoScrollModel;
+import de.kupzog.ktable.KTableDefaultModel;
 
 public class AssignmentsView extends ViewPart {
 
@@ -76,7 +76,7 @@ public class AssignmentsView extends ViewPart {
 	}
 	
 	private static KTable createTimeTable(Composite parent) {
-		final KTable ktable = new KTable(parent, SWT.NONE);
+		final KTable ktable = new KTable(parent, SWT.V_SCROLL | SWT.H_SCROLL);
 		ktable.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 		
 		assignModel(ktable, null, null);
@@ -108,7 +108,7 @@ public class AssignmentsView extends ViewPart {
 	}
 
 	private static void assignModel(final KTable ktable, DataProvider dp, Entity ent) {
-		final KTableNoScrollModel model;
+		final KTableDefaultModel model;
 		if (dp == null || ent == null) {
 			model = new TimeTableNotAvailableModel(ktable);
 		} else {
