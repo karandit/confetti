@@ -127,7 +127,7 @@ public class TimeTableColumnModelTest  {
 	}
 
 	@Test
-	public void testDoGetCellRenderer() {
+	public void testGetCellRenderer() {
 		Consumer<Point> isFixedRenderer = p -> assertTrue(sut.getCellRenderer(p.x, p.y) instanceof FixedCellRenderer);
 		Consumer<Point> isNotFixedRenderer = p -> assertTrue(!(sut.getCellRenderer(p.x, p.y) instanceof FixedCellRenderer));
 		
@@ -142,7 +142,7 @@ public class TimeTableColumnModelTest  {
 	}
 
 	@Test
-	public void testDoGetContentAt_TopLeft_Blank_Corner() {
+	public void testGetContentAt_TopLeft_Blank_Corner() {
 		assertEquals("", sut.getContentAt(0, 0));
 		assertEquals("", sut.getContentAt(1, 0));
 		assertEquals("", sut.getContentAt(0, 1));
@@ -150,7 +150,7 @@ public class TimeTableColumnModelTest  {
 	}
 
 	@Test
-	public void testDoGetContentAt_StudentGroup_Names() {
+	public void testGetContentAt_StudentGroup_Names() {
 		assertEquals("AA", sut.getContentAt(2, 0));
 		assertEquals("AA", sut.getContentAt(3, 0));
 		assertEquals("AB", sut.getContentAt(4, 0));
@@ -162,7 +162,7 @@ public class TimeTableColumnModelTest  {
 	}
 
 	@Test
-	public void testDoGetContentAt_Days_and_Hours() {
+	public void testGetContentAt_Days_and_Hours() {
 		int row = 2;
 		for (String dayName : DAY_NAMES) {
 			for (String hourName : HOUR_NAMES) {
@@ -172,7 +172,31 @@ public class TimeTableColumnModelTest  {
 			}
 		}
 	}
+	
+	@Test
+	public void testGetTooltipAt_StudentGroup_Names() {
+		assertEquals("AA", sut.getTooltipAt(2, 0));
+		assertEquals("AA", sut.getTooltipAt(3, 0));
+		assertEquals("AB", sut.getTooltipAt(4, 0));
+		assertEquals("AB", sut.getTooltipAt(5, 0));
+		assertEquals("AA1", sut.getTooltipAt(2, 1));
+		assertEquals("AA2", sut.getTooltipAt(3, 1));
+		assertEquals("AB1", sut.getTooltipAt(4, 1));
+		assertEquals("AB2", sut.getTooltipAt(5, 1));
+	}
 
+	@Test
+	public void testGetTooltipAt_Days_and_Hours() {
+		int row = 2;
+		for (String dayName : DAY_NAMES) {
+			for (String hourName : HOUR_NAMES) {
+				assertEquals(dayName, sut.getTooltipAt(0, row));
+				assertEquals(hourName, sut.getTooltipAt(1, row));
+				row++;
+			}
+		}
+	}
+	
 	//----------------------- helpers ----------------------------------------------------------------------------------
 	public static StudentGroup mockStudentGroup(String name, StudentGroup...children) {
 		StudentGroup sg = mock(StudentGroup.class);

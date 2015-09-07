@@ -110,6 +110,11 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	}
 
 	@Override
+	public String getTooltipAt(int col, int row) {
+		return (String) doGetContentAt(col, row);
+	}
+	
+	@Override
 	public Point belongsToCell(int col, int row) {
 		//top left blank corner
 		if (col < getFixedHeaderColumnCount() && row < getFixedHeaderRowCount()) {
