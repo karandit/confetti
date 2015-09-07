@@ -110,7 +110,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	}
 
 	@Override
-	public String getTooltipAt(int col, int row) {
+	public String doGetTooltipAt(int col, int row) {
 		return (String) doGetContentAt(col, row);
 	}
 	

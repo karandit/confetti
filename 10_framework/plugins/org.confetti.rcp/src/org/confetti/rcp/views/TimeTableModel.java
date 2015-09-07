@@ -80,8 +80,8 @@ public class TimeTableModel extends KTableNoScrollModel {
 	@Override public int doGetColumnCount() 									{ return 1 + days.length; }
 	@Override public int doGetRowCount() 										{ return 1 + hours.length; }
 
-	@Override public int getInitialColumnWidth(int col) 						{ return 60; }
-	@Override public int getInitialRowHeight(int row) 							{ return row == 0 ? 24: 48; }
+	@Override public int getInitialColumnWidth(int col) 						{ return col == 0 ? 10 : 60; }
+	@Override public int getInitialRowHeight(int row) 							{ return row == 0 ? 24 : 48; }
 	@Override public int getRowHeightMinimum() 									{ return 48; }
 	
 	@Override public boolean isColumnResizable(int col) 						{ return false; }
@@ -109,6 +109,10 @@ public class TimeTableModel extends KTableNoScrollModel {
 					}
 			}
 		}
+	}
+	@Override
+	public String doGetTooltipAt(int col, int row) {
+		return (String) doGetContentAt(col, row);
 	}
 	
 	private String[] toArray(List<String> names) {
