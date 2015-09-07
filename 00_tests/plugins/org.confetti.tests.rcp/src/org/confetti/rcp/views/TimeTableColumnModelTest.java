@@ -9,6 +9,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.function.Consumer;
+
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
@@ -126,7 +128,17 @@ public class TimeTableColumnModelTest  {
 
 	@Test
 	public void testDoGetCellRenderer() {
-		assertTrue(sut.getCellRenderer(0, 0) instanceof FixedCellRenderer);
+		Consumer<Point> isFixedRenderer = p -> assertTrue(sut.getCellRenderer(p.x, p.y) instanceof FixedCellRenderer);
+		Consumer<Point> isNotFixedRenderer = p -> assertTrue(!(sut.getCellRenderer(p.x, p.y) instanceof FixedCellRenderer));
+		
+		//TopLeft_Blank_Corner
+		assertCells(0, sut.getFixedColumnCount(), 0, sut.getFixedRowCount(), isFixedRenderer);
+		//Days and hours
+		assertCells(0, sut.getFixedColumnCount(), sut.getFixedRowCount(), sut.getRowCount(), isFixedRenderer);
+		//Student Group names
+		assertCells(sut.getFixedColumnCount(), sut.getColumnCount(), 0, sut.getFixedRowCount(), isFixedRenderer);
+		//Time table content
+		assertCells(sut.getFixedColumnCount(), sut.getColumnCount(), sut.getFixedRowCount(), sut.getRowCount(), isNotFixedRenderer);
 	}
 
 	@Test
@@ -172,5 +184,14 @@ public class TimeTableColumnModelTest  {
 	public static void assertPoint(int x, int y, Point actualPoint) {
 		assertEquals(new Point(x, y), actualPoint);
 	}
+
+	private void assertCells(int colMin, int colMax, int rowMin, int rowMax, Consumer<Point> f) {
+		for (int col = colMin; col < colMax; col++) {
+			for (int row = rowMin; row < rowMax; row++) {
+				f.accept(new Point(col, row));
+			}
+		}
+	}
+
 
 }

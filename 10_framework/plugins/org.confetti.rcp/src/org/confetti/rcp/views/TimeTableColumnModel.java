@@ -16,12 +16,13 @@ import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableCellEditor;
 import de.kupzog.ktable.KTableCellRenderer;
 import de.kupzog.ktable.KTableNoScrollModel;
+import de.kupzog.ktable.renderers.DefaultCellRenderer;
 import de.kupzog.ktable.renderers.FixedCellRenderer;
 
 public class TimeTableColumnModel extends KTableNoScrollModel {
 
 	//----------------------------- constants --------------------------------------------------------------------------
-//	private static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
+	private static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
 	private static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
 	
 	//----------------------------- fields -----------------------------------------------------------------------------
@@ -73,7 +74,11 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	@Override public boolean isRowResizable(int row) 						{ return false; }
 
 	@Override public KTableCellEditor doGetCellEditor(int arg0, int arg1) 	{ return null; }
-	@Override public KTableCellRenderer doGetCellRenderer(int col, int row) { return FIXED_RENDERER; }
+
+	@Override
+	public KTableCellRenderer doGetCellRenderer(int col, int row) {
+		return (col >= getFixedHeaderColumnCount() && row >= getFixedRowCount()) ? RENDERER : FIXED_RENDERER;
+	}
 	
 	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 	{ }
 
