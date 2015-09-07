@@ -23,6 +23,9 @@ import de.kupzog.ktable.renderers.FixedCellRenderer;
 
 public class TimeTableColumnModelTest  {
 	
+	private final static String[] DAY_NAMES = new String[] {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"}; 
+	private final static String[] HOUR_NAMES = new String[] {"08", "09", "10", "11"}; 
+
 	private TimeTableColumnModel sut;
 	
 	/**
@@ -64,9 +67,9 @@ public class TimeTableColumnModelTest  {
 						);
 
 		DataProvider dp = mock(DataProvider.class);
-		ListMutator<Day> days = mockListName(Day.class, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+		ListMutator<Day> days = mockListName(Day.class, DAY_NAMES);
 		when(dp.getDays()).thenReturn(days.getObservableList());
-		ListMutator<Hour> hours = mockListName(Hour.class, "08", "09", "10", "11");
+		ListMutator<Hour> hours = mockListName(Hour.class, HOUR_NAMES);
 		when(dp.getHours()).thenReturn(hours.getObservableList());
 		
 		sut = new TimeTableColumnModel(null, dp, sg);
@@ -101,21 +104,63 @@ public class TimeTableColumnModelTest  {
 	@Test
 	public void testBelongToCell_StudentGroup_Names() {
 		assertPoint(2, 0, sut.belongsToCell(2, 0));
-//		assertPoint(2, 0, sut.belongsToCell(3, 0));
+		assertPoint(2, 0, sut.belongsToCell(3, 0));
 		assertPoint(4, 0, sut.belongsToCell(4, 0));
-//		assertPoint(4, 0, sut.belongsToCell(5, 0));
+		assertPoint(4, 0, sut.belongsToCell(5, 0));
 		assertPoint(2, 1, sut.belongsToCell(2, 1));
 		assertPoint(3, 1, sut.belongsToCell(3, 1));
 		assertPoint(4, 1, sut.belongsToCell(4, 1));
 		assertPoint(5, 1, sut.belongsToCell(5, 1));
 	}
-	
+
+	@Test
+	public void testBelongToCell_Days_and_Hours() {
+		for (int dayIdx = 0; dayIdx < DAY_NAMES.length; dayIdx++) {
+			for (int hourIdx = 0; hourIdx < HOUR_NAMES.length; hourIdx++) {
+				int row = 2 + dayIdx * HOUR_NAMES.length + hourIdx;
+				assertPoint(0, 2 + dayIdx * HOUR_NAMES.length, sut.belongsToCell(0, row)); //days
+				assertPoint(1, row, sut.belongsToCell(1, row)); //hours (no merging)
+			}
+		}
+	}
+
 	@Test
 	public void testDoGetCellRenderer() {
 		assertTrue(sut.getCellRenderer(0, 0) instanceof FixedCellRenderer);
 	}
 
-//	@Test public void testDoGetContentAt() 					{ assertEquals(CONTENT, sut.getContentAt(0, 0)); }
+	@Test
+	public void testDoGetContentAt_TopLeft_Blank_Corner() {
+		assertEquals("", sut.getContentAt(0, 0));
+		assertEquals("", sut.getContentAt(1, 0));
+		assertEquals("", sut.getContentAt(0, 1));
+		assertEquals("", sut.getContentAt(1, 1));
+	}
+
+	@Test
+	public void testDoGetContentAt_StudentGroup_Names() {
+		assertEquals("AA", sut.getContentAt(2, 0));
+		assertEquals("AA", sut.getContentAt(3, 0));
+		assertEquals("AB", sut.getContentAt(4, 0));
+		assertEquals("AB", sut.getContentAt(5, 0));
+		assertEquals("AA1", sut.getContentAt(2, 1));
+		assertEquals("AA2", sut.getContentAt(3, 1));
+		assertEquals("AB1", sut.getContentAt(4, 1));
+		assertEquals("AB2", sut.getContentAt(5, 1));
+	}
+
+	@Test
+	public void testDoGetContentAt_Days_and_Hours() {
+		int row = 2;
+		for (String dayName : DAY_NAMES) {
+			for (String hourName : HOUR_NAMES) {
+				assertEquals(dayName, sut.getContentAt(0, row));
+				assertEquals(hourName, sut.getContentAt(1, row));
+				row++;
+			}
+		}
+	}
+
 	//----------------------- helpers ----------------------------------------------------------------------------------
 	public static StudentGroup mockStudentGroup(String name, StudentGroup...children) {
 		StudentGroup sg = mock(StudentGroup.class);
