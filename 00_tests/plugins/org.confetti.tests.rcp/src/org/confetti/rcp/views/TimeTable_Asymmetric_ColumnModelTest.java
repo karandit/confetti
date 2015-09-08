@@ -10,8 +10,10 @@ import static org.mockito.Mockito.when;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
+import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ListMutator;
+import org.confetti.observable.ValueMutator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,7 +55,8 @@ public class TimeTable_Asymmetric_ColumnModelTest {
 		when(dp.getDays()).thenReturn(days.getObservableList());
 		ListMutator<Hour> hours = mockListName(Hour.class, "08", "09", "10", "11");
 		when(dp.getHours()).thenReturn(hours.getObservableList());
-		
+		when(dp.getSolution()).thenReturn(new ValueMutator<Iterable<SolutionSlot>>(null, null).getObservableValue());
+
 		sut = new TimeTableColumnModel(null, dp, sg);
 		sut.initialize();
 	}

@@ -127,7 +127,7 @@ public class TimeTableModel extends KTableNoScrollModel {
 		return names;
 	}
 	
-	private enum GetCellInfoVisitor implements EntityVisitor<String, Assignment> {
+	enum GetCellInfoVisitor implements EntityVisitor<String, Assignment> {
 		INSTANCE;
 
 		@Override public String visitSubject(Subject subject, Assignment ass) { return null; }

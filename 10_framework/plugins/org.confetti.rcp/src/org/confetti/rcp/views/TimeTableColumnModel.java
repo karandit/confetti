@@ -1,16 +1,22 @@
 package org.confetti.rcp.views;
 
-import static com.google.common.collect.Iterables.toArray;
-import static com.google.common.collect.Iterables.transform;
 import static de.kupzog.ktable.renderers.DefaultCellRenderer.STYLE_PUSH;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
+import org.confetti.core.Day;
+import org.confetti.core.Hour;
+import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
+import org.confetti.rcp.views.TimeTableModel.GetCellInfoVisitor;
 import org.confetti.util.Tuple;
 import org.eclipse.swt.graphics.Point;
+
+import com.google.common.collect.Lists;
 
 import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableCellEditor;
@@ -24,37 +30,68 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	//----------------------------- constants --------------------------------------------------------------------------
 	private static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
 	private static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
-	
+//	static {
+//		FIXED_RENDERER.setAlignment(2);
+//	}
 	//----------------------------- fields -----------------------------------------------------------------------------
-//	private final DataProvider dp;
-//	private final StudentGroup sg;
+	private final StudentGroup sg;
 	private final int namesWidth;
 	private final int namesHeight;
-	private final String[] days;
-	private final String[] hours;
-	private final Map<Point, Tuple<Point, StudentGroup>> belongsTo = new HashMap<>();
+	private final List<Day> days;
+	private final List<Hour> hours;
+	
+	private final Map<Point, Point> belongsTo = new HashMap<>();
+	private final Map<Point, StudentGroup> headers = new HashMap<>();
+	private final Map<Point, Assignment> assignments = new HashMap<>();
 	
 	//----------------------------- constructors -----------------------------------------------------------------------
 	public TimeTableColumnModel(KTable table, DataProvider dp, StudentGroup sg) {
 		super(table);
-//		this.dp = dp;
-//		this.sg = sg;
-		Map<Point, Tuple<Integer, StudentGroup>> widths = new HashMap<>();
+		this.sg = sg;
 		
+		//Student Group Names header
+		Map<Point, Tuple<Integer, StudentGroup>> widths = new HashMap<>();
 		this.namesWidth = calcWidth(0, 0, sg, widths);
 		this.namesHeight = calcHeight(sg) - 1;
-		
 		for (Map.Entry<Point, Tuple<Integer, StudentGroup>> entry : widths.entrySet()) {
-			Point point = entry.getKey();
-			Tuple<Point, StudentGroup> target = new Tuple<>(point, entry.getValue().getSecond());
+			Point origPoint = entry.getKey();
+			Point target = new Point(origPoint.x + getFixedHeaderColumnCount(), origPoint.y);
 			
 			for (int i = 0; i < entry.getValue().getFirst(); i++) {
-				Point source = new Point(point.x + i, point.y);
-				belongsTo.put(source, target);
+				Point source = new Point(target.x + i, target.y);
+				this.belongsTo.put(source, target);
+				this.headers.put(source, entry.getValue().getSecond());
 			}
 		}
-		days = toArray(transform(dp.getDays().getList(), x -> x.getName().getValue()), String.class);
-		hours = toArray(transform(dp.getHours().getList(), x -> x.getName().getValue()), String.class);
+		
+		//Days and hours
+		days = Lists.newArrayList(dp.getDays().getList());
+		hours = Lists.newArrayList(dp.getHours().getList());
+
+		//Assignments
+		if (dp.getSolution().getValue() != null) {
+			Map<Assignment, SolutionSlot> assignmentSolutionSlot = new HashMap<>();
+			for (SolutionSlot slot : dp.getSolution().getValue()) {
+				assignmentSolutionSlot.put(slot.getAssignment(), slot);
+			}
+
+			for (Assignment ass : sg.getAssignments().getList()) {
+				if (assignmentSolutionSlot.containsKey(ass)) {
+					SolutionSlot foundSolutionSlot = assignmentSolutionSlot.get(ass);
+					int day =  days.indexOf(foundSolutionSlot.getDay());
+					int hour = hours.indexOf(foundSolutionSlot.getHour());
+					
+					Point point = new Point(getFixedHeaderColumnCount(), 
+							getFixedHeaderRowCount() + day * hours.size() + hour);
+					this.assignments.put(point, ass);
+					
+					for (int i = 0; i < namesWidth; i++) {
+						Point source = new Point(point.x + i, point.y);
+						this.belongsTo.put(source, point);
+					}
+				}
+			}
+		}
 	}
 	
 	//----------------------------- KTableNoScrollModel's API ----------------------------------------------------------
@@ -64,9 +101,9 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	@Override public int getFixedSelectableRowCount() 						{ return 0; }
 
 	@Override public int doGetColumnCount() 								{ return 2 + namesWidth;}
-	@Override public int doGetRowCount() 									{ return namesHeight + days.length * hours.length; }
+	@Override public int doGetRowCount() 									{ return namesHeight + days.size() * hours.size(); }
 	
-	@Override public int getInitialColumnWidth(int col) 					{ return 60; }
+	@Override public int getInitialColumnWidth(int col) 					{ return col < 2 ? 10 : 60; }
 	@Override public int getInitialRowHeight(int row) 						{ return 48; }
 	@Override public int getRowHeightMinimum() 								{ return 24; }
 	
@@ -90,22 +127,29 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 		}
 		//student group names
 		if (col >= getFixedHeaderColumnCount() && row < getFixedHeaderRowCount()) {
-			Tuple<Point, StudentGroup> found = belongsTo.get(new Point(col - getFixedHeaderColumnCount(), row));
+			StudentGroup found = headers.get(new Point(col, row));
 			if (found != null) {
-				return found.getSecond().getName().getValue();
+				return found.getName().getValue();
 			}
 		}
 		//days
 		if (col == 0) {
 			int absrow = row - getFixedHeaderRowCount();
-			return days[absrow / hours.length];
+			return days.get(absrow / hours.size()).getName().getValue();
 		}
 		//hours
 		if (col == 1) {
 			int absrow = row - getFixedHeaderRowCount();
-			return hours[absrow % hours.length];
+			return hours.get(absrow % hours.size()).getName().getValue();
 		}
-		
+		//assignments
+		if (col >= getFixedHeaderColumnCount()) {
+			Point point = new Point(col, row);
+			if (assignments.containsKey(point)) {
+				Assignment ass = assignments.get(point);
+				return this.sg.accept(GetCellInfoVisitor.INSTANCE, ass);
+			}
+		}
 		return "";
 	}
 
@@ -122,18 +166,23 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 		}
 		//student group names
 		if (col >= getFixedHeaderColumnCount() && row < getFixedHeaderRowCount()) {
-			Tuple<Point, StudentGroup> found = belongsTo.get(new Point(col - getFixedHeaderColumnCount(), row));
+			Point found = belongsTo.get(new Point(col, row));
 			if (found != null) {
-				Point targetPoint = found.getFirst();
-				return new Point(getFixedHeaderColumnCount() + targetPoint.x, targetPoint.y);
+				return found;
 			}
 		}
 		//days
 		if (col == 0) {
 			int absrow = row - getFixedHeaderRowCount();
-			return new Point(0, getFixedHeaderRowCount() + (absrow / hours.length) * hours.length);
+			return new Point(0, getFixedHeaderRowCount() + (absrow / hours.size()) * hours.size());
 		}
-		
+		//assignments
+		if (col >= getFixedHeaderColumnCount()) {
+			Point found = belongsTo.get(new Point(col, row));
+			if (found != null) {
+				return found;
+			}
+		}		
 		return super.belongsToCell(col, row);
 	}
 	

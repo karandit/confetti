@@ -9,6 +9,8 @@ import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.util.Tuple;
 
+import com.google.common.collect.Iterables;
+
 import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableDefaultModel;
 
@@ -22,7 +24,9 @@ enum TimeTableModelFactory implements EntityVisitor<KTableDefaultModel, Tuple<Da
 
 	@Override
 	public KTableDefaultModel visitStudentGroup(StudentGroup sg, Tuple<DataProvider, KTable> p) {
-		return new TimeTableColumnModel(p.getSecond(), p.getFirst(), sg);
+		return Iterables.isEmpty(sg.getChildren().getList())
+			? create(sg, p)
+			: new TimeTableColumnModel(p.getSecond(), p.getFirst(), sg);
 	}
 
 	//----------------- helper -----------------------------------------------------------------------------------------

@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
+import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ValueMutator;
@@ -73,6 +74,7 @@ public class TimeTableColumnModelTest  {
 		when(dp.getDays()).thenReturn(days.getObservableList());
 		ListMutator<Hour> hours = mockListName(Hour.class, HOUR_NAMES);
 		when(dp.getHours()).thenReturn(hours.getObservableList());
+		when(dp.getSolution()).thenReturn(new ValueMutator<Iterable<SolutionSlot>>(null, null).getObservableValue());
 		
 		sut = new TimeTableColumnModel(null, dp, sg);
 		sut.initialize();
@@ -86,7 +88,9 @@ public class TimeTableColumnModelTest  {
 	@Test public void testDoGetRowCount() 					{ assertEquals(2 + 20, sut.doGetRowCount()); }
 	@Test public void testDoGetColumnCount() 				{ assertEquals(2 + 4, sut.doGetColumnCount()); }
 	
-	@Test public void testGetInitialColumnWidth() 			{ assertEquals(60, sut.getInitialColumnWidth(0)); } 
+	@Test public void testGetInitialColumnWidth_Days() 		{ assertEquals(10, sut.getInitialColumnWidth(0)); } 
+	@Test public void testGetInitialColumnWidth_Hours() 	{ assertEquals(10, sut.getInitialColumnWidth(1)); } 
+	@Test public void testGetInitialColumnWidth() 			{ assertEquals(60, sut.getInitialColumnWidth(2)); } 
 	@Test public void testGetInitialRowHeight() 			{ assertEquals(48, sut.getInitialRowHeight(0)); } 
 	@Test public void testGetRowHeightMinimum() 			{ assertEquals(24, sut.getRowHeightMinimum()); } 
 

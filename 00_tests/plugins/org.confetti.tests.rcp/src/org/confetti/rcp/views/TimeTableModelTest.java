@@ -55,7 +55,8 @@ public class TimeTableModelTest {
 	@Test public void testDoGetRowCount() 					{ assertEquals(5, sut.doGetRowCount()); }
 	@Test public void testDoGetColumnCount() 				{ assertEquals(6, sut.doGetColumnCount()); }
 	
-	@Test public void testGetInitialColumnWidth() 			{ assertEquals(60, sut.getInitialColumnWidth(0)); } 
+	@Test public void testGetInitialColumnWidth_First() 	{ assertEquals(10, sut.getInitialColumnWidth(0)); } 
+	@Test public void testGetInitialColumnWidth() 			{ assertEquals(60, sut.getInitialColumnWidth(1)); } 
 	@Test public void testGetInitialRowHeight_ForHeader()	{ assertEquals(24, sut.getInitialRowHeight(0)); } 
 	@Test public void testGetInitialRowHeight_ForContent()	{ assertEquals(48, sut.getInitialRowHeight(1)); } 
 	@Test public void testGetRowHeightMinimum() 			{ assertEquals(48, sut.getRowHeightMinimum()); } 
