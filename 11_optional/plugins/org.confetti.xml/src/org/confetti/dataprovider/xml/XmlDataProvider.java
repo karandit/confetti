@@ -213,10 +213,10 @@ public class XmlDataProvider implements DataProvider {
 	private StudentGroupImpl createStudentGroup(YearXml year) {
 		StudentGroupImpl studentGroup1 = new StudentGroupImpl(year.getName());
 		for (GroupXml group : year.getGroups()) {
-			StudentGroupImpl studentGroup2 = new StudentGroupImpl(group.getName());
+			StudentGroupImpl studentGroup2 = new StudentGroupImpl(group.getName(), studentGroup1);
 			studentGroup1.addChild(studentGroup2);
 			for (SubgroupXml subgroup : group.getSubgroups()) {
-				StudentGroupImpl studentGroup3 = new StudentGroupImpl(subgroup.getName());
+				StudentGroupImpl studentGroup3 = new StudentGroupImpl(subgroup.getName(), studentGroup2);
 				studentGroup2.addChild(studentGroup3);
 			}
 		}
