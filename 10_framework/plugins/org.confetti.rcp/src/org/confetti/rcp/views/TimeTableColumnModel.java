@@ -1,6 +1,7 @@
 package org.confetti.rcp.views;
 
 import static de.kupzog.ktable.renderers.DefaultCellRenderer.STYLE_PUSH;
+import static java.util.stream.IntStream.range;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,9 +31,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	//----------------------------- constants --------------------------------------------------------------------------
 	private static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
 	private static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
-//	static {
-//		FIXED_RENDERER.setAlignment(2);
-//	}
+
 	//----------------------------- fields -----------------------------------------------------------------------------
 	private final StudentGroup sg;
 	private final int namesWidth;
@@ -45,7 +44,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	private final Map<Point, Assignment> assignments = new HashMap<>();
 	
 	//----------------------------- constructors -----------------------------------------------------------------------
-	public TimeTableColumnModel(KTable table, DataProvider dp, StudentGroup sg) {
+	public TimeTableColumnModel(final KTable table, final DataProvider dp, final StudentGroup sg) {
 		super(table);
 		this.sg = sg;
 		
@@ -57,11 +56,12 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 			Point origPoint = entry.getKey();
 			Point target = new Point(origPoint.x + getFixedHeaderColumnCount(), origPoint.y);
 			
-			for (int i = 0; i < entry.getValue().getFirst(); i++) {
-				Point source = new Point(target.x + i, target.y);
+			range(0, entry.getValue().getFirst())
+			.mapToObj(offset -> new Point(target.x + offset, target.y))
+			.forEach(source  -> {
 				this.belongsTo.put(source, target);
 				this.headers.put(source, entry.getValue().getSecond());
-			}
+			});
 		}
 		
 		//Days and hours
@@ -70,30 +70,17 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 
 		//Assignments
 		if (dp.getSolution().getValue() != null) {
-			Map<Assignment, SolutionSlot> assignmentSolutionSlot = new HashMap<>();
-			for (SolutionSlot slot : dp.getSolution().getValue()) {
-				assignmentSolutionSlot.put(slot.getAssignment(), slot);
-			}
+			Map<Assignment, SolutionSlot> slotsByAssignment = new HashMap<>();
+			dp.getSolution().getValue().forEach(slot -> slotsByAssignment.put(slot.getAssignment(), slot));
 
-			for (Assignment ass : sg.getAssignments().getList()) {
-				if (assignmentSolutionSlot.containsKey(ass)) {
-					SolutionSlot foundSolutionSlot = assignmentSolutionSlot.get(ass);
-					int day =  days.indexOf(foundSolutionSlot.getDay());
-					int hour = hours.indexOf(foundSolutionSlot.getHour());
-					
-					Point point = new Point(getFixedHeaderColumnCount(), 
-							getFixedHeaderRowCount() + day * hours.size() + hour);
-					this.assignments.put(point, ass);
-					
-					for (int i = 0; i < namesWidth; i++) {
-						Point source = new Point(point.x + i, point.y);
-						this.belongsTo.put(source, point);
-					}
-				}
+			StudentGroup studGroup = sg;
+			while (studGroup != null) {
+				addAssignments(studGroup, namesWidth, slotsByAssignment);
+				studGroup = studGroup.getParent();
 			}
 		}
 	}
-	
+
 	//----------------------------- KTableNoScrollModel's API ----------------------------------------------------------
 	@Override public int getFixedHeaderColumnCount() 						{ return 2; }
 	@Override public int getFixedHeaderRowCount() 							{ return namesHeight; }
@@ -203,6 +190,24 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 			childDepth = Math.max(childDepth, calcHeight(child));
 		}
 		return 1 + childDepth;
+	}
+
+	private void addAssignments(StudentGroup sg, int sgWidth, Map<Assignment, SolutionSlot> slotsByAssg) {
+		for (Assignment ass : sg.getAssignments().getList()) {
+			if (!slotsByAssg.containsKey(ass)) {
+				continue;
+			}
+			SolutionSlot foundSolutionSlot = slotsByAssg.get(ass);
+			int day =  this.days.indexOf(foundSolutionSlot.getDay());
+			int hour = this.hours.indexOf(foundSolutionSlot.getHour());
+			
+			Point point = new Point(getFixedHeaderColumnCount(), 
+					getFixedHeaderRowCount() + day * hours.size() + hour);
+			this.assignments.put(point, ass);
+			
+			range(0, sgWidth)
+			.forEach(offset -> this.belongsTo.put(new Point(point.x + offset, point.y), point));
+		}
 	}
 
 }
