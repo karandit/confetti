@@ -2,6 +2,7 @@ package org.confetti.fet.engine;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
+import static com.google.common.collect.Sets.newHashSet;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,9 +27,6 @@ import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
 import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
-import org.confetti.core.StudentGroup;
-import org.confetti.core.Subject;
-import org.confetti.core.Teacher;
 import org.confetti.fet.engine.solution.ResultActivityXML;
 import org.confetti.fet.engine.solution.SolutionFAO;
 import org.confetti.fet.engine.solution.SolutionXML;
@@ -45,16 +43,15 @@ import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubjectXml;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
-import org.confetti.xml.core.space.misc.ConstraintBasicCompulsorySpace;
 import org.confetti.xml.core.space.SpaceConstraint;
-import org.confetti.xml.core.time.misc.ConstraintBasicCompulsoryTime;
+import org.confetti.xml.core.space.misc.ConstraintBasicCompulsorySpace;
 import org.confetti.xml.core.time.TimeConstraint;
+import org.confetti.xml.core.time.misc.ConstraintBasicCompulsoryTime;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Sets;
 
 /**
  * @author Gabor Bubla
@@ -62,7 +59,8 @@ import com.google.common.collect.Sets;
 public class FETEngineWizard extends Wizard {
 
 	private final DataProvider mDataProvider;
-
+	private FETEngineWizardPage mConsolePage;
+	
 	public FETEngineWizard(DataProvider dp) {
 		this.mDataProvider = dp;
 	}
@@ -70,7 +68,8 @@ public class FETEngineWizard extends Wizard {
 	@Override
 	public void addPages() {
 		setWindowTitle("Generate");
-		addPage(new FETEngineWizardPage("FET Wizard Page"));
+		mConsolePage = new FETEngineWizardPage("FET Wizard Page");
+		addPage(mConsolePage);
 	}
 	
 	@Override
@@ -102,11 +101,12 @@ public class FETEngineWizard extends Wizard {
 			
 			final Process process = new ProcessBuilder(command).start();
 		    InputStream is = process.getInputStream();
-		    InputStreamReader isr = new InputStreamReader(is);
-		    BufferedReader br = new BufferedReader(isr);
-		    String line;
-		    while ((line = br.readLine()) != null) {
-		      System.out.println(line);
+		    try (InputStreamReader isr = new InputStreamReader(is);
+		    		BufferedReader br = new BufferedReader(isr)) {
+			    String line;
+			    while ((line = br.readLine()) != null) {
+			    	mConsolePage.print(line);
+			    }
 		    }
 		    
 		    //Reading in the solution file
@@ -123,18 +123,18 @@ public class FETEngineWizard extends Wizard {
 		    	//TODO: check if the id is not too long, because it could add a comma
 		    	mapAssignments.put(tuple.getFirst().toString(), tuple.getSecond()); 
 		    }
-		    Iterable<SolutionSlot> dpSolution = transform(solution.getActivities(), new Function<ResultActivityXML, SolutionSlot>() {
-				@Override
-				public SolutionSlot apply(ResultActivityXML act) {
+		    Iterable<SolutionSlot> dpSolution = transform(solution.getActivities(), 
+		    		(ResultActivityXML act) -> {
 			    	Assignment assignment = mapAssignments.get(act.getId());
 			    	Day day = mapDays.get(act.getDay());
 			    	Hour hour = mapHours.get(act.getHour());
 			    	Room room = mapRooms.get(act.getRoom());
 					return new SolutionSlot(assignment, day, hour, room);
 				}
-			});
+			);
 			ConfettiPlugin.getDefault().getDataProvider().getValue().setSolution(dpSolution);
-		    return true;
+		    MessageDialog.openInformation(this.getShell(), "Success", "Timetable generated successfully.");
+			return true;
 		} catch (Throwable e) {
 			MessageDialog.openError(this.getShell(), "Error", e.getLocalizedMessage());
 			e.printStackTrace();
@@ -142,12 +142,16 @@ public class FETEngineWizard extends Wizard {
 		}
 	}
 
-	private <T extends Nameable> Map<String, T> convertToMap(Iterable<T> items) {
+	private static <T extends Nameable> Map<String, T> convertToMap(Iterable<T> items) {
 		final Map<String, T> map = new HashMap<>();
 		for (T item : items) {
 			map.put(item.getName().getValue(), item);
 		}
 		return map;
+	}
+
+	private static <T, F> List<T> convertToList(Iterable<F> items, Function<F, T> f) {
+		return transform(newArrayList(items), f); 
 	}
 
 	private Tuple<InstituteXml, List<Tuple<Long, Assignment>>> createInstitueXml(DataProvider dp) {
@@ -162,30 +166,16 @@ public class FETEngineWizard extends Wizard {
 		inst.setSpaceConstraints(spaceConstraints);
 		
 		//Transforming Subjects, Teachers, StudentGroups, Rooms, Days, Hours for FET
-		inst.setSubjects(transform(newArrayList(dp.getSubjects().getList()), new Function<Subject, SubjectXml>() {
-			@Override public SubjectXml apply(Subject subj) { return new SubjectXml(subj.getName().getValue()); }
-		}));
-		inst.setTeachers(transform(newArrayList(dp.getTeachers().getList()), new Function<Teacher, TeacherXml>() {
-			@Override public TeacherXml apply(Teacher teacher) { return new TeacherXml(teacher.getName().getValue()); }
-		}));
-		inst.setYears(transform(newArrayList(dp.getStudentGroups().getList()), new Function<StudentGroup, YearXml>() {
-			@Override public YearXml apply(StudentGroup sG) { return new YearXml(sG); }
-		}));
-		inst.setRooms(transform(newArrayList(dp.getRooms().getList()), new Function<Room, RoomXml>() {
-			@Override public RoomXml apply(Room room) { return new RoomXml(room.getName().getValue()); }
-		}));
-		inst.setDays(new DaysXml(transform(newArrayList(dp.getDays().getList()), new Function<Day, DayXml>() {
-			@Override public DayXml apply(Day day) { return new DayXml(day.getName().getValue()); }
-		})));
-		inst.setHours(new HoursXml(transform(newArrayList(dp.getHours().getList()), new Function<Hour, HourXml>() {
-			@Override public HourXml apply(Hour hour) { return new HourXml(hour.getName().getValue()); }
-		})));
+		inst.setSubjects(convertToList(dp.getSubjects().getList(), subj -> new SubjectXml(subj.getName().getValue())));
+		inst.setTeachers(convertToList(dp.getTeachers().getList(), teacher -> new TeacherXml(teacher.getName().getValue())));
+		inst.setYears(convertToList(dp.getStudentGroups().getList(), sG -> new YearXml(sG)));
+		inst.setRooms(convertToList(dp.getRooms().getList(), room -> new RoomXml(room.getName().getValue())));
+		inst.setDays(new DaysXml(convertToList(dp.getDays().getList(), day -> new DayXml(day.getName().getValue()))));
+		inst.setHours(new HoursXml(convertToList(dp.getHours().getList(), hour -> new HourXml(hour.getName().getValue()))));
 		
 		//Transforming Assignments for FET
 		Set<Assignment> assignments = new HashSet<>();
-		for (Subject subj : dp.getSubjects().getList()) {
-			assignments.addAll(Sets.newHashSet(subj.getAssignments().getList()));
-		}
+		dp.getSubjects().getList().forEach(subj -> assignments.addAll(newHashSet(subj.getAssignments().getList())));
 		
 		long counter = 1;
 		List<Tuple<Long, Assignment>> tuples = new LinkedList<>();
@@ -193,13 +183,7 @@ public class FETEngineWizard extends Wizard {
 			tuples.add(new Tuple<>(counter++, assignment));
 		}
 		
-		inst.setActivities(transform(tuples, new Function<Tuple<Long, Assignment>, ActivityXml>() {
-			@Override
-			public ActivityXml apply(Tuple<Long, Assignment> tuple) {
-				return new ActivityXml(tuple.getFirst(), tuple.getSecond());
-			}
-		}));
-		
+		inst.setActivities(transform(tuples, tuple -> new ActivityXml(tuple.getFirst(), tuple.getSecond())));
 		return new Tuple<>(inst, tuples);
 	}
 
