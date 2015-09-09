@@ -49,7 +49,12 @@ import org.confetti.xml.core.time.TimeConstraint;
 import org.confetti.xml.core.time.misc.ConstraintBasicCompulsoryTime;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import com.google.common.base.Function;
 
@@ -133,8 +138,17 @@ public class FETEngineWizard extends Wizard {
 				}
 			);
 			ConfettiPlugin.getDefault().getDataProvider().getValue().setSolution(dpSolution);
-		    MessageDialog.openInformation(this.getShell(), "Success", "Timetable generated successfully.");
-			return true;
+			IWizardContainer container = getContainer();
+			if (container instanceof WizardDialog) {
+				WizardDialog dlg = (WizardDialog) container;
+				Composite buttonBar = (Composite) dlg.buttonBar;
+				Composite composite = (Composite)buttonBar.getChildren()[1];
+				Control finishButton = composite.getChildren()[0];
+				finishButton.setVisible(false);
+				Button cancelButton = (Button) composite.getChildren()[1];
+				cancelButton.setText("Close");
+			}
+			return false;
 		} catch (Throwable e) {
 			MessageDialog.openError(this.getShell(), "Error", e.getLocalizedMessage());
 			e.printStackTrace();
