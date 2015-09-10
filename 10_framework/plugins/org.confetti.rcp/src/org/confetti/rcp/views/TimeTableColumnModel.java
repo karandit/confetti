@@ -75,7 +75,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 
 			StudentGroup studGroup = sg;
 			while (studGroup != null) {
-				addAssignments(studGroup, namesWidth, slotsByAssignment);
+				addAssignments(studGroup, 0, namesWidth, slotsByAssignment);
 				studGroup = studGroup.getParent();
 			}
 		}
@@ -192,7 +192,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 		return 1 + childDepth;
 	}
 
-	private void addAssignments(StudentGroup sg, int sgWidth, Map<Assignment, SolutionSlot> slotsByAssg) {
+	private void addAssignments(StudentGroup sg, int sgOffset, int sgWidth, Map<Assignment, SolutionSlot> slotsByAssg) {
 		for (Assignment ass : sg.getAssignments().getList()) {
 			if (!slotsByAssg.containsKey(ass)) {
 				continue;
@@ -201,7 +201,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 			int day =  this.days.indexOf(foundSolutionSlot.getDay());
 			int hour = this.hours.indexOf(foundSolutionSlot.getHour());
 			
-			Point point = new Point(getFixedHeaderColumnCount(), 
+			Point point = new Point(getFixedHeaderColumnCount() + sgOffset, 
 					getFixedHeaderRowCount() + day * hours.size() + hour);
 			this.assignments.put(point, ass);
 			
