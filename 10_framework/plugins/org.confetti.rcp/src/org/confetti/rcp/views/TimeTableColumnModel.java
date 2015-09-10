@@ -78,6 +78,27 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 				addAssignments(studGroup, 0, namesWidth, slotsByAssignment);
 				studGroup = studGroup.getParent();
 			}
+			final Map<StudentGroup, Tuple<Integer, Point>> positions = new HashMap<>();
+			widths.entrySet().forEach(entry -> positions.put(entry.getValue().getSecond(),
+							new Tuple<>(entry.getValue().getFirst(), entry.getKey())));
+			
+			walkStudentGroups(sg, positions, slotsByAssignment);
+			
+		}
+	}
+
+	private void walkStudentGroups(StudentGroup parent, 
+			Map<StudentGroup, Tuple<Integer, Point>> positions, 
+			Map<Assignment, SolutionSlot> slotsByAssignment) {
+		if (parent.getChildren() == null) {
+			return;
+		}
+		for (StudentGroup child : parent.getChildren().getList()) {
+			Tuple<Integer, Point> tuple = positions.get(child);
+			int width = tuple.getFirst();
+			int offset = tuple.getSecond().x;
+			addAssignments(child, offset, width, slotsByAssignment);
+			walkStudentGroups(child, positions, slotsByAssignment);
 		}
 	}
 
