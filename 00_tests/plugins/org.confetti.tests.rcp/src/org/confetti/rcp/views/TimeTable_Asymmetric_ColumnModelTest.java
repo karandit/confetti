@@ -1,6 +1,7 @@
 package org.confetti.rcp.views;
 
 import static org.confetti.rcp.views.TimeTableColumnModelTest.assertPoint;
+import static org.confetti.rcp.views.TimeTableColumnModelTest.mockKTable;
 import static org.confetti.rcp.views.TimeTableColumnModelTest.mockStudentGroup;
 import static org.confetti.rcp.views.TimeTableModelTest.mockListName;
 import static org.junit.Assert.assertEquals;
@@ -57,7 +58,7 @@ public class TimeTable_Asymmetric_ColumnModelTest {
 		when(dp.getHours()).thenReturn(hours.getObservableList());
 		when(dp.getSolution()).thenReturn(new ValueMutator<Iterable<SolutionSlot>>(null, null).getObservableValue());
 
-		sut = new TimeTableColumnModel(null, dp, sg);
+		sut = new TimeTableColumnModel(mockKTable(), dp, sg);
 		sut.initialize();
 	}
 	

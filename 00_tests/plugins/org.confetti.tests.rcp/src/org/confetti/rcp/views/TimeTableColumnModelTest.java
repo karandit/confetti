@@ -19,9 +19,11 @@ import org.confetti.core.StudentGroup;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ValueMutator;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Display;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.renderers.FixedCellRenderer;
 
 public class TimeTableColumnModelTest  {
@@ -76,10 +78,10 @@ public class TimeTableColumnModelTest  {
 		when(dp.getHours()).thenReturn(hours.getObservableList());
 		when(dp.getSolution()).thenReturn(new ValueMutator<Iterable<SolutionSlot>>(null, null).getObservableValue());
 		
-		sut = new TimeTableColumnModel(null, dp, sg);
+		sut = new TimeTableColumnModel(mockKTable(), dp, sg);
 		sut.initialize();
 	}
-	
+
 	@Test public void testGetFixedHeaderColumnCount() 		{ assertEquals(2, sut.getFixedHeaderColumnCount()); }
 	@Test public void testGetFixedHeaderRowCount() 			{ assertEquals(2, sut.getFixedHeaderRowCount()); }
 	@Test public void testGetFixedSelectableColumnCount() 	{ assertEquals(0, sut.getFixedSelectableColumnCount()); }
@@ -207,6 +209,13 @@ public class TimeTableColumnModelTest  {
 		when(sg.getName()).thenReturn(new ValueMutator<>(null, name).getObservableValue());
 		when(sg.getChildren()).thenReturn(new ListMutator<>(asList(children)).getObservableList());
 		return sg;
+	}
+
+	public static KTable mockKTable() {
+		KTable ktable = mock(KTable.class);
+		Display display = mock(Display.class);
+		when(ktable.getDisplay()).thenReturn(display);
+		return ktable;
 	}
 	
 	public static void assertPoint(int x, int y, Point actualPoint) {
