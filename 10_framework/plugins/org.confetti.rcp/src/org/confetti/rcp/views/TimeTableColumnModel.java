@@ -24,13 +24,13 @@ import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableCellEditor;
 import de.kupzog.ktable.KTableCellRenderer;
 import de.kupzog.ktable.KTableNoScrollModel;
-import de.kupzog.ktable.renderers.DefaultCellRenderer;
 import de.kupzog.ktable.renderers.FixedCellRenderer;
+import de.kupzog.ktable.renderers.TextCellRenderer;
 
 public class TimeTableColumnModel extends KTableNoScrollModel {
 
 	//----------------------------- constants --------------------------------------------------------------------------
-	private final DefaultCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
+	private static final TextCellRenderer RENDERER = new TextCellRenderer(SWT.NONE);
 	private static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
 
 	//----------------------------- fields -----------------------------------------------------------------------------
@@ -48,11 +48,6 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	public TimeTableColumnModel(final KTable table, final DataProvider dp, final StudentGroup sg) {
 		super(table);
 		this.sg = sg;
-		RENDERER.setDefaultBackground(table.getDisplay().getSystemColor(SWT.COLOR_DARK_YELLOW));
-		RENDERER.setBackground(table.getDisplay().getSystemColor(SWT.COLOR_GREEN));
-		RENDERER.setForeground(table.getDisplay().getSystemColor(SWT.COLOR_GREEN));
-		RENDERER.setDefaultForeground(table.getDisplay().getSystemColor(SWT.COLOR_GREEN));
-		
 		
 		//Student Group Names header
 		Map<Point, Tuple<Integer, StudentGroup>> widths = new HashMap<>();
@@ -128,7 +123,16 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 
 	@Override
 	public KTableCellRenderer doGetCellRenderer(int col, int row) {
-		return (col >= getFixedHeaderColumnCount() && row >= getFixedRowCount()) ? RENDERER : FIXED_RENDERER;
+		if (col < getFixedHeaderColumnCount() || row < getFixedHeaderRowCount()) {
+			return FIXED_RENDERER;
+		}
+		Point point = new Point(col, row);
+		if (!assignments.containsKey(point)) {
+			return RENDERER;
+		}
+		Assignment assignment = assignments.get(point);
+		int color = assignment.getSubject().getColor();	
+		return RendererCache.INSTANCE.getRenderer(color);
 	}
 	
 	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 	{ }

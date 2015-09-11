@@ -132,6 +132,7 @@ import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxHoursContinuousl
 import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxHoursDaily;
 import org.confetti.xml.core.time.teachers.ConstraintTeachersMinDaysPerWeek;
 import org.confetti.xml.core.time.teachers.ConstraintTeachersMinHoursDaily;
+import org.eclipse.swt.SWT;
 
 import com.google.common.collect.Lists;
 
@@ -139,6 +140,23 @@ import com.google.common.collect.Lists;
  * @author Bubla Gabor
  */
 public class XmlDataProvider implements DataProvider {
+	
+	private final int[] COLOR_IDS = new int[] {
+		SWT.COLOR_BLUE,
+		SWT.COLOR_CYAN,
+		SWT.COLOR_GRAY,
+		SWT.COLOR_GREEN,
+		SWT.COLOR_MAGENTA,
+		SWT.COLOR_RED,
+		SWT.COLOR_YELLOW,
+		SWT.COLOR_DARK_BLUE,
+		SWT.COLOR_DARK_CYAN,
+		SWT.COLOR_DARK_GRAY,
+		SWT.COLOR_DARK_GREEN,
+		SWT.COLOR_DARK_MAGENTA,
+		SWT.COLOR_DARK_RED,
+		SWT.COLOR_DARK_YELLOW,
+	};
 	
 	//----------------------------- fields for UI client----------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
@@ -157,7 +175,8 @@ public class XmlDataProvider implements DataProvider {
     private final InstituteXml instXml;
     private File file;
     private long currentMaxId = 0;
-
+    private int colorCounter = 0;
+    
 	//----------------------------- constructors -----------------------------------------------------------------------
     public XmlDataProvider(InstituteXml inst, File file) throws FAOException {
         this(inst);
@@ -175,7 +194,7 @@ public class XmlDataProvider implements DataProvider {
 		instComment.setValue(this, inst.getComment());
 		inst.getDays().getDays()	.forEach(day -> days.addItem(new DayImpl(day.getName())));
 		inst.getHours().getHours()	.forEach(hour -> hours.addItem(new HourImpl(hour.getName())));
-        inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName())));
+        inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName(), this.getNextColorId())));
 		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
 		inst.getRooms()				.forEach(room -> rooms.addItem(new RoomImpl(room.getName())));
 		inst.getYears()				.forEach(year -> stdGroups.addItem(createStudentGroup(year)));
@@ -222,7 +241,11 @@ public class XmlDataProvider implements DataProvider {
 		}
 		return studentGroup1;
 	}
-
+	private int getNextColorId() {
+		int colorId = COLOR_IDS[colorCounter++];
+		colorCounter = colorCounter % COLOR_IDS.length;
+		return colorId;
+	}
 	//----------------------------- DataProvider's API -----------------------------------------------------------------
 	@Override public String getInformation()                               { return file.getAbsolutePath(); }
 	@Override public ObservableValue<String> getName() 					   { return instName.getObservableValue(); }
@@ -250,7 +273,7 @@ public class XmlDataProvider implements DataProvider {
 	public void addSubjects(List<String> names) {
 	    names.forEach(name -> instXml.getSubjects().add(new SubjectXml(name)));
 	    save();
-	    names.forEach(name -> subjects.addItem(new SubjectImpl(name)));
+	    names.forEach(name -> subjects.addItem(new SubjectImpl(name, this.getNextColorId())));
 	}
 	
     @Override

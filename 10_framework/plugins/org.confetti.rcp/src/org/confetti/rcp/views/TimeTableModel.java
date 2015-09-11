@@ -88,7 +88,19 @@ public class TimeTableModel extends KTableNoScrollModel {
 	@Override public boolean isRowResizable(int row) 							{ return false; }
 
 	@Override public KTableCellEditor doGetCellEditor(int arg0, int arg1) 		{ return null; }
-	@Override public KTableCellRenderer doGetCellRenderer(int col, int row) 	{ return (row == 0 || col == 0) ? FIXED_RENDERER : RENDERER; }
+
+	@Override
+	public KTableCellRenderer doGetCellRenderer(int col, int row) {
+		if (row == 0 || col == 0) {
+			return FIXED_RENDERER;
+		}
+		if (assignments[col][row] instanceof Assignment) {
+			Assignment assignment = (Assignment) assignments[col][row];
+			int color = assignment.getSubject().getColor();	
+			return RendererCache.INSTANCE.getRenderer(color);
+		}
+		return RENDERER;
+	}
 	
 	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 		{ }
 	@Override

@@ -7,7 +7,6 @@ import org.confetti.core.Assignment;
 import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -38,8 +37,9 @@ class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvid
 
 	@Override
 	public Color getBackground(Object element, int columnIndex) {
+		Assignment assignment = (Assignment) element;
 		switch (columnIndex) {
-			case 1:  	return display.getSystemColor(SWT.COLOR_CYAN);
+			case 1:  	return display.getSystemColor(assignment.getSubject().getColor());
 			default: 	return null;
 		}
 	}

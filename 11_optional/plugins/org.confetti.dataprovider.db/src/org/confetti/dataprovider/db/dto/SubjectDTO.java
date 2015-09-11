@@ -13,4 +13,9 @@ public class SubjectDTO extends EntityDTO implements Subject {
     public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
         return visitor.visitSubject(this, param);
     }
+
+	@Override
+	public int getColor() {
+		return 0;
+	}
 }

@@ -1,7 +1,7 @@
 package org.confetti.rcp.views;
 
+import org.confetti.core.Subject;
 import org.eclipse.jface.viewers.ITableColorProvider;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
@@ -18,10 +18,9 @@ public class SubjectLabelProvider extends EntityTableLabelProvider implements IT
 	@Override
 	public Color getBackground(Object element, int columnIndex) {
 		switch (columnIndex) {
-		case 0:  	return display.getSystemColor(SWT.COLOR_CYAN);
+		case 0:  	return display.getSystemColor(((Subject) element).getColor());
 		default: 	return null;
 		}
 	}
-
 
 }
