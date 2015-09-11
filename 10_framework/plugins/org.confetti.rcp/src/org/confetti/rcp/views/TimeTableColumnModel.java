@@ -15,6 +15,7 @@ import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.rcp.views.TimeTableModel.GetCellInfoVisitor;
 import org.confetti.util.Tuple;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 
 import com.google.common.collect.Lists;
@@ -29,7 +30,7 @@ import de.kupzog.ktable.renderers.FixedCellRenderer;
 public class TimeTableColumnModel extends KTableNoScrollModel {
 
 	//----------------------------- constants --------------------------------------------------------------------------
-	private static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
+	private final DefaultCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
 	private static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
 
 	//----------------------------- fields -----------------------------------------------------------------------------
@@ -47,6 +48,11 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	public TimeTableColumnModel(final KTable table, final DataProvider dp, final StudentGroup sg) {
 		super(table);
 		this.sg = sg;
+		RENDERER.setDefaultBackground(table.getDisplay().getSystemColor(SWT.COLOR_DARK_YELLOW));
+		RENDERER.setBackground(table.getDisplay().getSystemColor(SWT.COLOR_GREEN));
+		RENDERER.setForeground(table.getDisplay().getSystemColor(SWT.COLOR_GREEN));
+		RENDERER.setDefaultForeground(table.getDisplay().getSystemColor(SWT.COLOR_GREEN));
+		
 		
 		//Student Group Names header
 		Map<Point, Tuple<Integer, StudentGroup>> widths = new HashMap<>();

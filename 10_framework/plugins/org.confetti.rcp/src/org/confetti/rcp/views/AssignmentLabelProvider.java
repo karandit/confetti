@@ -4,12 +4,22 @@ import static org.confetti.rcp.views.AssignmentsView.getName;
 import static org.confetti.rcp.views.AssignmentsView.toStr;
 
 import org.confetti.core.Assignment;
+import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 
-class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvider {
+class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvider, ITableColorProvider {
 
+	private final Display display;
+
+	public AssignmentLabelProvider(Display display) {
+		this.display = display;
+	}
+	
 	@Override public Image getColumnImage(Object element, int columnIndex) { return null; }
 
 	@Override
@@ -21,6 +31,16 @@ class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvid
 			case 2:	return toStr(assignment.getTeachers().getList());
 			case 3:	return toStr(assignment.getStudentGroups().getList());
 			default : return getName(assignment.getRoom());
+		}
+	}
+
+	@Override public Color getForeground(Object element, int columnIndex) { return null; }
+
+	@Override
+	public Color getBackground(Object element, int columnIndex) {
+		switch (columnIndex) {
+			case 1:  	return display.getSystemColor(SWT.COLOR_CYAN);
+			default: 	return null;
 		}
 	}
 

@@ -3,6 +3,7 @@ package org.confetti.rcp.views;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Subject;
 import org.confetti.observable.ObservableList;
+import org.eclipse.jface.viewers.LabelProvider;
 
 public class SubjectsView extends AbstractEntityTableView<Subject> {
 
@@ -10,4 +11,8 @@ public class SubjectsView extends AbstractEntityTableView<Subject> {
 
 	@Override protected ObservableList<Subject> getObservableList(DataProvider dp) { return dp.getSubjects(); }
 
+	@Override
+	protected LabelProvider getLabelProvider() {
+		return new SubjectLabelProvider(this.getSite().getShell().getDisplay());
+	}
 }
