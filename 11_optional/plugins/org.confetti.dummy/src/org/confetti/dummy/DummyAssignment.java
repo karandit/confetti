@@ -2,7 +2,6 @@ package org.confetti.dummy;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
-import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
@@ -37,7 +36,6 @@ public class DummyAssignment implements Assignment {
 	@Override public Subject getSubject() { return subj; }
 	@Override public ObservableList<Teacher> getTeachers() { return teachers.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() { return studentGroups.getObservableList(); }
-	@Override public Room getRoom() { return null; }
 	@Override public ObservableList<Constraint> getConstraints()  { return constraints.getObservableList(); }
 
 }

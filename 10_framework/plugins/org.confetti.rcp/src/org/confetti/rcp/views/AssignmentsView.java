@@ -67,7 +67,6 @@ public class AssignmentsView extends ViewPart {
 		AbstractEntityTableView.createColumn(table, "Subject", 150);
 		AbstractEntityTableView.createColumn(table, "Teacher", 150);
 		AbstractEntityTableView.createColumn(table, "Student Group", 150);
-		AbstractEntityTableView.createColumn(table, "Room", 150);
 		
 		TableViewer tableViewer = new TableViewer(table);
 		tableViewer.setContentProvider(new ArrayContentProvider());

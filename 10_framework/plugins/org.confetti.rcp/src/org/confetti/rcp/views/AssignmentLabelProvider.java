@@ -18,11 +18,10 @@ class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvid
 	public String getColumnText(Object element, int columnIndex) {
 		Assignment assignment = (Assignment) element;
 		switch (columnIndex) {
-			case 0: return "";
 			case 1:	return getName(assignment.getSubject());
 			case 2:	return toStr(assignment.getTeachers().getList());
 			case 3:	return toStr(assignment.getStudentGroups().getList());
-			default : return getName(assignment.getRoom());
+			default : return "";
 		}
 	}
 

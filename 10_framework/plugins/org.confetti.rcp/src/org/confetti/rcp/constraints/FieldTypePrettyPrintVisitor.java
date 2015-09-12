@@ -117,10 +117,6 @@ public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor<String, Stri
     	.append("/")
     	.append(Iterables.toString(Iterables.transform(
     			ass.getStudentGroups().getList(), FieldTypeCreateControlVisitor::safeGetName)));
-    	if (ass.getRoom() != null) {
-    		sb.append("/")
-    		.append(safeGetName(ass.getRoom()));
-    	}
     	sb.append("}");
 		return sb.toString();
 	}

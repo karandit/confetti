@@ -134,7 +134,6 @@ public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, C
                 		, safeGetName(ass.getSubject())
                 		, toStr(ass.getStudentGroups().getList())
                 		, toStr(ass.getTeachers().getList())
-                		, safeGetName(ass.getRoom())
                 		);
             }
         });
