@@ -33,7 +33,7 @@ public class AssignmentsView extends ViewPart {
 	
 	@Override
 	public void createPartControl(Composite parent) {
-		SashForm form = new SashForm(parent, SWT.VERTICAL);
+		SashForm form = new SashForm(parent, SWT.HORIZONTAL);
 		form.setLayout(new FillLayout());
 		TableViewer tableViewer = createAssigmentsList(form);
 		KTable ktable = createTimeTable(form);
