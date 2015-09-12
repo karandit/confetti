@@ -71,7 +71,7 @@ public class AssignmentsView extends ViewPart {
 		
 		TableViewer tableViewer = new TableViewer(table);
 		tableViewer.setContentProvider(new ArrayContentProvider());
-		tableViewer.setLabelProvider(new AssignmentLabelProvider(parent.getDisplay()));
+		tableViewer.setLabelProvider(new AssignmentLabelProvider());
 		return tableViewer;
 	}
 	

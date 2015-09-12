@@ -11,8 +11,5 @@ public class SubjectsView extends AbstractEntityTableView<Subject> {
 
 	@Override protected ObservableList<Subject> getObservableList(DataProvider dp) { return dp.getSubjects(); }
 
-	@Override
-	protected LabelProvider getLabelProvider() {
-		return new SubjectLabelProvider(this.getSite().getShell().getDisplay());
-	}
+	@Override protected LabelProvider getLabelProvider() { return new SubjectLabelProvider(); }
 }

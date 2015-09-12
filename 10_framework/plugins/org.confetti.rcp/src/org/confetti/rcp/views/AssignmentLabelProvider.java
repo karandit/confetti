@@ -9,16 +9,9 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
 
 class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvider, ITableColorProvider {
 
-	private final Display display;
-
-	public AssignmentLabelProvider(Display display) {
-		this.display = display;
-	}
-	
 	@Override public Image getColumnImage(Object element, int columnIndex) { return null; }
 
 	@Override
@@ -39,7 +32,7 @@ class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvid
 	public Color getBackground(Object element, int columnIndex) {
 		Assignment assignment = (Assignment) element;
 		switch (columnIndex) {
-			case 1:  	return display.getSystemColor(assignment.getSubject().getColor());
+			case 1:  	return ColorCache.INSTANCE.getColor(assignment.getSubject().getColor());
 			default: 	return null;
 		}
 	}
