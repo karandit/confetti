@@ -61,13 +61,27 @@ public class TimeTableModel extends KTableNoScrollModel {
 			ArrayList<Day> daysArr = Lists.newArrayList(dp.getDays().getList());
 			ArrayList<Hour> hoursArr = Lists.newArrayList(dp.getHours().getList());
 			
-			for (Assignment ass : entity.getAssignments().getList()) {
-				if (assignmentSolutionSlot.containsKey(ass)) {
-					SolutionSlot foundSolutionSlot = assignmentSolutionSlot.get(ass);
-					int day =  daysArr.indexOf(foundSolutionSlot.getDay());
-					int hour = hoursArr.indexOf(foundSolutionSlot.getHour());
-					this.assignments[day + 1][hour + 1] = ass;
+			if (entity instanceof StudentGroup) {
+				StudentGroup sg = (StudentGroup) entity;
+				while (sg != null) {
+					addAssingments(sg, assignmentSolutionSlot, daysArr, hoursArr);
+					sg = sg.getParent();
 				}
+			} else {
+				addAssingments(entity, assignmentSolutionSlot, daysArr, hoursArr);
+			}
+		}
+	}
+
+	private void addAssingments(Entity entity,
+			Map<Assignment, SolutionSlot> assignmentSolutionSlot,
+			ArrayList<Day> daysArr, ArrayList<Hour> hoursArr) {
+		for (Assignment ass : entity.getAssignments().getList()) {
+			if (assignmentSolutionSlot.containsKey(ass)) {
+				SolutionSlot foundSolutionSlot = assignmentSolutionSlot.get(ass);
+				int day =  daysArr.indexOf(foundSolutionSlot.getDay());
+				int hour = hoursArr.indexOf(foundSolutionSlot.getHour());
+				this.assignments[day + 1][hour + 1] = ass;
 			}
 		}
 	}
