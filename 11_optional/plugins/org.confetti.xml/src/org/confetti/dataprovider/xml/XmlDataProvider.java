@@ -37,101 +37,7 @@ import org.confetti.xml.core.SubjectXml;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
 import org.confetti.xml.core.space.SpaceConstraint;
-import org.confetti.xml.core.space.activities.ConstraintActivitiesOccupyMaxDifferentRooms;
-import org.confetti.xml.core.space.activities.ConstraintActivitiesSameRoomIfConsecutive;
-import org.confetti.xml.core.space.activities.ConstraintActivityPreferredRoom;
-import org.confetti.xml.core.space.activities.ConstraintActivityPreferredRooms;
-import org.confetti.xml.core.space.activitytags.ConstraintActivityTagPreferredRoom;
-import org.confetti.xml.core.space.activitytags.ConstraintActivityTagPreferredRooms;
-import org.confetti.xml.core.space.misc.ConstraintBasicCompulsorySpace;
-import org.confetti.xml.core.space.rooms.ConstraintRoomNotAvailableTimes;
-import org.confetti.xml.core.space.students.ConstraintStudentsMaxBuildingChangesPerDay;
-import org.confetti.xml.core.space.students.ConstraintStudentsMaxBuildingChangesPerWeek;
-import org.confetti.xml.core.space.students.ConstraintStudentsMinGapsBetweenBuildingChanges;
-import org.confetti.xml.core.space.students.ConstraintStudentsSetHomeRoom;
-import org.confetti.xml.core.space.students.ConstraintStudentsSetHomeRooms;
-import org.confetti.xml.core.space.students.ConstraintStudentsSetMaxBuildingChangesPerDay;
-import org.confetti.xml.core.space.students.ConstraintStudentsSetMaxBuildingChangesPerWeek;
-import org.confetti.xml.core.space.students.ConstraintStudentsSetMinGapsBetweenBuildingChanges;
-import org.confetti.xml.core.space.subjects.ConstraintSubjectPreferredRoom;
-import org.confetti.xml.core.space.subjects.ConstraintSubjectPreferredRooms;
-import org.confetti.xml.core.space.subjects_activitytags.ConstraintSubjectActivityTagPreferredRoom;
-import org.confetti.xml.core.space.subjects_activitytags.ConstraintSubjectActivityTagPreferredRooms;
-import org.confetti.xml.core.space.teachers.ConstraintTeacherHomeRoom;
-import org.confetti.xml.core.space.teachers.ConstraintTeacherHomeRooms;
-import org.confetti.xml.core.space.teachers.ConstraintTeacherMaxBuildingChangesPerDay;
-import org.confetti.xml.core.space.teachers.ConstraintTeacherMaxBuildingChangesPerWeek;
-import org.confetti.xml.core.space.teachers.ConstraintTeacherMinGapsBetweenBuildingChanges;
-import org.confetti.xml.core.space.teachers.ConstraintTeachersMaxBuildingChangesPerDay;
-import org.confetti.xml.core.space.teachers.ConstraintTeachersMaxBuildingChangesPerWeek;
-import org.confetti.xml.core.space.teachers.ConstraintTeachersMinGapsBetweenBuildingChanges;
 import org.confetti.xml.core.time.TimeConstraint;
-import org.confetti.xml.core.time.activities.ConstraintActivitiesEndStudentsDay;
-import org.confetti.xml.core.time.activities.ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots;
-import org.confetti.xml.core.time.activities.ConstraintActivitiesNotOverlapping;
-import org.confetti.xml.core.time.activities.ConstraintActivitiesOccupyMaxTimeSlotsFromSelection;
-import org.confetti.xml.core.time.activities.ConstraintActivitiesPreferredStartingTimes;
-import org.confetti.xml.core.time.activities.ConstraintActivitiesPreferredTimeSlots;
-import org.confetti.xml.core.time.activities.ConstraintActivitiesSameStartingDay;
-import org.confetti.xml.core.time.activities.ConstraintActivitiesSameStartingHour;
-import org.confetti.xml.core.time.activities.ConstraintActivitiesSameStartingTime;
-import org.confetti.xml.core.time.activities.ConstraintActivityEndsStudentsDay;
-import org.confetti.xml.core.time.activities.ConstraintActivityPreferredStartingTime;
-import org.confetti.xml.core.time.activities.ConstraintActivityPreferredStartingTimes;
-import org.confetti.xml.core.time.activities.ConstraintActivityPreferredTimeSlots;
-import org.confetti.xml.core.time.activities.ConstraintMaxDaysBetweenActivities;
-import org.confetti.xml.core.time.activities.ConstraintMinDaysBetweenActivities;
-import org.confetti.xml.core.time.activities.ConstraintMinGapsBetweenActivities;
-import org.confetti.xml.core.time.activities.ConstraintSubactivitiesPreferredStartingTimes;
-import org.confetti.xml.core.time.activities.ConstraintSubactivitiesPreferredTimeSlots;
-import org.confetti.xml.core.time.activities.ConstraintThreeActivitiesGrouped;
-import org.confetti.xml.core.time.activities.ConstraintTwoActivitiesConsecutive;
-import org.confetti.xml.core.time.activities.ConstraintTwoActivitiesGrouped;
-import org.confetti.xml.core.time.activities.ConstraintTwoActivitiesOrdered;
-import org.confetti.xml.core.time.misc.ConstraintBasicCompulsoryTime;
-import org.confetti.xml.core.time.misc.ConstraintBreakTimes;
-import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHoursContinuously;
-import org.confetti.xml.core.time.students.ConstraintStudentsActivityTagMaxHoursDaily;
-import org.confetti.xml.core.time.students.ConstraintStudentsEarlyMaxBeginningsAtSecondHour;
-import org.confetti.xml.core.time.students.ConstraintStudentsIntervalMaxDaysPerWeek;
-import org.confetti.xml.core.time.students.ConstraintStudentsMaxDaysPerWeek;
-import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerDay;
-import org.confetti.xml.core.time.students.ConstraintStudentsMaxGapsPerWeek;
-import org.confetti.xml.core.time.students.ConstraintStudentsMaxHoursContinuously;
-import org.confetti.xml.core.time.students.ConstraintStudentsMaxHoursDaily;
-import org.confetti.xml.core.time.students.ConstraintStudentsMinHoursDaily;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHoursContinuously;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetActivityTagMaxHoursDaily;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetIntervalMaxDaysPerWeek;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxDaysPerWeek;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerDay;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxGapsPerWeek;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxHoursContinuously;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetMaxHoursDaily;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetMinHoursDaily;
-import org.confetti.xml.core.time.students.ConstraintStudentsSetNotAvailableTimes;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherActivityTagMaxHoursContinuously;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherActivityTagMaxHoursDaily;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherIntervalMaxDaysPerWeek;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherMaxDaysPerWeek;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherMaxGapsPerDay;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherMaxGapsPerWeek;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherMaxHoursContinuously;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherMaxHoursDaily;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherMinDaysPerWeek;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherMinHoursDaily;
-import org.confetti.xml.core.time.teachers.ConstraintTeacherNotAvailableTimes;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersActivityTagMaxHoursContinuously;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersActivityTagMaxHoursDaily;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersIntervalMaxDaysPerWeek;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxDaysPerWeek;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxGapsPerDay;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxGapsPerWeek;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxHoursContinuously;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxHoursDaily;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersMinDaysPerWeek;
-import org.confetti.xml.core.time.teachers.ConstraintTeachersMinHoursDaily;
 
 import com.google.common.collect.Lists;
 
@@ -297,10 +203,7 @@ public class XmlDataProvider implements DataProvider {
 
 	@Override
 	public void addConstraint(final String type, ConstraintAttributes attrs) {
-		String shortType = type.substring(ConstraintBuilder.FET_CONSTRAINTS_NAMESPACE.length());
-		BaseConstraintXml xmlConstr = shortType.startsWith("time")
-			? newXmlConstraint(instXml.getTimeConstraints(), XmlDataProvider::newTimeXmlConstraint, attrs, shortType)
-			: newXmlConstraint(instXml.getSpaceConstraints(), XmlDataProvider::newSpaceXmlConstraint, attrs, shortType);
+		BaseConstraintXml xmlConstr = newXmlConstraint(instXml, type, attrs);
 		save();
 		
 		Constraint constr = new ConstraintImpl(xmlConstr, type, attrs);
@@ -311,130 +214,22 @@ public class XmlDataProvider implements DataProvider {
 		constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));
 	}
 
-	private <T extends BaseConstraintXml> T newXmlConstraint(List<T> xmlCons, Function<String, T> fact, 
-			ConstraintAttributes attrs, String shortType) {
-		T xmlConstr = fact.apply(shortType);
+	public static BaseConstraintXml newXmlConstraint(
+			InstituteXml instXml, final String type, ConstraintAttributes attrs) {
+		
+		String shortType = type.substring(ConstraintBuilder.FET_CONSTRAINTS_NAMESPACE.length());
+		BaseConstraintXml xmlConstr = shortType.startsWith("time")
+			? newXmlConstraint(instXml.getTimeConstraints(), TimeConstraint::newTimeXmlConstraint, shortType)
+			: newXmlConstraint(instXml.getSpaceConstraints(), SpaceConstraint::newSpaceXmlConstraint, shortType);
 		xmlConstr.accept(ConstraintSetter.INSTANCE, attrs);
-		xmlCons.add(xmlConstr);
 		return xmlConstr;
 	}
-
-	private static TimeConstraint newTimeXmlConstraint(final String shortType) {
-		switch (shortType) {
-		//----- Miscellaneous
-		case "time.BasicCompulsoryTime": return new ConstraintBasicCompulsoryTime();
-		case "time.BreakTimes": return new ConstraintBreakTimes();
-		//----- Teachers
-		case "time.NotAvailableTimesForATeacher": return new ConstraintTeacherNotAvailableTimes();
-		case "time.MaxDaysPerWeekForATeacher": return new ConstraintTeacherMaxDaysPerWeek();
-		case "time.MinDaysPerWeekForATeacher": return new ConstraintTeacherMinDaysPerWeek();
-		case "time.MaxGapsPerDayForATeacher": return new ConstraintTeacherMaxGapsPerDay();
-		case "time.MaxGapsPerWeekForATeacher": return new ConstraintTeacherMaxGapsPerWeek();
-		case "time.MaxHoursPerDayForATeacher": return new ConstraintTeacherMaxHoursDaily();
-		case "time.MaxHoursPerDayWithAnActivityTagForATeacher": return new ConstraintTeacherActivityTagMaxHoursDaily();
-		case "time.MinHoursPerDayForATeacher": return new ConstraintTeacherMinHoursDaily();
-		case "time.MaxHoursContinuouslyForATeacher": return new ConstraintTeacherMaxHoursContinuously();
-		case "time.MaxHoursContinuouslyWithAnActivityTagForATeacher": return new ConstraintTeacherActivityTagMaxHoursContinuously();
-		case "time.HourlyIntervalMaxDaysPerWeekForATeacher": return new ConstraintTeacherIntervalMaxDaysPerWeek();
-		case "time.MaxDaysPerWeekForAllTeachers": return new ConstraintTeachersMaxDaysPerWeek();
-		case "time.MinDaysPerWeekForAllTeachers": return new ConstraintTeachersMinDaysPerWeek();
-		case "time.MaxGapsPerDayForAllTeachers": return new ConstraintTeachersMaxGapsPerDay();
-		case "time.MaxGapsPerWeekForAllTeachers": return new ConstraintTeachersMaxGapsPerWeek();
-		case "time.MaxHoursPerDayForAllTeachers": return new ConstraintTeachersMaxHoursDaily();
-		case "time.MaxHoursPerDayWithAnActivityTagForAllTeachers": return new ConstraintTeachersActivityTagMaxHoursDaily();
-		case "time.MinHoursPerDayForAllTeachers": return new ConstraintTeachersMinHoursDaily();
-		case "time.MaxHoursContinuouslyForAllTeachers": return new ConstraintTeachersMaxHoursContinuously();
-		case "time.MaxHoursContinuouslyWithAnActivityTagForAllTeachers": return new ConstraintTeachersActivityTagMaxHoursContinuously();
-		case "time.HourlyIntervalMaxDaysPerWeekForAllTeachers": return new ConstraintTeachersIntervalMaxDaysPerWeek();
-		//----- Students
-		case "time.NotAvailableTimesForAStudentGroup": return new ConstraintStudentsSetNotAvailableTimes();
-		case "time.MaxDaysPerWeekForAStudentGroup": return new ConstraintStudentsSetMaxDaysPerWeek();
-		case "time.MaxGapsPerDayForAStudentGroup": return new ConstraintStudentsSetMaxGapsPerDay();
-		case "time.MaxGapsPerWeekForAStudentGroup": return new ConstraintStudentsSetMaxGapsPerWeek();
-		case "time.MaxBeginningsAtSecondHourForAStudentGroup": return new ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour();
-		case "time.MaxHoursPerDayForAStudentGroup": return new ConstraintStudentsSetMaxHoursDaily();
-		case "time.MaxHoursPerDayWithAnActivityTagForAStudentGroup": return new ConstraintStudentsSetActivityTagMaxHoursDaily();
-		case "time.MinHoursPerDayForAStudentGroup": return new ConstraintStudentsSetMinHoursDaily();
-		case "time.MaxHoursContinuouslyForAStudentGroup": return new ConstraintStudentsSetMaxHoursContinuously();
-		case "time.MaxHoursContinuouslyWithAnActivityTagForAStudentGroup": return new ConstraintStudentsSetActivityTagMaxHoursContinuously();
-		case "time.HourlyIntervalMaxDaysPerWeekForAStudentGroup": return new ConstraintStudentsSetIntervalMaxDaysPerWeek();
-		case "time.MaxDaysPerWeekForAllStudentGroups": return new ConstraintStudentsMaxDaysPerWeek();
-		case "time.MaxGapsPerDayForAllStudentGroups": return new ConstraintStudentsMaxGapsPerDay();
-		case "time.MaxGapsPerWeekForAllStudentGroups": return new ConstraintStudentsMaxGapsPerWeek();
-		case "time.MaxBeginningsAtSecondHourForAllStudentGroups": return new ConstraintStudentsEarlyMaxBeginningsAtSecondHour();
-		case "time.MaxHoursPerDayForAllStudentGroups": return new ConstraintStudentsMaxHoursDaily();
-		case "time.MaxHoursPerDayWithAnActivityTagForAllStudentGroups": return new ConstraintStudentsActivityTagMaxHoursDaily();
-		case "time.MinHoursPerDayForAllStudentGroups": return new ConstraintStudentsMinHoursDaily();
-		case "time.MaxHoursContinuouslyForAllStudentGroups": return new ConstraintStudentsMaxHoursContinuously();
-		case "time.MaxHoursContinuouslyWithAnActivityTagForAllStudentGroups": return new ConstraintStudentsActivityTagMaxHoursContinuously();
-		case "time.HourlyIntervalMaxDaysPerWeekForAllStudentGroups": return new ConstraintStudentsIntervalMaxDaysPerWeek();
-		//----- Activities
-		case "time.ActivityHasAPreferredStartingTime": return new ConstraintActivityPreferredStartingTime();
-		case "time.ActivityHasSomePreferredStartingTimes": return new ConstraintActivityPreferredStartingTimes();
-		case "time.ActivityHasSomePreferredTimeSlots": return new ConstraintActivityPreferredTimeSlots();
-		case "time.MoreActivitiesHaveSomePreferredStartingTimes": return new ConstraintActivitiesPreferredStartingTimes();
-		case "time.MoreActivitiesHaveSomePreferredTimeSlots": return new ConstraintActivitiesPreferredTimeSlots();
-		case "time.MoreSubActivitiesHaveSomePreferredStartingTimes": return new ConstraintSubactivitiesPreferredStartingTimes();
-		case "time.MoreSubActivitiesHaveSomePreferredTimeSlots": return new ConstraintSubactivitiesPreferredTimeSlots();
-		case "time.MinDaysBetweenActivities": return new ConstraintMinDaysBetweenActivities();
-		case "time.MaxDaysBetweenActivities": return new ConstraintMaxDaysBetweenActivities();
-		case "time.ActivityEndsStudentsDay": return new ConstraintActivityEndsStudentsDay();
-		case "time.MoreActivitiesEndStudentsDay": return new ConstraintActivitiesEndStudentsDay();
-		case "time.MoreActivitiesHaveSameStartingTime": return new ConstraintActivitiesSameStartingTime();
-		case "time.MoreActivitiesHaveSameStartingDay": return new ConstraintActivitiesSameStartingDay();
-		case "time.MoreActivitiesHaveSameStartingHour": return new ConstraintActivitiesSameStartingHour();
-		case "time.MoreActivitiesOccupyMaxTimeSlotsFromSelection": return new ConstraintActivitiesOccupyMaxTimeSlotsFromSelection();
-		case "time.TwoActivitiesAreOrdered": return new ConstraintTwoActivitiesOrdered();
-		case "time.TwoActivitiesAreConsecutive": return new ConstraintTwoActivitiesConsecutive();
-		case "time.TwoActivitiesAreGrouped": return new ConstraintTwoActivitiesGrouped();
-		case "time.ThreeActivitiesAreGrouped": return new ConstraintThreeActivitiesGrouped();
-		case "time.MoreActivitiesAreNotOverlapping": return new ConstraintActivitiesNotOverlapping();
-		case "time.MaxSimultaneousActivitiesFromASetInTimeSlots": return new ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots();
-		case "time.MinGapsBetweenActivities": return new ConstraintMinGapsBetweenActivities();
-		default: return null;
-		}
-	}
-
-	private static SpaceConstraint newSpaceXmlConstraint(final String shortType) {
-		switch (shortType) {
-		//----- Miscellaneous
-		case "space.BasicCompulsorySpace": return new ConstraintBasicCompulsorySpace();
-		//----- Rooms
-		case "space.NotAvailableTimesForARoom": return new ConstraintRoomNotAvailableTimes();
-		//----- Teachers
-		case "space.TeacherHasAHomeRoom": return new ConstraintTeacherHomeRoom();
-		case "space.TeacherHasSomeHomeRooms": return new ConstraintTeacherHomeRooms();
-		case "space.MaxBuildingChangesPerDayForATeacher": return new ConstraintTeacherMaxBuildingChangesPerDay();
-		case "space.MaxBuildingChangesPerWeekForATeacher": return new ConstraintTeacherMaxBuildingChangesPerWeek();
-		case "space.MinGapsBetweenBuildingChangesForATeacher": return new ConstraintTeacherMinGapsBetweenBuildingChanges();
-		case "space.MaxBuildingChangesPerDayForAllTeachers": return new ConstraintTeachersMaxBuildingChangesPerDay();
-		case "space.MaxBuildingChangesPerWeekForAllTeachers": return new ConstraintTeachersMaxBuildingChangesPerWeek();
-		case "space.MinGapsBetweenBuildingChangesForAllTeachers": return new ConstraintTeachersMinGapsBetweenBuildingChanges();
-		//----- Students
-		case "space.StudentGroupHasAHomeRoom": return new ConstraintStudentsSetHomeRoom();
-		case "space.StudentGroupHasSomeHomeRooms": return new ConstraintStudentsSetHomeRooms();
-		case "space.MaxBuildingChangesPerDayForAStudentGroup": return new ConstraintStudentsSetMaxBuildingChangesPerDay();
-		case "space.MaxBuildingChangesPerWeekForAStudentGroup": return new ConstraintStudentsSetMaxBuildingChangesPerWeek();
-		case "space.MinGapsBetweenBuildingChangesForAStudentGroup": return new ConstraintStudentsSetMinGapsBetweenBuildingChanges();
-		case "space.MaxBuildingChangesPerDayForAllStudentGroups": return new ConstraintStudentsMaxBuildingChangesPerDay();
-		case "space.MaxBuildingChangesPerWeekForAllStudentGroups": return new ConstraintStudentsMaxBuildingChangesPerWeek();
-		case "space.MinGapsBetweenBuildingChangesForAllStudentGroups": return new ConstraintStudentsMinGapsBetweenBuildingChanges();
-		//----- Subjects
-		case "space.SubjectHasAPreferredRoom": return new ConstraintSubjectPreferredRoom();
-		case "space.SubjectHasSomePreferredRooms": return new ConstraintSubjectPreferredRooms();
-		//----- Activity tags
-		case "space.ActivityTagHasAPreferredRoom": return new ConstraintActivityTagPreferredRoom();
-		case "space.ActivityTagHasSomePreferredRooms": return new ConstraintActivityTagPreferredRooms();
-		//----- Subjects and activity tags
-		case "space.SubjectAndActivityTagHaveAPreferredRoom": return new ConstraintSubjectActivityTagPreferredRoom();
-		case "space.SubjectAndActivityTagHaveSomePreferredRooms": return new ConstraintSubjectActivityTagPreferredRooms();
-		//----- Activities
-		case "space.ActivityHasAPreferredRoom": return new ConstraintActivityPreferredRoom();
-		case "space.ActivityHasSomePreferredRooms": return new ConstraintActivityPreferredRooms();
-		case "space.SomeActivitiesAreInTheSameRoomIfTheyAreConsecutive": return new ConstraintActivitiesSameRoomIfConsecutive();
-		case "space.SomeActivitiesOccupyMaxDifferentRooms": return new ConstraintActivitiesOccupyMaxDifferentRooms();
-		default: return null;
-	}
+			
+	private static <T extends BaseConstraintXml> T newXmlConstraint(List<T> xmlCons, Function<String, T> fact, 
+			String shortType) {
+		T xmlConstr = fact.apply(shortType);
+		xmlCons.add(xmlConstr);
+		return xmlConstr;
 	}
 
 	@Override
