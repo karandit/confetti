@@ -13,7 +13,6 @@ import org.confetti.core.Nameable;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
-import org.confetti.dataprovider.xml.AssignmentImpl;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 import org.confetti.xml.core.space.activities.ConstraintActivitiesOccupyMaxDifferentRooms;
@@ -115,8 +114,13 @@ import org.confetti.xml.core.time.teachers.ConstraintTeachersMaxHoursDaily;
 import org.confetti.xml.core.time.teachers.ConstraintTeachersMinDaysPerWeek;
 import org.confetti.xml.core.time.teachers.ConstraintTeachersMinHoursDaily;
 
-public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, ConstraintAttributes> {
-	INSTANCE;
+public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, ConstraintAttributes> {
+
+	private Function<Assignment, Long> getAssgIdFunc;
+
+	public ConstraintSetter(Function<Assignment, Long> assgGetId) {
+		this.getAssgIdFunc = assgGetId;
+	}
 	
 	//----- Time constraints
 	//----- Miscellaneous
@@ -499,7 +503,7 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintMinDaysBetweenActivities c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.setActivityId(toList(p.asAssignmentsSet("assignment"), ConstraintSetter::getAssgId));
+		c.setActivityId(toList(p.asAssignmentsSet("assignment"), this::getAssgId));
 		c.setMinDays(p.asDay("min-days"));
 		c.setConsecutiveIfSameDay(p.asBoolean("force-consecutive"));
 		return c;
@@ -508,7 +512,7 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintMaxDaysBetweenActivities c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignment"), ConstraintSetter::getAssgId);
+		c.activityIds = toList(p.asAssignmentsSet("assignment"), this::getAssgId);
 		c.maxDays = p.asDay("max-days");
 		return c;
 	}
@@ -533,26 +537,26 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesSameStartingTime c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId)); 
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId)); 
 	return c;}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesSameStartingDay c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId); 
+		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId); 
 	return c;}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesSameStartingHour c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId); 
+		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId); 
 		return c;
 	}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesOccupyMaxTimeSlotsFromSelection c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId); 
+		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId); 
 		c.selectedTimeSlots	= toList(p.asWeek("time-slots"), ConstraintSetter::toSelectedTimeXml); 
 		c.maxNrOfOccupiedTimeSlots = p.asInteger("max-occupied");
 	return c;}
@@ -589,13 +593,13 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesNotOverlapping c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId);
+		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId);
 	return c;}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId);
+		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId);
 		c.selectedTimeSlots	= toList(p.asWeek("time-slots"), ConstraintSetter::toSelectedTimeXml); 
 		c.maxNrOfSimultaneousActivities = p.asInteger("max-simult");
 		return c;
@@ -604,7 +608,7 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintMinGapsBetweenActivities c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId);
+		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId);
 		c.minGaps = p.asHour("min-gaps");
 		return c;
 	}
@@ -799,14 +803,14 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	@Override
 	public BaseConstraintXml visitSpace(ConstraintActivitiesSameRoomIfConsecutive c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId));
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId));
 		return c;
 	}
 
 	@Override
 	public BaseConstraintXml visitSpace(ConstraintActivitiesOccupyMaxDifferentRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId);
+		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId);
 		c.maxNrOfDifferentRooms = p.asInteger("max-diff-rooms");
 		return c;
 	}
@@ -846,8 +850,8 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 		return value == null ? "" : value;
 	}
 	
-	private static Long getAssgId(Assignment assg) {
-		return ((AssignmentImpl) assg).getId();
+	private Long getAssgId(Assignment assg) {
+		return getAssgIdFunc.apply(assg);
 	}
 
 }

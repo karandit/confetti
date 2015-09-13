@@ -2,7 +2,6 @@ package org.confetti.dataprovider.xml;
 
 import java.io.File;
 import java.util.List;
-import java.util.function.Function;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
@@ -36,8 +35,6 @@ import org.confetti.xml.core.SubgroupXml;
 import org.confetti.xml.core.SubjectXml;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
-import org.confetti.xml.core.space.SpaceConstraint;
-import org.confetti.xml.core.time.TimeConstraint;
 
 import com.google.common.collect.Lists;
 
@@ -45,6 +42,8 @@ import com.google.common.collect.Lists;
  * @author Bubla Gabor
  */
 public class XmlDataProvider implements DataProvider {
+	
+	private static final ConstraintSetter CONSTRAINT_SETTER = new ConstraintSetter(assg -> ((AssignmentImpl) assg).getId());
 	
 	//----------------------------- fields for UI client----------------------------------------------------------------
 	private ValueMutator<String> instName = new ValueMutator<>();
@@ -203,7 +202,7 @@ public class XmlDataProvider implements DataProvider {
 
 	@Override
 	public void addConstraint(final String type, ConstraintAttributes attrs) {
-		BaseConstraintXml xmlConstr = newXmlConstraint(instXml, type, attrs);
+		BaseConstraintXml xmlConstr = BaseConstraintXml.newXmlConstraint(instXml, type, attrs, CONSTRAINT_SETTER);
 		save();
 		
 		Constraint constr = new ConstraintImpl(xmlConstr, type, attrs);
@@ -212,24 +211,6 @@ public class XmlDataProvider implements DataProvider {
 		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
 		FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
 		constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));
-	}
-
-	public static BaseConstraintXml newXmlConstraint(
-			InstituteXml instXml, final String type, ConstraintAttributes attrs) {
-		
-		String shortType = type.substring(ConstraintBuilder.FET_CONSTRAINTS_NAMESPACE.length());
-		BaseConstraintXml xmlConstr = shortType.startsWith("time")
-			? newXmlConstraint(instXml.getTimeConstraints(), TimeConstraint::newTimeXmlConstraint, shortType)
-			: newXmlConstraint(instXml.getSpaceConstraints(), SpaceConstraint::newSpaceXmlConstraint, shortType);
-		xmlConstr.accept(ConstraintSetter.INSTANCE, attrs);
-		return xmlConstr;
-	}
-			
-	private static <T extends BaseConstraintXml> T newXmlConstraint(List<T> xmlCons, Function<String, T> fact, 
-			String shortType) {
-		T xmlConstr = fact.apply(shortType);
-		xmlCons.add(xmlConstr);
-		return xmlConstr;
 	}
 
 	@Override
@@ -265,7 +246,7 @@ public class XmlDataProvider implements DataProvider {
 	public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
 		ConstraintImpl constraintImpl = (ConstraintImpl) constraint;
 		BaseConstraintXml xmlConstraint = constraintImpl.getXmlConstraint();
-		xmlConstraint.accept(ConstraintSetter.INSTANCE, attrs);
+		xmlConstraint.accept(CONSTRAINT_SETTER, attrs);
 		save();
 		constraintImpl.getAttrsMutator().setValue(constraint, attrs);
 	}
