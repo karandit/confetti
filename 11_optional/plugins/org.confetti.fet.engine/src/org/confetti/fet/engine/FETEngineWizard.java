@@ -2,23 +2,22 @@ package org.confetti.fet.engine;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
-import static com.google.common.collect.Sets.newHashSet;
+import static org.confetti.xml.core.BaseConstraintXml.newXmlConstraint;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
@@ -34,6 +33,7 @@ import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.util.Tuple;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityXml;
+import org.confetti.xml.core.ConstraintSetter;
 import org.confetti.xml.core.DayXml;
 import org.confetti.xml.core.DaysXml;
 import org.confetti.xml.core.HourXml;
@@ -43,11 +43,8 @@ import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubjectXml;
 import org.confetti.xml.core.TeacherXml;
 import org.confetti.xml.core.YearXml;
-import org.confetti.xml.core.space.SpaceConstraint;
-import org.confetti.xml.core.space.misc.ConstraintBasicCompulsorySpace;
-import org.confetti.xml.core.time.TimeConstraint;
-import org.confetti.xml.core.time.misc.ConstraintBasicCompulsoryTime;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.Wizard;
@@ -55,6 +52,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 
 import com.google.common.base.Function;
 
@@ -68,6 +66,7 @@ public class FETEngineWizard extends Wizard {
 	
 	public FETEngineWizard(DataProvider dp) {
 		this.mDataProvider = dp;
+		setNeedsProgressMonitor(true);
 	}
 
 	@Override
@@ -104,15 +103,24 @@ public class FETEngineWizard extends Wizard {
 			Files.createDirectory(resultsDir.toPath());
 			command.add("--outputdir=" + resultsDir.toString());
 			
-			final Process process = new ProcessBuilder(command).start();
-		    InputStream is = process.getInputStream();
-		    try (InputStreamReader isr = new InputStreamReader(is);
-		    		BufferedReader br = new BufferedReader(isr)) {
-			    String line;
-			    while ((line = br.readLine()) != null) {
-			    	mConsolePage.print(line);
-			    }
-		    }
+			final Display display = this.getShell().getDisplay();
+			getContainer().run(true, false, (IProgressMonitor monitor) -> {
+					try {
+						Process process = new ProcessBuilder(command).start();
+						InputStream is = process.getInputStream();
+						try (InputStreamReader isr = new InputStreamReader(is);
+								BufferedReader br = new BufferedReader(isr)) {
+							String line;
+							while ((line = br.readLine()) != null) {
+								String text = line;
+								display.asyncExec(() -> mConsolePage.print(text));
+							}
+						}
+					} catch (Exception e) {
+						throw new InvocationTargetException(e);
+					}
+				}
+			);
 		    
 		    //Reading in the solution file
 		    File solutionFile  = Paths.get(resultsDir.getAbsolutePath(), 
@@ -138,21 +146,26 @@ public class FETEngineWizard extends Wizard {
 				}
 			);
 			ConfettiPlugin.getDefault().getDataProvider().getValue().setSolution(dpSolution);
-			IWizardContainer container = getContainer();
-			if (container instanceof WizardDialog) {
-				WizardDialog dlg = (WizardDialog) container;
-				Composite buttonBar = (Composite) dlg.buttonBar;
-				Composite composite = (Composite)buttonBar.getChildren()[1];
-				Control finishButton = composite.getChildren()[0];
-				finishButton.setVisible(false);
-				Button cancelButton = (Button) composite.getChildren()[1];
-				cancelButton.setText("Close");
-			}
+			changeButtons();
 			return false;
 		} catch (Throwable e) {
 			MessageDialog.openError(this.getShell(), "Error", e.getLocalizedMessage());
-			e.printStackTrace();
-			return true;
+	    	mConsolePage.print(e.getLocalizedMessage());
+			changeButtons();
+			return false;
+		}
+	}
+
+	private void changeButtons() {
+		IWizardContainer container = getContainer();
+		if (container instanceof WizardDialog) {
+			WizardDialog dlg = (WizardDialog) container;
+			Composite buttonBar = (Composite) dlg.buttonBar;
+			Composite composite = (Composite)buttonBar.getChildren()[1];
+			Control finishButton = composite.getChildren()[0];
+			finishButton.setVisible(false);
+			Button cancelButton = (Button) composite.getChildren()[1];
+			cancelButton.setText("Close");
 		}
 	}
 
@@ -168,16 +181,8 @@ public class FETEngineWizard extends Wizard {
 		return transform(newArrayList(items), f); 
 	}
 
-	private Tuple<InstituteXml, List<Tuple<Long, Assignment>>> createInstitueXml(DataProvider dp) {
+	private static Tuple<InstituteXml, List<Tuple<Long, Assignment>>> createInstitueXml(DataProvider dp) {
 		InstituteXml inst = new InstituteXml(dp.getName().getValue(), "5.22.0", "generated by confetti");
-		
-		List<TimeConstraint> timeConstraints = new LinkedList<>();
-		timeConstraints.add(new ConstraintBasicCompulsoryTime(100, true));
-		inst.setTimeConstraints(timeConstraints);
-		
-		List<SpaceConstraint> spaceConstraints = new LinkedList<>();
-		spaceConstraints.add(new ConstraintBasicCompulsorySpace());
-		inst.setSpaceConstraints(spaceConstraints);
 		
 		//Transforming Subjects, Teachers, StudentGroups, Rooms, Days, Hours for FET
 		inst.setSubjects(convertToList(dp.getSubjects().getList(), subj -> new SubjectXml(subj.getName().getValue())));
@@ -187,17 +192,23 @@ public class FETEngineWizard extends Wizard {
 		inst.setDays(new DaysXml(convertToList(dp.getDays().getList(), day -> new DayXml(day.getName().getValue()))));
 		inst.setHours(new HoursXml(convertToList(dp.getHours().getList(), hour -> new HourXml(hour.getName().getValue()))));
 		
-		//Transforming Assignments for FET
-		Set<Assignment> assignments = new HashSet<>();
-		dp.getSubjects().getList().forEach(subj -> assignments.addAll(newHashSet(subj.getAssignments().getList())));
-		
+		//Transforming Assignments for FET and saving the newly assigned ids for further look up
 		long counter = 1;
+		Map<Assignment, Long> assgIds = new HashMap<>();
 		List<Tuple<Long, Assignment>> tuples = new LinkedList<>();
-		for (Assignment assignment : assignments) {
-			tuples.add(new Tuple<>(counter++, assignment));
+		for (Assignment assignment : dp.getAssignments().getList()) {
+			long newId = counter; //((AssignmentImpl) assignment).getId();
+			tuples.add(new Tuple<>(newId, assignment));
+			assgIds.put(assignment, newId);
+			counter++;
 		}
-		
 		inst.setActivities(transform(tuples, tuple -> new ActivityXml(tuple.getFirst(), tuple.getSecond())));
+
+		//Transforming Constraints for FET
+		ConstraintSetter setter = new ConstraintSetter(assg -> assgIds.get(assg));
+		dp.getConstraints().getList().forEach(constr ->
+			newXmlConstraint(inst, constr.getConstraintType(), constr.getAttributes().getValue(), setter));
+
 		return new Tuple<>(inst, tuples);
 	}
 
