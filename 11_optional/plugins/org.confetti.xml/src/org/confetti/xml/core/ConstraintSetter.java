@@ -292,7 +292,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitTime(ConstraintStudentsSetNotAvailableTimes c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.studentsName = getSafeName(p.asStudentGroup("studentgroup"));
-		c.notAvailableTimes = toList(p.asWeek("not-available-times"), ConstraintSetter::toBreakTimeXml);
+		c.setNotAvailableTimes(toList(p.asWeek("not-available-times"), ConstraintSetter::toBreakTimeXml));
 		return c;
 	}
 
@@ -464,7 +464,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitTime(ConstraintActivityPreferredTimeSlots c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.activityId = getAssgId(p.asAssignment("assignment"));
-		c.preferredTimeSlots = toList(p.asWeek("time-slots"), ConstraintSetter::toPreferredTimeXml);
+		c.setPreferredTimeSlots(toList(p.asWeek("time-slots"), ConstraintSetter::toPreferredTimeXml));
 		return c;
 	}
 

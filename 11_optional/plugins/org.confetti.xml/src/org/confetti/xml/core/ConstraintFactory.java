@@ -277,7 +277,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitTime(ConstraintStudentsSetNotAvailableTimes c, Object p) {
 		return fillDefault("time.NotAvailableTimesForAStudentGroup", c)
 			.withStudentGroup("studentgroup", repo.findStudentGroup(c.studentsName))
-			.withWeek("not-available-times", transform(c.notAvailableTimes, 
+			.withWeek("not-available-times", transform(c.getNotAvailableTimes(), 
 					x -> new Tuple<>(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
@@ -433,7 +433,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitTime(ConstraintActivityPreferredTimeSlots c, Object p) {
 		return fillDefault("time.ActivityHasSomePreferredTimeSlots", c)
 			.withAssignment("assignment", repo.findAssignment(c.activityId))
-			.withWeek("time-slots", transform(c.preferredTimeSlots, 
+			.withWeek("time-slots", transform(c.getPreferredTimeSlots(), 
 					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 

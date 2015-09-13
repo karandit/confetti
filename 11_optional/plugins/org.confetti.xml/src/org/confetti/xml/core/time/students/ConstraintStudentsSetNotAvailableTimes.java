@@ -22,7 +22,17 @@ import org.confetti.xml.core.time.TimeConstraint;
 public class ConstraintStudentsSetNotAvailableTimes extends TimeConstraint {
 	@XmlElement(name = "Students") public String studentsName;
 	@XmlElement(name = "Number_of_Not_Available_Times") private int nrOfNotAvailableTimes;
-	@XmlElement(name = "Not_Available_Time") public List<BreakTimeXml> notAvailableTimes = new ArrayList<>();
+	private List<BreakTimeXml> notAvailableTimes = new ArrayList<>();
+
+	@XmlElement(name = "Not_Available_Time") 
+	public List<BreakTimeXml> getNotAvailableTimes() {
+		return notAvailableTimes;
+	}
+
+	public void setNotAvailableTimes(List<BreakTimeXml> value) {
+		this.notAvailableTimes = value;
+		this.nrOfNotAvailableTimes = value.size();
+	}
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
