@@ -425,7 +425,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitTime(ConstraintActivityPreferredStartingTimes c, Object p) {
 		return fillDefault("time.ActivityHasSomePreferredStartingTimes", c)
 			.withAssignment("assignment", repo.findAssignment(c.activityId))
-			.withWeek("starting-times", transform(c.preferredStartingTimes, 
+			.withWeek("starting-times", transform(c.getPreferredStartingTimes(), 
 					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
@@ -444,7 +444,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 					repo.maybeFindSubject(c.subjectName), 
 					repo.maybeFindTeacher(c.teacherName), 
 					repo.maybeFindStudentGroup(c.studentsName)))
-			.withWeek("starting-times", transform(c.preferredStartingTimes, 
+			.withWeek("starting-times", transform(c.getPreferredStartingTimes(), 
 					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
@@ -502,7 +502,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesSameStartingTime c, Object p) {
 		return fillDefault("time.MoreActivitiesHaveSameStartingTime", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.getActivityIds(), id -> repo.findAssignment(id)))
 	;}
 
 	@Override
@@ -712,7 +712,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitSpace(ConstraintSubjectPreferredRooms c, Object p) {
 		return fillDefault("space.SubjectHasSomePreferredRooms", c)
 			.withSubject("subject", repo.findSubject(c.subject))
-			.withRoomsSet("rooms", transform(c.preferredRooms, x -> repo.findRoom(x)))
+			.withRoomsSet("rooms", transform(c.getPreferredRooms(), x -> repo.findRoom(x)))
 	;}
 
 	//----- Activity tags
@@ -750,13 +750,13 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitSpace(ConstraintActivityPreferredRooms c, Object p) {
 		return fillDefault("space.ActivityHasSomePreferredRooms", c)
 			.withAssignment("assignment", repo.findAssignment(c.activityId))
-			.withRoomsSet("rooms", transform(c.preferredRooms, x -> repo.findRoom(x)))
+			.withRoomsSet("rooms", transform(c.getPreferredRooms(), x -> repo.findRoom(x)))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintActivitiesSameRoomIfConsecutive c, Object p) {
 		return fillDefault("space.SomeActivitiesAreInTheSameRoomIfTheyAreConsecutive", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.getActivityIds(), id -> repo.findAssignment(id)))
 	;}
 
 	@Override

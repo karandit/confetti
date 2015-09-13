@@ -19,8 +19,19 @@ import org.confetti.xml.core.space.SpaceConstraint;
 		"nrOfActivities", "activityIds", 
 		"active", "comment"})
 public class ConstraintActivitiesSameRoomIfConsecutive extends SpaceConstraint {
+
 	@XmlElement(name = "Number_of_Activities") private int nrOfActivities;
-	@XmlElement(name = "Activity_Id") public List<Long> activityIds = new ArrayList<>();
+	private List<Long> activityIds = new ArrayList<>();
+	
+	@XmlElement(name = "Activity_Id")
+	public List<Long> getActivityIds() {
+		return activityIds;
+	}
+
+	public void setActivityIds(List<Long> activityIds) {
+		this.activityIds = activityIds;
+		this.nrOfActivities = activityIds.size();
+	}
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

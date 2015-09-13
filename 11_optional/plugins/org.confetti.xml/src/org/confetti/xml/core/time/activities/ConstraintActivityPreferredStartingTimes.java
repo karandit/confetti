@@ -23,7 +23,17 @@ public class ConstraintActivityPreferredStartingTimes extends TimeConstraint {
 
 	@XmlElement(name = "Activity_Id") public long activityId;
 	@XmlElement(name = "Number_of_Preferred_Starting_Times") private long nrOfPreferredStartingTimes;
-	@XmlElement(name = "Preferred_Starting_Time") public List<PreferredStartingTimeXml> preferredStartingTimes = new ArrayList<>();
+	private List<PreferredStartingTimeXml> preferredStartingTimes = new ArrayList<>();
+
+	@XmlElement(name = "Preferred_Starting_Time") 
+	public List<PreferredStartingTimeXml> getPreferredStartingTimes() {
+		return preferredStartingTimes;
+	}
+
+	public void setPreferredStartingTimes(List<PreferredStartingTimeXml> value) {
+		this.preferredStartingTimes = value;
+		this.nrOfPreferredStartingTimes = value.size();
+	}
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

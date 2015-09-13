@@ -35,7 +35,11 @@ public class ConstraintMinDaysBetweenActivities extends TimeConstraint {
 	
 	@XmlElement(name = "Activity_Id")
 	public List<Long> getActivityId() { return activityId; }
-	public void setActivityId(List<Long> value) { this.activityId = value; }
+
+	public void setActivityId(List<Long> value) {
+		this.activityId = value;
+		this.numberOfActivities = value.size();
+	}
 	
 	@XmlElement(name = "MinDays")
 	public int getMinDays() { return minDays; }

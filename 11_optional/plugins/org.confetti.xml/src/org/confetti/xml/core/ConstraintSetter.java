@@ -451,7 +451,8 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	public BaseConstraintXml visitTime(ConstraintActivityPreferredStartingTimes c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.activityId = getAssgId(p.asAssignment("assignment"));
-		c.preferredStartingTimes = toList(p.asWeek("starting-times"), ConstraintSetter::toPreferredStartingTimeXml); 
+		c.setPreferredStartingTimes(
+				toList(p.asWeek("starting-times"), ConstraintSetter::toPreferredStartingTimeXml)); 
 		return c;
 	}
 
@@ -470,7 +471,7 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 		c.subjectName = getSafeName(triple.getFirst()); 
 		c.teacherName = getSafeName(triple.getSecond()); 
 		c.studentsName = getSafeName(triple.getThird());
-		c.preferredStartingTimes = toList(p.asWeek("starting-times"), ConstraintSetter::toPreferredStartingTimeXml);
+		c.setPreferredStartingTimes(toList(p.asWeek("starting-times"), ConstraintSetter::toPreferredStartingTimeXml));
 		return c;
 	}
 
@@ -532,7 +533,7 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesSameStartingTime c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId); 
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId)); 
 	return c;}
 
 	@Override
@@ -752,7 +753,7 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	public BaseConstraintXml visitSpace(ConstraintSubjectPreferredRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.subject = getSafeName(p.asSubject("subject"));
-		c.preferredRooms = 	toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName);
+		c.setPreferredRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
 		return c;
 	}
 
@@ -791,14 +792,14 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 	public BaseConstraintXml visitSpace(ConstraintActivityPreferredRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.activityId = getAssgId(p.asAssignment("assignment"));
-		c.preferredRooms = toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName);
+		c.setPreferredRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
 		return c;
 	}
 
 	@Override
 	public BaseConstraintXml visitSpace(ConstraintActivitiesSameRoomIfConsecutive c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId);
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId));
 		return c;
 	}
 
@@ -807,7 +808,8 @@ public enum ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, 
 		fillDefault(c, p);
 		c.activityIds = toList(p.asAssignmentsSet("assignments"), ConstraintSetter::getAssgId);
 		c.maxNrOfDifferentRooms = p.asInteger("max-diff-rooms");
-	return c;}
+		return c;
+	}
 
 	//------------------- helpers --------------------------------------------------------------------------------------
 	private void fillDefault(BaseConstraintXml c, ConstraintAttributes attrs) {
