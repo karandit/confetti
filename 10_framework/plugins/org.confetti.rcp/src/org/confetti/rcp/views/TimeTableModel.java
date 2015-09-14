@@ -1,8 +1,11 @@
 package org.confetti.rcp.views;
 
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
 import static de.kupzog.ktable.renderers.DefaultCellRenderer.STYLE_PUSH;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +24,7 @@ import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import de.kupzog.ktable.KTable;
@@ -54,35 +58,15 @@ public class TimeTableModel extends KTableNoScrollModel {
 		this.entity = entity;
 		this.assignments = new Assignment[days.length + 1][hours.length + 1];
 		if (entity != null && dp.getSolution().getValue() != null) {
-			Map<Assignment, SolutionSlot> assignmentSolutionSlot = new HashMap<>();
-			for (SolutionSlot slot : dp.getSolution().getValue()) {
-				assignmentSolutionSlot.put(slot.getAssignment(), slot);
-			}
 			ArrayList<Day> daysArr = Lists.newArrayList(dp.getDays().getList());
 			ArrayList<Hour> hoursArr = Lists.newArrayList(dp.getHours().getList());
 			
-			if (entity instanceof StudentGroup) {
-				StudentGroup sg = (StudentGroup) entity;
-				while (sg != null) {
-					addAssingments(sg, assignmentSolutionSlot, daysArr, hoursArr);
-					sg = sg.getParent();
-				}
-			} else {
-				addAssingments(entity, assignmentSolutionSlot, daysArr, hoursArr);
-			}
-		}
-	}
-
-	private void addAssingments(Entity entity,
-			Map<Assignment, SolutionSlot> assignmentSolutionSlot,
-			ArrayList<Day> daysArr, ArrayList<Hour> hoursArr) {
-		for (Assignment ass : entity.getAssignments().getList()) {
-			if (assignmentSolutionSlot.containsKey(ass)) {
-				SolutionSlot foundSolutionSlot = assignmentSolutionSlot.get(ass);
-				int day =  daysArr.indexOf(foundSolutionSlot.getDay());
-				int hour = hoursArr.indexOf(foundSolutionSlot.getHour());
-				this.assignments[day + 1][hour + 1] = ass;
-			}
+			Iterable<SolutionSlot> slots = entity.accept(GetSolutionSlotsVisitor.INSTANCE, dp.getSolution().getValue());
+			slots.forEach(slot -> {
+				int day =  daysArr.indexOf(slot.getDay());
+				int hour = hoursArr.indexOf(slot.getHour());
+				this.assignments[day + 1][hour + 1] = slot.getAssignment();
+			});
 		}
 	}
 
@@ -163,7 +147,54 @@ public class TimeTableModel extends KTableNoScrollModel {
 		@Override public String visitStudentGroup(StudentGroup studentGroup, Assignment ass) { 
 			return ass.getSubject().getName().getValue() + "\n" + getNames(ass.getTeachers());
 		}
-		@Override public String visitRoom(Room room, Assignment ass) { return null; }
+		@Override public String visitRoom(Room room, Assignment ass) { 
+			return getNames(ass.getTeachers()) + "\n" + getNames(ass.getStudentGroups());
+		}
 	}
 	
+	enum GetSolutionSlotsVisitor implements EntityVisitor<Iterable<SolutionSlot>, Iterable<SolutionSlot>> {
+		INSTANCE;
+
+		@Override
+		public Iterable<SolutionSlot> visitSubject(Subject subject, Iterable<SolutionSlot> slots) {
+			return collectSlots(subject, createRepo(slots));
+		}
+
+		@Override
+		public Iterable<SolutionSlot> visitTeacher(Teacher teacher, Iterable<SolutionSlot> slots) {
+			return collectSlots(teacher, createRepo(slots));
+		}
+
+		@Override
+		public Iterable<SolutionSlot> visitStudentGroup(StudentGroup studentGr, Iterable<SolutionSlot> slots) {
+			Iterable<SolutionSlot> res = Arrays.asList();
+			Map<Assignment, SolutionSlot> repo = createRepo(slots);
+			StudentGroup sg = studentGr;
+			while (sg != null) {
+				res = Iterables.concat(res, collectSlots(sg, repo));
+				sg = sg.getParent();
+			}
+			return res;
+		}
+
+		@Override
+		public Iterable<SolutionSlot> visitRoom(Room room, Iterable<SolutionSlot> slots) {
+			return filter(slots, slot -> room == slot.getRoom());
+		}
+		
+		//------------------------ helpers -----------------------------------------------------------------------------
+		private Map<Assignment, SolutionSlot> createRepo(Iterable<SolutionSlot> slots) {
+			Map<Assignment, SolutionSlot> slotsByAssignment = new HashMap<>();
+			for (SolutionSlot slot : slots) {
+				slotsByAssignment.put(slot.getAssignment(), slot);
+			}
+			return slotsByAssignment;
+		}
+		
+		private Iterable<SolutionSlot> collectSlots(Entity entity, Map<Assignment, SolutionSlot> slots) {
+			return transform(
+					filter(entity.getAssignments().getList(), ass -> slots.containsKey(ass)),
+					ass -> slots.get(ass));
+		}
+	}
 }
