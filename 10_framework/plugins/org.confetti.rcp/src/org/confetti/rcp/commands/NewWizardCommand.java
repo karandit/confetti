@@ -17,6 +17,7 @@ import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
+import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
@@ -134,6 +135,7 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public ObservableList<Room> getRooms() { return null; }
         @Override public ObservableList<Assignment> getAssignments() { return null; }
         @Override public ObservableList<Constraint> getConstraints() { return null; }
+        @Override public ObservableList<Tag> getTags() { return null; }
         @Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return null; }
         @Override public void addSubjects(List<String> names) { }
         @Override public void addTeachers(List<String> names) { }

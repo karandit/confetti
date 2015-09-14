@@ -6,6 +6,7 @@ import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
 import org.confetti.core.Nameable;
 import org.confetti.core.Subject;
+import org.confetti.core.Tag;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.util.Tuple;
@@ -67,6 +68,7 @@ public class AssignmentsView extends ViewPart {
 		AbstractEntityTableView.createColumn(table, "Subject", 150);
 		AbstractEntityTableView.createColumn(table, "Teacher", 150);
 		AbstractEntityTableView.createColumn(table, "Student Group", 150);
+		AbstractEntityTableView.createColumn(table, "Tags", 150);
 		
 		TableViewer tableViewer = new TableViewer(table);
 		tableViewer.setContentProvider(new ArrayContentProvider());
@@ -102,7 +104,9 @@ public class AssignmentsView extends ViewPart {
 			return new Tuple<>(source.getAssignments().getList(), (source instanceof Subject) ? null : source);
 		} else if (first instanceof Root) {
 			return new Tuple<>(((Assignable) first).getAssignments().getList(), null);
-		} 
+		} else if (first instanceof Tag) {
+			return new Tuple<>(((Tag) first).getAssignments().getList(), null);
+		}
 		return new Tuple<>(null, null); // instanceof InstituteView.Containers
 	}
 
@@ -119,7 +123,7 @@ public class AssignmentsView extends ViewPart {
 	
 	public static String getName(Nameable ent) { return ent == null ? null : ent.getName().getValue(); }
 	
-	public static <T extends Entity> String toStr(Iterable<T> items) {
+	public static <T extends Nameable> String toStr(Iterable<T> items) {
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
 		for (T t : items) {

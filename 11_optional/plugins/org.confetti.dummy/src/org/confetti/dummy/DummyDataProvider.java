@@ -15,6 +15,7 @@ import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
+import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
@@ -33,6 +34,7 @@ public class DummyDataProvider implements DataProvider {
 	private ListMutator<Hour> hours;
 	private ListMutator<Assignment> assignments;
 	private ListMutator<Constraint> constraints;
+	private ListMutator<Tag> tags = new ListMutator<>();
 	private ValueMutator<Iterable<SolutionSlot>> solution;
 	
 	public DummyDataProvider() {
@@ -113,6 +115,7 @@ public class DummyDataProvider implements DataProvider {
 	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		{ return assignments.getObservableList(); }
 	@Override public ObservableList<Constraint> getConstraints() 		{ return constraints.getObservableList(); }
+	@Override public ObservableList<Tag> getTags() 						{ return tags.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override

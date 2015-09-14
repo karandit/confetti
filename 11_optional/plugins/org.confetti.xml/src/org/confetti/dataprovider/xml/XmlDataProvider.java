@@ -14,6 +14,7 @@ import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
+import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
@@ -56,6 +57,7 @@ public class XmlDataProvider implements DataProvider {
 	private ListMutator<Hour> hours = new ListMutator<>();
 	private ListMutator<Assignment> assignments = new ListMutator<>();
 	private ListMutator<Constraint> constraints = new ListMutator<>();
+	private ListMutator<Tag> tags = new ListMutator<>();
 	private ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 
 	//----------------------------- fields for xml persistence ---------------------------------------------------------
@@ -80,11 +82,13 @@ public class XmlDataProvider implements DataProvider {
 		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
 		inst.getRooms()				.forEach(room -> rooms.addItem(new RoomImpl(room.getName())));
 		inst.getYears()				.forEach(year -> stdGroups.addItem(createStudentGroup(year)));
+		inst.getActivityTags()		.forEach(actTag -> tags.addItem(new TagImpl(actTag.getName())));
 		
 		final Repo repo = new Repo()
 			.withSubjects(subjects.getObservableList().getList())
 			.withTeachers(teachers.getObservableList().getList())
-			.withStudentGroups(stdGroups.getObservableList().getList());
+			.withStudentGroups(stdGroups.getObservableList().getList())
+			.withTags(tags.getObservableList().getList());
 		inst.getActivities()		.forEach(act -> assignments.addItem(createAssignment(act, repo)));
 		
 		ConstraintFactory factory = new ConstraintFactory(repo
@@ -107,6 +111,9 @@ public class XmlDataProvider implements DataProvider {
 		}
 		if (act.getTeachers() != null) {
 			act.getTeachers().forEach(teacherRef -> ass.addTeacher(repo.findTeacher(teacherRef.getName())));
+		}
+		if (act.getActivityTag() != null) {
+			act.getActivityTag().forEach(tagName -> ass.addTag((TagImpl) repo.findTag(tagName)));
 		}
 		return ass;
 	}
@@ -139,6 +146,7 @@ public class XmlDataProvider implements DataProvider {
 	@Override public ObservableList<Hour> getHours() 				       { return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		   { return assignments.getObservableList(); }
 	@Override public ObservableList<Constraint> getConstraints() 		   { return constraints.getObservableList(); }
+	@Override public ObservableList<Tag> getTags() 						   { return tags.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	@Override

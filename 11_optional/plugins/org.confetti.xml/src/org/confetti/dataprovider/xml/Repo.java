@@ -10,6 +10,7 @@ import org.confetti.core.Nameable;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
+import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 
 public class Repo {
@@ -21,6 +22,7 @@ public class Repo {
 	private Map<String, Subject> subjectsByName = new HashMap<>();
 	private Map<String, Room> roomsByName = new HashMap<>();
 	private Map<Long, Assignment> assignmentsById = new HashMap<>();
+	private Map<String, Tag> tagsByName = new HashMap<>();
 
 	//------------------ withXXX methods -------------------------------------------------------------------------------
 	public Repo withDays(final Iterable<Day> days) {
@@ -47,15 +49,22 @@ public class Repo {
 		this.subjectsByName = storeByName(subjects);
 		return this;
 	}
+	
 	public Repo withRooms(final Iterable<Room> rooms) {
 		this.roomsByName = storeByName(rooms);
 		return this;
 	}
+
 	public Repo withAssignments(final Iterable<Assignment> assignments) {
 		this.assignmentsById = storeById(assignments);
 		return this;
 	}
-	
+
+	public Repo withTags(final Iterable<Tag> tags) {
+		this.tagsByName = storeByName(tags);
+		return this;
+	}
+
 	//------------------ findXXX methods -------------------------------------------------------------------------------
 	public Day findDay(final String name) 				  	{ return safeGet(name, daysByName, "Day"); }
 	public Hour findHour(final String name) 			  	{ return safeGet(name, hoursByName, "Hour"); }
@@ -64,6 +73,7 @@ public class Repo {
 	public Subject findSubject(final String name) 	  		{ return safeGet(name, subjectsByName, "Subject"); }
 	public Room findRoom(final String name) 			  	{ return safeGet(name, roomsByName, "Room"); }
 	public Assignment findAssignment(final long id) 		{ return safeGet(id, assignmentsById, "Assignment"); }
+	public Tag findTag(String name) 						{ return safeGet(name, tagsByName, "Tag"); }
 
 	//------------------ maybeFindXXX methods --------------------------------------------------------------------------
 	public Hour maybeFindHour(final String name) 				{ return hoursByName.get(name); }

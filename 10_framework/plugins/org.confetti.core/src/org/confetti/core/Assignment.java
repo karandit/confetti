@@ -7,5 +7,6 @@ public interface Assignment extends Constraintable {
 	Subject getSubject();
 	ObservableList<Teacher> getTeachers();
 	ObservableList<StudentGroup> getStudentGroups();
+	ObservableList<Tag> getTags();
 	
 }

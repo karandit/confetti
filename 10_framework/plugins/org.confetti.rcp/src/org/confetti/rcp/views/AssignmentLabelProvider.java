@@ -21,6 +21,7 @@ class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvid
 			case 1:	return getName(assignment.getSubject());
 			case 2:	return toStr(assignment.getTeachers().getList());
 			case 3:	return toStr(assignment.getStudentGroups().getList());
+			case 4:	return toStr(assignment.getTags().getList());
 			default : return "";
 		}
 	}

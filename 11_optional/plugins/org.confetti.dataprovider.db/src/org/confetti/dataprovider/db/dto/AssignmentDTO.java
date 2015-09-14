@@ -4,6 +4,7 @@ import org.confetti.core.Assignment;
 import org.confetti.core.Constraint;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
+import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
@@ -15,6 +16,7 @@ public class AssignmentDTO implements Assignment {
     private final ListMutator<Teacher> teachers = new ListMutator<>();
     private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
 	private final ListMutator<Constraint> constraints = new ListMutator<>();
+	private final ListMutator<Tag> tags = new ListMutator<>();
 
     public AssignmentDTO(Long id, Subject subj) {
         this.id = id;
@@ -40,4 +42,5 @@ public class AssignmentDTO implements Assignment {
     @Override public ObservableList<Teacher> getTeachers() { return teachers.getObservableList(); }
     @Override public ObservableList<StudentGroup> getStudentGroups() { return stGroups.getObservableList(); }
 	@Override public ObservableList<Constraint> getConstraints()  { return constraints.getObservableList(); }
+	@Override public ObservableList<Tag> getTags() { return tags.getObservableList(); }
 }

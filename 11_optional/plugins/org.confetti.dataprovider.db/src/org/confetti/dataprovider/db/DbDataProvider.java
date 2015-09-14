@@ -19,6 +19,7 @@ import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
+import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.dataprovider.db.dto.AssignmentDTO;
 import org.confetti.dataprovider.db.dto.DayDTO;
@@ -67,6 +68,7 @@ public class DbDataProvider implements DataProvider {
 	private ListMutator<Hour> hours = new ListMutator<>();
 	private ListMutator<Assignment> assignments = new ListMutator<>();
 	private ListMutator<Constraint> constraints = new ListMutator<>();
+	private ListMutator<Tag> tags = new ListMutator<>();
 	private ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 	
 	private final SessionFactory sFact;
@@ -146,6 +148,7 @@ public class DbDataProvider implements DataProvider {
 	@Override public ObservableList<Hour> getHours() 					   { return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		   { return assignments.getObservableList(); }
 	@Override public ObservableList<Constraint> getConstraints() 		   { return constraints.getObservableList(); }
+	@Override public ObservableList<Tag> getTags() 						   { return tags.getObservableList(); }
 	@Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return solution.getObservableValue(); }
 	
 	//----------------------------- DataProvider's Persister API -------------------------------------------------------
@@ -281,13 +284,13 @@ public class DbDataProvider implements DataProvider {
 	//----------------------------- helpers ----------------------------------------------------------------------------
     private <T extends AbstractEntityDb> List<T> createEntities(final List<String> names, 
             final Function<Tuple<String, InstituteDb>, T> f) {
-        final List<T> newEntities = new LinkedList<T>();
+        final List<T> newEntities = new LinkedList<>();
         runTx(sFact, new Tx() {
             @Override
             public void run(Session session, Transaction trans) {
                 InstituteDb instDb = (InstituteDb) session.load(InstituteDb.class, instId);
                 for (String name : names) {
-                    T newEntity = f.apply(new Tuple<String, InstituteDb>(name, instDb));
+                    T newEntity = f.apply(new Tuple<>(name, instDb));
                     newEntities.add(newEntity);
                     session.persist(newEntity);
                 }

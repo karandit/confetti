@@ -72,6 +72,9 @@ public class InstituteView extends AbstractView<TreeViewer> {
 		},
 		AllRooms("All rooms") {
 			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getRooms().getList(); }
+		},
+		AllTags("All tags") {
+			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getTags().getList(); }
 		};
 		
 		private final ValueMutator<String> nameMut;
