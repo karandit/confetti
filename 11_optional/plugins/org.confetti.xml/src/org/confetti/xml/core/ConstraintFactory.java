@@ -455,7 +455,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 					repo.maybeFindSubject(c.subjectName), 
 					repo.maybeFindTeacher(c.teacherName), 
 					repo.maybeFindStudentGroup(c.studentsName)))
-			.withWeek("time-slots", transform(c.preferredTimeSlots, 
+			.withWeek("time-slots", transform(c.getPreferredTimeSlots(), 
 					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 
@@ -588,7 +588,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitSpace(ConstraintRoomNotAvailableTimes c, Object p) {
 		return fillDefault("space.NotAvailableTimesForARoom", c)
 			.withRoom("room", repo.findRoom(c.room))
-			.withWeek("not-available-times", transform(c.notAvailableTimes, 
+			.withWeek("not-available-times", transform(c.getNotAvailableTimes(), 
 					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
 	;}
 

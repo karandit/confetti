@@ -26,7 +26,17 @@ public class ConstraintActivitiesPreferredTimeSlots extends TimeConstraint {
 	@XmlElement(name = "Subject_Name") 						public String subjectName;
 	@XmlElement(name = "Activity_Tag_Name") 				private String activityTagName;
 	@XmlElement(name = "Number_of_Preferred_Time_Slots") 	private int nrOfPreferredTimeSlots;
-	@XmlElement(name = "Preferred_Time_Slot") 				public List<PreferredTimeXml> preferredTimeSlots = new ArrayList<>();
+	private List<PreferredTimeXml> preferredTimeSlots = new ArrayList<>();
+
+	@XmlElement(name = "Preferred_Time_Slot") 		
+	public List<PreferredTimeXml> getPreferredTimeSlots() {
+		return preferredTimeSlots;
+	}
+
+	public void setPreferredTimeSlots(List<PreferredTimeXml> value) {
+		this.preferredTimeSlots = value;
+		this.nrOfPreferredTimeSlots = value.size();
+	}
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
