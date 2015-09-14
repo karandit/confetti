@@ -10,3 +10,4 @@ Require-Bundle: org.confetti.rcp,
  com.google.guava,
  org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.confetti.fet.engine;x-friends:="org.confetti.tests.fet.engine"

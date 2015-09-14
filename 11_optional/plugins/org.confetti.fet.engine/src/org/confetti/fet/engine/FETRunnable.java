@@ -27,11 +27,9 @@ import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
 import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
-import org.confetti.dataprovider.xml.AssignmentImpl;
 import org.confetti.fet.engine.solution.ResultActivityXML;
 import org.confetti.fet.engine.solution.SolutionFAO;
 import org.confetti.fet.engine.solution.SolutionXML;
-import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.util.Tuple;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
@@ -62,11 +60,15 @@ public class FETRunnable implements IRunnableWithProgress {
 	private DataProvider mDataProvider;
 	private URL mCopyingUrl;
 	private List<Listener> listeners = new LinkedList<>();
-
+	private Iterable<SolutionSlot> solution;
 	
 	public FETRunnable(DataProvider dp, URL copyingUrl) {
 		this.mDataProvider = dp;
 		this.mCopyingUrl = copyingUrl;
+	}
+
+	public Iterable<SolutionSlot> getSolution() {
+		return solution;
 	}
 
 	public void attachPrintListener(Listener listener) {
@@ -96,13 +98,15 @@ public class FETRunnable implements IRunnableWithProgress {
 				}
 			}
 			if (process.exitValue() == 0) {
-				storeSolution(res, command.getSecond());
+				storeSolution(res.getSecond(), command.getSecond());
 			}
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
 		}
 	}
-	private static Tuple<List<String>, File> buildCommand(InstituteXml inst, URL copyingUrl) throws IOException, FAOException {
+	
+	private static Tuple<List<String>, File> buildCommand(InstituteXml inst, URL copyingUrl) 
+			throws IOException, FAOException {
 		//Executable
 		URL fileURL = FileLocator.toFileURL(copyingUrl);
 		String executable = new File(new File(fileURL.getFile()).getParentFile(), "fet-cl").toString();
@@ -118,16 +122,14 @@ public class FETRunnable implements IRunnableWithProgress {
 		//Output dir
 		File resultsDir = new File(tmpDir.toFile(), "results");
 		Files.createDirectory(resultsDir.toPath());
-		System.out.println(resultsDir);
 		command.add("--outputdir=" + resultsDir.toString());
 		return new Tuple<>(command, resultsDir);
 	}
 	
-	private void storeSolution(Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res, File resultsDir) 
+	private void storeSolution(List<Tuple<Long, Assignment>> assignmentsById, File resultsDir) 
 			throws FAOException {
-		//Reading in the solution file
-		File solutionFile  = Paths
-								.get(resultsDir.getAbsolutePath(), "timetables", "input", "input_activities.xml")
+		//Read the solution file
+		File solutionFile  = Paths.get(resultsDir.getAbsolutePath(), "timetables", "input", "input_activities.xml")
 								.toFile();
 		SolutionXML solutionXml = new SolutionFAO().importFrom(solutionFile);
 		
@@ -135,11 +137,11 @@ public class FETRunnable implements IRunnableWithProgress {
 		final Map<String, Day> daysByName = convertToMap(mDataProvider.getDays().getList());
 		final Map<String, Hour> hoursByName = convertToMap(mDataProvider.getHours().getList());
 		final Map<String, Assignment> assignmentsByIdStr = new HashMap<>();
-		for (Tuple<Long, Assignment> tuple : res.getSecond()) {
+		for (Tuple<Long, Assignment> tuple : assignmentsById) {
 			//TODO: check if the id is not too long, because it could add a comma
 			assignmentsByIdStr.put(tuple.getFirst().toString(), tuple.getSecond()); 
 		}
-		Iterable<SolutionSlot> solution = transform(solutionXml.getActivities(), (ResultActivityXML act) -> {
+		solution = transform(solutionXml.getActivities(), (ResultActivityXML act) -> {
 		    	Assignment assignment = assignmentsByIdStr.get(act.getId());
 		    	Day day = daysByName.get(act.getDay());
 		    	Hour hour = hoursByName.get(act.getHour());
@@ -147,8 +149,8 @@ public class FETRunnable implements IRunnableWithProgress {
 				return new SolutionSlot(assignment, day, hour, room);
 			}
 		);
-		ConfettiPlugin.getDefault().getDataProvider().getValue().setSolution(solution);
 	}
+	
 	private static <T extends Nameable> Map<String, T> convertToMap(Iterable<T> items) {
 		final Map<String, T> map = new HashMap<>();
 		for (T item : items) {
@@ -173,14 +175,14 @@ public class FETRunnable implements IRunnableWithProgress {
 		inst.setHours(new HoursXml(convertToList(dp.getHours().getList(), hour -> new HourXml(hour.getName().getValue()))));
 		
 		//Transforming Assignments for FET and saving the newly assigned ids for further look up
-//		long counter = 1;
+		long counter = 1;
 		Map<Assignment, Long> assgIds = new HashMap<>();
 		List<Tuple<Long, Assignment>> tuples = new LinkedList<>();
 		for (Assignment assignment : dp.getAssignments().getList()) {
-			long newId = ((AssignmentImpl) assignment).getId();
+			long newId = counter; //((AssignmentImpl) assignment).getId();
 			tuples.add(new Tuple<>(newId, assignment));
 			assgIds.put(assignment, newId);
-//			counter++;
+			counter++;
 		}
 		inst.setActivities(transform(tuples, tuple -> new ActivityXml(tuple.getFirst(), tuple.getSecond())));
 

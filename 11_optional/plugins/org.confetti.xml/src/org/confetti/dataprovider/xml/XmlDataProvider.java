@@ -65,18 +65,13 @@ public class XmlDataProvider implements DataProvider {
     private int colorCounter = 0;
     
 	//----------------------------- constructors -----------------------------------------------------------------------
-    public XmlDataProvider(InstituteXml inst, File file) throws FAOException {
-        this(inst);
-        this.file = file;
-    }
-    
     public XmlDataProvider(File file) throws FAOException {
-		this(new InstituteFAO().importFrom(file));
-        this.file = file;
+		this(new InstituteFAO().importFrom(file), file);
 	}
 	
-	public XmlDataProvider(InstituteXml inst) {
+	public XmlDataProvider(InstituteXml inst, File file) {
 		this.instXml = inst;
+        this.file = file;
 		instName.setValue(this, inst.getName());
 		instComment.setValue(this, inst.getComment());
 		inst.getDays().getDays()	.forEach(day -> days.addItem(new DayImpl(day.getName())));
@@ -250,7 +245,10 @@ public class XmlDataProvider implements DataProvider {
 		save();
 		constraintImpl.getAttrsMutator().setValue(constraint, attrs);
 	}
-
+	
+	public String getVersion() {
+		return this.instXml.getVersion();
+	}
 	//----------------------------- helpers ----------------------------------------------------------------------------
 	public void save() {
         try {

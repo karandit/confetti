@@ -3,6 +3,7 @@ package org.confetti.fet.engine;
 import java.net.URL;
 
 import org.confetti.core.DataProvider;
+import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.Wizard;
@@ -45,6 +46,9 @@ public class FETEngineWizard extends Wizard {
 			Display display = this.getShell().getDisplay();
 			fetRunnable.attachPrintListener(event -> display.asyncExec(() -> mConsolePage.print((String) event.data)));
 			getContainer().run(true, false, fetRunnable);
+			if (fetRunnable.getSolution() != null) {
+				ConfettiPlugin.getDefault().getDataProvider().getValue().setSolution(fetRunnable.getSolution());
+			}
 			changeButtons();
 			return false;
 		} catch (Throwable e) {

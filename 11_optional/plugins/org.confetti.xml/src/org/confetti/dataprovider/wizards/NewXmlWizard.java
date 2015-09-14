@@ -7,7 +7,6 @@ import org.confetti.core.Day;
 import org.confetti.core.Hour;
 import org.confetti.dataprovider.xml.XmlDataProvider;
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.xml.FAOException;
 import org.confetti.xml.core.DayXml;
 import org.confetti.xml.core.DaysXml;
 import org.confetti.xml.core.HourXml;
@@ -53,7 +52,7 @@ public class NewXmlWizard extends Wizard {
             dp.save();
             
             ConfettiPlugin.getDefault().setDataProvider(dp, dp);
-        } catch (FAOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             return false;

@@ -2,6 +2,7 @@ package org.confetti.tests.xml;
 
 import static org.confetti.tests.xml.StructureTest.openStream;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -16,14 +17,18 @@ import org.junit.Test;
  */
 public class CompatibilityTest {
 
-	private static void importFet(final String path) throws FAOException {
+	public static XmlDataProvider readFromFet(final String path) throws FAOException {
 		try (InputStream is = openStream(path)) {
 			InstituteXml  inst =  new InstituteFAO().importFrom(is);
-			new XmlDataProvider(inst);
-			System.out.println(inst.getVersion() + "\t" + inst.getName());
+			return new XmlDataProvider(inst, new File(path));
 		} catch (IOException e) {
 			throw new FAOException(e);
 		} 
+	}
+	
+	private static void importFet(final String path) throws FAOException {
+		XmlDataProvider dp = readFromFet(path);
+		System.out.println(dp.getVersion() + "\t" + dp.getName().getValue());
 	}
 
 	@Test
