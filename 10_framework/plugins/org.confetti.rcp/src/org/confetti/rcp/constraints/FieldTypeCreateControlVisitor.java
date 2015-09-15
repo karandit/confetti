@@ -130,7 +130,7 @@ public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, C
             @Override
             public String getText(Object element) {
             	Assignment ass = (Assignment) element;
-                return String.format("[%-30s][%-30s][%-30s][%-20s]"
+                return String.format("[%-30s][%-30s][%-30s]"
                 		, safeGetName(ass.getSubject())
                 		, toStr(ass.getStudentGroups().getList())
                 		, toStr(ass.getTeachers().getList())
