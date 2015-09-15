@@ -527,7 +527,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 						repo.maybeFindSubject(c.subjectName), 
 						repo.maybeFindTeacher(c.teacherName), 
 						repo.maybeFindStudentGroup(c.studentsName)))
-				.withTag("tag", repo.findTag(c.activityTagName))
+				.withTag("tag", repo.maybeFindTag(c.activityTagName))
 	;}
 
 	@Override

@@ -568,7 +568,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		c.subjectName = getSafeName(triple.getFirst()); 
 		c.teacherName = getSafeName(triple.getSecond()); 
 		c.studentsName = getSafeName(triple.getThird());
-		c.activityTagName = getSafeName(p.asTag("tag"));
+		c.activityTagName = p.asMaybeTag("tag").map(ConstraintSetter::getSafeName).orElse("");
 		return c;
 	}
 
