@@ -5,6 +5,7 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.Building;
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
@@ -24,29 +25,21 @@ import org.confetti.observable.ValueMutator;
 
 public class DummyDataProvider implements DataProvider {
 
-	private ValueMutator<String> instName = new ValueMutator<>();
-	private ValueMutator<String> instComment = new ValueMutator<>();
-	private ListMutator<Subject> subjects;
-	private ListMutator<Teacher> teachers;
-	private ListMutator<StudentGroup> studentGroups;
-	private ListMutator<Room> rooms;
-	private ListMutator<Day> days;
-	private ListMutator<Hour> hours;
-	private ListMutator<Assignment> assignments;
-	private ListMutator<Constraint> constraints;
-	private ListMutator<Tag> tags = new ListMutator<>();
-	private ValueMutator<Iterable<SolutionSlot>> solution;
+	private final ValueMutator<String> instName = new ValueMutator<>();
+	private final ValueMutator<String> instComment = new ValueMutator<>();
+	private final ListMutator<Subject> subjects = new ListMutator<>();
+	private final ListMutator<Teacher> teachers = new ListMutator<>();
+	private final ListMutator<StudentGroup> studentGroups = new ListMutator<>();
+	private final ListMutator<Room> rooms = new ListMutator<>();
+	private final ListMutator<Building> buildings = new ListMutator<>();
+	private final ListMutator<Day> days = new ListMutator<>();
+	private final ListMutator<Hour> hours = new ListMutator<>();
+	private final ListMutator<Assignment> assignments = new ListMutator<>();
+	private final ListMutator<Constraint> constraints = new ListMutator<>();
+	private final ListMutator<Tag> tags = new ListMutator<>();
+	private final ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 	
 	public DummyDataProvider() {
-		this.subjects = new ListMutator<>();
-		this.teachers = new ListMutator<>();
-		this.studentGroups = new ListMutator<>();
-		this.rooms = new ListMutator<>();
-		this.days = new ListMutator<>();
-		this.hours = new ListMutator<>();
-		this.assignments = new ListMutator<>();
-		this.constraints = new ListMutator<>();
-		this.solution = new ValueMutator<>();
 		init();
 	}
 
@@ -111,6 +104,7 @@ public class DummyDataProvider implements DataProvider {
 	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return studentGroups.getObservableList(); }
 	@Override public ObservableList<Room> getRooms()					{ return rooms.getObservableList(); }
+	@Override public ObservableList<Building> getBuildings() 			{ return buildings.getObservableList(); }
 	@Override public ObservableList<Day> getDays() 						{ return days.getObservableList(); }
 	@Override public ObservableList<Hour> getHours() 					{ return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		{ return assignments.getObservableList(); }

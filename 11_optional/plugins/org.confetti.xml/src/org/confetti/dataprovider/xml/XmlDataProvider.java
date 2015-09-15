@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.List;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.Building;
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
@@ -49,18 +50,19 @@ public class XmlDataProvider implements DataProvider {
 	private static final ConstraintSetter CONSTRAINT_SETTER = new ConstraintSetter(assg -> ((AssignmentImpl) assg).getId());
 	
 	//----------------------------- fields for UI client----------------------------------------------------------------
-	private ValueMutator<String> instName = new ValueMutator<>();
-	private ValueMutator<String> instComment = new ValueMutator<>();
-	private ListMutator<Teacher> teachers = new ListMutator<>();
-	private ListMutator<Subject> subjects = new ListMutator<>();
-	private ListMutator<StudentGroup> stdGroups = new ListMutator<>();
-	private ListMutator<Room> rooms = new ListMutator<>();
-	private ListMutator<Day> days = new ListMutator<>();
-	private ListMutator<Hour> hours = new ListMutator<>();
-	private ListMutator<Assignment> assignments = new ListMutator<>();
-	private ListMutator<Constraint> constraints = new ListMutator<>();
-	private ListMutator<Tag> tags = new ListMutator<>();
-	private ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
+	private final ValueMutator<String> instName = new ValueMutator<>();
+	private final ValueMutator<String> instComment = new ValueMutator<>();
+	private final ListMutator<Teacher> teachers = new ListMutator<>();
+	private final ListMutator<Subject> subjects = new ListMutator<>();
+	private final ListMutator<StudentGroup> stdGroups = new ListMutator<>();
+	private final ListMutator<Room> rooms = new ListMutator<>();
+	private final ListMutator<Building> buildings = new ListMutator<>();
+	private final ListMutator<Day> days = new ListMutator<>();
+	private final ListMutator<Hour> hours = new ListMutator<>();
+	private final ListMutator<Assignment> assignments = new ListMutator<>();
+	private final ListMutator<Constraint> constraints = new ListMutator<>();
+	private final ListMutator<Tag> tags = new ListMutator<>();
+	private final ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 
 	//----------------------------- fields for xml persistence ---------------------------------------------------------
     private final InstituteXml instXml;
@@ -83,6 +85,7 @@ public class XmlDataProvider implements DataProvider {
         inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName(), this.getNextColorId())));
 		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
 		inst.getRooms()				.forEach(room -> rooms.addItem(new RoomImpl(room.getName(), room.getCapacity())));
+		inst.getBuildings()			.forEach(building -> buildings.addItem(new BuildingImpl(building.getName())));
 		inst.getYears()				.forEach(year -> stdGroups.addItem(createStudentGroup(year)));
 		inst.getActivityTags()		.forEach(actTag -> tags.addItem(new TagImpl(actTag.getName())));
 		
@@ -144,6 +147,7 @@ public class XmlDataProvider implements DataProvider {
 	@Override public ObservableList<Teacher> getTeachers() 				   { return teachers.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	   { return stdGroups.getObservableList(); }
 	@Override public ObservableList<Room> getRooms() 					   { return rooms.getObservableList(); }
+	@Override public ObservableList<Building> getBuildings() 			   { return buildings.getObservableList(); }
 	@Override public ObservableList<Day> getDays() 						   { return days.getObservableList(); }
 	@Override public ObservableList<Hour> getHours() 				       { return hours.getObservableList(); }
 	@Override public ObservableList<Assignment> getAssignments() 		   { return assignments.getObservableList(); }

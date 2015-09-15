@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.Building;
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
@@ -133,6 +134,7 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public ObservableList<Teacher> getTeachers() { return null; }
         @Override public ObservableList<StudentGroup> getStudentGroups() { return null; }
         @Override public ObservableList<Room> getRooms() { return null; }
+		@Override public ObservableList<Building> getBuildings() { return null; }
         @Override public ObservableList<Assignment> getAssignments() { return null; }
         @Override public ObservableList<Constraint> getConstraints() { return null; }
         @Override public ObservableList<Tag> getTags() { return null; }

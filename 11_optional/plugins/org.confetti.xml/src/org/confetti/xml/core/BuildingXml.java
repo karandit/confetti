@@ -11,7 +11,14 @@ public class BuildingXml {
 
 	private String name;
 
-//	@XmlID
+	BuildingXml() {
+	}
+	
+	public BuildingXml(String name) {
+		this.name = name;
+	}
+
+	//	@XmlID
 	@XmlElement(name = "Name")
 	public String getName() 				{ return name; }
 	public void setName(String name) 		{ this.name = name; }
