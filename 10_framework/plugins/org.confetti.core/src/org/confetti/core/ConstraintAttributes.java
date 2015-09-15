@@ -47,6 +47,7 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public ConstraintAttributes withTag(String key, Tag v) 								{ return withT(key, v); }
 
 	//------------------------------- asXXX methods --------------------------------------------------------------------
+	public ConstraintAttribute<?> asAttribute(final String key) 						{ return attrs.get(key); } 
 	public Integer asInteger(final String key) 											{ return asT(key); }
 	public Double asDouble(final String key) 											{ return asT(key); }
 	public Boolean asBoolean(final String key) 											{ return asT(key); }
