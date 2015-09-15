@@ -1,5 +1,7 @@
 package org.confetti.core;
 
-public interface Room extends Entity {
+import org.confetti.observable.ObservableValue;
 
+public interface Room extends Entity {
+	ObservableValue<Integer> getCapacity();
 }

@@ -15,8 +15,9 @@ public class RoomXml implements INameBean {
 	RoomXml() {
 	}
 	
-	public RoomXml(String name) {
+	public RoomXml(String name, int capacity) {
 		this.name = name;
+		this.capacity = capacity;
 	}
 	
 	@XmlElement(name = "Name")

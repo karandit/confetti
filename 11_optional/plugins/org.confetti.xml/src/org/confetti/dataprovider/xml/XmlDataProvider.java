@@ -82,7 +82,7 @@ public class XmlDataProvider implements DataProvider {
 		inst.getHours().getHours()	.forEach(hour -> hours.addItem(new HourImpl(hour.getName())));
         inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName(), this.getNextColorId())));
 		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
-		inst.getRooms()				.forEach(room -> rooms.addItem(new RoomImpl(room.getName())));
+		inst.getRooms()				.forEach(room -> rooms.addItem(new RoomImpl(room.getName(), room.getCapacity())));
 		inst.getYears()				.forEach(year -> stdGroups.addItem(createStudentGroup(year)));
 		inst.getActivityTags()		.forEach(actTag -> tags.addItem(new TagImpl(actTag.getName())));
 		
@@ -187,9 +187,9 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void addRooms(List<String> names) {
-		names.forEach(name -> instXml.getRooms().add(new RoomXml(name)));
+		names.forEach(name -> instXml.getRooms().add(new RoomXml(name, 0)));
         save();
-        names.forEach(name -> rooms.addItem(new RoomImpl(name)));
+        names.forEach(name -> rooms.addItem(new RoomImpl(name, 0)));
 	}
 	
 	@Override

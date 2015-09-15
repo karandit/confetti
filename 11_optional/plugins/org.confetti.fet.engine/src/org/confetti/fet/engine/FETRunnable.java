@@ -170,8 +170,8 @@ public class FETRunnable implements IRunnableWithProgress {
 		//Transforming Subjects, Teachers, StudentGroups, Rooms, Days, Hours for FET
 		inst.setSubjects(convertToList(dp.getSubjects().getList(), subj -> new SubjectXml(subj.getName().getValue())));
 		inst.setTeachers(convertToList(dp.getTeachers().getList(), teacher -> new TeacherXml(teacher.getName().getValue())));
-		inst.setYears(convertToList(dp.getStudentGroups().getList(), sG -> new YearXml(sG)));
-		inst.setRooms(convertToList(dp.getRooms().getList(), room -> new RoomXml(room.getName().getValue())));
+		inst.setYears(convertToList(dp.getStudentGroups().getList(), YearXml::new));
+		inst.setRooms(convertToList(dp.getRooms().getList(), room -> new RoomXml(room.getName().getValue(), room.getCapacity().getValue())));
 		inst.setDays(new DaysXml(convertToList(dp.getDays().getList(), day -> new DayXml(day.getName().getValue()))));
 		inst.setHours(new HoursXml(convertToList(dp.getHours().getList(), hour -> new HourXml(hour.getName().getValue()))));
 		inst.setActivityTags(convertToList(dp.getTags().getList(), tag -> new ActivityTagXml(tag.getName().getValue())));
