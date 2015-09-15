@@ -3,6 +3,7 @@ package org.confetti.core;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Optional;
 
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
@@ -43,10 +44,9 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public ConstraintAttributes withAssignment(String key, Assignment v) 				{ return withT(key, v); }
 	public ConstraintAttributes withAssignmentsSet(String key, Iterable<Assignment> v) 	{ return withT(key, v); }
 	public ConstraintAttributes withAssignmentsCriteria(String key, Triple<Subject, Teacher, StudentGroup> v) 	{ return withT(key, v); }
+	public ConstraintAttributes withTag(String key, Tag v) 								{ return withT(key, v); }
 
 	//------------------------------- asXXX methods --------------------------------------------------------------------
-	public ConstraintAttribute<?> asAttribute(final String key) 						{ return attrs.get(key); }
-
 	public Integer asInteger(final String key) 											{ return asT(key); }
 	public Double asDouble(final String key) 											{ return asT(key); }
 	public Boolean asBoolean(final String key) 											{ return asT(key); }
@@ -63,14 +63,28 @@ public class ConstraintAttributes implements Iterable<ConstraintAttribute<?>>{
 	public Assignment asAssignment(String key)											{ return asT(key); }
 	public Iterable<Assignment> asAssignmentsSet(String key)							{ return asT(key); }
 	public Triple<Subject, Teacher, StudentGroup> asAssignmentsCriteria(String key) 	{ return asT(key); }
+	public Tag asTag(String key)  														{ return asT(key); }
+	
+	//------------------------------- asMaybeXXX methods ---------------------------------------------------------------
+	public Optional<Tag> asMaybeTag(String key)  										{ return asMaybeT(key); }
 	 
 	//------------------------------- helpers --------------------------------------------------------------------------
-	@SuppressWarnings("unchecked")
 	private <T> T asT(final String key) {
 		if (!attrs.containsKey(key)) {
 			throw new RuntimeException("Value not found for key " + key);
 		}
-		return ((ConstraintAttribute<T>) attrs.get(key)).getValue();
+		@SuppressWarnings("unchecked")
+		T value = ((ConstraintAttribute<T>) attrs.get(key)).getValue();
+		return value;
+	}
+	
+	private <T> Optional<T> asMaybeT(final String key) {
+		if (!attrs.containsKey(key)) {
+			return Optional.empty();
+		}
+		@SuppressWarnings("unchecked")
+		T value = ((ConstraintAttribute<T>) attrs.get(key)).getValue();
+		return Optional.ofNullable(value);
 	}
 	
 	private <T> ConstraintAttributes withT(final String key, final T value) {

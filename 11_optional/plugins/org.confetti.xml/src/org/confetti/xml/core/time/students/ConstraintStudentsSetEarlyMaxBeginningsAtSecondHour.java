@@ -16,8 +16,8 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"maxBeginningsAtSecondHour", "students",
 		"active", "comment"})
 public class ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour extends TimeConstraint {
-	@XmlElement(name = "Max_Beginnings_At_Second_Hour") 	private int maxBeginningsAtSecondHour;
-	@XmlElement(name = "Students") 				private String students;
+	@XmlElement(name = "Max_Beginnings_At_Second_Hour") 	public int maxBeginningsAtSecondHour;
+	@XmlElement(name = "Students") 				public String students;
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

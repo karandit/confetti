@@ -12,10 +12,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.confetti.core.Assignment;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
+import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.xml.internal.WSLongAdapter;
-
-import com.google.common.base.Function;
 
 /**
  * @author Bubla Gabor
@@ -41,18 +40,17 @@ public class ActivityXml {
 	}
 	
 	public ActivityXml(Long id, Assignment assg) {
-        this(id, assg.getSubject(), assg.getTeachers().getList(), assg.getStudentGroups().getList());
+        this(id, assg.getSubject(), assg.getTeachers().getList(), assg.getStudentGroups().getList(),
+        		assg.getTags().getList());
 	}
 	   
-	public ActivityXml(Long id, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
+	public ActivityXml(Long id, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups,
+			Iterable<Tag> tags) {
 		this.id = id;
 		this.subject = new SubjectRef(subject.getName().getValue());
-		this.teacherRefs = transform(newArrayList(teachers), new Function<Teacher, TeacherRef>() {
-			@Override public TeacherRef apply(Teacher teacher) { return new TeacherRef(teacher); }
-		});
-		this.students = transform(newArrayList(studentGroups), new Function<StudentGroup, String>() {
-			@Override public String apply(StudentGroup sG) { return sG.getName().getValue(); }
-		});
+		this.teacherRefs = transform(newArrayList(teachers), TeacherRef::new);
+		this.students = transform(newArrayList(studentGroups), sG -> sG.getName().getValue());
+		this.activityTag = transform(newArrayList(tags), tag -> tag.getName().getValue()); 
 	}
 	
 //	@XmlID

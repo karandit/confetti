@@ -20,9 +20,19 @@ import org.confetti.xml.core.space.SpaceConstraint;
 		"active", "comment"})
 public class ConstraintActivitiesOccupyMaxDifferentRooms extends SpaceConstraint {
 	@XmlElement(name = "Number_of_Activities") private int nrOfActivities;
-	@XmlElement(name = "Activity_Id") public List<Long> activityIds = new ArrayList<>();
+	private List<Long> activityIds = new ArrayList<>();
 	@XmlElement(name = "Max_Number_of_Different_Rooms") public int maxNrOfDifferentRooms;
 	
+	@XmlElement(name = "Activity_Id") 
+	public List<Long> getActivityIds() {
+		return activityIds;
+	}
+
+	public void setActivityIds(List<Long> value) {
+		this.activityIds = value;
+		this.nrOfActivities = value.size();
+	}
+
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {
 		return visitor.visitSpace(this, param);

@@ -24,7 +24,7 @@ public class ConstraintActivitiesPreferredStartingTimes extends TimeConstraint {
 	@XmlElement(name = "Teacher_Name") 							public String teacherName;
 	@XmlElement(name = "Students_Name") 						public String studentsName;
 	@XmlElement(name = "Subject_Name") 							public String subjectName;
-	@XmlElement(name = "Activity_Tag_Name") 					private String activityTagName;
+	@XmlElement(name = "Activity_Tag_Name") 					public String activityTagName;
 	@XmlElement(name = "Number_of_Preferred_Starting_Times") 	private int nrOfPreferredStartingTimes;
 	private List<PreferredStartingTimeXml> preferredStartingTimes = new ArrayList<>();
 

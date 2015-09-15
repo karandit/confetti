@@ -255,8 +255,10 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitTime(ConstraintTeachersActivityTagMaxHoursDaily c, ConstraintAttributes p) {
 		fillDefault(c, p);
-			c.maxHoursDaily = p.asHour("hours");
-	return c;}
+		c.maxHoursDaily = p.asHour("hours");
+		c.activityTagName = getSafeName(p.asTag("tag"));
+		return c;
+	}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintTeachersMinHoursDaily c, ConstraintAttributes p) {
@@ -275,6 +277,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitTime(ConstraintTeachersActivityTagMaxHoursContinuously c, ConstraintAttributes p) {
 		fillDefault(c, p);
 			c.maxHoursContinuously = p.asHour("hours");
+			c.activityTagName = getSafeName(p.asTag("tag"));
 	return c;}
 
 	@Override
@@ -323,7 +326,10 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitTime(ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour c, ConstraintAttributes p) {
 		fillDefault(c, p);
-	return c;}
+		c.students = getSafeName(p.asStudentGroup("studentgroup"));
+		c.maxBeginningsAtSecondHour = p.asInteger("maxBeginnings");
+		return c;
+	}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintStudentsSetMaxHoursDaily c, ConstraintAttributes p) {
@@ -338,6 +344,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		fillDefault(c, p);
 		c.students = getSafeName(p.asStudentGroup("studentgroup"));
 		c.maxHoursDaily = p.asHour("hours");
+		c.activityTag = getSafeName(p.asTag("tag"));
 		return c;
 	}
 
@@ -407,8 +414,10 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitTime(ConstraintStudentsActivityTagMaxHoursDaily c, ConstraintAttributes p) {
 		fillDefault(c, p);
-			c.maxHoursDaily = p.asHour("hours");
-	return c;}
+		c.maxHoursDaily = p.asHour("hours");
+		c.activityTag = getSafeName(p.asTag("tag"));
+		return c;
+	}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintStudentsMinHoursDaily c, ConstraintAttributes p) {
@@ -426,8 +435,10 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitTime(ConstraintStudentsActivityTagMaxHoursContinuously c, ConstraintAttributes p) {
 		fillDefault(c, p);
-			c.maxHoursContinuously = p.asHour("hours");
-	return c;}
+		c.maxHoursContinuously = p.asHour("hours");
+		c.activityTag = getSafeName(p.asTag("tag"));
+		return c;
+	}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintStudentsIntervalMaxDaysPerWeek c, ConstraintAttributes p) {
@@ -476,6 +487,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		c.teacherName = getSafeName(triple.getSecond()); 
 		c.studentsName = getSafeName(triple.getThird());
 		c.setPreferredStartingTimes(toList(p.asWeek("starting-times"), ConstraintSetter::toPreferredStartingTimeXml));
+		c.activityTagName = p.asMaybeTag("tag").map(ConstraintSetter::getSafeName).orElse("");
 		return c;
 	}
 
@@ -487,6 +499,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		c.teacherName = getSafeName(triple.getSecond()); 
 		c.studentsName = getSafeName(triple.getThird());
 		c.setPreferredTimeSlots(toList(p.asWeek("time-slots"), ConstraintSetter::toPreferredTimeXml));
+		c.activityTagName = p.asMaybeTag("tag").map(ConstraintSetter::getSafeName).orElse("");
 		return c;
 	}
 
@@ -543,21 +556,21 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesSameStartingDay c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId); 
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId)); 
 	return c;}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesSameStartingHour c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId); 
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId)); 
 		return c;
 	}
 
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesOccupyMaxTimeSlotsFromSelection c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId); 
-		c.selectedTimeSlots	= toList(p.asWeek("time-slots"), ConstraintSetter::toSelectedTimeXml); 
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId)); 
+		c.setSelectedTimeSlots(toList(p.asWeek("time-slots"), ConstraintSetter::toSelectedTimeXml)); 
 		c.maxNrOfOccupiedTimeSlots = p.asInteger("max-occupied");
 	return c;}
 
@@ -593,7 +606,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitTime(ConstraintActivitiesNotOverlapping c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId);
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId));
 	return c;}
 
 	@Override
@@ -608,7 +621,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitTime(ConstraintMinGapsBetweenActivities c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId);
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId));
 		c.minGaps = p.asHour("min-gaps");
 		return c;
 	}
@@ -643,7 +656,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitSpace(ConstraintTeacherHomeRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.teacher = getSafeName(p.asTeacher("teacher"));
-		c.rooms = toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName);
+		c.setRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
 		return c;
 	}
 
@@ -702,7 +715,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitSpace(ConstraintStudentsSetHomeRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.students = getSafeName(p.asStudentGroup("studentgroup"));
-		c.rooms = toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName);
+		c.setRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
 		return c;
 	}
 
@@ -765,23 +778,37 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitSpace(ConstraintActivityTagPreferredRoom c, ConstraintAttributes p) {
 		fillDefault(c, p);
-	return c;}
+		c.room = getSafeName(p.asRoom("room"));
+		c.activityTag = getSafeName(p.asTag("tag"));
+		return c;
+	}
 
 	@Override
 	public BaseConstraintXml visitSpace(ConstraintActivityTagPreferredRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
-	return c;}
+		c.setPreferredRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
+		c.activityTag = getSafeName(p.asTag("tag"));
+		return c;
+	}
 
 	//----- Subjects and activity tags
 	@Override
 	public BaseConstraintXml visitSpace(ConstraintSubjectActivityTagPreferredRoom c, ConstraintAttributes p) {
 		fillDefault(c, p);
-	return c;}
+		c.activityTag = getSafeName(p.asTag("tag"));
+		c.room = getSafeName(p.asRoom("room"));
+		c.subject = getSafeName(p.asSubject("subject"));
+		return c;
+	}
 
 	@Override
 	public BaseConstraintXml visitSpace(ConstraintSubjectActivityTagPreferredRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
-	return c;}
+		c.subject = getSafeName(p.asSubject("subject"));
+		c.setRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
+		c.activityTag = getSafeName(p.asTag("tag"));
+		return c;
+	}
 
 	//----- Activities
 	@Override
@@ -810,7 +837,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitSpace(ConstraintActivitiesOccupyMaxDifferentRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.activityIds = toList(p.asAssignmentsSet("assignments"), this::getAssgId);
+		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId));
 		c.maxNrOfDifferentRooms = p.asInteger("max-diff-rooms");
 		return c;
 	}

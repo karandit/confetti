@@ -33,6 +33,7 @@ import org.confetti.fet.engine.solution.SolutionXML;
 import org.confetti.util.Tuple;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
+import org.confetti.xml.core.ActivityTagXml;
 import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.ConstraintSetter;
 import org.confetti.xml.core.DayXml;
@@ -173,6 +174,7 @@ public class FETRunnable implements IRunnableWithProgress {
 		inst.setRooms(convertToList(dp.getRooms().getList(), room -> new RoomXml(room.getName().getValue())));
 		inst.setDays(new DaysXml(convertToList(dp.getDays().getList(), day -> new DayXml(day.getName().getValue()))));
 		inst.setHours(new HoursXml(convertToList(dp.getHours().getList(), hour -> new HourXml(hour.getName().getValue()))));
+		inst.setActivityTags(convertToList(dp.getTags().getList(), tag -> new ActivityTagXml(tag.getName().getValue())));
 		
 		//Transforming Assignments for FET and saving the newly assigned ids for further look up
 		long counter = 1;

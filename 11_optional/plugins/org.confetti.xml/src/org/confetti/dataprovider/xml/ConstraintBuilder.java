@@ -8,6 +8,7 @@ import org.confetti.core.Hour;
 import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
+import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
@@ -115,6 +116,11 @@ public class ConstraintBuilder {
 
 	public ConstraintBuilder withAssignmentsCriteria(String key, Triple<Subject, Teacher, StudentGroup> v) {
 		attrs.withAssignmentsCriteria(key, v);
+		return this;
+	}
+
+	public ConstraintBuilder withTag(String key, Tag v) {
+		attrs.withTag(key, v);
 		return this;
 	}
 	

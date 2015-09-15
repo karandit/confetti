@@ -20,7 +20,17 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"active", "comment"})
 public class ConstraintActivitiesSameStartingDay extends TimeConstraint {
 	@XmlElement(name = "Number_of_Activities") 		private int nrOfActivities;
-	@XmlElement(name = "Activity_Id") 				public List<Long> activityIds = new ArrayList<>();
+	private List<Long> activityIds = new ArrayList<>();
+
+	@XmlElement(name = "Activity_Id") 				
+	public List<Long> getActivityIds() {
+		return activityIds;
+	}
+
+	public void setActivityIds(List<Long> value) {
+		this.activityIds = value;
+		this.nrOfActivities = value.size();
+	}
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

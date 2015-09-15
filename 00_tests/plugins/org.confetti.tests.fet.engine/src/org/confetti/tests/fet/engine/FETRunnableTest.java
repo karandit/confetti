@@ -1,12 +1,16 @@
 package org.confetti.tests.fet.engine;
 
-import java.net.URL;
 import static org.junit.Assert.assertNotNull;
+
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.confetti.dataprovider.xml.XmlDataProvider;
 import org.confetti.fet.engine.FETEngineWizard;
 import org.confetti.fet.engine.FETRunnable;
 import org.confetti.tests.xml.CompatibilityTest;
+import org.junit.AfterClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -15,13 +19,26 @@ import org.junit.Test;
  */
 public class FETRunnableTest {
 
+	private static Map<String, Long> stats = new HashMap<>();
+	
+	@AfterClass
+	public static void printStats() {
+		stats.entrySet().forEach(entry -> System.out.println(entry.getValue() + "\t" + entry.getKey()));
+	}
+	
+	
 	private static void importFetAndSolve(final String path) throws Exception {
+		long start = System.nanoTime();
+		
 		XmlDataProvider xmlDataProvider = CompatibilityTest.readFromFet(path);
 		URL copyingUrl = FETEngineWizard.class.getResource("COPYING");
 		FETRunnable runnable = new FETRunnable(xmlDataProvider, copyingUrl);
 		runnable.attachPrintListener(event -> System.out.println((String) event.data));
 		runnable.run(null);
 		assertNotNull(runnable.getSolution());
+		
+		long end = System.nanoTime();
+		stats.put(path, (end - start) / 1_000_000);
 	}
 
 	@Test

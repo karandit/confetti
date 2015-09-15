@@ -80,6 +80,8 @@ public class Repo {
 	public Teacher maybeFindTeacher(final String name) 			{ return teachersByName.get(name); }
 	public StudentGroup maybeFindStudentGroup(final String name){ return stdGrsByName.get(name); }
 	public Subject maybeFindSubject(final String name) 			{ return subjectsByName.get(name); }
+	public Tag maybeFindTag(final String name) 					{ return tagsByName.get(name); }
+
 	//------------------ helpers ---------------------------------------------------------------------------------------
 	private static <K, V> V safeGet(K key, Map<K, V> store, String errMsg) {
 		if (!store.containsKey(key)) {

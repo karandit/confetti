@@ -18,16 +18,16 @@ import org.confetti.xml.core.time.TimeConstraint;
 @XmlType(name = "breakTimes_type", propOrder = {"weight", "nrBreakTimes", "breakTimes", "active", "comment"})
 public class ConstraintBreakTimes extends TimeConstraint {
 	
-	private int nrBreakTimes;
+	@XmlElement(name = "Number_of_Break_Times") private int nrBreakTimes;
 	private List<BreakTimeXml> breakTimes = new ArrayList<>(); 
-	
-	@XmlElement(name = "Number_of_Break_Times")
-	public int getNrBreakTimes() { return nrBreakTimes; }
-	public void setNrBreakTimes(int nrBreakTimes) { this.nrBreakTimes = nrBreakTimes; }
 	
 	@XmlElement(name = "Break_Time")
 	public List<BreakTimeXml> getBreakTimes() { return breakTimes; }
-	public void setBreakTimes(List<BreakTimeXml> breakTimes) { this.breakTimes = breakTimes; }
+
+	public void setBreakTimes(List<BreakTimeXml> value) {
+		this.breakTimes = value;
+		this.nrBreakTimes = value.size();
+	}
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

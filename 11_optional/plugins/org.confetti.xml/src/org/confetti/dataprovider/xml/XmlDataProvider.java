@@ -1,5 +1,7 @@
 package org.confetti.dataprovider.xml;
 
+import static java.util.Arrays.asList;
+
 import java.io.File;
 import java.util.List;
 
@@ -193,7 +195,7 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
 	    currentMaxId++;
-	    instXml.getActivities().add(new ActivityXml(currentMaxId, subject, teachers, studentGroups));
+	    instXml.getActivities().add(new ActivityXml(currentMaxId, subject, teachers, studentGroups, asList()));
 	    save();
 	    
 	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, subject);

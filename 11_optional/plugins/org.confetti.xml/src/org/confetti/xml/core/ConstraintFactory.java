@@ -244,6 +244,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitTime(ConstraintTeachersActivityTagMaxHoursDaily c, Object p) {
 		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForAllTeachers", c)
 			.withHour("hours", c.maxHoursDaily)
+			.withTag("tag", repo.findTag(c.activityTagName))
 	;}
 
 	@Override
@@ -263,6 +264,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitTime(ConstraintTeachersActivityTagMaxHoursContinuously c, Object p) {
 		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForAllTeachers", c)
 			.withHour("hours", c.maxHoursContinuously)
+			.withTag("tag", repo.findTag(c.activityTagName))
 	;}
 
 	@Override
@@ -305,6 +307,8 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsSetEarlyMaxBeginningsAtSecondHour c, Object p) {
 		return fillDefault("time.MaxBeginningsAtSecondHourForAStudentGroup", c)
+				.withInteger("maxBeginnings", c.maxBeginningsAtSecondHour)
+				.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 	;}
 
 	@Override
@@ -319,6 +323,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForAStudentGroup", c)
 			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursDaily)
+			.withTag("tag", repo.findTag(c.activityTag))
 	;}
 
 	@Override
@@ -384,6 +389,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitTime(ConstraintStudentsActivityTagMaxHoursDaily c, Object p) {
 		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForAllStudentGroups", c)
 			.withHour("hours", c.maxHoursDaily)
+			.withTag("tag", repo.findTag(c.activityTag))
 	;}
 
 	@Override
@@ -403,6 +409,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitTime(ConstraintStudentsActivityTagMaxHoursContinuously c, Object p) {
 		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForAllStudentGroups", c)
 			.withHour("hours", c.maxHoursContinuously)
+			.withTag("tag", repo.findTag(c.activityTag))
 	;}
 
 	@Override
@@ -446,6 +453,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 					repo.maybeFindStudentGroup(c.studentsName)))
 			.withWeek("starting-times", transform(c.getPreferredStartingTimes(), 
 					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
+			.withTag("tag", repo.maybeFindTag(c.activityTagName))
 	;}
 
 	@Override
@@ -457,6 +465,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 					repo.maybeFindStudentGroup(c.studentsName)))
 			.withWeek("time-slots", transform(c.getPreferredTimeSlots(), 
 					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
+			.withTag("tag", repo.maybeFindTag(c.activityTagName))
 	;}
 
 	@Override
@@ -508,20 +517,20 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesSameStartingDay c, Object p) {
 		return fillDefault("time.MoreActivitiesHaveSameStartingDay", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.getActivityIds(), repo::findAssignment))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesSameStartingHour c, Object p) {
 		return fillDefault("time.MoreActivitiesHaveSameStartingHour", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.getActivityIds(), repo::findAssignment))
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesOccupyMaxTimeSlotsFromSelection c, Object p) {
 		return fillDefault("time.MoreActivitiesOccupyMaxTimeSlotsFromSelection", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
-			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(repo.findDay(x.day), repo.findHour(x.hour))))
+			.withAssignmentsSet("assignments", transform(c.getActivityIds(), repo::findAssignment))
+			.withWeek("time-slots", transform(c.getSelectedTimeSlots(), x -> slot(repo.findDay(x.day), repo.findHour(x.hour))))
 			.withInteger("max-occupied", c.maxNrOfOccupiedTimeSlots)
 	;}
 
@@ -557,7 +566,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesNotOverlapping c, Object p) {
 		return fillDefault("time.MoreActivitiesAreNotOverlapping", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.getActivityIds(), id -> repo.findAssignment(id)))
 	;}
 
 	@Override
@@ -571,7 +580,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintMinGapsBetweenActivities c, Object p) {
 		return fillDefault("time.MinGapsBetweenActivities", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.getActivityIds(), repo::findAssignment))
 			.withHour("min-gaps", c.minGaps)
 	;}
 
@@ -604,7 +613,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitSpace(ConstraintTeacherHomeRooms c, Object p) {
 		return fillDefault("space.TeacherHasSomeHomeRooms", c)
 			.withTeacher("teacher", repo.findTeacher(c.teacher))
-			.withRoomsSet("rooms", transform(c.rooms, x -> repo.findRoom(x)))
+			.withRoomsSet("rooms", transform(c.getRooms(), x -> repo.findRoom(x)))
 	;}
 
 	@Override
@@ -658,7 +667,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	public ConstraintBuilder visitSpace(ConstraintStudentsSetHomeRooms c, Object p) {
 		return fillDefault("space.StudentGroupHasSomeHomeRooms", c)
 			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
-			.withRoomsSet("rooms", transform(c.rooms, x -> repo.findRoom(x)))
+			.withRoomsSet("rooms", transform(c.getRooms(), repo::findRoom))
 	;}
 
 	@Override
@@ -719,22 +728,32 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintActivityTagPreferredRoom c, Object p) {
 		return fillDefault("space.ActivityTagHasAPreferredRoom", c)
+				.withTag("tag", repo.findTag(c.activityTag))
+				.withRoom("room", repo.findRoom(c.room))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintActivityTagPreferredRooms c, Object p) {
 		return fillDefault("space.ActivityTagHasSomePreferredRooms", c)
+				.withTag("tag", repo.findTag(c.activityTag))
+				.withRoomsSet("rooms", transform(c.getPreferredRooms(), x -> repo.findRoom(x)))
 	;}
 
 	//----- Subjects and activity tags
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintSubjectActivityTagPreferredRoom c, Object p) {
 		return fillDefault("space.SubjectAndActivityTagHaveAPreferredRoom", c)
+				.withTag("tag", repo.findTag(c.activityTag))
+				.withSubject("subject", repo.findSubject(c.subject))
+				.withRoom("room", repo.findRoom(c.room))
 	;}
 
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintSubjectActivityTagPreferredRooms c, Object p) {
 		return fillDefault("space.SubjectAndActivityTagHaveSomePreferredRooms", c)
+				.withSubject("subject", repo.findSubject(c.subject))
+				.withRoomsSet("rooms", transform(c.getRooms(), x -> repo.findRoom(x)))
+				.withTag("tag", repo.findTag(c.activityTag))
 	;}
 
 	//----- Activities
@@ -762,7 +781,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitSpace(ConstraintActivitiesOccupyMaxDifferentRooms c, Object p) {
 		return fillDefault("space.SomeActivitiesOccupyMaxDifferentRooms", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withAssignmentsSet("assignments", transform(c.getActivityIds(), repo::findAssignment))
 			.withInteger("max-diff-rooms", c.maxNrOfDifferentRooms)
 	;}
 
