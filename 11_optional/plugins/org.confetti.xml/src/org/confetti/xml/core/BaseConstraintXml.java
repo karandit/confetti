@@ -5,11 +5,13 @@ import java.util.function.Function;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.dataprovider.xml.ConstraintBuilder;
 import org.confetti.xml.core.space.SpaceConstraint;
 import org.confetti.xml.core.time.TimeConstraint;
+import org.confetti.xml.internal.DoubleWithoutFractionalAdapter;
 
 /**
  * @author Bubla Gabor
@@ -22,8 +24,9 @@ public abstract class BaseConstraintXml {
 	private String comment = "";
 	
 	@XmlElement(name = "Weight_Percentage")
-	public double getWeight() { return weight; }
-	public void setWeight(double weight) { this.weight = weight; }
+	@XmlJavaTypeAdapter(type = Double.class, value = DoubleWithoutFractionalAdapter.class)
+	public Double getWeight() { return weight; }
+	public void setWeight(Double weight) { this.weight = weight; }
 	
 	@XmlElement(name = "Active")
 	public boolean isActive() { return active; }

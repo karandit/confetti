@@ -19,7 +19,7 @@ public class ConstraintActivitiesEndStudentsDay extends TimeConstraint {
 	@XmlElement(name = "Teacher_Name") public String teacherName;
 	@XmlElement(name = "Students_Name") public String studentsName;
 	@XmlElement(name = "Subject_Name") public String subjectName;
-	@XmlElement(name = "Activity_Tag_Name") private String activityTagName;
+	@XmlElement(name = "Activity_Tag_Name") public String activityTagName;
 	
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

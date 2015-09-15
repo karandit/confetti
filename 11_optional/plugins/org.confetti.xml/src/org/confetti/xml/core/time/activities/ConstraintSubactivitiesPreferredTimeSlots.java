@@ -21,13 +21,23 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"nrOfPreferredTimeSlots", "preferredTimeSlots",
 		"active", "comment"})
 public class ConstraintSubactivitiesPreferredTimeSlots extends TimeConstraint {
-	@XmlElement(name = "Component_Number") 					private int componentNumber;
-	@XmlElement(name = "Teacher_Name") 						private String teacherName;
-	@XmlElement(name = "Students_Name") 					private String studentsName;
-	@XmlElement(name = "Subject_Name") 						private String subjectName;
-	@XmlElement(name = "Activity_Tag_Name") 				private String activityTagName;
+	@XmlElement(name = "Component_Number") 					public int componentNumber;
+	@XmlElement(name = "Teacher_Name") 						public String teacherName;
+	@XmlElement(name = "Students_Name") 					public String studentsName;
+	@XmlElement(name = "Subject_Name") 						public String subjectName;
+	@XmlElement(name = "Activity_Tag_Name") 				public String activityTagName;
 	@XmlElement(name = "Number_of_Preferred_Time_Slots") 	private int nrOfPreferredTimeSlots;
-	@XmlElement(name = "Preferred_Time_Slot") 				private List<PreferredTimeXml> preferredTimeSlots = new ArrayList<>();
+	private List<PreferredTimeXml> preferredTimeSlots = new ArrayList<>();
+
+	@XmlElement(name = "Preferred_Time_Slot") 				
+	public List<PreferredTimeXml> getPreferredTimeSlots() {
+		return preferredTimeSlots;
+	}
+
+	public void setPreferredTimeSlots(List<PreferredTimeXml> values) {
+		this.preferredTimeSlots = values;
+		this.nrOfPreferredTimeSlots = values.size();
+	}
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

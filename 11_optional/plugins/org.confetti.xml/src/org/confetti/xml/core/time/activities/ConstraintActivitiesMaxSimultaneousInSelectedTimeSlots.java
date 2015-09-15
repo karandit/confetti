@@ -21,10 +21,31 @@ import org.confetti.xml.core.time.TimeConstraint;
 		"active", "comment"})
 public class ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots extends TimeConstraint {
 	@XmlElement(name = "Number_of_Activities") 					private int nrActivities;
-	@XmlElement(name = "Activity_Id") 							public List<Long> activityIds = new ArrayList<>();
+	private List<Long> activityIds = new ArrayList<>();
 	@XmlElement(name = "Number_of_Selected_Time_Slots") 		private int nrOfSelectedTimeSlots;
-	@XmlElement(name = "Selected_Time_Slot") 					public List<SelectedTimeXml> selectedTimeSlots = new ArrayList<>();
+	private List<SelectedTimeXml> selectedTimeSlots = new ArrayList<>();
 	@XmlElement(name = "Max_Number_of_Simultaneous_Activities") public int maxNrOfSimultaneousActivities;
+	
+	@XmlElement(name = "Activity_Id") 							
+	public List<Long> getActivityIds() {
+		return activityIds;
+	}
+
+	public void setActivityIds(List<Long> values) {
+		this.activityIds = values;
+		this.nrActivities = values.size();
+	}
+
+	@XmlElement(name = "Selected_Time_Slot") 
+	public List<SelectedTimeXml> getSelectedTimeSlots() {
+		return selectedTimeSlots;
+	}
+
+	public void setSelectedTimeSlots(List<SelectedTimeXml> values) {
+		this.selectedTimeSlots = values;
+		this.nrOfSelectedTimeSlots = values.size();
+	}
+
 
 	@Override
 	public <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param) {

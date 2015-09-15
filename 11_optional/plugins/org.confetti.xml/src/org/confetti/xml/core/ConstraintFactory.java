@@ -178,6 +178,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 		return fillDefault("time.MaxHoursPerDayWithAnActivityTagForATeacher", c)
 			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursDaily)
+			.withTag("tag", repo.findTag(c.activityTagName))
 	;}
 
 	@Override
@@ -200,6 +201,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForATeacher", c)
 			.withTeacher("teacher", repo.findTeacher(c.teacherName))
 			.withHour("hours", c.maxHoursContinuously)
+			.withTag("tag", repo.findTag(c.activityTagName))
 	;}
 
 	@Override
@@ -346,6 +348,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 		return fillDefault("time.MaxHoursContinuouslyWithAnActivityTagForAStudentGroup", c)
 			.withStudentGroup("studentgroup", repo.findStudentGroup(c.students))
 			.withHour("hours", c.maxHoursContinuously)
+			.withTag("tag", repo.findTag(c.activityTag))
 	;}
 
 	@Override
@@ -377,6 +380,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintStudentsEarlyMaxBeginningsAtSecondHour c, Object p) {
 		return fillDefault("time.MaxBeginningsAtSecondHourForAllStudentGroups", c)
+				.withInteger("maxBeginAt2ndHour", c.getMaxBeginningsAtSecondHour())
 	;}
 
 	@Override
@@ -471,11 +475,28 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintSubactivitiesPreferredStartingTimes c, Object p) {
 		return fillDefault("time.MoreSubActivitiesHaveSomePreferredStartingTimes", c)
+			.withInteger("component", c.componentNumber)
+			.withAssignmentsCriteria("assignment", criteria(
+					repo.maybeFindSubject(c.subjectName), 
+					repo.maybeFindTeacher(c.teacherName), 
+					repo.maybeFindStudentGroup(c.studentsName)))
+			.withWeek("starting-times", transform(c.getPreferredStartingTimes(), 
+					x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
+			.withTag("tag", repo.maybeFindTag(c.activityTagName))
+				
 	;}
 
 	@Override
 	public ConstraintBuilder visitTime(ConstraintSubactivitiesPreferredTimeSlots c, Object p) {
 		return fillDefault("time.MoreSubActivitiesHaveSomePreferredTimeSlots", c)
+				.withInteger("component", c.componentNumber)
+				.withAssignmentsCriteria("assignment", criteria(
+						repo.maybeFindSubject(c.subjectName), 
+						repo.maybeFindTeacher(c.teacherName), 
+						repo.maybeFindStudentGroup(c.studentsName)))
+				.withWeek("time-slots", transform(c.getPreferredTimeSlots(), 
+						x -> slot(repo.findDay(x.getDay()), repo.findHour(x.getHour()))))
+				.withTag("tag", repo.maybeFindTag(c.activityTagName))
 	;}
 
 	@Override
@@ -489,7 +510,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintMaxDaysBetweenActivities c, Object p) {
 		return fillDefault("time.MaxDaysBetweenActivities", c)
-			.withAssignmentsSet("assignment", transform(c.activityIds, id -> repo.findAssignment(id)))
+			.withAssignmentsSet("assignment", transform(c.getActivityIds(), repo::findAssignment))
 			.withDay("max-days", c.maxDays)
 	;}
 
@@ -506,6 +527,7 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 						repo.maybeFindSubject(c.subjectName), 
 						repo.maybeFindTeacher(c.teacherName), 
 						repo.maybeFindStudentGroup(c.studentsName)))
+				.withTag("tag", repo.findTag(c.activityTagName))
 	;}
 
 	@Override
@@ -572,8 +594,8 @@ public class ConstraintFactory implements ConstraintXmlVisitor<ConstraintBuilder
 	@Override
 	public ConstraintBuilder visitTime(ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots c, Object p) {
 		return fillDefault("time.MaxSimultaneousActivitiesFromASetInTimeSlots", c)
-			.withAssignmentsSet("assignments", transform(c.activityIds, id -> repo.findAssignment(id)))
-			.withWeek("time-slots", transform(c.selectedTimeSlots, x -> slot(repo.findDay(x.day), repo.findHour(x.hour))))
+			.withAssignmentsSet("assignments", transform(c.getActivityIds(), repo::findAssignment))
+			.withWeek("time-slots", transform(c.getSelectedTimeSlots(), x -> slot(repo.findDay(x.day), repo.findHour(x.hour))))
 			.withInteger("max-simult", c.maxNrOfSimultaneousActivities)
 	;}
 
