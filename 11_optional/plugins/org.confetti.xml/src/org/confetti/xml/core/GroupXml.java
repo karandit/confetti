@@ -15,16 +15,17 @@ import org.confetti.core.StudentGroup;
 public class GroupXml {
 
 	private String name;
-	private Integer nrOfStudents = 1;
+	private Integer nrOfStudents = 0;
 	private List<SubgroupXml> subgroups = new ArrayList<>();
 	
 	GroupXml() {
 	}
 	
-	public GroupXml(String name, Iterable<StudentGroup> children) {
+	public GroupXml(String name, int nrStuds, Iterable<StudentGroup> children) {
 		this.name = name;
+		this.nrOfStudents = nrStuds;
 		for (StudentGroup child : children) {
-			subgroups.add(new SubgroupXml(child.getName().getValue()));
+			subgroups.add(new SubgroupXml(child.getName().getValue(), child.getNrOfStudents().getValue()));
 		}
 	}
 	

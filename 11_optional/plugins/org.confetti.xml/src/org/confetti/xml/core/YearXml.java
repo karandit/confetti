@@ -15,16 +15,18 @@ import org.confetti.core.StudentGroup;
 public class YearXml implements INameBean {
 
 	private String name;
-	private Integer nrOfStudents = 1;
+	private Integer nrOfStudents = 0;
 	private List<GroupXml> groups = new ArrayList<>();
 	
 	YearXml() {
 	}
 	
-	public YearXml(StudentGroup sG) {
-		this.name = sG.getName().getValue();
-		for (StudentGroup child : sG.getChildren().getList()) {
-			groups.add(new GroupXml(child.getName().getValue(), child.getChildren().getList()));
+	public YearXml(StudentGroup sg) {
+		this.name = sg.getName().getValue();
+		this.nrOfStudents = sg.getNrOfStudents().getValue();
+		for (StudentGroup child : sg.getChildren().getList()) {
+			groups.add(new GroupXml(child.getName().getValue(), child.getNrOfStudents().getValue(),
+					child.getChildren().getList()));
 		}
 	}
 	

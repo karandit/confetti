@@ -121,16 +121,16 @@ public class XmlDataProvider implements DataProvider {
 	}
 
 	private StudentGroupImpl createStudentGroup(YearXml year) {
-		StudentGroupImpl studentGroup1 = new StudentGroupImpl(year.getName());
+		StudentGroupImpl studGr1 = new StudentGroupImpl(year.getName(), year.getNrOfStudents());
 		for (GroupXml group : year.getGroups()) {
-			StudentGroupImpl studentGroup2 = new StudentGroupImpl(group.getName(), studentGroup1);
-			studentGroup1.addChild(studentGroup2);
+			StudentGroupImpl studGr2 = new StudentGroupImpl(group.getName(), group.getNrOfStudents(), studGr1);
+			studGr1.addChild(studGr2);
 			for (SubgroupXml subgroup : group.getSubgroups()) {
-				StudentGroupImpl studentGroup3 = new StudentGroupImpl(subgroup.getName(), studentGroup2);
-				studentGroup2.addChild(studentGroup3);
+				StudentGroupImpl studGr3 = new StudentGroupImpl(subgroup.getName(), subgroup.getNrOfStudents(), studGr2);
+				studGr2.addChild(studGr3);
 			}
 		}
-		return studentGroup1;
+		return studGr1;
 	}
 	
 	private int getNextColorId() {
@@ -177,7 +177,7 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public void addStudentGroups(StudentGroup parent, List<String> names) {
 	    if (parent == null) {
-	        List<StudentGroupImpl> groups = Lists.transform(names, name -> new StudentGroupImpl(name));
+	        List<StudentGroupImpl> groups = Lists.transform(names, name -> new StudentGroupImpl(name, 0));
             groups.forEach(group -> instXml.getYears().add(new YearXml(group)));
 	        save();
 	        groups.forEach(group -> stdGroups.addItem(group));
