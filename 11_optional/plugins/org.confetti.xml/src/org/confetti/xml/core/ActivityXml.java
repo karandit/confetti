@@ -40,13 +40,19 @@ public class ActivityXml {
 	}
 	
 	public ActivityXml(Long id, Assignment assg) {
-        this(id, assg.getSubject(), assg.getTeachers().getList(), assg.getStudentGroups().getList(),
+        this(id,
+        		assg.getDuration().getValue(),
+        		assg.getSubject(), 
+        		assg.getTeachers().getList(), 
+        		assg.getStudentGroups().getList(),
         		assg.getTags().getList());
 	}
 	   
-	public ActivityXml(Long id, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups,
+	public ActivityXml(Long id, int duration, Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups,
 			Iterable<Tag> tags) {
 		this.id = id;
+		this.duration = duration;
+		this.totalDuration = duration;
 		this.subject = new SubjectRef(subject.getName().getValue());
 		this.teacherRefs = transform(newArrayList(teachers), TeacherRef::new);
 		this.students = transform(newArrayList(studentGroups), sG -> sG.getName().getValue());

@@ -18,10 +18,11 @@ class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvid
 	public String getColumnText(Object element, int columnIndex) {
 		Assignment assignment = (Assignment) element;
 		switch (columnIndex) {
-			case 1:	return getName(assignment.getSubject());
-			case 2:	return toStr(assignment.getTeachers().getList());
-			case 3:	return toStr(assignment.getStudentGroups().getList());
-			case 4:	return toStr(assignment.getTags().getList());
+			case 1:	return assignment.getDuration().getValue().toString();
+			case 2:	return getName(assignment.getSubject());
+			case 3:	return toStr(assignment.getTeachers().getList());
+			case 4:	return toStr(assignment.getStudentGroups().getList());
+			case 5:	return toStr(assignment.getTags().getList());
 			default : return "";
 		}
 	}
@@ -32,7 +33,7 @@ class AssignmentLabelProvider extends LabelProvider implements ITableLabelProvid
 	public Color getBackground(Object element, int columnIndex) {
 		Assignment assignment = (Assignment) element;
 		switch (columnIndex) {
-			case 1:  	return ColorCache.INSTANCE.getColor(assignment.getSubject().getColor());
+			case 2:  	return ColorCache.INSTANCE.getColor(assignment.getSubject().getColor());
 			default: 	return null;
 		}
 	}

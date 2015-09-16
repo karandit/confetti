@@ -65,6 +65,7 @@ public class AssignmentsView extends ViewPart {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
 		AbstractEntityTableView.createColumn(table, "#", 50);
+		AbstractEntityTableView.createColumn(table, "Duration", 50);
 		AbstractEntityTableView.createColumn(table, "Subject", 150);
 		AbstractEntityTableView.createColumn(table, "Teacher", 150);
 		AbstractEntityTableView.createColumn(table, "Student Group", 150);

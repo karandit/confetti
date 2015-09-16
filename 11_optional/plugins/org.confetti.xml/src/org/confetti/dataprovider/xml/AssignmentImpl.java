@@ -8,6 +8,8 @@ import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
+import org.confetti.observable.ObservableValue;
+import org.confetti.observable.ValueMutator;
 
 /**
  * @author Kárándi Tamás
@@ -15,14 +17,16 @@ import org.confetti.observable.ObservableList;
 public class AssignmentImpl implements Assignment {
 
     private final Long id;
+    private final ValueMutator<Integer> duration;
 	private final Subject subj;
 	private final ListMutator<Teacher> teachers = new ListMutator<>();
 	private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
 	private final ListMutator<Constraint> constraints = new ListMutator<>();
 	private final ListMutator<Tag> tags = new ListMutator<>();
 
-	public AssignmentImpl(Long id, Subject subj) {
+	public AssignmentImpl(Long id, int duration, Subject subj) {
         this.id = id;
+        this.duration = new ValueMutator<>(this, duration);
         this.subj = subj;
 		subj.addAssignment(this);
 	}
@@ -33,6 +37,7 @@ public class AssignmentImpl implements Assignment {
 	public void addTag(TagImpl tag) 					{ tags.addItem(tag); tag.addAssignment(this); } 
 	
 	public Long getId() { return id; }
+	@Override public ObservableValue<Integer> getDuration() 			{ return duration.getObservableValue(); }
 	@Override public Subject getSubject() 								{ return subj; }
 	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stGroups.getObservableList(); }

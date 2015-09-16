@@ -8,10 +8,13 @@ import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
+import org.confetti.observable.ObservableValue;
+import org.confetti.observable.ValueMutator;
 
 public class DummyAssignment implements Assignment {
 
-	private final Subject subj;
+    private final ValueMutator<Integer> duration = new ValueMutator<>(this, 1);
+    private final Subject subj;
 	private final ListMutator<Teacher> teachers = new ListMutator<>();
 	private final ListMutator<StudentGroup> studentGroups = new ListMutator<>();
 	private final ListMutator<Constraint> constraints = new ListMutator<>();
@@ -35,6 +38,7 @@ public class DummyAssignment implements Assignment {
 		}
 	}
 
+	@Override public ObservableValue<Integer> getDuration() { return duration.getObservableValue(); }
 	@Override public Subject getSubject() 								{ return subj; }
 	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return studentGroups.getObservableList(); }

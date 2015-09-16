@@ -116,7 +116,7 @@ public class XmlDataProvider implements DataProvider {
 	    if (act.getId() > currentMaxId) {
 	        currentMaxId = act.getId();
 	    }
-		AssignmentImpl ass = new AssignmentImpl(act.getId(), repo.findSubject(act.getSubject().getName()));
+		AssignmentImpl ass = new AssignmentImpl(act.getId(), act.getDuration(), repo.findSubject(act.getSubject().getName()));
 		if (act.getStudents() != null) {
 			act.getStudents().forEach(stGroupName -> ass.addStudentGroup(repo.findStudentGroup(stGroupName)));
 		}
@@ -205,10 +205,10 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
 	    currentMaxId++;
-	    instXml.getActivities().add(new ActivityXml(currentMaxId, subject, teachers, studentGroups, asList()));
+	    instXml.getActivities().add(new ActivityXml(currentMaxId, 1, subject, teachers, studentGroups, asList()));
 	    save();
 	    
-	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, subject);
+	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, 1, subject);
 	    teachers.forEach(teacher -> assignment.addTeacher(teacher));
 	    studentGroups.forEach(studentGroup -> assignment.addStudentGroup(studentGroup));
         assignments.addItem(assignment);
