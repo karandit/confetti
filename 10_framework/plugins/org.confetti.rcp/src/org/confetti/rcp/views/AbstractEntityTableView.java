@@ -25,8 +25,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 	protected TableViewer createViewer(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
-		createColumn(table, "Name", 170);
-		createColumn(table, "#", 50);
+		createColumns(table);
 		TableViewer tableViewer = new TableViewer(table);
 
 		nameListener = (Object src, String oldValue, String newValue) -> {
@@ -47,6 +46,11 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 				}
 		};
 		return tableViewer;
+	}
+
+	protected void createColumns(Table table) {
+		createColumn(table, "Name", 170);
+		createColumn(table, "#", 50);
 	}
 	
 	@Override protected Object getInput(DataProvider dp) { return getObservableList(dp).getList(); }
