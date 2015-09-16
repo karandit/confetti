@@ -21,7 +21,6 @@
 	<Name>18:00</Name>
 	<Name>19:00</Name>
 </Hours_List>
-
 <Days_List>
 	<Number>5</Number>
 	<Name>Monday</Name>
@@ -30,7 +29,6 @@
 	<Name>Thursday</Name>
 	<Name>Friday</Name>
 </Days_List>
-
 <Students_List>
 <Year>
 <Name>y1</Name>
@@ -105,25 +103,21 @@
 	</Group>
 </Year>
 </Students_List>
-
 <Teachers_List>
 <Teacher>
 	<Name>t1</Name>
 </Teacher>
 </Teachers_List>
-
 <Subjects_List>
 <Subject>
 	<Name>s1</Name>
 </Subject>
 </Subjects_List>
-
 <Activity_Tags_List>
 <Activity_Tag>
 	<Name>at1</Name>
 </Activity_Tag>
 </Activity_Tags_List>
-
 <Activities_List>
 <Activity>
 	<Teacher>t1</Teacher>
@@ -186,13 +180,11 @@
 	<Comments></Comments>
 </Activity>
 </Activities_List>
-
 <Buildings_List>
 <Building>
 	<Name>b1</Name>
 </Building>
 </Buildings_List>
-
 <Rooms_List>
 <Room>
 	<Name>r1</Name>
@@ -210,7 +202,6 @@
 	<Capacity>15000</Capacity>
 </Room>
 </Rooms_List>
-
 <Time_Constraints_List>
 <ConstraintBasicCompulsoryTime>
 	<Weight_Percentage>100</Weight_Percentage>
@@ -1542,7 +1533,6 @@
 	<Comments></Comments>
 </ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots>
 </Time_Constraints_List>
-
 <Space_Constraints_List>
 <ConstraintBasicCompulsorySpace>
 	<Weight_Percentage>100</Weight_Percentage>
@@ -1762,5 +1752,4 @@
 	<Comments></Comments>
 </ConstraintActivitiesSameRoomIfConsecutive>
 </Space_Constraints_List>
-
 </fet>

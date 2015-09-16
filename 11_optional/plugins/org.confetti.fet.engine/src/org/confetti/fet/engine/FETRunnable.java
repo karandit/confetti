@@ -35,6 +35,7 @@ import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.ActivityTagXml;
 import org.confetti.xml.core.ActivityXml;
+import org.confetti.xml.core.BuildingXml;
 import org.confetti.xml.core.ConstraintSetter;
 import org.confetti.xml.core.DayXml;
 import org.confetti.xml.core.DaysXml;
@@ -171,7 +172,11 @@ public class FETRunnable implements IRunnableWithProgress {
 		inst.setSubjects(convertToList(dp.getSubjects().getList(), subj -> new SubjectXml(subj.getName().getValue())));
 		inst.setTeachers(convertToList(dp.getTeachers().getList(), teacher -> new TeacherXml(teacher.getName().getValue())));
 		inst.setYears(convertToList(dp.getStudentGroups().getList(), YearXml::new));
-		inst.setRooms(convertToList(dp.getRooms().getList(), room -> new RoomXml(room.getName().getValue(), room.getCapacity().getValue())));
+		inst.setBuildings(convertToList(dp.getBuildings().getList(), building -> new BuildingXml(building.getName().getValue())));
+		inst.setRooms(convertToList(dp.getRooms().getList(), room -> new RoomXml(
+						room.getName().getValue(),
+						room.getBuilding().getValue().map(b -> b.getName().getValue()).orElse(""),
+						room.getCapacity().getValue())));
 		inst.setDays(new DaysXml(convertToList(dp.getDays().getList(), day -> new DayXml(day.getName().getValue()))));
 		inst.setHours(new HoursXml(convertToList(dp.getHours().getList(), hour -> new HourXml(hour.getName().getValue()))));
 		inst.setActivityTags(convertToList(dp.getTags().getList(), tag -> new ActivityTagXml(tag.getName().getValue())));

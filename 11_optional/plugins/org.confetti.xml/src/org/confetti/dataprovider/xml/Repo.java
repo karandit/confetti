@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.Building;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
@@ -21,6 +22,7 @@ public class Repo {
 	private Map<String, Teacher> teachersByName = new HashMap<>();
 	private Map<String, Subject> subjectsByName = new HashMap<>();
 	private Map<String, Room> roomsByName = new HashMap<>();
+	private Map<String, Building> buildingsByName = new HashMap<>();
 	private Map<Long, Assignment> assignmentsById = new HashMap<>();
 	private Map<String, Tag> tagsByName = new HashMap<>();
 
@@ -47,6 +49,11 @@ public class Repo {
 
 	public Repo withSubjects(final Iterable<Subject> subjects) {
 		this.subjectsByName = storeByName(subjects);
+		return this;
+	}
+
+	public Repo withBuildings(Iterable<Building> buildings) {
+		this.buildingsByName = storeByName(buildings);
 		return this;
 	}
 	
@@ -81,6 +88,7 @@ public class Repo {
 	public StudentGroup maybeFindStudentGroup(final String name){ return stdGrsByName.get(name); }
 	public Subject maybeFindSubject(final String name) 			{ return subjectsByName.get(name); }
 	public Tag maybeFindTag(final String name) 					{ return tagsByName.get(name); }
+	public Building maybeFindBuilding(final String name) 		{ return buildingsByName.get(name); }
 
 	//------------------ helpers ---------------------------------------------------------------------------------------
 	private static <K, V> V safeGet(K key, Map<K, V> store, String errMsg) {

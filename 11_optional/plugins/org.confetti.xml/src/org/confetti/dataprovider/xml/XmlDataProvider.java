@@ -1,9 +1,11 @@
 package org.confetti.dataprovider.xml;
 
 import static java.util.Arrays.asList;
+import static java.util.Optional.ofNullable;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.Building;
@@ -84,12 +86,16 @@ public class XmlDataProvider implements DataProvider {
 		inst.getHours().getHours()	.forEach(hour -> hours.addItem(new HourImpl(hour.getName())));
         inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName(), this.getNextColorId())));
 		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
-		inst.getRooms()				.forEach(room -> rooms.addItem(new RoomImpl(room.getName(), room.getCapacity())));
 		inst.getBuildings()			.forEach(building -> buildings.addItem(new BuildingImpl(building.getName())));
+		Repo repo_ = new Repo()
+					.withBuildings(buildings.getObservableList().getList());
+		
+		inst.getRooms().forEach(room -> rooms.addItem(new RoomImpl(room.getName(), room.getCapacity(),
+				ofNullable(repo_.maybeFindBuilding(room.getBuilding())))));
 		inst.getYears()				.forEach(year -> stdGroups.addItem(createStudentGroup(year)));
 		inst.getActivityTags()		.forEach(actTag -> tags.addItem(new TagImpl(actTag.getName())));
 		
-		final Repo repo = new Repo()
+		Repo repo = repo_
 			.withSubjects(subjects.getObservableList().getList())
 			.withTeachers(teachers.getObservableList().getList())
 			.withStudentGroups(stdGroups.getObservableList().getList())
@@ -191,9 +197,9 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void addRooms(List<String> names) {
-		names.forEach(name -> instXml.getRooms().add(new RoomXml(name, 0)));
+		names.forEach(name -> instXml.getRooms().add(new RoomXml(name, null, 0)));
         save();
-        names.forEach(name -> rooms.addItem(new RoomImpl(name, 0)));
+        names.forEach(name -> rooms.addItem(new RoomImpl(name, 0, Optional.empty())));
 	}
 	
 	@Override

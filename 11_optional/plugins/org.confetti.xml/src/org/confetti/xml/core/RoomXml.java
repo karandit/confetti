@@ -9,14 +9,14 @@ public class RoomXml implements INameBean {
 
 	private String name;
 	private int capacity;
-	
 	private String building;
 	
 	RoomXml() {
 	}
 	
-	public RoomXml(String name, int capacity) {
+	public RoomXml(String name, String building, int capacity) {
 		this.name = name;
+		this.building = building;
 		this.capacity = capacity;
 	}
 	
