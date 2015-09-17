@@ -30,7 +30,6 @@ import org.confetti.core.Nameable;
 import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
 import org.confetti.dataprovider.xml.AssignmentGroupImpl;
-import org.confetti.dataprovider.xml.AssignmentImpl;
 import org.confetti.fet.engine.solution.ResultActivityXML;
 import org.confetti.fet.engine.solution.SolutionFAO;
 import org.confetti.fet.engine.solution.SolutionXML;
@@ -190,7 +189,7 @@ public class FETRunnable implements IRunnableWithProgress {
 		Map<Assignment, Long> assgIds = new HashMap<>();
 		List<Tuple<Long, Assignment>> tuples = new LinkedList<>();
 		for (Assignment assignment : dp.getAssignments().getList()) {
-			long newId = counter; //((AssignmentImpl) assignment).getId();
+			long newId = counter; //TODO: ((AssignmentImpl) assignment).getId();
 			tuples.add(new Tuple<>(newId, assignment));
 			assgIds.put(assignment, newId);
 			counter++;
