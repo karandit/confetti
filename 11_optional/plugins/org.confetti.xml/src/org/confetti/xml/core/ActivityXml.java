@@ -5,6 +5,8 @@ import static com.google.common.collect.Lists.transform;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -21,18 +23,41 @@ import org.confetti.xml.internal.WSLongAdapter;
 @XmlType(name = "activity_type", propOrder = {"teachers", "subject", "activityTag", "students", 
 		"duration", "totalDuration",
 		"id", "activityGroupId", "nrOfStudents", "active", "comments"})
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ActivityXml {
 	
-	private List<TeacherRef> teacherRefs;
+	@XmlElement(name = "Teacher")
+	private List<TeacherRef> teachers;
+
+	@XmlElement(name = "Subject")
 	private SubjectRef subject;
+	
+	@XmlElement(name = "Activity_Tag")
 	private List<String> activityTag;
+
+	@XmlElement(name = "Students")
 	private List<String> students;
+
+	@XmlElement(name = "Duration")
 	private Integer duration = 1;
+
+	@XmlElement(name = "Total_Duration")
 	private Integer totalDuration = 1;
+	
+	@XmlElement(name = "Id")
+	@XmlJavaTypeAdapter(type = Long.class, value = WSLongAdapter.class)
 	private Long id;
+
+	@XmlElement(name = "Activity_Group_Id")
 	private Integer activityGroupId = 0; //TODO: change to Long
-	private Integer nrOfStudents = 1;
+
+	@XmlElement(name = "Number_Of_Students")
+	private Integer nrOfStudents = null;
+	
+	@XmlElement(name = "Active")
 	private boolean active = true;
+
+	@XmlElement(name = "Comments")
 	private String comments = "";
 	
 	ActivityXml() {
@@ -50,57 +75,46 @@ public class ActivityXml {
 		this.activityGroupId = groupId.intValue(); 
 		this.totalDuration = totalDuration;
 		this.subject = new SubjectRef(subject.getName().getValue());
-		this.teacherRefs = transform(newArrayList(teachers), TeacherRef::new);
+		this.teachers = transform(newArrayList(teachers), TeacherRef::new);
 		this.students = transform(newArrayList(studentGroups), sG -> sG.getName().getValue());
 		this.activityTag = transform(newArrayList(tags), tag -> tag.getName().getValue()); 
 	}
 	
-//	@XmlID
-	@XmlElement(name = "Id")
-	@XmlJavaTypeAdapter(type = Long.class, value = WSLongAdapter.class)
 	public Long getId() 									{ return id; }
 	public void setId(Long id) 								{ this.id = id; }
 
-//	@XmlIDREF
-	@XmlElement(name = "Teacher")
-	public List<TeacherRef> getTeachers() 					{ return teacherRefs; }
-	public void setTeachers(List<TeacherRef> teacherRefs) 	{ this.teacherRefs = teacherRefs; }
+	public List<TeacherRef> getTeachers() 					{ return teachers; }
+	public void setTeachers(List<TeacherRef> teacherRefs) 	{ this.teachers = teacherRefs; }
 	
-//	@XmlIDREF
-	@XmlElement(name = "Subject")
 	public SubjectRef getSubject() 							{ return subject; }
 	public void setSubject(SubjectRef subject) 				{ this.subject = subject; }
 
-	@XmlElement(name = "Activity_Tag")
 	public List<String> getActivityTag() 					{ return activityTag; }
 	public void setActivityTag(List<String> activityTag) 	{ this.activityTag = activityTag; }
 	
-	@XmlElement(name = "Duration")
 	public Integer getDuration() 							{ return duration; }
 	public void setDuration(Integer duration) 				{ this.duration = duration; }
 	
-	@XmlElement(name = "Total_Duration")
 	public Integer getTotalDuration() 						{ return totalDuration; }
 	public void setTotalDuration(Integer totalDuration) 	{ this.totalDuration = totalDuration; }
 	
-	@XmlElement(name = "Active")
 	public boolean isActive() 								{ return active; }
 	public void setActive(boolean active) 					{ this.active = active; }
 	
-	@XmlElement(name = "Comments")
 	public String getComments() 							{ return comments; }
 	public void setComments(String comments) 				{ this.comments = comments; }
 	
-	@XmlElement(name = "Students")
 	public List<String> getStudents() 						{ return students; }
 	public void setStudents(List<String> students) 			{ this.students = students; }
 	
-	@XmlElement(name = "Activity_Group_Id")
 	public Integer getActivityGroupId() 					{ return activityGroupId; }
 	public void setActivityGroupId(Integer activityGroupId) { this.activityGroupId = activityGroupId; }
 	
-	@XmlElement(name = "Number_Of_Students")
-	public Integer getNrOfStudents() 						{ return nrOfStudents; }
-	public void setNrOfStudents(Integer nrOfStudents) 		{ this.nrOfStudents = nrOfStudents; }
+	/**
+	 * FET doesn't write the nrOfStudents if the value is 0.
+	 * @return the number of students
+	 */
+	public Integer getNrOfStudents() 						{ return (null == nrOfStudents) ? 0 : nrOfStudents; }
+	public void setNrOfStudents(Integer value) 				{ this.nrOfStudents = (value == 0) ? null : value; }
 
 }
