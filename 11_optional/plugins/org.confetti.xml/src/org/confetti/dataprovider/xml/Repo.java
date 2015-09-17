@@ -24,6 +24,7 @@ public class Repo {
 	private Map<String, Room> roomsByName = new HashMap<>();
 	private Map<String, Building> buildingsByName = new HashMap<>();
 	private Map<Long, Assignment> assignmentsById = new HashMap<>();
+	private Map<Integer, AssignmentGroupImpl> groupsById = new HashMap<>();
 	private Map<String, Tag> tagsByName = new HashMap<>();
 
 	//------------------ withXXX methods -------------------------------------------------------------------------------
@@ -82,6 +83,10 @@ public class Repo {
 	public Assignment findAssignment(final long id) 		{ return safeGet(id, assignmentsById, "Assignment"); }
 	public Tag findTag(String name) 						{ return safeGet(name, tagsByName, "Tag"); }
 
+	public AssignmentGroupImpl findAssignmentGroup(Integer id) {
+		return groupsById.computeIfAbsent(id, AssignmentGroupImpl::new);
+	}
+
 	//------------------ maybeFindXXX methods --------------------------------------------------------------------------
 	public Hour maybeFindHour(final String name) 				{ return hoursByName.get(name); }
 	public Teacher maybeFindTeacher(final String name) 			{ return teachersByName.get(name); }
@@ -107,11 +112,11 @@ public class Repo {
 	}
 
 	private static Map<Long, Assignment> storeById(final Iterable<Assignment> assignments) {
-		Map<Long, Assignment> itemsByName = new HashMap<>();
+		Map<Long, Assignment> itemsById = new HashMap<>();
 		for (Assignment item : assignments) {
-			itemsByName.put(((AssignmentImpl) item).getId(), item);
+			itemsById.put(((AssignmentImpl) item).getId(), item);
 		}
-		return itemsByName;
+		return itemsById;
 	}
 
 	private Map<String, StudentGroup> collectStudentGroups(Iterable<StudentGroup> list) {

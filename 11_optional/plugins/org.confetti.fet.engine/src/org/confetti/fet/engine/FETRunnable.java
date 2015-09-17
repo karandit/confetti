@@ -2,6 +2,7 @@ package org.confetti.fet.engine;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
+import static java.util.Optional.of;
 import static org.confetti.xml.core.BaseConstraintXml.newXmlConstraint;
 
 import java.io.BufferedReader;
@@ -21,12 +22,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.AssignmentGroup;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
 import org.confetti.core.Nameable;
 import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
+import org.confetti.dataprovider.xml.AssignmentGroupImpl;
+import org.confetti.dataprovider.xml.AssignmentImpl;
 import org.confetti.fet.engine.solution.ResultActivityXML;
 import org.confetti.fet.engine.solution.SolutionFAO;
 import org.confetti.fet.engine.solution.SolutionXML;
@@ -191,7 +195,7 @@ public class FETRunnable implements IRunnableWithProgress {
 			assgIds.put(assignment, newId);
 			counter++;
 		}
-		inst.setActivities(transform(tuples, tuple -> new ActivityXml(tuple.getFirst(), tuple.getSecond())));
+		inst.setActivities(transform(tuples, tuple -> createActivityXml(tuple.getFirst(), tuple.getSecond())));
 
 		//Transforming Constraints for FET
 		ConstraintSetter setter = new ConstraintSetter(assg -> assgIds.get(assg));
@@ -199,6 +203,24 @@ public class FETRunnable implements IRunnableWithProgress {
 			newXmlConstraint(inst, constr.getConstraintType(), constr.getAttributes().getValue(), setter));
 
 		return new Tuple<>(inst, tuples);
+	}
+	
+	public static ActivityXml createActivityXml(Long id, Assignment assg) {
+		int duration = assg.getDuration().getValue();
+		long activityGroupId = assg.getGroup().getValue()
+				.flatMap((AssignmentGroup x) -> of(((AssignmentGroupImpl) x).getId()))
+				.orElse(0);
+		int totalDuration = assg.getGroup().getValue()
+				.flatMap(assGroup -> of(assGroup.getAssignments().stream()
+					.map(ass -> ass.getDuration().getValue())
+					.reduce(0, (a,b) -> a + b)))
+				.orElse(duration); 
+		
+		return new ActivityXml(id, duration, activityGroupId, totalDuration,
+      		assg.getSubject(), 
+      		assg.getTeachers().getList(), 
+      		assg.getStudentGroups().getList(), 
+      		assg.getTags().getList());
 	}
 
 }

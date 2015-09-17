@@ -1,6 +1,8 @@
 package org.confetti.dataprovider.xml;
 
 import static java.util.Arrays.asList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 
 import java.io.File;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.confetti.core.Assignment;
+import org.confetti.core.AssignmentGroup;
 import org.confetti.core.Building;
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
@@ -116,7 +119,13 @@ public class XmlDataProvider implements DataProvider {
 	    if (act.getId() > currentMaxId) {
 	        currentMaxId = act.getId();
 	    }
-		AssignmentImpl ass = new AssignmentImpl(act.getId(), act.getDuration(), repo.findSubject(act.getSubject().getName()));
+	    
+	    Optional<AssignmentGroup> group = (act.getActivityGroupId() == 0)
+	    		? empty() 
+	    		: of(repo.findAssignmentGroup(act.getActivityGroupId()));
+	    
+		AssignmentImpl ass = new AssignmentImpl(act.getId(), act.getDuration(), 
+				repo.findSubject(act.getSubject().getName()), group);
 		if (act.getStudents() != null) {
 			act.getStudents().forEach(stGroupName -> ass.addStudentGroup(repo.findStudentGroup(stGroupName)));
 		}
@@ -205,10 +214,13 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
 	    currentMaxId++;
-	    instXml.getActivities().add(new ActivityXml(currentMaxId, 1, subject, teachers, studentGroups, asList()));
+	    int duration = 1;
+	    ActivityXml activityXml = new ActivityXml(currentMaxId, duration, 0L, duration,
+	    										subject, teachers, studentGroups, asList());
+		instXml.getActivities().add(activityXml);
 	    save();
 	    
-	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, 1, subject);
+	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, duration, subject, Optional.empty());
 	    teachers.forEach(teacher -> assignment.addTeacher(teacher));
 	    studentGroups.forEach(studentGroup -> assignment.addStudentGroup(studentGroup));
         assignments.addItem(assignment);

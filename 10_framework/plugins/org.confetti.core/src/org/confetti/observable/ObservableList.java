@@ -2,6 +2,7 @@ package org.confetti.observable;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class ObservableList<T> {
 
@@ -12,7 +13,8 @@ public class ObservableList<T> {
 	}
 
 	public Iterable<T> getList() { return list; }
-	
+	public Stream<T> stream() { return list.stream(); }
+
 	void addItem(T item) {
 		if (!list.contains(item)) {
 			list.add(item);

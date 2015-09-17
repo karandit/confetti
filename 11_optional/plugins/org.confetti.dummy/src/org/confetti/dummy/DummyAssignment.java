@@ -1,6 +1,9 @@
 package org.confetti.dummy;
 
+import java.util.Optional;
+
 import org.confetti.core.Assignment;
+import org.confetti.core.AssignmentGroup;
 import org.confetti.core.Constraint;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
@@ -19,6 +22,7 @@ public class DummyAssignment implements Assignment {
 	private final ListMutator<StudentGroup> studentGroups = new ListMutator<>();
 	private final ListMutator<Constraint> constraints = new ListMutator<>();
 	private final ListMutator<Tag> tags = new ListMutator<>();
+    private final ValueMutator<Optional<AssignmentGroup>> group = new ValueMutator<>(this, Optional.empty());
 
 	public DummyAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
 		this.subj = subject;
@@ -44,5 +48,6 @@ public class DummyAssignment implements Assignment {
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return studentGroups.getObservableList(); }
 	@Override public ObservableList<Constraint> getConstraints()  		{ return constraints.getObservableList(); }
 	@Override public ObservableList<Tag> getTags() 						{ return tags.getObservableList(); }
+	@Override public ObservableValue<Optional<AssignmentGroup>> getGroup() { return group.getObservableValue(); }
 
 }

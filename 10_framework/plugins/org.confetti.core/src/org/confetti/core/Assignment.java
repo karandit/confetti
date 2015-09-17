@@ -1,5 +1,7 @@
 package org.confetti.core;
 
+import java.util.Optional;
+
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 
@@ -13,5 +15,6 @@ public interface Assignment extends Constraintable {
 	ObservableList<Teacher> getTeachers();
 	ObservableList<StudentGroup> getStudentGroups();
 	ObservableList<Tag> getTags();
+	ObservableValue<Optional<AssignmentGroup>> getGroup();
 	
 }

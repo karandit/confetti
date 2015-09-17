@@ -1,6 +1,9 @@
 package org.confetti.dataprovider.xml;
 
+import java.util.Optional;
+
 import org.confetti.core.Assignment;
+import org.confetti.core.AssignmentGroup;
 import org.confetti.core.Constraint;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
@@ -23,12 +26,15 @@ public class AssignmentImpl implements Assignment {
 	private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
 	private final ListMutator<Constraint> constraints = new ListMutator<>();
 	private final ListMutator<Tag> tags = new ListMutator<>();
+    private final ValueMutator<Optional<AssignmentGroup>> group;
 
-	public AssignmentImpl(Long id, int duration, Subject subj) {
+	public AssignmentImpl(Long id, int duration, Subject subj, Optional<AssignmentGroup> group) {
         this.id = id;
         this.duration = new ValueMutator<>(this, duration);
         this.subj = subj;
-		subj.addAssignment(this);
+        subj.addAssignment(this);
+        this.group = new ValueMutator<>(this, group);
+		group.ifPresent(x -> x.addAssignment(this));
 	}
 
 	public void addTeacher(Teacher teacher) 			{ teachers.addItem(teacher); teacher.addAssignment(this);} 
@@ -43,5 +49,6 @@ public class AssignmentImpl implements Assignment {
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stGroups.getObservableList(); }
 	@Override public ObservableList<Constraint> getConstraints() 		{ return constraints.getObservableList(); }
 	@Override public ObservableList<Tag> getTags() 						{ return tags.getObservableList(); }
+	@Override public ObservableValue<Optional<AssignmentGroup>> getGroup() { return group.getObservableValue(); }
 
 }
