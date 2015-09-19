@@ -8,5 +8,10 @@ public interface StudentGroup extends Entity {
 	ObservableValue<Integer> getNrOfStudents();
 	ObservableList<StudentGroup> getChildren();
 	StudentGroup getParent();
+
+	@Override
+	public default <R, P> R accept(NameableVisitor<R, P> visitor, P param) {
+		return visitor.visitStudentGroup(this, param);
+	}
 	
 }
