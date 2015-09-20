@@ -71,7 +71,8 @@ public class FETRunnable implements IRunnableWithProgress {
 	@Override
 	public void run(IProgressMonitor arg0) throws InvocationTargetException, InterruptedException {
 		try {
-			Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res = new InstituteXmlBuilder().build(mDataProvider);
+			Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res = new InstituteXmlBuilder()
+												.buildWithAssignmentMap(mDataProvider);
 			InstituteXml inst = res.getFirst();
 			
 			Tuple<List<String>, File> command = buildCommand(inst, mCopyingUrl);

@@ -53,6 +53,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @author Bubla Gabor
+ * @author Kárándi Tamás
  */
 public class XmlDataProvider implements DataProvider {
 	
@@ -179,48 +180,59 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void updateInstituteNameAndComment(String newName, String newComment) {
-		instXml.setName(newName);
-		instXml.setComment(newComment);
-		save();
+	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+		xml.setName(newName);
+		xml.setComment(newComment);
+		save(xml);
+		
 		instName.setValue(this, newName);
 		instComment.setValue(this, newComment);
 	}
 
 	@Override
 	public void addSubjects(List<String> names) {
-	    names.forEach(name -> instXml.getSubjects().add(new SubjectXml(name)));
-	    save();
+	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+	    names.forEach(name -> xml.getSubjects().add(new SubjectXml(name)));
+	    save(xml);
+
 	    names.forEach(name -> subjects.addItem(new SubjectImpl(name, this.getNextColorId())));
 	}
 	
     @Override
 	public void addTeachers(List<String> names) {
-        names.forEach(name -> instXml.getTeachers().add(new TeacherXml(name)));
-        save();
+	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+        names.forEach(name -> xml.getTeachers().add(new TeacherXml(name)));
+        save(xml);
+
         names.forEach(name -> teachers.addItem(new TeacherImpl(name)));
 	}
 	
 	@Override
 	public void addStudentGroups(StudentGroup parent, List<String> names) {
-	    if (parent == null) {
+	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+		if (parent == null) {
 	        List<StudentGroupImpl> groups = Lists.transform(names, name -> new StudentGroupImpl(name, 0));
-            groups.forEach(group -> instXml.getYears().add(new YearXml(group.getName().getValue(), group)));
-	        save();
-	        groups.forEach(group -> stdGroups.addItem(group));
+            groups.forEach(group -> xml.getYears().add(new YearXml(group.getName().getValue(), group)));
+            save(xml);
+	    
+            groups.forEach(group -> stdGroups.addItem(group));
         } else { //TODO implement if has parent
         }
 	}
 	
 	@Override
 	public void addRooms(List<String> names) {
-		names.forEach(name -> instXml.getRooms().add(new RoomXml(name, null, 0)));
-        save();
+	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+		names.forEach(name -> xml.getRooms().add(new RoomXml(name, null, 0)));
+        save(xml);
+        
         names.forEach(name -> rooms.addItem(new RoomImpl(name, 0, Optional.empty())));
 	}
 	
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
-	    currentMaxId++;
+	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+		currentMaxId++;
 	    int duration = 1;
 	    ActivityXml activityXml = new ActivityXml(currentMaxId, duration, 0L, duration
 	    										, subject.getName().getValue()
@@ -231,8 +243,8 @@ public class XmlDataProvider implements DataProvider {
 	    											.map(t -> t.getName().getValue())
 	    											.collect(Collectors.toList())
 	    										, asList());
-		instXml.getActivities().add(activityXml);
-	    save();
+		xml.getActivities().add(activityXml);
+	    save(xml);
 	    
 	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, duration, subject, Optional.empty());
 	    teachers.forEach(assignment::addTeacher);
@@ -279,11 +291,10 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public void rename(Entity entity, String newName) {
 		NameGetter nameGetter = entity.accept(RenameVisitor.INSTANCE, newName);
-	    InstituteXmlBuilder builder = new InstituteXmlBuilder(nameGetter);
-	    InstituteXml xml = builder.build(this).getFirst();
-	    
+	    InstituteXml xml = new InstituteXmlBuilder(nameGetter).build(this);
 	    save(xml);
-		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
+
+	    ((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 
 	@Override
