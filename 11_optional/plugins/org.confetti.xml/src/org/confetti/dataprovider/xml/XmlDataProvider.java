@@ -278,9 +278,13 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void removeAssignment(Assignment assignment) {
-	    ActivityXml foundActivity = findActivityById(((AssignmentImpl) assignment).getId());
-	    instXml.getActivities().remove(foundActivity);
-	    save();
+	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+		Long assgId = ((AssignmentImpl) assignment).getId();
+		Optional<ActivityXml> foundActivity = xml.getActivities().stream()
+	    		.filter(act -> act.getId().equals(assgId))
+	    		.findFirst();
+		foundActivity.ifPresent(xml.getActivities()::remove);
+	    save(xml);
 	    
 	    assignment.getSubject().removeAssignment(assignment);
         assignment.getTeachers().getList().forEach(teacher -> teacher.removeAssignment(assignment));
@@ -335,7 +339,8 @@ public class XmlDataProvider implements DataProvider {
         return null;
     }
 	
-	private <ET extends Entity, XT extends INameBean> void removeEntities(List<ET> entitiesToRemove, ListMutator<ET> allEntities, List<XT> xmlEntities) {
+	private <ET extends Entity, XT extends INameBean> void removeEntities(List<ET> entitiesToRemove, 
+			ListMutator<ET> allEntities, List<XT> xmlEntities) {
         for (ET entityToRemove : entitiesToRemove) {
             XT foundXmlEntity = findXmlByName(xmlEntities, entityToRemove.getName().getValue());
             if (foundXmlEntity != null) {
@@ -349,13 +354,4 @@ public class XmlDataProvider implements DataProvider {
         }
     }
 	
-	private ActivityXml findActivityById(Long id) {
-	    for (ActivityXml activity : instXml.getActivities()) {
-	        if (activity.getId().equals(id)) {
-	            return activity;
-	        }
-	    }
-	    return null;
-	}
-
 }
