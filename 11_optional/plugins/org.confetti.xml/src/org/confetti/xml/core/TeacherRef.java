@@ -3,8 +3,6 @@ package org.confetti.xml.core;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
-import org.confetti.core.Teacher;
-
 /**
  * @author Bubla Gabor
  */
@@ -15,8 +13,8 @@ public class TeacherRef {
 	// --------------- constructors ------------------------------------------------------------------------------------
 	TeacherRef() {
 	}
-	public TeacherRef(Teacher teacher) {
-		this.name = teacher.getName().getValue();
+	public TeacherRef(String name) {
+		this.name = name;
 	}
 	// --------------- getters and setters -----------------------------------------------------------------------------
 	@XmlValue

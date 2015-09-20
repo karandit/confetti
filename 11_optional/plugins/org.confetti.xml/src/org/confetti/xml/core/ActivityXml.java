@@ -1,9 +1,7 @@
 package org.confetti.xml.core;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.transform;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,10 +9,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.confetti.core.StudentGroup;
-import org.confetti.core.Subject;
-import org.confetti.core.Tag;
-import org.confetti.core.Teacher;
 import org.confetti.xml.internal.WSLongAdapter;
 
 /**
@@ -65,19 +59,19 @@ public class ActivityXml {
 	
 	public ActivityXml(Long id, int duration, 
 			Long groupId, int totalDuration,
-			Subject subject, 
-			Iterable<Teacher> teachers, 
-			Iterable<StudentGroup> studentGroups,
-			Iterable<Tag> tags) {
+			String subjectName, 
+			List<String> teacherNames,
+			List<String> studentGroupNames,
+			List<String> tagNames) {
 		
 		this.id = id;
 		this.duration = duration;
 		this.activityGroupId = groupId.intValue(); 
 		this.totalDuration = totalDuration;
-		this.subject = new SubjectRef(subject.getName().getValue());
-		this.teachers = transform(newArrayList(teachers), TeacherRef::new);
-		this.students = transform(newArrayList(studentGroups), sG -> sG.getName().getValue());
-		this.activityTag = transform(newArrayList(tags), tag -> tag.getName().getValue()); 
+		this.subject = new SubjectRef(subjectName);
+		this.teachers = teacherNames.stream().map(TeacherRef::new).collect(Collectors.toList());
+		this.students = studentGroupNames;
+		this.activityTag = tagNames; 
 	}
 	
 	public Long getId() 									{ return id; }

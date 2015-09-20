@@ -21,8 +21,8 @@ public class YearXml implements INameBean {
 	YearXml() {
 	}
 	
-	public YearXml(StudentGroup sg) {
-		this.name = sg.getName().getValue();
+	public YearXml(String name, StudentGroup sg) {
+		this.name = name;
 		this.nrOfStudents = sg.getNrOfStudents().getValue();
 		for (StudentGroup child : sg.getChildren().getList()) {
 			groups.add(new GroupXml(child.getName().getValue(), child.getNrOfStudents().getValue(),

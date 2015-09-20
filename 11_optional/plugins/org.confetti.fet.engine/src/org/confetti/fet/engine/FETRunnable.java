@@ -1,7 +1,6 @@
 package org.confetti.fet.engine;
 
 import static com.google.common.collect.Lists.transform;
-import static org.confetti.xml.core.InstituteXmlBuilder.createInstitueXml;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -33,6 +32,7 @@ import org.confetti.util.Tuple;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.InstituteXml;
+import org.confetti.xml.core.InstituteXmlBuilder;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -71,9 +71,9 @@ public class FETRunnable implements IRunnableWithProgress {
 	@Override
 	public void run(IProgressMonitor arg0) throws InvocationTargetException, InterruptedException {
 		try {
-			Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res = createInstitueXml(mDataProvider);
+			Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res = new InstituteXmlBuilder().build(mDataProvider);
 			InstituteXml inst = res.getFirst();
-
+			
 			Tuple<List<String>, File> command = buildCommand(inst, mCopyingUrl);
 			Process process = new ProcessBuilder(command.getFirst()).start();
 			InputStream is = process.getInputStream();

@@ -9,7 +9,7 @@ import org.confetti.core.Assignment;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
-import org.confetti.core.Nameable;
+import org.confetti.core.NameableVisitee;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
@@ -116,9 +116,11 @@ import org.confetti.xml.core.time.teachers.ConstraintTeachersMinHoursDaily;
 
 public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml, ConstraintAttributes> {
 
-	private Function<Assignment, Long> getAssgIdFunc;
+	private final Function<Assignment, Long> getAssgIdFunc;
+	private final NameGetter nameGetter;
 
-	public ConstraintSetter(Function<Assignment, Long> assgGetId) {
+	public ConstraintSetter(NameGetter nameGetter, Function<Assignment, Long> assgGetId) {
+		this.nameGetter = nameGetter;
 		this.getAssgIdFunc = assgGetId;
 	}
 	
@@ -134,7 +136,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitTime(ConstraintBreakTimes c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.setBreakTimes(toList(p.asWeek("break-times"), ConstraintSetter::toBreakTimeXml));
+		c.setBreakTimes(toList(p.asWeek("break-times"), this::toBreakTimeXml));
 	return c;}
 	
 	//----- Teachers
@@ -142,7 +144,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitTime(ConstraintTeacherNotAvailableTimes c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.setTeacher(getSafeName(p.asTeacher("teacher")));
-		c.setNotAvailableTimes(toList(p.asWeek("not-available-times"), ConstraintSetter::toBreakTimeXml));
+		c.setNotAvailableTimes(toList(p.asWeek("not-available-times"), this::toBreakTimeXml));
 		return c;
 	}
 
@@ -299,7 +301,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitTime(ConstraintStudentsSetNotAvailableTimes c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.studentsName = getSafeName(p.asStudentGroup("studentgroup"));
-		c.setNotAvailableTimes(toList(p.asWeek("not-available-times"), ConstraintSetter::toBreakTimeXml));
+		c.setNotAvailableTimes(toList(p.asWeek("not-available-times"), this::toBreakTimeXml));
 		return c;
 	}
 
@@ -475,7 +477,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		fillDefault(c, p);
 		c.activityId = getAssgId(p.asAssignment("assignment"));
 		c.setPreferredStartingTimes(
-				toList(p.asWeek("starting-times"), ConstraintSetter::toPreferredStartingTimeXml)); 
+				toList(p.asWeek("starting-times"), this::toPreferredStartingTimeXml)); 
 		return c;
 	}
 
@@ -483,7 +485,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitTime(ConstraintActivityPreferredTimeSlots c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.activityId = getAssgId(p.asAssignment("assignment"));
-		c.setPreferredTimeSlots(toList(p.asWeek("time-slots"), ConstraintSetter::toPreferredTimeXml));
+		c.setPreferredTimeSlots(toList(p.asWeek("time-slots"), this::toPreferredTimeXml));
 		return c;
 	}
 
@@ -494,8 +496,8 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		c.subjectName = getSafeName(triple.getFirst()); 
 		c.teacherName = getSafeName(triple.getSecond()); 
 		c.studentsName = getSafeName(triple.getThird());
-		c.setPreferredStartingTimes(toList(p.asWeek("starting-times"), ConstraintSetter::toPreferredStartingTimeXml));
-		c.activityTagName = p.asMaybeTag("tag").map(ConstraintSetter::getSafeName).orElse("");
+		c.setPreferredStartingTimes(toList(p.asWeek("starting-times"), this::toPreferredStartingTimeXml));
+		c.activityTagName = p.asMaybeTag("tag").map(this::getSafeName).orElse("");
 		return c;
 	}
 
@@ -506,8 +508,8 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		c.subjectName = getSafeName(triple.getFirst()); 
 		c.teacherName = getSafeName(triple.getSecond()); 
 		c.studentsName = getSafeName(triple.getThird());
-		c.setPreferredTimeSlots(toList(p.asWeek("time-slots"), ConstraintSetter::toPreferredTimeXml));
-		c.activityTagName = p.asMaybeTag("tag").map(ConstraintSetter::getSafeName).orElse("");
+		c.setPreferredTimeSlots(toList(p.asWeek("time-slots"), this::toPreferredTimeXml));
+		c.activityTagName = p.asMaybeTag("tag").map(this::getSafeName).orElse("");
 		return c;
 	}
 
@@ -519,8 +521,8 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		c.subjectName = getSafeName(triple.getFirst()); 
 		c.teacherName = getSafeName(triple.getSecond()); 
 		c.studentsName = getSafeName(triple.getThird());
-		c.setPreferredStartingTimes(toList(p.asWeek("starting-times"), ConstraintSetter::toPreferredStartingTimeXml));
-		c.activityTagName = p.asMaybeTag("tag").map(ConstraintSetter::getSafeName).orElse("");
+		c.setPreferredStartingTimes(toList(p.asWeek("starting-times"), this::toPreferredStartingTimeXml));
+		c.activityTagName = p.asMaybeTag("tag").map(this::getSafeName).orElse("");
 		return c;
 	}
 
@@ -532,8 +534,8 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		c.subjectName = getSafeName(triple.getFirst()); 
 		c.teacherName = getSafeName(triple.getSecond()); 
 		c.studentsName = getSafeName(triple.getThird());
-		c.setPreferredTimeSlots(toList(p.asWeek("time-slots"), ConstraintSetter::toPreferredTimeXml));
-		c.activityTagName = p.asMaybeTag("tag").map(ConstraintSetter::getSafeName).orElse("");
+		c.setPreferredTimeSlots(toList(p.asWeek("time-slots"), this::toPreferredTimeXml));
+		c.activityTagName = p.asMaybeTag("tag").map(this::getSafeName).orElse("");
 		return c;
 	}
 
@@ -568,7 +570,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		c.subjectName = getSafeName(triple.getFirst()); 
 		c.teacherName = getSafeName(triple.getSecond()); 
 		c.studentsName = getSafeName(triple.getThird());
-		c.activityTagName = p.asMaybeTag("tag").map(ConstraintSetter::getSafeName).orElse("");
+		c.activityTagName = p.asMaybeTag("tag").map(this::getSafeName).orElse("");
 		return c;
 	}
 
@@ -595,7 +597,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitTime(ConstraintActivitiesOccupyMaxTimeSlotsFromSelection c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId)); 
-		c.setSelectedTimeSlots(toList(p.asWeek("time-slots"), ConstraintSetter::toSelectedTimeXml)); 
+		c.setSelectedTimeSlots(toList(p.asWeek("time-slots"), this::toSelectedTimeXml)); 
 		c.maxNrOfOccupiedTimeSlots = p.asInteger("max-occupied");
 	return c;}
 
@@ -638,7 +640,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitTime(ConstraintActivitiesMaxSimultaneousInSelectedTimeSlots c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.setActivityIds(toList(p.asAssignmentsSet("assignments"), this::getAssgId));
-		c.setSelectedTimeSlots(toList(p.asWeek("time-slots"), ConstraintSetter::toSelectedTimeXml)); 
+		c.setSelectedTimeSlots(toList(p.asWeek("time-slots"), this::toSelectedTimeXml)); 
 		c.maxNrOfSimultaneousActivities = p.asInteger("max-simult");
 		return c;
 	}
@@ -664,7 +666,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitSpace(ConstraintRoomNotAvailableTimes c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.room = getSafeName(p.asRoom("room"));
-		c.setNotAvailableTimes(toList(p.asWeek("not-available-times"), ConstraintSetter::toBreakTimeXml));
+		c.setNotAvailableTimes(toList(p.asWeek("not-available-times"), this::toBreakTimeXml));
 		return c;
 	}
 
@@ -681,7 +683,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitSpace(ConstraintTeacherHomeRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.teacher = getSafeName(p.asTeacher("teacher"));
-		c.setRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
+		c.setRooms(toList(p.asRoomsSet("rooms"), this::getSafeName));
 		return c;
 	}
 
@@ -740,7 +742,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitSpace(ConstraintStudentsSetHomeRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.students = getSafeName(p.asStudentGroup("studentgroup"));
-		c.setRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
+		c.setRooms(toList(p.asRoomsSet("rooms"), this::getSafeName));
 		return c;
 	}
 
@@ -795,7 +797,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitSpace(ConstraintSubjectPreferredRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.subject = getSafeName(p.asSubject("subject"));
-		c.setPreferredRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
+		c.setPreferredRooms(toList(p.asRoomsSet("rooms"), this::getSafeName));
 		return c;
 	}
 
@@ -811,7 +813,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	@Override
 	public BaseConstraintXml visitSpace(ConstraintActivityTagPreferredRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
-		c.setPreferredRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
+		c.setPreferredRooms(toList(p.asRoomsSet("rooms"), this::getSafeName));
 		c.activityTag = getSafeName(p.asTag("tag"));
 		return c;
 	}
@@ -830,7 +832,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitSpace(ConstraintSubjectActivityTagPreferredRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.subject = getSafeName(p.asSubject("subject"));
-		c.setRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
+		c.setRooms(toList(p.asRoomsSet("rooms"), this::getSafeName));
 		c.activityTag = getSafeName(p.asTag("tag"));
 		return c;
 	}
@@ -848,7 +850,7 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 	public BaseConstraintXml visitSpace(ConstraintActivityPreferredRooms c, ConstraintAttributes p) {
 		fillDefault(c, p);
 		c.activityId = getAssgId(p.asAssignment("assignment"));
-		c.setPreferredRooms(toList(p.asRoomsSet("rooms"), ConstraintSetter::getSafeName));
+		c.setPreferredRooms(toList(p.asRoomsSet("rooms"), this::getSafeName));
 		return c;
 	}
 
@@ -872,19 +874,19 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		c.setWeight(attrs.asDouble("weight-percentage"));
 	}
 	
-	private static BreakTimeXml toBreakTimeXml(Tuple<Day, Hour> x) {
+	private BreakTimeXml toBreakTimeXml(Tuple<Day, Hour> x) {
 		return new BreakTimeXml(getSafeName(x.getFirst()), getSafeName(x.getSecond()));
 	}
 	
-	private static SelectedTimeXml toSelectedTimeXml(Tuple<Day, Hour> x) {
+	private SelectedTimeXml toSelectedTimeXml(Tuple<Day, Hour> x) {
 		return new SelectedTimeXml(getSafeName(x.getFirst()), getSafeName(x.getSecond()));
 	}
 	
-	private static PreferredStartingTimeXml toPreferredStartingTimeXml(Tuple<Day, Hour> x) {
+	private PreferredStartingTimeXml toPreferredStartingTimeXml(Tuple<Day, Hour> x) {
 		return new PreferredStartingTimeXml(getSafeName(x.getFirst()), getSafeName(x.getSecond()));
 	}
 
-	private static PreferredTimeXml toPreferredTimeXml(Tuple<Day, Hour> x) {
+	private PreferredTimeXml toPreferredTimeXml(Tuple<Day, Hour> x) {
 		return new PreferredTimeXml(getSafeName(x.getFirst()), getSafeName(x.getSecond()));
 	}
 	
@@ -894,11 +896,11 @@ public class ConstraintSetter implements ConstraintXmlVisitor<BaseConstraintXml,
 		return res;
 	}
 
-	private static String getSafeName(Nameable nameable) {
+	private String getSafeName(NameableVisitee nameable) {
 		if (nameable == null) {
 			return "";
 		}
-		String value = nameable.getName().getValue();
+		String value = nameable.accept(nameGetter, null);
 		return value == null ? "" : value;
 	}
 	

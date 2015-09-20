@@ -4,10 +4,12 @@ import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
+import static java.util.stream.StreamSupport.stream;
 
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.confetti.core.Assignment;
 import org.confetti.core.AssignmentGroup;
@@ -39,6 +41,8 @@ import org.confetti.xml.core.ConstraintSetter;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.INameBean;
 import org.confetti.xml.core.InstituteXml;
+import org.confetti.xml.core.InstituteXmlBuilder;
+import org.confetti.xml.core.NameGetter;
 import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubgroupXml;
 import org.confetti.xml.core.SubjectXml;
@@ -52,7 +56,8 @@ import com.google.common.collect.Lists;
  */
 public class XmlDataProvider implements DataProvider {
 	
-	private static final ConstraintSetter CONSTRAINT_SETTER = new ConstraintSetter(assg -> ((AssignmentImpl) assg).getId());
+	private static final ConstraintSetter CONSTRAINT_SETTER = new ConstraintSetter(new NameGetter(), 
+			assg -> ((AssignmentImpl) assg).getId());
 	
 	//----------------------------- fields for UI client----------------------------------------------------------------
 	private final ValueMutator<String> instName = new ValueMutator<>();
@@ -70,8 +75,9 @@ public class XmlDataProvider implements DataProvider {
 	private final ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 
 	//----------------------------- fields for xml persistence ---------------------------------------------------------
-    private final InstituteXml instXml;
+    private InstituteXml instXml;
     private File file;
+    private final String version;
     private long currentMaxId = 0;
     private int colorCounter = 0;
     
@@ -82,6 +88,7 @@ public class XmlDataProvider implements DataProvider {
 	
 	public XmlDataProvider(InstituteXml inst, File file) {
 		this.instXml = inst;
+		this.version = inst.getVersion();
         this.file = file;
 		instName.setValue(this, inst.getName());
 		instComment.setValue(this, inst.getComment());
@@ -197,7 +204,7 @@ public class XmlDataProvider implements DataProvider {
 	public void addStudentGroups(StudentGroup parent, List<String> names) {
 	    if (parent == null) {
 	        List<StudentGroupImpl> groups = Lists.transform(names, name -> new StudentGroupImpl(name, 0));
-            groups.forEach(group -> instXml.getYears().add(new YearXml(group)));
+            groups.forEach(group -> instXml.getYears().add(new YearXml(group.getName().getValue(), group)));
 	        save();
 	        groups.forEach(group -> stdGroups.addItem(group));
         } else { //TODO implement if has parent
@@ -215,14 +222,21 @@ public class XmlDataProvider implements DataProvider {
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
 	    currentMaxId++;
 	    int duration = 1;
-	    ActivityXml activityXml = new ActivityXml(currentMaxId, duration, 0L, duration,
-	    										subject, teachers, studentGroups, asList());
+	    ActivityXml activityXml = new ActivityXml(currentMaxId, duration, 0L, duration
+	    										, subject.getName().getValue()
+	    										, stream(teachers.spliterator(), false)
+	    											.map(t -> t.getName().getValue())
+	    											.collect(Collectors.toList())
+	    										, stream(studentGroups.spliterator(), false)
+	    											.map(t -> t.getName().getValue())
+	    											.collect(Collectors.toList())
+	    										, asList());
 		instXml.getActivities().add(activityXml);
 	    save();
 	    
 	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, duration, subject, Optional.empty());
-	    teachers.forEach(teacher -> assignment.addTeacher(teacher));
-	    studentGroups.forEach(studentGroup -> assignment.addStudentGroup(studentGroup));
+	    teachers.forEach(assignment::addTeacher);
+	    studentGroups.forEach(assignment::addStudentGroup);
         assignments.addItem(assignment);
 	    return assignment;
 	}
@@ -264,8 +278,11 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void rename(Entity entity, String newName) {
-	    entity.accept(new RenameVisitor(instXml), newName);
-	    save();
+		NameGetter nameGetter = entity.accept(RenameVisitor.INSTANCE, newName);
+	    InstituteXmlBuilder builder = new InstituteXmlBuilder(nameGetter);
+	    InstituteXml xml = builder.build(this).getFirst();
+	    
+	    save(xml);
 		((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 
@@ -279,12 +296,20 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	public String getVersion() {
-		return this.instXml.getVersion();
+		return this.version;
 	}
 	//----------------------------- helpers ----------------------------------------------------------------------------
 	public void save() {
         try {
             new InstituteFAO().exportTo(instXml, file);
+        } catch (FAOException e) {
+            throw new RuntimeException(e);
+        }
+	 }
+
+	public void save(InstituteXml xml) {
+        try {
+            new InstituteFAO().exportTo(xml, file);
         } catch (FAOException e) {
             throw new RuntimeException(e);
         }
