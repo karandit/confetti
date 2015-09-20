@@ -9,6 +9,7 @@ import static java.util.stream.StreamSupport.stream;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.confetti.core.Assignment;
@@ -271,10 +272,25 @@ public class XmlDataProvider implements DataProvider {
 	    this.solution.setValue(this, solution);
 	}
 	
-    @Override public void removeSubjects(List<Subject> toRemove) { removeEntities(toRemove, subjects, instXml.getSubjects()); }
-    @Override public void removeTeachers(List<Teacher> toRemove) { removeEntities(toRemove, teachers, instXml.getTeachers()); }
-    @Override public void removeStudentGroups(List<StudentGroup> toRemove) { removeEntities(toRemove, stdGroups, instXml.getYears()); }
-    @Override public void removeRooms(List<Room> toRemove) { removeEntities(toRemove, rooms, instXml.getRooms()); }
+	@Override
+	public void removeSubjects(List<Subject> toRemove) {
+		removeEntities(toRemove, subjects, xml -> xml.getSubjects());
+	}
+
+	@Override
+	public void removeTeachers(List<Teacher> toRemove) {
+		removeEntities(toRemove, teachers, xml -> xml.getTeachers());
+	}
+
+	@Override
+	public void removeStudentGroups(List<StudentGroup> toRemove) {
+		removeEntities(toRemove, stdGroups, xml -> xml.getYears());
+	}
+
+	@Override
+	public void removeRooms(List<Room> toRemove) {
+		removeEntities(toRemove, rooms, xml -> xml.getRooms());
+	}
 	
 	@Override
 	public void removeAssignment(Assignment assignment) {
@@ -307,6 +323,7 @@ public class XmlDataProvider implements DataProvider {
 		BaseConstraintXml xmlConstraint = constraintImpl.getXmlConstraint();
 		xmlConstraint.accept(CONSTRAINT_SETTER, attrs);
 		save();
+		
 		constraintImpl.getAttrsMutator().setValue(constraint, attrs);
 	}
 	
@@ -330,28 +347,22 @@ public class XmlDataProvider implements DataProvider {
         }
 	 }
     
-	static <T extends INameBean> T findXmlByName(Iterable<T> items, String name) {
-        for (T item : items) {
-            if (item.getName().equals(name)) {
-                return item;
-            }
-        }
-        return null;
-    }
-	
 	private <ET extends Entity, XT extends INameBean> void removeEntities(List<ET> entitiesToRemove, 
-			ListMutator<ET> allEntities, List<XT> xmlEntities) {
-        for (ET entityToRemove : entitiesToRemove) {
-            XT foundXmlEntity = findXmlByName(xmlEntities, entityToRemove.getName().getValue());
-            if (foundXmlEntity != null) {
-                xmlEntities.remove(foundXmlEntity);
-            }
-        }
-        save();
+			ListMutator<ET> allEntities, Function<InstituteXml, List<XT>> xmlEntitiesSupplier) {
         
-        for (ET entityToRemove : entitiesToRemove) {
-            allEntities.removeItem(entityToRemove);
+	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+		List<XT> xmlEntities = xmlEntitiesSupplier.apply(xml);
+
+		for (ET ent : entitiesToRemove) {
+			String entName = ent.getName().getValue();
+            Optional<XT> foundXmlEntity = xmlEntities.stream()
+            		.filter(xmlEnt -> xmlEnt.getName().equals(entName))
+            		.findFirst();
+            foundXmlEntity.ifPresent(xmlEntities::remove);
         }
+        save(xml);
+        
+        entitiesToRemove.forEach(allEntities::removeItem);
     }
 	
 }
