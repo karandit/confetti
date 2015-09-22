@@ -1,6 +1,5 @@
 package org.confetti.dataprovider.xml;
 
-import org.confetti.core.EntityVisitor;
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
@@ -31,8 +30,4 @@ class StudentGroupImpl extends EntityImpl implements StudentGroup {
 	@Override public ObservableList<StudentGroup> getChildren() 	{ return children.getObservableList(); }
 	@Override public StudentGroup getParent() 						{ return parent; }
 
-	@Override
-	public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
-		return visitor.visitStudentGroup(this, param);
-	}
 }

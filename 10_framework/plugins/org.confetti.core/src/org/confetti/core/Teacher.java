@@ -7,4 +7,9 @@ public interface Teacher extends Entity {
 		return visitor.visitTeacher(this, param);
 	}
 
+	@Override
+	public default <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
+		return visitor.visitTeacher(this, param);
+	}
+
 }

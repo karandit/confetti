@@ -1,6 +1,5 @@
 package org.confetti.dataprovider.xml;
 
-import org.confetti.core.EntityVisitor;
 import org.confetti.core.Subject;
 
 /**
@@ -13,11 +12,6 @@ class SubjectImpl extends EntityImpl implements Subject {
 	public SubjectImpl(String name, int color) {
 		super(name);
 		this.color = color;
-	}
-
-	@Override
-	public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
-		return visitor.visitSubject(this, param);
 	}
 
 	@Override

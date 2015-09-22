@@ -1,6 +1,5 @@
 package org.confetti.dummy;
 
-import org.confetti.core.EntityVisitor;
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
@@ -42,9 +41,4 @@ public class DummyStudentGroup extends DummyEntity implements StudentGroup {
 		return parent;
 	}
 	
-	@Override
-	public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
-		return visitor.visitStudentGroup(this, param);
-	}
-
 }

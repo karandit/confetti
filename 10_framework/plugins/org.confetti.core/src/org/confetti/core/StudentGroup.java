@@ -13,5 +13,9 @@ public interface StudentGroup extends Entity {
 	public default <R, P> R accept(NameableVisitor<R, P> visitor, P param) {
 		return visitor.visitStudentGroup(this, param);
 	}
-	
+
+	@Override
+	public default <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
+		return visitor.visitStudentGroup(this, param);
+	}
 }

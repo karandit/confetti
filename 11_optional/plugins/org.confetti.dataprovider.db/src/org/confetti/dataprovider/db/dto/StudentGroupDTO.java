@@ -1,6 +1,5 @@
 package org.confetti.dataprovider.db.dto;
 
-import org.confetti.core.EntityVisitor;
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
@@ -33,10 +32,5 @@ public class StudentGroupDTO extends EntityDTO implements StudentGroup {
     @Override
     public StudentGroup getParent() {
         return null;
-    }
-
-    @Override
-    public <R, P> R accept(EntityVisitor<R, P> visitor, P param) {
-        return visitor.visitStudentGroup(this, param);
     }
 }
