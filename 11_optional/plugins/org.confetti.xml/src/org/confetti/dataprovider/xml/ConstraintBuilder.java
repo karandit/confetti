@@ -14,7 +14,6 @@ import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
-import org.confetti.xml.core.BaseConstraintXml;
 
 public class ConstraintBuilder {
 	//----------------------------- constants --------------------------------------------------------------------------
@@ -27,9 +26,9 @@ public class ConstraintBuilder {
 		this.type = type;
 	}
 	
-	public Constraint build(final BaseConstraintXml xmlConstraint) {
+	public Constraint build() {
 		String fullType = FET_CONSTRAINTS_NAMESPACE + type;
-		ConstraintImpl constr = new ConstraintImpl(xmlConstraint, fullType, attrs);
+		ConstraintImpl constr = new ConstraintImpl(fullType, attrs);
 		
 		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(fullType);
 		if (constraintDescr != null) {

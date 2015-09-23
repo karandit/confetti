@@ -33,6 +33,7 @@ import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.InstituteXml;
 import org.confetti.xml.core.InstituteXmlBuilder;
+import org.confetti.xml.core.NameGetter;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -48,6 +49,7 @@ public class FETRunnable implements IRunnableWithProgress {
 	private URL mCopyingUrl;
 	private List<Listener> listeners = new LinkedList<>();
 	private Iterable<SolutionSlot> solution;
+	private long assgId = 0;
 	
 	public FETRunnable(DataProvider dp, URL copyingUrl) {
 		this.mDataProvider = dp;
@@ -71,7 +73,8 @@ public class FETRunnable implements IRunnableWithProgress {
 	@Override
 	public void run(IProgressMonitor arg0) throws InvocationTargetException, InterruptedException {
 		try {
-			Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res = new InstituteXmlBuilder()
+			Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res = 
+					new InstituteXmlBuilder(new NameGetter(), this::generateAssgId)
 												.buildWithAssignmentMap(mDataProvider);
 			InstituteXml inst = res.getFirst();
 			
@@ -91,6 +94,10 @@ public class FETRunnable implements IRunnableWithProgress {
 		} catch (Exception e) {
 			throw new InvocationTargetException(e);
 		}
+	}
+	
+	private long generateAssgId(Assignment assg) {
+		return assgId++;
 	}
 	
 	private static Tuple<List<String>, File> buildCommand(InstituteXml inst, URL copyingUrl) 

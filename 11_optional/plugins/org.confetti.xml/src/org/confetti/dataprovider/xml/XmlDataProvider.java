@@ -58,8 +58,8 @@ import com.google.common.collect.Lists;
  */
 public class XmlDataProvider implements DataProvider {
 	
-	private static final ConstraintSetter CONSTRAINT_SETTER = new ConstraintSetter(new NameGetter(), 
-			assg -> ((AssignmentImpl) assg).getId());
+	private static final Function<Assignment, Long> GET_ASSG_ID_FUNC = assg -> ((AssignmentImpl) assg).getId();
+	private static final ConstraintSetter CONSTRAINT_SETTER = new ConstraintSetter(new NameGetter(), GET_ASSG_ID_FUNC);
 	
 	//----------------------------- fields for UI client----------------------------------------------------------------
 	private final ValueMutator<String> instName = new ValueMutator<>();
@@ -77,7 +77,6 @@ public class XmlDataProvider implements DataProvider {
 	private final ValueMutator<Iterable<SolutionSlot>> solution = new ValueMutator<>();
 
 	//----------------------------- fields for xml persistence ---------------------------------------------------------
-    private InstituteXml instXml;
     private File file;
     private final String version;
     private long currentMaxId = 0;
@@ -89,7 +88,6 @@ public class XmlDataProvider implements DataProvider {
 	}
 	
 	public XmlDataProvider(InstituteXml inst, File file) {
-		this.instXml = inst;
 		this.version = inst.getVersion();
         this.file = file;
 		instName.setValue(this, inst.getName());
@@ -120,8 +118,8 @@ public class XmlDataProvider implements DataProvider {
 				.withRooms(rooms.getObservableList().getList())
 				.withAssignments(assignments.getObservableList().getList())
 		);
-		inst.getTimeConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build(x)));
-		inst.getSpaceConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build(x)));
+		inst.getTimeConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build()));
+		inst.getSpaceConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build()));
 	}
 	
 	private AssignmentImpl createAssignment(ActivityXml act, Repo repo) {
@@ -181,10 +179,10 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void updateInstituteNameAndComment(String newName, String newComment) {
-	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+	    InstituteXml xml = defaultXmlBuilder().build(this);
 		xml.setName(newName);
 		xml.setComment(newComment);
-		save(xml);
+		marshall(xml);
 		
 		instName.setValue(this, newName);
 		instComment.setValue(this, newComment);
@@ -192,29 +190,29 @@ public class XmlDataProvider implements DataProvider {
 
 	@Override
 	public void addSubjects(List<String> names) {
-	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+	    InstituteXml xml = defaultXmlBuilder().build(this);
 	    names.forEach(name -> xml.getSubjects().add(new SubjectXml(name)));
-	    save(xml);
+	    marshall(xml);
 
 	    names.forEach(name -> subjects.addItem(new SubjectImpl(name, this.getNextColorId())));
 	}
 	
     @Override
 	public void addTeachers(List<String> names) {
-	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+	    InstituteXml xml = defaultXmlBuilder().build(this);
         names.forEach(name -> xml.getTeachers().add(new TeacherXml(name)));
-        save(xml);
+        marshall(xml);
 
         names.forEach(name -> teachers.addItem(new TeacherImpl(name)));
 	}
 	
 	@Override
 	public void addStudentGroups(StudentGroup parent, List<String> names) {
-	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+	    InstituteXml xml = defaultXmlBuilder().build(this);
 		if (parent == null) {
 	        List<StudentGroupImpl> groups = Lists.transform(names, name -> new StudentGroupImpl(name, 0));
             groups.forEach(group -> xml.getYears().add(new YearXml(group.getName().getValue(), group)));
-            save(xml);
+            marshall(xml);
 	    
             groups.forEach(group -> stdGroups.addItem(group));
         } else { //TODO implement if has parent
@@ -223,16 +221,16 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void addRooms(List<String> names) {
-	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+	    InstituteXml xml = defaultXmlBuilder().build(this);
 		names.forEach(name -> xml.getRooms().add(new RoomXml(name, null, 0)));
-        save(xml);
+        marshall(xml);
         
         names.forEach(name -> rooms.addItem(new RoomImpl(name, 0, Optional.empty())));
 	}
 	
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
-	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+	    InstituteXml xml = defaultXmlBuilder().build(this);
 		currentMaxId++;
 	    int duration = 1;
 	    ActivityXml activityXml = new ActivityXml(currentMaxId, duration, 0L, duration
@@ -241,11 +239,11 @@ public class XmlDataProvider implements DataProvider {
 	    											.map(t -> t.getName().getValue())
 	    											.collect(Collectors.toList())
 	    										, stream(studentGroups.spliterator(), false)
-	    											.map(t -> t.getName().getValue())
+	    											.map(sg -> sg.getName().getValue())
 	    											.collect(Collectors.toList())
 	    										, asList());
 		xml.getActivities().add(activityXml);
-	    save(xml);
+	    marshall(xml);
 	    
 	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, duration, subject, Optional.empty());
 	    teachers.forEach(assignment::addTeacher);
@@ -256,12 +254,12 @@ public class XmlDataProvider implements DataProvider {
 
 	@Override
 	public void addConstraint(final String type, ConstraintAttributes attrs) {
-		BaseConstraintXml xmlConstr = BaseConstraintXml.newXmlConstraint(instXml, type, attrs, CONSTRAINT_SETTER);
-		save();
+	    InstituteXml xml = defaultXmlBuilder().build(this);
+		BaseConstraintXml.newXmlConstraint(xml, type, attrs, CONSTRAINT_SETTER);
+		marshall(xml);
 		
-		Constraint constr = new ConstraintImpl(xmlConstr, type, attrs);
+		Constraint constr = new ConstraintImpl(type, attrs);
 		constraints.addItem(constr);
-		
 		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
 		FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
 		constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));
@@ -294,13 +292,13 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void removeAssignment(Assignment assignment) {
-	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+	    InstituteXml xml = defaultXmlBuilder().build(this);
 		Long assgId = ((AssignmentImpl) assignment).getId();
 		Optional<ActivityXml> foundActivity = xml.getActivities().stream()
 	    		.filter(act -> act.getId().equals(assgId))
 	    		.findFirst();
 		foundActivity.ifPresent(xml.getActivities()::remove);
-	    save(xml);
+	    marshall(xml);
 	    
 	    assignment.getSubject().removeAssignment(assignment);
         assignment.getTeachers().getList().forEach(teacher -> teacher.removeAssignment(assignment));
@@ -311,35 +309,36 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public void rename(Entity entity, String newName) {
 		NameGetter nameGetter = entity.accept(RenameVisitor.INSTANCE, newName);
-	    InstituteXml xml = new InstituteXmlBuilder(nameGetter).build(this);
-	    save(xml);
+	    InstituteXml xml = new InstituteXmlBuilder(nameGetter, GET_ASSG_ID_FUNC).build(this);
+	    marshall(xml);
 
 	    ((EntityImpl) entity).getNameMutator().setValue(entity, newName);
 	}
 
 	@Override
 	public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
-		ConstraintImpl constraintImpl = (ConstraintImpl) constraint;
-		BaseConstraintXml xmlConstraint = constraintImpl.getXmlConstraint();
-		xmlConstraint.accept(CONSTRAINT_SETTER, attrs);
-		save();
+		InstituteXml xml = defaultXmlBuilder().updateConstraint(constraint, attrs).build(this);
+		marshall(xml);
 		
+		ConstraintImpl constraintImpl = (ConstraintImpl) constraint;
 		constraintImpl.getAttrsMutator().setValue(constraint, attrs);
+		//TODO: not symmetric with addConstraint, maybe not necessary, check it
+//		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
+//		FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
+//		constraintDescr.getFields().forEach(field -> field.getType().accept(visitor, field.getName(), constr));
 	}
 	
 	public String getVersion() {
 		return this.version;
 	}
+
 	//----------------------------- helpers ----------------------------------------------------------------------------
 	public void save() {
-        try {
-            new InstituteFAO().exportTo(instXml, file);
-        } catch (FAOException e) {
-            throw new RuntimeException(e);
-        }
-	 }
+        InstituteXml xml = defaultXmlBuilder().build(this);
+        marshall(xml);
+	}
 
-	public void save(InstituteXml xml) {
+	private void marshall(InstituteXml xml) {
         try {
             new InstituteFAO().exportTo(xml, file);
         } catch (FAOException e) {
@@ -350,7 +349,7 @@ public class XmlDataProvider implements DataProvider {
 	private <ET extends Entity, XT extends INameBean> void removeEntities(List<ET> entitiesToRemove, 
 			ListMutator<ET> allEntities, Function<InstituteXml, List<XT>> xmlEntitiesSupplier) {
         
-	    InstituteXml xml = new InstituteXmlBuilder().build(this);
+	    InstituteXml xml = defaultXmlBuilder().build(this);
 		List<XT> xmlEntities = xmlEntitiesSupplier.apply(xml);
 
 		for (ET ent : entitiesToRemove) {
@@ -360,9 +359,14 @@ public class XmlDataProvider implements DataProvider {
             		.findFirst();
             foundXmlEntity.ifPresent(xmlEntities::remove);
         }
-        save(xml);
+        marshall(xml);
         
         entitiesToRemove.forEach(allEntities::removeItem);
     }
+
+	private InstituteXmlBuilder defaultXmlBuilder() {
+		return new InstituteXmlBuilder(new NameGetter(), GET_ASSG_ID_FUNC);
+	}
+
 	
 }
