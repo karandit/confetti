@@ -17,6 +17,7 @@ import org.confetti.observable.ValueMutator;
 public class DummyAssignment implements Assignment {
 
     private final ValueMutator<Integer> duration = new ValueMutator<>(this, 1);
+    private final ValueMutator<Integer> nrOfStudents = new ValueMutator<>(this, 0);
     private final Subject subj;
 	private final ListMutator<Teacher> teachers = new ListMutator<>();
 	private final ListMutator<StudentGroup> studentGroups = new ListMutator<>();
@@ -43,6 +44,7 @@ public class DummyAssignment implements Assignment {
 	}
 
 	@Override public ObservableValue<Integer> getDuration() { return duration.getObservableValue(); }
+    @Override public ObservableValue<Integer> getNrOfStudents() { return nrOfStudents.getObservableValue(); }
 	@Override public Subject getSubject() 								{ return subj; }
 	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return studentGroups.getObservableList(); }
