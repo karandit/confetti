@@ -95,8 +95,8 @@ public class InstituteXmlBuilder {
 					.map(ass -> ass.getDuration().getValue())
 					.reduce(0, (a,b) -> a + b)))
 				.orElse(duration); 
-		
-		return new ActivityXml(id, duration, activityGroupId, totalDuration,
+		int nrOfStudents = assg.getNrOfStudents().getValue();
+		return new ActivityXml(id, duration, activityGroupId, totalDuration, nrOfStudents,
 			GET_NAME.apply(assg.getSubject()), 
       		assg.getTeachers().toList(GET_NAME),
       		assg.getStudentGroups().toList(GET_NAME),

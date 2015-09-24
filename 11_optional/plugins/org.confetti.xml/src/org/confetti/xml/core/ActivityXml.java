@@ -59,6 +59,7 @@ public class ActivityXml {
 	
 	public ActivityXml(Long id, int duration, 
 			Long groupId, int totalDuration,
+			int nrOfStudents,
 			String subjectName, 
 			List<String> teacherNames,
 			List<String> studentGroupNames,
@@ -68,6 +69,7 @@ public class ActivityXml {
 		this.duration = duration;
 		this.activityGroupId = groupId.intValue(); 
 		this.totalDuration = totalDuration;
+		this.setNrOfStudents(nrOfStudents);
 		this.subject = new SubjectRef(subjectName);
 		this.teachers = teacherNames.stream().map(TeacherRef::new).collect(Collectors.toList());
 		this.students = studentGroupNames;

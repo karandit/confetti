@@ -49,7 +49,7 @@ public class FETRunnable implements IRunnableWithProgress {
 	private URL mCopyingUrl;
 	private List<Listener> listeners = new LinkedList<>();
 	private Iterable<SolutionSlot> solution;
-	private long assgId = 0;
+	private long assgId = 1;
 	
 	public FETRunnable(DataProvider dp, URL copyingUrl) {
 		this.mDataProvider = dp;

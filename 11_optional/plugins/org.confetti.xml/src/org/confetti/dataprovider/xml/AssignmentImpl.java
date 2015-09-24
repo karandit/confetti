@@ -21,6 +21,7 @@ public class AssignmentImpl implements Assignment {
 
     private final Long id;
     private final ValueMutator<Integer> duration;
+    private final ValueMutator<Integer> nrOfStudents;
 	private final Subject subj;
 	private final ListMutator<Teacher> teachers = new ListMutator<>();
 	private final ListMutator<StudentGroup> stGroups = new ListMutator<>();
@@ -28,9 +29,10 @@ public class AssignmentImpl implements Assignment {
 	private final ListMutator<Tag> tags = new ListMutator<>();
     private final ValueMutator<Optional<AssignmentGroup>> group;
 
-	public AssignmentImpl(Long id, int duration, Subject subj, Optional<AssignmentGroup> group) {
+	public AssignmentImpl(Long id, int duration, int nrOfStudents, Subject subj, Optional<AssignmentGroup> group) {
         this.id = id;
         this.duration = new ValueMutator<>(this, duration);
+        this.nrOfStudents = new ValueMutator<>(this, nrOfStudents);
         this.subj = subj;
         subj.addAssignment(this);
         this.group = new ValueMutator<>(this, group);
@@ -44,6 +46,7 @@ public class AssignmentImpl implements Assignment {
 	
 	public Long getId() { return id; }
 	@Override public ObservableValue<Integer> getDuration() 			{ return duration.getObservableValue(); }
+	@Override public ObservableValue<Integer> getNrOfStudents() 		{ return nrOfStudents.getObservableValue(); }
 	@Override public Subject getSubject() 								{ return subj; }
 	@Override public ObservableList<Teacher> getTeachers() 				{ return teachers.getObservableList(); }
 	@Override public ObservableList<StudentGroup> getStudentGroups() 	{ return stGroups.getObservableList(); }

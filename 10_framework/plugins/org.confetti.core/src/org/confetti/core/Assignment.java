@@ -11,6 +11,7 @@ import org.confetti.observable.ObservableValue;
 public interface Assignment extends Constraintable {
 	
 	ObservableValue<Integer> getDuration();
+	ObservableValue<Integer> getNrOfStudents();
 	Subject getSubject();
 	ObservableList<Teacher> getTeachers();
 	ObservableList<StudentGroup> getStudentGroups();

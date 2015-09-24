@@ -131,7 +131,7 @@ public class XmlDataProvider implements DataProvider {
 	    		? empty() 
 	    		: of(repo.findAssignmentGroup(act.getActivityGroupId()));
 	    
-		AssignmentImpl ass = new AssignmentImpl(act.getId(), act.getDuration(), 
+		AssignmentImpl ass = new AssignmentImpl(act.getId(), act.getDuration(), act.getNrOfStudents(),
 				repo.findSubject(act.getSubject().getName()), group);
 		if (act.getStudents() != null) {
 			act.getStudents().forEach(stGroupName -> ass.addStudentGroup(repo.findStudentGroup(stGroupName)));
@@ -233,7 +233,7 @@ public class XmlDataProvider implements DataProvider {
 	    InstituteXml xml = defaultXmlBuilder().build(this);
 		currentMaxId++;
 	    int duration = 1;
-	    ActivityXml activityXml = new ActivityXml(currentMaxId, duration, 0L, duration
+	    ActivityXml activityXml = new ActivityXml(currentMaxId, duration, 0L, duration, 0
 	    										, subject.getName().getValue()
 	    										, stream(teachers.spliterator(), false)
 	    											.map(t -> t.getName().getValue())
@@ -245,7 +245,7 @@ public class XmlDataProvider implements DataProvider {
 		xml.getActivities().add(activityXml);
 	    marshall(xml);
 	    
-	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, duration, subject, Optional.empty());
+	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, duration, 0, subject, Optional.empty());
 	    teachers.forEach(assignment::addTeacher);
 	    studentGroups.forEach(assignment::addStudentGroup);
         assignments.addItem(assignment);
