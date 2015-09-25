@@ -34,7 +34,7 @@ public class InstituteView extends AbstractView<TreeViewer> {
 	protected TreeViewer createViewer(Composite parent) {
 		TreeViewer viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 		viewer.getTree().setHeaderVisible(true);
-		createColumn(viewer, Messages.InstituteView_Column_Name, 170);
+		createColumn(viewer, Messages.General_Name, 170);
 		createColumn(viewer, "#", 50); //$NON-NLS-1$
 		
 		instNameListener = (Object src, String oldValue, String newValue) -> {

@@ -33,7 +33,7 @@ public class StudentGroupsView extends AbstractView<TreeViewer> {
 	protected TreeViewer createViewer(Composite parent) {
 		TreeViewer treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 		treeViewer.getTree().setHeaderVisible(true);
-		createColumn(treeViewer, Messages.StudentGroupsView_Column_Name, 170);
+		createColumn(treeViewer, Messages.General_Name, 170);
 		createColumn(treeViewer, "#", 50); //$NON-NLS-1$
 		
 		nameListener = (Object src, String oldValue, String newValue) -> {

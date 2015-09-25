@@ -50,7 +50,7 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 	}
 
 	protected void createColumns(Table table) {
-		createColumn(table, Messages.AbstractEntityTableView_Column_Name, 170);
+		createColumn(table, Messages.General_Name, 170);
 		createColumn(table, "#", 50); //$NON-NLS-1$
 	}
 	

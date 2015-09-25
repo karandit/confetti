@@ -30,7 +30,7 @@ public class VerifyEntriesWizardPage extends ModelableWizardPage<VerifyEntriesMo
 		table = new Table(parent, SWT.BORDER | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.MULTI);
 		
 		TableColumn names = new TableColumn(table, SWT.NONE);
-		names.setText(Messages.VerifyEntriesWizardPage_Name);
+		names.setText(Messages.General_Name);
 		names.setWidth(150);
 		TableColumn check = new TableColumn(table, SWT.NONE);
 		check.setText(Messages.VerifyEntriesWizardPage_Status);

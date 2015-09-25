@@ -21,7 +21,7 @@ implements IWizardPageNavigatable {
 	private Text txtComment;
 	
 	public EditNameAndCommentPage(EditNameAndCommentModel model) {
-		super("pageName", Messages.EditNameAndCommentPage_Name, getImageDescriptor(model.getImageKey()), model); //$NON-NLS-1$
+		super("pageName", Messages.General_Name, getImageDescriptor(model.getImageKey()), model); //$NON-NLS-1$
 		setDescription(Messages.EditNameAndCommentPage_Description);
 	}
 

@@ -5,8 +5,6 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "org.confetti.rcp.nls.messages"; //$NON-NLS-1$
 
-	public static String AbstractEntityTableView_Column_Name;
-
 	public static String ApplicationActionBarAdvisor_Help;
 
 	public static String AssignmentsView_Column_Duration;
@@ -63,8 +61,6 @@ public class Messages extends NLS {
 
 	public static String EditNameAndCommentPage_Description;
 
-	public static String EditNameAndCommentPage_Name;
-
 	public static String ExportTimetableCommand_Title;
 
 	public static String ExportTimetableWizard_Error;
@@ -81,8 +77,6 @@ public class Messages extends NLS {
 
 	public static String GenerateTimetableCommand_Column_Author;
 
-	public static String GenerateTimetableCommand_Column_Name;
-
 	public static String GenerateTimetableCommand_Message;
 
 	public static String GenerateTimetableCommand_Title;
@@ -96,8 +90,6 @@ public class Messages extends NLS {
 	public static String InstituteView_All_Tags;
 
 	public static String InstituteView_All_Teachers;
-
-	public static String InstituteView_Column_Name;
 
 	public static String NewConstraintCommand_Message;
 
@@ -160,11 +152,7 @@ public class Messages extends NLS {
 
 	public static String SelectedConnectionDialog_Title;
 
-	public static String StudentGroupsView_Column_Name;
-
 	public static String TimeTableNotAvailable;
-
-	public static String VerifyEntriesWizardPage_Name;
 
 	public static String VerifyEntriesWizardPage_Status;
 
