@@ -3,6 +3,7 @@ package org.confetti.rcp.wizards;
 import java.util.List;
 
 import org.confetti.rcp.extensions.OpenWizardDescr;
+import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.models.OpenTimetableModel;
 import org.confetti.rcp.wizards.pages.ChooseDataProviderWizardPage;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -16,7 +17,7 @@ public class OpenTimetableWizard extends Wizard {
 	
 	public OpenTimetableWizard(OpenTimetableModel model) {
 		this.model = model;
-		setWindowTitle("Open");
+		setWindowTitle(Messages.General_Open);
 		setForcePreviousAndNextButtons(true);
 	}
 	

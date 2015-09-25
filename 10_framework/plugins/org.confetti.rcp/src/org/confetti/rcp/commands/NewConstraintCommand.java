@@ -9,6 +9,7 @@ import org.confetti.rcp.constraints.ConstraintDialog;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.rcp.extensions.IConstraintElement;
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -39,8 +40,8 @@ public class NewConstraintCommand extends AbstractHandler {
         
         ElementTreeSelectionDialog dlg = new ElementTreeSelectionDialog(shell, labelProvider, 
         		ConstraintElementContentProvider.INSTANCE);
-        dlg.setTitle("Open");
-        dlg.setMessage("Choose a constraint");
+        dlg.setTitle(Messages.NewConstraintCommand_Title);
+        dlg.setMessage(Messages.NewConstraintCommand_Message);
         dlg.setValidator(new ISelectionStatusValidator() {
 			@Override
 			public IStatus validate(Object[] selection) {

@@ -2,6 +2,7 @@ package org.confetti.rcp.commands;
 
 import org.confetti.core.DataProvider;
 import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.ExportTimetableWizard;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -17,7 +18,7 @@ public class ExportTimetableCommand extends AbstractHandler {
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         WizardDialog wizardDialog = new WizardDialog(Display.getDefault().getActiveShell(), new ExportTimetableWizard());
-        wizardDialog.setTitle("Export timetables");
+        wizardDialog.setTitle(Messages.ExportTimetableCommand_Title);
         wizardDialog.open();
         return null;
     }

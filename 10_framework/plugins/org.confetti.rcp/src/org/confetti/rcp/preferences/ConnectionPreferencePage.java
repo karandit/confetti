@@ -10,6 +10,7 @@ import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.extensions.ConnectionDescr;
 import org.confetti.rcp.extensions.ConnectionFactory;
 import org.confetti.rcp.extensions.ConnectionRegistry;
+import org.confetti.rcp.nls.Messages;
 import org.confetti.util.Tuple;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -62,8 +63,8 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
 	    
 	    Table table = new Table(parent, SWT.SINGLE | SWT.FULL_SELECTION | SWT.V_SCROLL | SWT.BORDER);
 	    table.setHeaderVisible(true);
-	    createColumn(table, "Connection name", 150);
-	    createColumn(table, "Connection type", 150);
+	    createColumn(table, Messages.ConnectionPreferencePage_ConnectionName, 150);
+	    createColumn(table, Messages.ConnectionPreferencePage_ConnectionType, 150);
 	    GridDataFactory.fillDefaults().grab(true, true).applyTo(table);
 	    
 	    TableViewer viewer = new TableViewer(table);
@@ -80,13 +81,13 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
         buttonsComposite.setLayout(fillLayout);
 	    
 	    Button addButton = new Button(buttonsComposite, SWT.NONE);
-	    addButton.setText("&Add");
+	    addButton.setText(Messages.ConnectionPreferencePage_Add);
 	    addButton.addSelectionListener(new AddNewConnectionSelectionListener(viewer));
 	    Button editButton = new Button(buttonsComposite, SWT.NONE);
-	    editButton.setText("&Edit");
+	    editButton.setText(Messages.ConnectionPreferencePage_Edit);
 	    editButton.addSelectionListener(new EditConnectionSelectionListener(viewer));
 	    Button removeButton = new Button(buttonsComposite, SWT.NONE);
-	    removeButton.setText("&Remove");
+	    removeButton.setText(Messages.ConnectionPreferencePage_Remove);
 	    removeButton.addSelectionListener(new RemoveConnectionSelectionListener(viewer));
 	    
 	    return parent;
@@ -100,7 +101,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
 	        if (first) {
 	            first = false;
 	        } else {
-	            sb.append(",");
+	            sb.append(","); //$NON-NLS-1$
 	        }
 	        sb.append(tuple.getFirst());
 	    }
@@ -134,14 +135,14 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
             Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
             
             // Connection name
-            InputDialog inputDlg = new InputDialog(shell, "Connection name", "Specify a name for the connection", "", 
+            InputDialog inputDlg = new InputDialog(shell, Messages.ConnectionPreferencePage_ConnectionName, Messages.ConnectionPreferencePage_ConnectionName_Message, "",  //$NON-NLS-3$
             		(String newText) -> {
                     if (newText.isEmpty()) {
-                        return "Please enter the connection name";
+                        return Messages.ConnectionPreferencePage_Warning_EmptyConnectionName;
                     }
                     for (Tuple<String, String> tuple : connectionSettings) {
                         if (tuple.getFirst().equals(newText)) {
-                            return "Connection name already exists";
+                            return Messages.ConnectionPreferencePage_Warning_ConnectionName_AlreadyExists;
                         }
                     }
                     return null;
@@ -156,8 +157,8 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
             ListDialog dlg = new ListDialog(shell);
             dlg.setContentProvider(new ArrayContentProvider());
             dlg.setLabelProvider(new LabelProvider());
-            dlg.setTitle("Connection types");
-            dlg.setMessage("Choose an input");
+            dlg.setTitle(Messages.ConnectionPreferencePage_ConnectionTypes);
+            dlg.setMessage(Messages.ConnectionPreferencePage_ChooseAnInput);
             dlg.setInput(extensions); 
             if (Window.OK != dlg.open()) {
                 return;
@@ -175,7 +176,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
             int ret = dialog.open();
             if (ret == Window.OK) {
                 connectionSettings.add(new Tuple<>(connName, selectedDescr.getDbType()));
-                prefStore.setValue(connName + "_" + KEY_TYPE, selectedDescr.getDbType());
+                prefStore.setValue(connName + "_" + KEY_TYPE, selectedDescr.getDbType()); //$NON-NLS-1$
                 prefStore.setValue(KEY_CONNECTIONS, transformToCSV(connectionSettings));
                 viewer.refresh();
             }
@@ -196,7 +197,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
             
             //warning dialog if a viewer has no selection
             if (viewer.getSelection().isEmpty()) {
-                MessageDialog.openWarning(shell, "Wrong selection", "Please select a connection.");
+                MessageDialog.openWarning(shell, Messages.ConnectionPreferencePage_Warning, Messages.ConnectionPreferencePage_Warning_SelectConnection);
                 return;
             }
             
@@ -213,7 +214,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
             }
             
             //the selected connection not found in the extensions
-            MessageDialog.openError(shell, "Error", "The selected connection is not found.");
+            MessageDialog.openError(shell, Messages.ConnectionPreferencePage_Error, Messages.ConnectionPreferencePage_Warning_ConnectionNotFound);
         }
 	}
 	
@@ -231,7 +232,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
 	        
 	        //warning dialog if a viewer has no selection
             if (viewer.getSelection().isEmpty()) {
-                MessageDialog.openWarning(shell, "Wrong selection", "Please select a connection.");
+                MessageDialog.openWarning(shell, Messages.ConnectionPreferencePage_Warning, Messages.ConnectionPreferencePage_SelectConnection);
                 return;
             }
             
@@ -241,7 +242,7 @@ public class ConnectionPreferencePage extends PreferencePage implements IWorkben
 			Tuple<String, String> selectedConn = (Tuple<String, String>) selection.getFirstElement();
             
             //confirmation dialog
-            if (!MessageDialog.openConfirm(shell, "Remove connection", 
+            if (!MessageDialog.openConfirm(shell, Messages.ConnectionPreferencePage_RemoveConnection, 
                     "\"" + selectedConn.getFirst() + "\" named connection will be deleted. Are you sure?")) {
                 return;
             }

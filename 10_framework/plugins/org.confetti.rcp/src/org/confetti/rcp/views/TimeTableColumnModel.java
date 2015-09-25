@@ -141,7 +141,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 	public Object doGetContentAt(int col, int row) {
 		//top left blank corner
 		if (col < getFixedHeaderColumnCount() && row < getFixedHeaderRowCount()) {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 		//student group names
 		if (col >= getFixedHeaderColumnCount() && row < getFixedHeaderRowCount()) {
@@ -168,7 +168,7 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 				return this.sg.accept(GetCellInfoVisitor.INSTANCE, ass);
 			}
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	@Override

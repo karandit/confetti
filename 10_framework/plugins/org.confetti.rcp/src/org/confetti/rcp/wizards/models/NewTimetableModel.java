@@ -10,6 +10,7 @@ import static org.confetti.rcp.wizards.models.Problem.OK;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.confetti.rcp.nls.Messages;
 import org.confetti.util.Tuple;
 
 /**
@@ -52,8 +53,12 @@ public class NewTimetableModel implements EditNameAndCommentModel {
 	
 	private String instituteName;
 	private String comment;
-	private NewEntryModel daysModel = new NewEntryModel("Days", "Every new line will be a new day", "Summary days", "", IMG_BIG_DAY);
-	private NewEntryModel hoursModel = new NewEntryModel("Hours", "Every new line will be a new hour", "Summary hours", "", IMG_BIG_HOUR);
+	private NewEntryModel daysModel = new NewEntryModel(Messages.NewTimetableModel_Days_Title, 
+			Messages.NewTimetableModel_Days_Description, 
+			Messages.NewTimetableModel_Days_Summary, "", IMG_BIG_DAY); //$NON-NLS-1$
+	private NewEntryModel hoursModel = new NewEntryModel(Messages.NewTimetableModel_Hours_Title, 
+			Messages.NewTimetableModel_Hours_Description, 
+			Messages.NewTimetableModel_Hours_Summary, "", IMG_BIG_HOUR); //$NON-NLS-1$
 	
 	@Override public String getName() 						{ return instituteName; }
 	@Override public void setName(String name) 				{ this.instituteName = name; }

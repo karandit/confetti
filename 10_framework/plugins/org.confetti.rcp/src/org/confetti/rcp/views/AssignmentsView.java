@@ -9,6 +9,7 @@ import org.confetti.core.Subject;
 import org.confetti.core.Tag;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.nls.Messages;
 import org.confetti.util.Tuple;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
@@ -28,7 +29,7 @@ import de.kupzog.ktable.KTableDefaultModel;
 
 public class AssignmentsView extends ViewPart {
 
-	public final static String ID = "org.confetti.rcp.assignmentsView";
+	public final static String ID = "org.confetti.rcp.assignmentsView"; //$NON-NLS-1$
 	
 	private ISelectionListener selectionListener;
 	
@@ -64,12 +65,12 @@ public class AssignmentsView extends ViewPart {
 	private static TableViewer createAssigmentsList(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
-		AbstractEntityTableView.createColumn(table, "#", 50);
-		AbstractEntityTableView.createColumn(table, "Duration", 50);
-		AbstractEntityTableView.createColumn(table, "Subject", 150);
-		AbstractEntityTableView.createColumn(table, "Teacher", 150);
-		AbstractEntityTableView.createColumn(table, "Student Group", 150);
-		AbstractEntityTableView.createColumn(table, "Tags", 150);
+		AbstractEntityTableView.createColumn(table, "#", 50); //$NON-NLS-1$
+		AbstractEntityTableView.createColumn(table, Messages.AssignmentsView_Column_Duration, 50);
+		AbstractEntityTableView.createColumn(table, Messages.AssignmentsView_Column_Subject, 150);
+		AbstractEntityTableView.createColumn(table, Messages.AssignmentsView_Column_Teacher, 150);
+		AbstractEntityTableView.createColumn(table, Messages.AssignmentsView_Column_StudentGroup, 150);
+		AbstractEntityTableView.createColumn(table, Messages.AssignmentsView_Column_Tags, 150);
 		
 		TableViewer tableViewer = new TableViewer(table);
 		tableViewer.setContentProvider(new ArrayContentProvider());
@@ -131,7 +132,7 @@ public class AssignmentsView extends ViewPart {
 			if (first) {
 				first = false;
 			} else {
-				sb.append(", ");
+				sb.append(", "); //$NON-NLS-1$
 			}
 			sb.append(getName(t));
 		}

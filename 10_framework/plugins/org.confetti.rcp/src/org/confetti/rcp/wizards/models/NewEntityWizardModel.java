@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.confetti.rcp.nls.Messages;
 import org.confetti.util.Tuple;
 
 public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntriesModel {
@@ -41,7 +42,7 @@ public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntrie
 
 	//------------------------ InsertEntriesModel ----------------------------------------------------------------------
 	@Override public String getInsertEntriesPageDescription() 	{ return mAddNamePageDescr; }
-	@Override public String getInsertEntriesPageTitle() 		{ return "Names"; }
+	@Override public String getInsertEntriesPageTitle() 		{ return Messages.NewEntityWizardModel_Names; }
 	@Override public String getInsertEntriesPageImageKey() 		{ return mImageKey; }
 
 	@Override
@@ -58,7 +59,7 @@ public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntrie
 	}
 
 	//------------------------ VerifyEntriesModel ----------------------------------------------------------------------
-	@Override public String getVerifyEntriesPageTitle() 		{ return "Summary"; }
+	@Override public String getVerifyEntriesPageTitle() 		{ return Messages.NewEntityWizardModel_Summary; }
 	@Override public String getVerifyEntriesPageDescription() 	{ return mVerifyNamePageDescr; }
 	@Override public List<Tuple<String, Problem>> getResult() 	{ return mNamesAndProblems; }
 

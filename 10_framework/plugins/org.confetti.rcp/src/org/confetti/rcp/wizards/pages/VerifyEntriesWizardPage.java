@@ -1,5 +1,6 @@
 package org.confetti.rcp.wizards.pages;
 
+import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.models.Problem;
 import org.confetti.rcp.wizards.models.VerifyEntriesModel;
 import org.confetti.util.Tuple;
@@ -19,7 +20,7 @@ public class VerifyEntriesWizardPage extends ModelableWizardPage<VerifyEntriesMo
 	private Table table;
 
 	public VerifyEntriesWizardPage(VerifyEntriesModel model) {
-		super("Verify", model.getVerifyEntriesPageTitle(), null, model);
+		super("Verify", model.getVerifyEntriesPageTitle(), null, model); //$NON-NLS-1$
 		setDescription(getModel().getVerifyEntriesPageDescription());
 		setPageComplete(false);
 	}
@@ -29,10 +30,10 @@ public class VerifyEntriesWizardPage extends ModelableWizardPage<VerifyEntriesMo
 		table = new Table(parent, SWT.BORDER | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.MULTI);
 		
 		TableColumn names = new TableColumn(table, SWT.NONE);
-		names.setText("Name");
+		names.setText(Messages.VerifyEntriesWizardPage_Name);
 		names.setWidth(150);
 		TableColumn check = new TableColumn(table, SWT.NONE);
-		check.setText("Status");
+		check.setText(Messages.VerifyEntriesWizardPage_Status);
 		check.setWidth(250);
 		table.setHeaderVisible(true);
 		
@@ -47,7 +48,7 @@ public class VerifyEntriesWizardPage extends ModelableWizardPage<VerifyEntriesMo
 				switch (columnIndex) {
 				case 0: return nameAndProblem.getFirst();
 				case 1: return nameAndProblem.getSecond().getDescription();
-				default: return "";
+				default: return ""; //$NON-NLS-1$
 				}
 			}
 			

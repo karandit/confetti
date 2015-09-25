@@ -1,5 +1,6 @@
 package org.confetti.rcp;
 
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -38,7 +39,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     
     @Override
 	protected void fillMenuBar(IMenuManager menuBar) {
-        MenuManager helpMenu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
+        MenuManager helpMenu = new MenuManager(Messages.ApplicationActionBarAdvisor_Help, IWorkbenchActionConstants.M_HELP);
         
         // Add a group marker indicating where action set menus will appear.
         menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));

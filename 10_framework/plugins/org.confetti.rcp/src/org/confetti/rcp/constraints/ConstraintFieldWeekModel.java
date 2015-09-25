@@ -53,12 +53,12 @@ public class ConstraintFieldWeekModel extends KTableNoScrollModel {
 	public Object doGetContentAt(int col, int row) { 
 		switch (row) {
 			case 0:	switch (col) {
-				case 0: 	return "";
+				case 0: 	return ""; //$NON-NLS-1$
 				default: 	return days[col - 1];
 			}
 			default: switch (col) {
 				case 0: return hours[row - 1];
-				default: return "X";
+				default: return "X"; //$NON-NLS-1$
 			}
 		}
 	}

@@ -10,6 +10,7 @@ import org.confetti.core.DataProvider;
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableListener;
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -22,7 +23,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 
 public class StudentGroupsView extends AbstractView<TreeViewer> {
 
-	public static final String ID = "org.confetti.rcp.studentGroupsView";
+	public static final String ID = "org.confetti.rcp.studentGroupsView"; //$NON-NLS-1$
     
 	private ObservableListener<String> nameListener;
 	private ObservableListener<Assignment> assgCountListener;
@@ -32,8 +33,8 @@ public class StudentGroupsView extends AbstractView<TreeViewer> {
 	protected TreeViewer createViewer(Composite parent) {
 		TreeViewer treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 		treeViewer.getTree().setHeaderVisible(true);
-		createColumn(treeViewer, "Name", 170);
-		createColumn(treeViewer, "#", 50);
+		createColumn(treeViewer, Messages.StudentGroupsView_Column_Name, 170);
+		createColumn(treeViewer, "#", 50); //$NON-NLS-1$
 		
 		nameListener = (Object src, String oldValue, String newValue) -> {
                 treeViewer.refresh(src, true);

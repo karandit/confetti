@@ -8,6 +8,7 @@ import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.extensions.EngineWizardDescr;
 import org.confetti.rcp.extensions.EngineWizardFactory;
 import org.confetti.rcp.extensions.EngineWizardRegistry;
+import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.views.AbstractEntityTableView;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -42,8 +43,8 @@ public class GenerateTimetableCommand extends AbstractHandler {
 				Control createDialogArea = super.createDialogArea(container);
 				Table table = getTableViewer().getTable();
 				table.setHeaderVisible(true);
-				AbstractEntityTableView.createColumn(table, "Name", 150);
-				AbstractEntityTableView.createColumn(table, "Author", 100);
+				AbstractEntityTableView.createColumn(table, Messages.GenerateTimetableCommand_Column_Name, 150);
+				AbstractEntityTableView.createColumn(table, Messages.GenerateTimetableCommand_Column_Author, 100);
 				return createDialogArea;
 			}
 			@Override 
@@ -51,8 +52,8 @@ public class GenerateTimetableCommand extends AbstractHandler {
 				return super.getTableStyle() | SWT.FULL_SELECTION;
 			}
 		};
-		dlg.setTitle("Generate Timetable");
-		dlg.setMessage("Choose an engine");
+		dlg.setTitle(Messages.GenerateTimetableCommand_Title);
+		dlg.setMessage(Messages.GenerateTimetableCommand_Message);
 		dlg.setContentProvider(new ArrayContentProvider());
 		dlg.setLabelProvider(new EngineLabelProvider());
 		List<EngineWizardDescr> extensions = EngineWizardRegistry.INSTANCE.getExtensions();

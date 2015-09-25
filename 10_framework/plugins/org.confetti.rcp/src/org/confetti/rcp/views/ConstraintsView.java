@@ -7,6 +7,7 @@ import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.Constraintable;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableListener;
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -20,7 +21,7 @@ import org.eclipse.ui.part.ViewPart;
 
 public class ConstraintsView extends ViewPart {
 	
-	public static final String ID = "org.confetti.rcp.constraintsView";
+	public static final String ID = "org.confetti.rcp.constraintsView"; //$NON-NLS-1$
 	
 	private ISelectionListener selectionListener;
 	private ObservableListener<ConstraintAttributes> attrListener; 
@@ -85,8 +86,8 @@ public class ConstraintsView extends ViewPart {
 	private static TableViewer createViewer(Composite parent) {
 		Table table = new Table(parent, SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		table.setHeaderVisible(true);
-		createColumn(table, "Type", 170);
-		createColumn(table, "Details", 200);
+		createColumn(table, Messages.ConstraintsView_Column_Type, 170);
+		createColumn(table, Messages.ConstraintsView_Column_Details, 200);
 		
 		TableViewer viewer = new TableViewer(table);
 		viewer.setContentProvider(new ArrayContentProvider());

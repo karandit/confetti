@@ -65,8 +65,8 @@ public enum ConnectionRegistry {
     }
 
     private ConnectionDescr createDescr(final IConfigurationElement element) throws CoreException {
-        String dbType = element.getAttribute("dbType");
-        ConnectionFactory factory = (ConnectionFactory) element.createExecutableExtension("factory");
+        String dbType = element.getAttribute("dbType"); //$NON-NLS-1$
+        ConnectionFactory factory = (ConnectionFactory) element.createExecutableExtension("factory"); //$NON-NLS-1$
 
         return new ConnectionDescr(dbType, factory);
     }

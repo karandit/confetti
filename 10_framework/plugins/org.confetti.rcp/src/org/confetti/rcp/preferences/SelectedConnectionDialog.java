@@ -1,6 +1,7 @@
 package org.confetti.rcp.preferences;
 
 import org.confetti.rcp.extensions.ConnectionFactory;
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -44,7 +45,7 @@ class SelectedConnectionDialog extends Dialog {
     @Override
     protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
-        newShell.setText("Configure the connection");
+        newShell.setText(Messages.SelectedConnectionDialog_Title);
     }
     
     @Override

@@ -1,6 +1,7 @@
 package org.confetti.rcp.wizards.pages;
 
 import org.confetti.rcp.extensions.OpenWizardDescr;
+import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.models.OpenTimetableModel;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -16,10 +17,10 @@ public class ChooseDataProviderWizardPage extends WizardPage {
 	private OpenTimetableModel model;
 
 	public ChooseDataProviderWizardPage(OpenTimetableModel model) {
-		super("chooseDataProvider");
+		super("chooseDataProvider"); //$NON-NLS-1$
 		this.model = model;
-		setTitle("Open");
-		setDescription("Choose a data provider");
+		setTitle(Messages.ChooseDataProviderWizardPage_Title);
+		setDescription(Messages.ChooseDataProviderWizardPage_Description);
 	}
 
 	@Override

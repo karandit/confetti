@@ -11,6 +11,7 @@ import org.confetti.core.StudentGroup;
 import org.confetti.observable.ObservableListener;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -24,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class InstituteView extends AbstractView<TreeViewer> {
 
-	public static final String ID = "org.confetti.rcp.instituteView";
+	public static final String ID = "org.confetti.rcp.instituteView"; //$NON-NLS-1$
 
 	private ObservableListener<String> instNameListener;
 	private ObservableListener<Assignment> assgCountListener;
@@ -33,8 +34,8 @@ public class InstituteView extends AbstractView<TreeViewer> {
 	protected TreeViewer createViewer(Composite parent) {
 		TreeViewer viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER | SWT.FULL_SELECTION);
 		viewer.getTree().setHeaderVisible(true);
-		createColumn(viewer, "Name", 170);
-		createColumn(viewer, "#", 50);
+		createColumn(viewer, Messages.InstituteView_Column_Name, 170);
+		createColumn(viewer, "#", 50); //$NON-NLS-1$
 		
 		instNameListener = (Object src, String oldValue, String newValue) -> {
 			viewer.refresh(Root.All, true);
@@ -61,19 +62,19 @@ public class InstituteView extends AbstractView<TreeViewer> {
 	
 	//----------------------------- helper classes ---------------------------------------------------------------------
 	enum Containers implements Nameable {
-		AllSubjects("All subjects") {
+		AllSubjects(Messages.InstituteView_All_Subjects) {
 			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getSubjects().getList(); }
 		},
-		AllTeachers("All teachers") {
+		AllTeachers(Messages.InstituteView_All_Teachers) {
 			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getTeachers().getList(); }
 		},
-		AllStudentGroups("All student groups") {
+		AllStudentGroups(Messages.InstituteView_All_StudentGroups) {
 			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getStudentGroups().getList(); }
 		},
-		AllRooms("All rooms") {
+		AllRooms(Messages.InstituteView_All_Rooms) {
 			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getRooms().getList(); }
 		},
-		AllTags("All tags") {
+		AllTags(Messages.InstituteView_All_Tags) {
 			@Override public Iterable<?> getChildren(DataProvider dp) { return dp.getTags().getList(); }
 		};
 		

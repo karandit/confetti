@@ -105,7 +105,7 @@ public class TimeTableModel extends KTableNoScrollModel {
 	public Object doGetContentAt(int col, int row) { 
 		switch (row) {
 			case 0:	switch (col) {
-				case 0: 	return "";
+				case 0: 	return ""; //$NON-NLS-1$
 				default: 	return days[col - 1];
 			}
 			default: switch (col) {
@@ -115,7 +115,7 @@ public class TimeTableModel extends KTableNoScrollModel {
 						Assignment ass = (Assignment) assignments[col][row];
 						return this.entity.accept(GetCellInfoVisitor.INSTANCE, ass);
 					} else {
-						return "";
+						return ""; //$NON-NLS-1$
 					}
 			}
 		}
@@ -142,13 +142,13 @@ public class TimeTableModel extends KTableNoScrollModel {
 
 		@Override public String visitSubject(Subject subject, Assignment ass) { return null; }
 		@Override public String visitTeacher(Teacher teacher, Assignment ass) { 
-			return ass.getSubject().getName().getValue() + "\n" + getNames(ass.getStudentGroups());
+			return ass.getSubject().getName().getValue() + "\n" + getNames(ass.getStudentGroups()); //$NON-NLS-1$
 		}
 		@Override public String visitStudentGroup(StudentGroup studentGroup, Assignment ass) { 
-			return ass.getSubject().getName().getValue() + "\n" + getNames(ass.getTeachers());
+			return ass.getSubject().getName().getValue() + "\n" + getNames(ass.getTeachers()); //$NON-NLS-1$
 		}
 		@Override public String visitRoom(Room room, Assignment ass) { 
-			return getNames(ass.getTeachers()) + "\n" + getNames(ass.getStudentGroups());
+			return getNames(ass.getTeachers()) + "\n" + getNames(ass.getStudentGroups()); //$NON-NLS-1$
 		}
 	}
 	

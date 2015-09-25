@@ -2,6 +2,7 @@ package org.confetti.rcp.wizards.pages;
 
 import static org.confetti.rcp.ConfettiPlugin.getImageDescriptor;
 
+import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.models.EditNameAndCommentModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -20,8 +21,8 @@ implements IWizardPageNavigatable {
 	private Text txtComment;
 	
 	public EditNameAndCommentPage(EditNameAndCommentModel model) {
-		super("pageName", "Name", getImageDescriptor(model.getImageKey()), model);
-		setDescription("Set the name and the comment");
+		super("pageName", Messages.EditNameAndCommentPage_Name, getImageDescriptor(model.getImageKey()), model); //$NON-NLS-1$
+		setDescription(Messages.EditNameAndCommentPage_Description);
 	}
 
 	@Override
@@ -40,7 +41,7 @@ implements IWizardPageNavigatable {
 		
 		//Name part with listener: if its empty the page isn't complete
 		Label name = new Label(compo, SWT.NONE);
-		name.setText("Name");
+		name.setText(Messages.General_Name);
 		txtName = new Text(compo, SWT.BORDER);
 		txtName.setText(getSafe(getModel().getName()));
 		setPageComplete(!txtName.getText().isEmpty());
@@ -49,7 +50,7 @@ implements IWizardPageNavigatable {
 		
 		//Comment part
 		Label cmnt = new Label(compo, SWT.NONE);
-		cmnt.setText("Comment");
+		cmnt.setText(Messages.General_Comment);
 		txtComment = new Text(compo, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		txtComment.setText(getSafe(getModel().getComment()));
 		txtComment.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -58,6 +59,6 @@ implements IWizardPageNavigatable {
 	}
 
 	private static String getSafe(final String value) {
-		return value == null ? "" : value;
+		return value == null ? "" : value; //$NON-NLS-1$
 	}
 }

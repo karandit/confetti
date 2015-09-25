@@ -9,6 +9,7 @@ import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.extensions.NewWizardDescr;
 import org.confetti.rcp.extensions.NewWizardFactory;
 import org.confetti.rcp.extensions.NewWizardRegistry;
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -33,8 +34,8 @@ public class SaveAsCommand extends AbstractHandler {
         ListDialog dlg = new ListDialog(shell);
         dlg.setContentProvider(new ArrayContentProvider());
         dlg.setLabelProvider(new LabelProvider());
-        dlg.setTitle("Save As");
-        dlg.setMessage("Choose an input");
+        dlg.setTitle(Messages.SaveAsCommand_Title);
+        dlg.setMessage(Messages.SaveAsCommand_Message);
         List<NewWizardDescr> extensions = NewWizardRegistry.INSTANCE.getExtensions();
         dlg.setInput(extensions); 
         if (Window.OK != dlg.open()) {

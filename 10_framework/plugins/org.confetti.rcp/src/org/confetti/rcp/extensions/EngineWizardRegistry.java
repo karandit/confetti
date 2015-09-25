@@ -55,9 +55,9 @@ public enum EngineWizardRegistry {
 	}
 
 	private EngineWizardDescr createDescr(final IConfigurationElement element) throws CoreException {
-		String name = element.getAttribute("name");
-		EngineWizardFactory factory = (EngineWizardFactory) element.createExecutableExtension("factory");
-		String author = element.getAttribute("author");
+		String name = element.getAttribute("name"); //$NON-NLS-1$
+		EngineWizardFactory factory = (EngineWizardFactory) element.createExecutableExtension("factory"); //$NON-NLS-1$
+		String author = element.getAttribute("author"); //$NON-NLS-1$
 
 		return new EngineWizardDescr(name, factory, author);
 	}

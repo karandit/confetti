@@ -25,35 +25,35 @@ import org.osgi.framework.BundleContext;
 public class ConfettiPlugin extends AbstractUIPlugin {
 
     //--------------------------- constants ----------------------------------------------------------------------------
-	public static final String IMG_SMALL_SUBJECT 		= "small_subject";
-	public static final String IMG_SMALL_TEACHER 		= "small_teacher";
-	public static final String IMG_SMALL_STUDENTGROUP 	= "small_studentgroup";
-	public static final String IMG_SMALL_ROOM 			= "small_room";
+	public static final String IMG_SMALL_SUBJECT 		= "small_subject"; //$NON-NLS-1$
+	public static final String IMG_SMALL_TEACHER 		= "small_teacher"; //$NON-NLS-1$
+	public static final String IMG_SMALL_STUDENTGROUP 	= "small_studentgroup"; //$NON-NLS-1$
+	public static final String IMG_SMALL_ROOM 			= "small_room"; //$NON-NLS-1$
 
-	public static final String IMG_BIG_SUBJECT			= "big_subject";
-	public static final String IMG_BIG_TEACHER			= "big_teacher";
-	public static final String IMG_BIG_STUDENTGROUP		= "big_studentgroup";
-	public static final String IMG_BIG_ROOM 			= "big_room";
+	public static final String IMG_BIG_SUBJECT			= "big_subject"; //$NON-NLS-1$
+	public static final String IMG_BIG_TEACHER			= "big_teacher"; //$NON-NLS-1$
+	public static final String IMG_BIG_STUDENTGROUP		= "big_studentgroup"; //$NON-NLS-1$
+	public static final String IMG_BIG_ROOM 			= "big_room"; //$NON-NLS-1$
 
-	public static final String IMG_BIG_HOUR 			= "big_hour";
-	public static final String IMG_BIG_DAY 				= "big_day";
-	public static final String IMG_BIG_INSTITUTE		= "big_institute";
-	public static final String IMG_BIG_TIMETABLE		= "big_timetable";
+	public static final String IMG_BIG_HOUR 			= "big_hour"; //$NON-NLS-1$
+	public static final String IMG_BIG_DAY 				= "big_day"; //$NON-NLS-1$
+	public static final String IMG_BIG_INSTITUTE		= "big_institute"; //$NON-NLS-1$
+	public static final String IMG_BIG_TIMETABLE		= "big_timetable"; //$NON-NLS-1$
 	
-	public static final String IMG_BIG_CLOUD 			= "big_cloud";
-	public static final String IMG_BIG_FILE				= "big_file";
-	public static final String IMG_BIG_DB				= "big_db";
-	public static final String IMG_BIG_ENGINE			= "big_engine";
+	public static final String IMG_BIG_CLOUD 			= "big_cloud"; //$NON-NLS-1$
+	public static final String IMG_BIG_FILE				= "big_file"; //$NON-NLS-1$
+	public static final String IMG_BIG_DB				= "big_db"; //$NON-NLS-1$
+	public static final String IMG_BIG_ENGINE			= "big_engine"; //$NON-NLS-1$
 	
 	//TODO remove these sample icons
-	public static final String IMG_SAMPLE				= "sample";
-	public static final String IMG_SAMPLE2				= "sample2";
-	public static final String IMG_SAMPLE3				= "sample3";
+	public static final String IMG_SAMPLE				= "sample"; //$NON-NLS-1$
+	public static final String IMG_SAMPLE2				= "sample2"; //$NON-NLS-1$
+	public static final String IMG_SAMPLE3				= "sample3"; //$NON-NLS-1$
 
 	
 	//---preference related stuff ----------------------------
-    public static final String KEY_CONNECTIONS = "CONNECTIONS";
-    public static final String KEY_TYPE = "TYPE";
+    public static final String KEY_CONNECTIONS = "CONNECTIONS"; //$NON-NLS-1$
+    public static final String KEY_TYPE = "TYPE"; //$NON-NLS-1$
 
 	
 	//The shared instance.
@@ -164,7 +164,8 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 		this.dataPersister = dataPersister;
         dpMutator.setValue(this, value);
         if (value != null) {
-            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().setText("Confetti - " + value.getInformation());
+            PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
+            	.setText("Confetti - " + value.getInformation()); //$NON-NLS-1$
         }
 	}
 	
@@ -172,10 +173,10 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	    IPreferenceStore preferenceStore = getPreferenceStore();
 	    List<Tuple<String, String>> connNamesAndTypes = new LinkedList<>();
         String connNamesCSV = preferenceStore.getString(KEY_CONNECTIONS);
-        String[] connNames = connNamesCSV.split(",");
+        String[] connNames = connNamesCSV.split(","); //$NON-NLS-1$
         for (String connName : connNames) {
             if (!connName.isEmpty()) {
-                String connType = preferenceStore.getString(connName + "_" + KEY_TYPE);
+                String connType = preferenceStore.getString(connName + "_" + KEY_TYPE); //$NON-NLS-1$
                 connNamesAndTypes.add(new Tuple<>(connName, connType));
             }
         }

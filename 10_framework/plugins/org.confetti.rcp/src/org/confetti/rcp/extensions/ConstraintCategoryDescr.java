@@ -11,7 +11,7 @@ public class ConstraintCategoryDescr implements IConstraintElement {
 	private final List<IConstraintElement> items = new LinkedList<>();
 
 	public ConstraintCategoryDescr(IConfigurationElement element) {
-		name = element.getAttribute("name");
+		name = element.getAttribute("name"); //$NON-NLS-1$
 		for (IConfigurationElement child : element.getChildren()) {
 			ConstraintElementParser parser = ConstraintElementParser.getByName(child.getName());
 			items.add(parser.parse(child));

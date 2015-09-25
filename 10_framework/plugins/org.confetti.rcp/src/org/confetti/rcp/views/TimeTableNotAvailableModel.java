@@ -1,6 +1,9 @@
 package org.confetti.rcp.views;
 
 import static de.kupzog.ktable.renderers.DefaultCellRenderer.STYLE_FLAT;
+
+import org.confetti.rcp.nls.Messages;
+
 import de.kupzog.ktable.KTable;
 import de.kupzog.ktable.KTableCellEditor;
 import de.kupzog.ktable.KTableCellRenderer;
@@ -39,7 +42,7 @@ public class TimeTableNotAvailableModel extends KTableNoScrollModel {
 	@Override public void doSetContentAt(int arg0, int arg1, Object arg2) 		{ } 
 	@Override
 	public Object doGetContentAt(int col, int row) { 
-		return "Timetable not available";
+		return Messages.TimeTableNotAvailable;
 	}
 	
 }

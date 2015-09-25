@@ -19,9 +19,9 @@ public class ConstraintDescr implements IConstraintElement {
 
     public ConstraintDescr(IConfigurationElement element) {
         IExtension declaringExtension = element.getDeclaringExtension();
-    	id = declaringExtension.getNamespaceIdentifier() + "." + element.getAttribute("id");
-        name = element.getAttribute("name");
-        description = element.getAttribute("description");
+    	id = declaringExtension.getNamespaceIdentifier() + "." + element.getAttribute("id"); //$NON-NLS-1$ //$NON-NLS-2$
+        name = element.getAttribute("name"); //$NON-NLS-1$
+        description = element.getAttribute("description"); //$NON-NLS-1$
         for (IConfigurationElement childrenElement : element.getChildren()) {
             fields.add(new ConstraintField(childrenElement));
         }

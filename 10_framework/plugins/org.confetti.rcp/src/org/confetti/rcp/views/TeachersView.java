@@ -6,7 +6,7 @@ import org.confetti.observable.ObservableList;
 
 public class TeachersView extends AbstractEntityTableView<Teacher> {
 
-	public static final String ID = "org.confetti.rcp.teachersView";
+	public static final String ID = "org.confetti.rcp.teachersView"; //$NON-NLS-1$
 
 	@Override protected ObservableList<Teacher> getObservableList(DataProvider dp) { return dp.getTeachers(); }
 	

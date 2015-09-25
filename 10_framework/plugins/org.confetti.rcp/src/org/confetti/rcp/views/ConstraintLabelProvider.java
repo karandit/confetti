@@ -23,7 +23,7 @@ class ConstraintLabelProvider extends LabelProvider implements ITableLabelProvid
 		ConstraintRegistry reg = ConstraintRegistry.INSTANCE;
 		ConstraintDescr constraintDescr = reg.getConstraintDescrById(constraint.getConstraintType());
 		if (constraintDescr == null) {
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 		
 		switch (columnIndex) {
@@ -32,10 +32,10 @@ class ConstraintLabelProvider extends LabelProvider implements ITableLabelProvid
 			case 1: 
 				ConstraintAttributes attrs = constraint.getAttributes().getValue();
 				return 
-					join("; ", 
+					join("; ",  //$NON-NLS-1$
 					transform(constraintDescr.getFields(), field -> 
-					format("%s = %s", field.getLabel(), field.getType().accept(PRETTY_PRINT, field.getName(), attrs))));
-			default: return "";
+					format("%s = %s", field.getLabel(), field.getType().accept(PRETTY_PRINT, field.getName(), attrs)))); //$NON-NLS-1$
+			default: return ""; //$NON-NLS-1$
 		}
 	}
 }

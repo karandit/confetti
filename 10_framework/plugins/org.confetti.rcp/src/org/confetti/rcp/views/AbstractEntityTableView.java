@@ -5,6 +5,7 @@ import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableListener;
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -49,8 +50,8 @@ public abstract class AbstractEntityTableView<T extends Entity> extends Abstract
 	}
 
 	protected void createColumns(Table table) {
-		createColumn(table, "Name", 170);
-		createColumn(table, "#", 50);
+		createColumn(table, Messages.AbstractEntityTableView_Column_Name, 170);
+		createColumn(table, "#", 50); //$NON-NLS-1$
 	}
 	
 	@Override protected Object getInput(DataProvider dp) { return getObservableList(dp).getList(); }

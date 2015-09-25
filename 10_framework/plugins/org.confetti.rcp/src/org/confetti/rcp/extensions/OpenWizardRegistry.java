@@ -52,8 +52,8 @@ public enum OpenWizardRegistry {
 	}
 
 	private OpenWizardDescr createDescr(final IConfigurationElement element) throws CoreException {
-		String name = element.getAttribute("name");
-		OpenWizardFactory factory = (OpenWizardFactory) element.createExecutableExtension("factory");
+		String name = element.getAttribute("name"); //$NON-NLS-1$
+		OpenWizardFactory factory = (OpenWizardFactory) element.createExecutableExtension("factory"); //$NON-NLS-1$
 
 		return new OpenWizardDescr(name, factory);
 	}

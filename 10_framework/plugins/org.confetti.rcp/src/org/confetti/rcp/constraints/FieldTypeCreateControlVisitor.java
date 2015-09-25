@@ -89,14 +89,14 @@ public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, C
 	@Override
 	public Control visitPeriod(Composite parent, ConstraintAttribute<?> attribute) {
     	Button button = new Button(parent, SWT.PUSH);
-		button.setText("Period Field NOT IMPLEMENTED");
+		button.setText("Period Field NOT IMPLEMENTED"); //$NON-NLS-1$
     	return button;
     }
 
 	@Override
 	public Control visitInterval(Composite parent, ConstraintAttribute<?> attribute) {
     	Button button = new Button(parent, SWT.PUSH);
-		button.setText("Interval Field NOT IMPLEMENTED");
+		button.setText("Interval Field NOT IMPLEMENTED"); //$NON-NLS-1$
     	return button;
     }
 
@@ -130,7 +130,7 @@ public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, C
             @Override
             public String getText(Object element) {
             	Assignment ass = (Assignment) element;
-                return String.format("[%-30s][%-30s][%-30s]"
+                return String.format("[%-30s][%-30s][%-30s]" //$NON-NLS-1$
                 		, safeGetName(ass.getSubject())
                 		, toStr(ass.getStudentGroups().getList())
                 		, toStr(ass.getTeachers().getList())
@@ -142,14 +142,14 @@ public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, C
 	@Override
 	public Control visitAssignmentsSet(Composite parent, ConstraintAttribute<?> attribute) {
     	Button button = new Button(parent, SWT.PUSH);
-		button.setText("AssignmentSet Field NOT IMPLEMENTED");
+		button.setText("AssignmentSet Field NOT IMPLEMENTED"); //$NON-NLS-1$
     	return button;
     }
 
 	@Override
 	public Control visitAssignmentsCriteria(Composite parent, ConstraintAttribute<?> attribute) {
     	Button button = new Button(parent, SWT.PUSH);
-		button.setText("AssignmentsCriteria Field NOT IMPLEMENTED");
+		button.setText("AssignmentsCriteria Field NOT IMPLEMENTED"); //$NON-NLS-1$
     	return button;
     }
 	
@@ -162,7 +162,7 @@ public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, C
 	@Override
 	public Control visitRoomsSet(Composite parent, ConstraintAttribute<?> attribute) {
     	Button button = new Button(parent, SWT.PUSH);
-		button.setText("RoomSet Field NOT IMPLEMENTED");
+		button.setText("RoomSet Field NOT IMPLEMENTED"); //$NON-NLS-1$
     	return button;
     }
 
@@ -174,7 +174,7 @@ public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, C
     //---------------- helpers -----------------------------------------------------------------------------------------
     static String safeGetName(Nameable ent) {
     	String name = AssignmentsView.getName(ent);
-		return name == null ? "" : name;
+		return name == null ? "" : name; //$NON-NLS-1$
     }
     
     @SuppressWarnings("unchecked")
@@ -188,7 +188,7 @@ public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, C
     private static String indent(int count) {
     	StringBuilder sb = new StringBuilder();
     	for (int i = 0; i < count; i++) {
-			sb.append("  ");
+			sb.append("  "); //$NON-NLS-1$
 		}
     	return sb.toString();
     }

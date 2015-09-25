@@ -17,7 +17,7 @@ public class InsertEntriesWizardPage extends ModelableWizardPage<InsertEntriesMo
 	private Text text;
 	
 	public InsertEntriesWizardPage(InsertEntriesModel model) {
-		super("Input", model.getInsertEntriesPageTitle(), getImageDescriptor(model.getInsertEntriesPageImageKey()), model);
+		super("Input", model.getInsertEntriesPageTitle(), getImageDescriptor(model.getInsertEntriesPageImageKey()), model); //$NON-NLS-1$
 		setDescription(getModel().getInsertEntriesPageDescription());
 		setPageComplete(false);
 	}
@@ -45,9 +45,9 @@ public class InsertEntriesWizardPage extends ModelableWizardPage<InsertEntriesMo
 	}
 	
 	private static List<String> extractNames(String text) {
-		String[] lines = text.split("\\r?\\n");
+		String[] lines = text.split("\\r?\\n"); //$NON-NLS-1$
 		List<String> names = new ArrayList<>(Arrays.asList(lines));
-		names.removeAll(Arrays.asList(""));
+		names.removeAll(Arrays.asList("")); //$NON-NLS-1$
 		List<String> trimmedNames = new LinkedList<>();
 		for (String name : names) {
 			trimmedNames.add(name.trim());

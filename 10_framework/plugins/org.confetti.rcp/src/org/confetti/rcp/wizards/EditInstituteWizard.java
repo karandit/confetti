@@ -1,5 +1,6 @@
 package org.confetti.rcp.wizards;
 
+import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.models.EditInstituteModel;
 import org.confetti.rcp.wizards.pages.EditNameAndCommentPage;
 import org.confetti.rcp.wizards.pages.IWizardPageNavigatable;
@@ -11,7 +12,7 @@ public class EditInstituteWizard extends Wizard {
 	
 	public EditInstituteWizard(EditInstituteModel model) {
 		this.model = model;
-		setWindowTitle("Edit institute");
+		setWindowTitle(Messages.EditInstituteWizard_Title);
 	}
 
 	@Override

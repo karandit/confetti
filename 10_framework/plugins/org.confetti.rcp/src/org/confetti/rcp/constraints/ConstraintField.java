@@ -13,8 +13,8 @@ public class ConstraintField {
     private final FieldType type;
     
     public ConstraintField(IConfigurationElement element) {
-        this.name = element.getAttribute("name");
-        this.label = element.getAttribute("label");
+        this.name = element.getAttribute("name"); //$NON-NLS-1$
+        this.label = element.getAttribute("label"); //$NON-NLS-1$
         this.type = FieldType.getByType(element.getName());
     }
 

@@ -55,8 +55,8 @@ public enum NewWizardRegistry {
 	}
 
 	private NewWizardDescr createDescr(final IConfigurationElement element) throws CoreException {
-		String name = element.getAttribute("name");
-		NewWizardFactory factory = (NewWizardFactory) element.createExecutableExtension("factory");
+		String name = element.getAttribute("name"); //$NON-NLS-1$
+		NewWizardFactory factory = (NewWizardFactory) element.createExecutableExtension("factory"); //$NON-NLS-1$
 
 		return new NewWizardDescr(name, factory);
 	}

@@ -53,11 +53,11 @@ public class EntityTableLabelProvider extends LabelProvider implements ITableLab
 		switch (columnIndex) {
 			case 0: return element instanceof Nameable 
 					? ((Nameable) element).getName().getValue() 
-					: "";
+					: ""; //$NON-NLS-1$
 			case 1: return element instanceof Assignable 
 					? Integer.toString(Iterables.size(((Assignable) element).getAssignments().getList())) 
-					: "";
-			default: return "";
+					: ""; //$NON-NLS-1$
+			default: return ""; //$NON-NLS-1$
 		}
 	}
 }

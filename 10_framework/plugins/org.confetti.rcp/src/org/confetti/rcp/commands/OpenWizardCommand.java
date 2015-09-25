@@ -7,6 +7,7 @@ import java.util.List;
 import org.confetti.rcp.extensions.OpenWizardDescr;
 import org.confetti.rcp.extensions.OpenWizardFactory;
 import org.confetti.rcp.extensions.OpenWizardRegistry;
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -36,8 +37,8 @@ public class OpenWizardCommand extends AbstractHandler {
         ListDialog dlg = new ListDialog(shell);
         dlg.setContentProvider(new ArrayContentProvider());
         dlg.setLabelProvider(new LabelProvider());
-        dlg.setTitle("Open");
-        dlg.setMessage("Choose an input");
+        dlg.setTitle(Messages.OpenWizardCommand_Title);
+        dlg.setMessage(Messages.OpenWizardCommand_Message);
         dlg.setInput(extensions); 
         if (Window.OK != dlg.open()) {
             return null;
@@ -51,7 +52,7 @@ public class OpenWizardCommand extends AbstractHandler {
         WizardDialog dialog = new WizardDialog(shell, wizardFactory.createWizard());
         watchWizardDialog(dialog);
         //TODO: title doesn't showing
-        dialog.setTitle("Open...");
+        dialog.setTitle(Messages.OpenWizardCommand_Label);
         dialog.open();
         
         return null;

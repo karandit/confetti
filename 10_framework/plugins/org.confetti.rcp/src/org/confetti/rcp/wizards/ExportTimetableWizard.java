@@ -24,6 +24,7 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
 import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.models.ExportTimetableModel;
 import org.confetti.rcp.wizards.pages.FolderChooseWizardPage;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -46,46 +47,46 @@ public class ExportTimetableWizard extends Wizard {
         MATRIX {
             @Override
             public void print(PrintStream out, List<String> days, List<String> hours, String name, List<List<String>> timetable) {
-                out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\nhttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
-                out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
+                out.println("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\nhttp://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"); //$NON-NLS-1$
+                out.println("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">"); //$NON-NLS-1$
                 out.println();
                 
-                out.println("<head>");
-                out.println("\t<title>" + name + "</title>");
-                out.println("</head>");
+                out.println("<head>"); //$NON-NLS-1$
+                out.println("\t<title>" + name + "</title>"); //$NON-NLS-1$ //$NON-NLS-2$
+                out.println("</head>"); //$NON-NLS-1$
                 out.println();
                 
-                out.println("<body>");
+                out.println("<body>"); //$NON-NLS-1$
                 out.println();
                 
-                out.println("\t<table border=\"1\">");
-                out.println("\t\t<caption>" + name + "</caption>");
-                out.println("\t\t<thead>");
-                out.println("\t\t\t<tr>");
-                out.println("\t\t\t\t<th></th>");
+                out.println("\t<table border=\"1\">"); //$NON-NLS-1$
+                out.println("\t\t<caption>" + name + "</caption>"); //$NON-NLS-1$ //$NON-NLS-2$
+                out.println("\t\t<thead>"); //$NON-NLS-1$
+                out.println("\t\t\t<tr>"); //$NON-NLS-1$
+                out.println("\t\t\t\t<th></th>"); //$NON-NLS-1$
                 for (String day : days) {
-                    out.println("\t\t\t\t<th>" + day + "</th>");
+                    out.println("\t\t\t\t<th>" + day + "</th>"); //$NON-NLS-1$ //$NON-NLS-2$
                 }
-                out.println("\t\t\t</tr>");
-                out.println("\t\t</thead>");
-                out.println("\t\t<tbody>");
+                out.println("\t\t\t</tr>"); //$NON-NLS-1$
+                out.println("\t\t</thead>"); //$NON-NLS-1$
+                out.println("\t\t<tbody>"); //$NON-NLS-1$
                 int hourCounter = 0;
                 for (List<String> hour : timetable) {
-                    out.println("\t\t\t<tr>");
-                    out.println("\t\t\t\t<th>" + hours.get(hourCounter++) + "</th>");
+                    out.println("\t\t\t<tr>"); //$NON-NLS-1$
+                    out.println("\t\t\t\t<th>" + hours.get(hourCounter++) + "</th>"); //$NON-NLS-1$ //$NON-NLS-2$
                     for (String day : hour) {
-                        out.println("\t\t\t\t<td>" + day + "</td>");
+                        out.println("\t\t\t\t<td>" + day + "</td>"); //$NON-NLS-1$ //$NON-NLS-2$
                     }
-                    out.println("\t\t\t</tr>");
+                    out.println("\t\t\t</tr>"); //$NON-NLS-1$
                 }
-                out.println("\t\t</tbody>");
-                out.println("\t</table>");
+                out.println("\t\t</tbody>"); //$NON-NLS-1$
+                out.println("\t</table>"); //$NON-NLS-1$
                 
                 out.println();
-                out.println("</body>");
+                out.println("</body>"); //$NON-NLS-1$
                 out.println();
                 
-                out.println("</html>");
+                out.println("</html>"); //$NON-NLS-1$
             }
         };
 
@@ -95,7 +96,7 @@ public class ExportTimetableWizard extends Wizard {
 
     public ExportTimetableWizard() {
         model = new ExportTimetableModel(null);
-        setWindowTitle("Export timetables");
+        setWindowTitle(Messages.ExportTimetableWizard_Title);
     }
     
     @Override
@@ -106,11 +107,11 @@ public class ExportTimetableWizard extends Wizard {
     @Override
     public boolean performFinish() {
         try {
-            File folderPath = new File(model.getFolderPath(), "timetables");
+            File folderPath = new File(model.getFolderPath(), "timetables"); //$NON-NLS-1$
             folderPath.mkdir();
             exportTimetables(folderPath);
         } catch (IOException e) {
-            MessageDialog.openError(Display.getDefault().getActiveShell(), "Error", "Could not create the files\n\n" + e.getMessage());
+            MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.ExportTimetableWizard_Error, Messages.ExportTimetableWizard_Warning_CouldNotCreateFiles + e.getMessage());
             e.printStackTrace();
         }
         return true;
@@ -167,8 +168,8 @@ public class ExportTimetableWizard extends Wizard {
     private void export(File folderPath, List<String> days, List<String> hours, Map<Teacher, List<SolutionSlot>> teachersTimetable,
             Map<StudentGroup, List<SolutionSlot>> studentGroupsTimetable
     ) throws IOException {
-        File teachersFolder = new File(folderPath, "teachers");
-        File studentGroupsFolder = new File(folderPath, "studentgroups");
+        File teachersFolder = new File(folderPath, "teachers"); //$NON-NLS-1$
+        File studentGroupsFolder = new File(folderPath, "studentgroups"); //$NON-NLS-1$
         teachersFolder.mkdir();
         studentGroupsFolder.mkdir();
         
@@ -178,11 +179,11 @@ public class ExportTimetableWizard extends Wizard {
             for (SolutionSlot solutionSlot : entry.getValue()) {
                         teacherTimetable.get(hours.indexOf(solutionSlot.getHour().getName().getValue())).set(days.indexOf(solutionSlot.getDay().getName().getValue()),
                         solutionSlot.getAssignment().getSubject().getName().getValue()
-                        + "<br />"
+                        + "<br />" //$NON-NLS-1$
                         + getNames(solutionSlot.getAssignment().getStudentGroups()));
                 
             }
-            try (PrintStream out = new PrintStream(new File(teachersFolder, teacherName + ".html"))) {
+            try (PrintStream out = new PrintStream(new File(teachersFolder, teacherName + ".html"))) { //$NON-NLS-1$
                 MATRIX.print(out, days, hours, teacherName, teacherTimetable);
             }
         }
@@ -192,11 +193,11 @@ public class ExportTimetableWizard extends Wizard {
             for (SolutionSlot solutionSlot : entry.getValue()) {
                 studentGroupTimetable.get(hours.indexOf(solutionSlot.getHour().getName().getValue())).set(days.indexOf(solutionSlot.getDay().getName().getValue()),
                         solutionSlot.getAssignment().getSubject().getName().getValue()
-                        + "<br />"
+                        + "<br />" //$NON-NLS-1$
                         + getNames(solutionSlot.getAssignment().getTeachers()));
                 
             }
-            try (PrintStream out = new PrintStream(new File(studentGroupsFolder, studentGroupName + ".html"))) {
+            try (PrintStream out = new PrintStream(new File(studentGroupsFolder, studentGroupName + ".html"))) { //$NON-NLS-1$
                 MATRIX.print(out, days, hours, studentGroupName, studentGroupTimetable);
             }
         }
@@ -205,55 +206,55 @@ public class ExportTimetableWizard extends Wizard {
     }
     
     private void exportToHTMLIndex(File folderPath) throws IOException {
-        try (PrintStream out = new PrintStream(new File(folderPath, "index.html"))) {
-            out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\">");
-            out.println("<html>");
+        try (PrintStream out = new PrintStream(new File(folderPath, "index.html"))) { //$NON-NLS-1$
+            out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\">"); //$NON-NLS-1$
+            out.println("<html>"); //$NON-NLS-1$
             
-            out.println("<head>");
-            out.println("<title>Index</title>");
-            out.println("</head>");
+            out.println("<head>"); //$NON-NLS-1$
+            out.println("<title>Index</title>"); //$NON-NLS-1$
+            out.println("</head>"); //$NON-NLS-1$
             
-            out.println("<frameset cols=\"20%,80%\">");
-            out.println("<frame src=\"overview-frame.html\">");
-            out.println("<frame name=\"entityFrame\" scrolling=\"yes\">");
-            out.println("</frameset");
+            out.println("<frameset cols=\"20%,80%\">"); //$NON-NLS-1$
+            out.println("<frame src=\"overview-frame.html\">"); //$NON-NLS-1$
+            out.println("<frame name=\"entityFrame\" scrolling=\"yes\">"); //$NON-NLS-1$
+            out.println("</frameset"); //$NON-NLS-1$
             
-            out.println("</html>");
+            out.println("</html>"); //$NON-NLS-1$
         }
     }
 
     private void exportToHTMLFrame(File folderPath, Map<Teacher, List<SolutionSlot>> teachersTimetable,
             Map<StudentGroup, List<SolutionSlot>> studentGroupsTimetable
     ) throws IOException {
-        try (PrintStream out = new PrintStream(new File(folderPath, "overview-frame.html"))) {
-            out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
-            out.println("<html>");
+        try (PrintStream out = new PrintStream(new File(folderPath, "overview-frame.html"))) { //$NON-NLS-1$
+            out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"); //$NON-NLS-1$
+            out.println("<html>"); //$NON-NLS-1$
             
-            out.println("<head>");
-            out.println("<title>Overview list</title>");
-            out.println("</head>");
+            out.println("<head>"); //$NON-NLS-1$
+            out.println("<title>Overview list</title>"); //$NON-NLS-1$
+            out.println("</head>"); //$NON-NLS-1$
             
-            out.println("<body>");
-            out.println("<h2>Teachers</h2>");
-            out.println("<ul>");
+            out.println("<body>"); //$NON-NLS-1$
+            out.println("<h2>Teachers</h2>"); //$NON-NLS-1$
+            out.println("<ul>"); //$NON-NLS-1$
             List<String> teacherNames = convertToNames(teachersTimetable.keySet());
             Collections.sort(teacherNames);
             for (String name : teacherNames) {
-                out.println("<li><a href=\"teachers/" + name + ".html\" target=\"entityFrame\">" + name + "</a></li>");
+                out.println("<li><a href=\"teachers/" + name + ".html\" target=\"entityFrame\">" + name + "</a></li>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
-            out.println("</ul>");
+            out.println("</ul>"); //$NON-NLS-1$
             
-            out.println("<h2>Student groups</h2>");
-            out.println("<ul>");
+            out.println("<h2>Student groups</h2>"); //$NON-NLS-1$
+            out.println("<ul>"); //$NON-NLS-1$
             List<String> studentGroupNames = convertToNames(studentGroupsTimetable.keySet());
             Collections.sort(studentGroupNames);
             for (String name : studentGroupNames) {
-                out.println("<li><a href=\"studentgroups/" + name + ".html\" target=\"entityFrame\">" + name + "</a></li>");
+                out.println("<li><a href=\"studentgroups/" + name + ".html\" target=\"entityFrame\">" + name + "</a></li>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
             }
-            out.println("</ul>");
-            out.println("</body>");
+            out.println("</ul>"); //$NON-NLS-1$
+            out.println("</body>"); //$NON-NLS-1$
             
-            out.println("</html>");
+            out.println("</html>"); //$NON-NLS-1$
         }
     }
 
@@ -269,7 +270,7 @@ public class ExportTimetableWizard extends Wizard {
         for (int i = 0; i < hoursSize; i++) {
             List<String> hoursList = new ArrayList<>();
             for (int j = 0; j < daysSize; j++) {
-                hoursList.add("");
+                hoursList.add(""); //$NON-NLS-1$
             }
             emptyTimetable.add(hoursList);
         }

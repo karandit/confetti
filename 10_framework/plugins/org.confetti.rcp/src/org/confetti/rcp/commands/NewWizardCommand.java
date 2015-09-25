@@ -27,6 +27,7 @@ import org.confetti.observable.ValueMutator;
 import org.confetti.rcp.extensions.NewWizardDescr;
 import org.confetti.rcp.extensions.NewWizardFactory;
 import org.confetti.rcp.extensions.NewWizardRegistry;
+import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.NewTimetableWizard;
 import org.confetti.rcp.wizards.models.NewTimetableModel;
 import org.confetti.rcp.wizards.models.NewTimetableModel.NewEntryModel;
@@ -56,7 +57,7 @@ public class NewWizardCommand extends AbstractHandler {
         {
             WizardDialog dialog = new WizardDialog(shell, new NewTimetableWizard(model));
             watchWizardDialog(dialog);
-            dialog.setTitle("New...");
+            dialog.setTitle(Messages.NewWizardCommand_Label);
             if (Window.OK != dialog.open()) {
                 return null;
             }
@@ -66,8 +67,8 @@ public class NewWizardCommand extends AbstractHandler {
         ListDialog dlg = new ListDialog(shell);
         dlg.setContentProvider(new ArrayContentProvider());
         dlg.setLabelProvider(new LabelProvider());
-        dlg.setTitle("New");
-        dlg.setMessage("Choose an input");
+        dlg.setTitle(Messages.NewWizardCommand_Title);
+        dlg.setMessage(Messages.NewWizardCommand_Message);
         List<NewWizardDescr> extensions = NewWizardRegistry.INSTANCE.getExtensions();
         dlg.setInput(extensions); 
         if (Window.OK != dlg.open()) {

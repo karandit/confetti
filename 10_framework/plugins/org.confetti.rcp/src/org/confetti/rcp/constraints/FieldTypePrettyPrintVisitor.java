@@ -46,19 +46,19 @@ public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor<String, Stri
 	@Override
 	public String visitWeek(String key, ConstraintAttributes attrs) {
     	return Iterables.toString(transform(attrs.asWeek(key), 
-    			tuple -> safeGetName(tuple.getFirst()) + " " + safeGetName(tuple.getSecond())));
+    			tuple -> safeGetName(tuple.getFirst()) + " " + safeGetName(tuple.getSecond()))); //$NON-NLS-1$
     }
 
 	@Override
 	public String visitPeriod(String key, ConstraintAttributes attrs) {
     	Tuple<Day, Hour> period = attrs.asPeriod(key);
-		return safeGetName(period.getFirst()) + " " + safeGetName(period.getSecond());
+		return safeGetName(period.getFirst()) + " " + safeGetName(period.getSecond()); //$NON-NLS-1$
     }
 
 	@Override
 	public String visitInterval(String key, ConstraintAttributes attrs) {
     	Tuple<Hour, Hour> interval = attrs.asInterval(key);
-		return safeGetName(interval.getFirst()) + " " + safeGetName(interval.getSecond());
+		return safeGetName(interval.getFirst()) + " " + safeGetName(interval.getSecond()); //$NON-NLS-1$
     }
 	
 	@Override
@@ -84,7 +84,7 @@ public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor<String, Stri
 	@Override
 	public String visitAssignmentsCriteria(String key, ConstraintAttributes attrs) {
     	Triple<Subject, Teacher, StudentGroup> triple = attrs.asAssignmentsCriteria(key);
-    	return String.format("%s %s %s"
+    	return String.format("%s %s %s" //$NON-NLS-1$
         		, safeGetName(triple.getFirst())
         		, safeGetName(triple.getSecond())
         		, safeGetName(triple.getThird())
@@ -109,15 +109,15 @@ public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor<String, Stri
 	//---------------- helpers -----------------------------------------------------------------------------------------
     private static String convertAssignmentToString(Assignment ass) {
 		StringBuilder sb = new StringBuilder()
-    	.append("{")
+    	.append("{") //$NON-NLS-1$
     	.append(safeGetName(ass.getSubject()))
-    	.append("/")
+    	.append("/") //$NON-NLS-1$
     	.append(Iterables.toString(Iterables.transform(
     			ass.getTeachers().getList(), FieldTypeCreateControlVisitor::safeGetName)))
-    	.append("/")
+    	.append("/") //$NON-NLS-1$
     	.append(Iterables.toString(Iterables.transform(
     			ass.getStudentGroups().getList(), FieldTypeCreateControlVisitor::safeGetName)));
-    	sb.append("}");
+    	sb.append("}"); //$NON-NLS-1$
 		return sb.toString();
 	}
 	

@@ -12,6 +12,7 @@ import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
 import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.rcp.nls.Messages;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -38,15 +39,15 @@ public class RenameEntityCommand extends AbstractHandler {
 	    }
 		IStructuredSelection strucSelection = (IStructuredSelection) selection;
 		final Entity sel = (Entity) strucSelection.getFirstElement();
-		InputDialog inputDialog = new InputDialog(Display.getDefault().getActiveShell(), "Rename", "Please enter a new name", sel.getName().getValue(), 
+		InputDialog inputDialog = new InputDialog(Display.getDefault().getActiveShell(), Messages.RenameEntityCommand_Title, Messages.RenameEntityCommand_Description, sel.getName().getValue(), 
 				new IInputValidator() {
 					@Override
 					public String isValid(String newText) {
 						if (newText.isEmpty()) {
-							return "Name must be at least 1 character!";
+							return Messages.RenameEntityCommand_Warning_TooShort;
 						}
 						if (!isUnique(sel, newText)) {
-							return "New name is not unique!";
+							return Messages.RenameEntityCommand_Warning_NotUnique;
 						}
 						return null;
 					}

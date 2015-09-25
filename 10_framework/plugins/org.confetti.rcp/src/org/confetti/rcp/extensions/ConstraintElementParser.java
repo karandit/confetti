@@ -11,8 +11,8 @@ public enum ConstraintElementParser {
 	
 	public static ConstraintElementParser getByName(final String name) {
 		switch (name.toLowerCase()) {
-		case "category": 		return Category;
-		case "constraint": 		return Constraint;
+		case "category": 		return Category; //$NON-NLS-1$
+		case "constraint": 		return Constraint; //$NON-NLS-1$
 		default : 				return Separator;
 		}
 	}
