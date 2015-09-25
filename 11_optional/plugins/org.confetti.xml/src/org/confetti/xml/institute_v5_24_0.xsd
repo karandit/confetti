@@ -195,8 +195,8 @@
     <xs:sequence>
       <xs:element name="Institution_Name" type="xs:string" minOccurs="0"/>
       <xs:element name="Comments" type="xs:string" minOccurs="0"/>
-      <xs:element name="Hours_List" type="hours_type" minOccurs="0"/>
       <xs:element name="Days_List" type="days_type" minOccurs="0"/>
+      <xs:element name="Hours_List" type="hours_type" minOccurs="0"/>
       <xs:element name="Students_List" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
@@ -356,31 +356,42 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="Timetable_Generation_Options_List" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="GroupActivitiesInInitialOrder" type="generationoption_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="version" type="xs:string"/>
   </xs:complexType>
 
-  <xs:complexType name="hours_type">
-    <xs:sequence>
-      <xs:element name="Number" type="xs:int"/>
-      <xs:element name="Name" type="hour_type" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:simpleType name="hour_type">
-    <xs:restriction base="xs:string"/>
-  </xs:simpleType>
-
   <xs:complexType name="days_type">
     <xs:sequence>
-      <xs:element name="Number" type="xs:int"/>
-      <xs:element name="Name" type="day_type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Number_of_Days" type="xs:int"/>
+      <xs:element name="Day" type="day_type" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:simpleType name="day_type">
-    <xs:restriction base="xs:string"/>
-  </xs:simpleType>
+  <xs:complexType name="day_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="hours_type">
+    <xs:sequence>
+      <xs:element name="Number_of_Hours" type="xs:int"/>
+      <xs:element name="Hour" type="hour_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="hour_type">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:complexType name="year_type">
     <xs:sequence>
@@ -1464,6 +1475,15 @@
       <xs:element name="Students" type="xs:string" minOccurs="0"/>
       <xs:element name="Number_of_Preferred_Rooms" type="xs:int"/>
       <xs:element name="Preferred_Room" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Active" type="xs:boolean"/>
+      <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generationoption_type">
+    <xs:sequence>
+      <xs:element name="Number_of_Activities" type="xs:int"/>
+      <xs:element name="Activity_Id" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="Active" type="xs:boolean"/>
       <xs:element name="Comments" type="xs:string" minOccurs="0"/>
     </xs:sequence>
