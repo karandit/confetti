@@ -30,4 +30,4 @@ Import-Package: org.confetti.rcp,
  org.confetti.rcp.constraints,
  org.confetti.rcp.extensions,
  org.eclipse.jface.wizard,
- org.osgi.framework;version="1.8.0"
+ org.osgi.framework
