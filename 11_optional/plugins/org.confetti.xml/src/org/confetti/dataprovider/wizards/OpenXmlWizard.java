@@ -1,12 +1,17 @@
 package org.confetti.dataprovider.wizards;
 
+import static org.confetti.xml.core.InstituteXmlRelease.v5_23_4;
+import static org.confetti.xml.core.InstituteXmlRelease.v5_24_0;
+
 import org.confetti.dataprovider.xml.XmlDataProvider;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.xml.FAOException;
-import org.confetti.xml.InstituteFAO;
-import org.confetti.xml.core.InstituteXml;
+import org.confetti.xml.InstituteHeaderFAO;
+import org.confetti.xml.core.AbstractInstituteXml;
 import org.confetti.xml.core.InstituteXmlRelease;
+import org.confetti.xml.header.InstituteHeaderXml;
 import org.eclipse.jface.wizard.Wizard;
+import org.osgi.framework.Version;
 
 /**
  * @author Bubla Gabor
@@ -24,8 +29,11 @@ public class OpenXmlWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		try {
-			InstituteXml xml = new InstituteFAO().importFrom(model.getFile());
-			XmlDataProvider dp = new XmlDataProvider(xml, InstituteXmlRelease.v5_23_4, model.getFile());
+			InstituteHeaderXml header = new InstituteHeaderFAO().importFrom(model.getFile());
+			Version semver = new Version(header.getVersion());
+			
+			InstituteXmlRelease<?> release = semver.compareTo(new Version(5, 24, 0)) < 0 ? v5_23_4 : v5_24_0;
+			XmlDataProvider dp = newDataProvider(release);
             ConfettiPlugin.getDefault().setDataProvider(dp, dp);
 		} catch (FAOException e) {
 			// TODO Auto-generated catch block
@@ -33,6 +41,12 @@ public class OpenXmlWizard extends Wizard {
 			return false;
 		}
 		return true;
+	}
+
+	private <T extends AbstractInstituteXml> XmlDataProvider newDataProvider(InstituteXmlRelease<T> rel) 
+			throws FAOException {
+		T xml = rel.newFAO().importFrom(model.getFile());
+		return new XmlDataProvider(xml, rel, model.getFile());
 	}
 
 }
