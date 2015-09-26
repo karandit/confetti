@@ -22,34 +22,39 @@ import org.confetti.util.Tuple;
 /**
  * @author Kárándi Tamás
  */
-public class InstituteXmlBuilder {
+public abstract class AbstractInstituteXmlBuilder<T extends AbstractInstituteXml> {
 	
 	//--------------------------- Fields -------------------------------------------------------------------------------
 	private final NameGetter nameGetter;
-	private final Function<NameableVisitee, String> GET_NAME;
+	protected final Function<NameableVisitee, String> GET_NAME;
 	private final Function<Assignment, Long> GET_ASSG_ID;
 	private Function<Constraint, ConstraintAttributes> GET_CONSTR_ATTRS;
 	
 	//--------------------------- Constructors -------------------------------------------------------------------------
-	public InstituteXmlBuilder(NameGetter nameGetter, Function<Assignment, Long> getAssgIdFunc) {
+	public AbstractInstituteXmlBuilder(NameGetter nameGetter, Function<Assignment, Long> getAssgIdFunc) {
 		this.nameGetter = nameGetter;
 		this.GET_NAME = nameable -> nameable.accept(nameGetter, null);
 		this.GET_ASSG_ID = getAssgIdFunc;
 		this.GET_CONSTR_ATTRS=  constr -> constr.getAttributes().getValue();
 	}
 
-	public InstituteXmlBuilder updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
+	//--------------------------- Abstract methods ---------------------------------------------------------------------
+	protected abstract T newXml(String name, String version, String comment);
+	protected abstract void setMembers(T inst, DataProvider dp);
+
+	//--------------------------- public API methods -------------------------------------------------------------------
+	public AbstractInstituteXmlBuilder<T> updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
 		this.GET_CONSTR_ATTRS=  constr -> constr == constraint ? attrs : constr.getAttributes().getValue();
 		return this;
 	}
 	
-	public InstituteXml build(DataProvider dp) {
+	public T build(DataProvider dp) {
 		return buildWithAssignmentMap(dp).getFirst();
 	}
 	
-	public Tuple<InstituteXml, List<Tuple<Long, Assignment>>> buildWithAssignmentMap(DataProvider dp) {
+	public Tuple<T, List<Tuple<Long, Assignment>>> buildWithAssignmentMap(DataProvider dp) {
 	
-		InstituteXml inst = new InstituteXml(dp.getName().getValue(), "5.22.0", dp.getComment().getValue());
+		T inst = newXml(dp.getName().getValue(), "5.22.0", dp.getComment().getValue());
 		
 		//Transforming Subjects, Teachers, StudentGroups, Buildings, Rooms, Days, Hours, Tags for FET
 		inst.setSubjects(dp.getSubjects()			.toList(GET_NAME.andThen(SubjectXml::new)));
@@ -60,8 +65,8 @@ public class InstituteXmlBuilder {
 																GET_NAME.apply(room),
 																room.getBuilding().getValue().map(GET_NAME).orElse(""),
 																room.getCapacity().getValue())));
-		inst.setDays(new DaysXml(dp.getDays()		.toList(GET_NAME.andThen(DayXml::new))));
-		inst.setHours(new HoursXml(dp.getHours()	.toList(GET_NAME.andThen(HourXml::new))));
+		
+		setMembers(inst, dp);
 		inst.setActivityTags(dp.getTags()			.toList(GET_NAME.andThen(ActivityTagXml::new)));
 		
 		//Transforming Assignments for FET and saving the newly assigned ids for further look up
@@ -81,7 +86,7 @@ public class InstituteXmlBuilder {
 
 		return new Tuple<>(inst, tuples);
 	}
-	
+
 	//---------------------------- Helper methods ----------------------------------------------------------------------
 	private ActivityXml createActivityXml(Tuple<Long, Assignment> tuple) {
 		Long id = tuple.getFirst(); 

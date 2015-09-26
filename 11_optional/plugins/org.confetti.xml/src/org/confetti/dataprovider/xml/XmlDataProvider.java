@@ -34,16 +34,16 @@ import org.confetti.observable.ValueMutator;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.xml.FAOException;
-import org.confetti.xml.InstituteFAO;
+import org.confetti.xml.GenericFAO;
 import org.confetti.xml.core.AbstractInstituteXml;
+import org.confetti.xml.core.AbstractInstituteXmlBuilder;
 import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.BaseConstraintXml;
 import org.confetti.xml.core.ConstraintFactory;
 import org.confetti.xml.core.ConstraintSetter;
 import org.confetti.xml.core.GroupXml;
 import org.confetti.xml.core.INameBean;
-import org.confetti.xml.core.InstituteXml;
-import org.confetti.xml.core.InstituteXmlBuilder;
+import org.confetti.xml.core.InstituteXmlRelease;
 import org.confetti.xml.core.NameGetter;
 import org.confetti.xml.core.RoomXml;
 import org.confetti.xml.core.SubgroupXml;
@@ -82,9 +82,11 @@ public class XmlDataProvider implements DataProvider {
     private final String version;
     private long currentMaxId = 0;
     private int colorCounter = 0;
+	private InstituteXmlRelease<?> release;
     
 	//----------------------------- constructors -----------------------------------------------------------------------
-	public XmlDataProvider(AbstractInstituteXml inst, File file) {
+	public <T extends AbstractInstituteXml> XmlDataProvider(T inst, InstituteXmlRelease<T> release, File file) {
+		this.release = release;
 		this.version = inst.getVersion();
         this.file = file;
 		instName.setValue(this, inst.getName());
@@ -176,7 +178,7 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void updateInstituteNameAndComment(String newName, String newComment) {
-	    InstituteXml xml = defaultXmlBuilder().build(this);
+	    AbstractInstituteXml xml = defaultXmlBuilder().build(this);
 		xml.setName(newName);
 		xml.setComment(newComment);
 		marshall(xml);
@@ -187,7 +189,7 @@ public class XmlDataProvider implements DataProvider {
 
 	@Override
 	public void addSubjects(List<String> names) {
-	    InstituteXml xml = defaultXmlBuilder().build(this);
+		AbstractInstituteXml xml = defaultXmlBuilder().build(this);
 	    names.forEach(name -> xml.getSubjects().add(new SubjectXml(name)));
 	    marshall(xml);
 
@@ -196,7 +198,7 @@ public class XmlDataProvider implements DataProvider {
 	
     @Override
 	public void addTeachers(List<String> names) {
-	    InstituteXml xml = defaultXmlBuilder().build(this);
+    	AbstractInstituteXml xml = defaultXmlBuilder().build(this);
         names.forEach(name -> xml.getTeachers().add(new TeacherXml(name)));
         marshall(xml);
 
@@ -205,7 +207,7 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void addStudentGroups(StudentGroup parent, List<String> names) {
-	    InstituteXml xml = defaultXmlBuilder().build(this);
+		AbstractInstituteXml xml = defaultXmlBuilder().build(this);
 		if (parent == null) {
 	        List<StudentGroupImpl> groups = Lists.transform(names, name -> new StudentGroupImpl(name, 0));
             groups.forEach(group -> xml.getYears().add(new YearXml(group.getName().getValue(), group)));
@@ -218,7 +220,7 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void addRooms(List<String> names) {
-	    InstituteXml xml = defaultXmlBuilder().build(this);
+		AbstractInstituteXml xml = defaultXmlBuilder().build(this);
 		names.forEach(name -> xml.getRooms().add(new RoomXml(name, null, 0)));
         marshall(xml);
         
@@ -227,7 +229,7 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
-	    InstituteXml xml = defaultXmlBuilder().build(this);
+		AbstractInstituteXml xml = defaultXmlBuilder().build(this);
 		currentMaxId++;
 	    int duration = 1;
 	    ActivityXml activityXml = new ActivityXml(currentMaxId, duration, 0L, duration, 0
@@ -251,7 +253,7 @@ public class XmlDataProvider implements DataProvider {
 
 	@Override
 	public void addConstraint(final String type, ConstraintAttributes attrs) {
-	    InstituteXml xml = defaultXmlBuilder().build(this);
+		AbstractInstituteXml xml = defaultXmlBuilder().build(this);
 		BaseConstraintXml.newXmlConstraint(xml, type, attrs, CONSTRAINT_SETTER);
 		marshall(xml);
 		
@@ -289,7 +291,7 @@ public class XmlDataProvider implements DataProvider {
 	
 	@Override
 	public void removeAssignment(Assignment assignment) {
-	    InstituteXml xml = defaultXmlBuilder().build(this);
+	    AbstractInstituteXml xml = defaultXmlBuilder().build(this);
 		Long assgId = ((AssignmentImpl) assignment).getId();
 		Optional<ActivityXml> foundActivity = xml.getActivities().stream()
 	    		.filter(act -> act.getId().equals(assgId))
@@ -306,7 +308,7 @@ public class XmlDataProvider implements DataProvider {
 	@Override
 	public void rename(Entity entity, String newName) {
 		NameGetter nameGetter = entity.accept(RenameVisitor.INSTANCE, newName);
-	    InstituteXml xml = new InstituteXmlBuilder(nameGetter, GET_ASSG_ID_FUNC).build(this);
+		AbstractInstituteXml xml = release.newXmlBuilder(nameGetter, GET_ASSG_ID_FUNC).build(this);
 	    marshall(xml);
 
 	    ((EntityImpl) entity).getNameMutator().setValue(entity, newName);
@@ -314,7 +316,7 @@ public class XmlDataProvider implements DataProvider {
 
 	@Override
 	public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
-		InstituteXml xml = defaultXmlBuilder().updateConstraint(constraint, attrs).build(this);
+		AbstractInstituteXml xml = defaultXmlBuilder().updateConstraint(constraint, attrs).build(this);
 		marshall(xml);
 		
 		ConstraintImpl constraintImpl = (ConstraintImpl) constraint;
@@ -331,22 +333,24 @@ public class XmlDataProvider implements DataProvider {
 
 	//----------------------------- helpers ----------------------------------------------------------------------------
 	public void save() {
-        InstituteXml xml = defaultXmlBuilder().build(this);
+		AbstractInstituteXml xml = defaultXmlBuilder().build(this);
         marshall(xml);
 	}
 
-	private void marshall(InstituteXml xml) {
+	private void marshall(AbstractInstituteXml xml) {
         try {
-            new InstituteFAO().exportTo(xml, file);
+			@SuppressWarnings("unchecked")
+			GenericFAO<AbstractInstituteXml> fao = (GenericFAO<AbstractInstituteXml>) release.newFAO();
+            fao.exportTo(xml, file);
         } catch (FAOException e) {
             throw new RuntimeException(e);
         }
 	 }
     
 	private <ET extends Entity, XT extends INameBean> void removeEntities(List<ET> entitiesToRemove, 
-			ListMutator<ET> allEntities, Function<InstituteXml, List<XT>> xmlEntitiesSupplier) {
+			ListMutator<ET> allEntities, Function<AbstractInstituteXml, List<XT>> xmlEntitiesSupplier) {
         
-	    InstituteXml xml = defaultXmlBuilder().build(this);
+		AbstractInstituteXml xml = defaultXmlBuilder().build(this);
 		List<XT> xmlEntities = xmlEntitiesSupplier.apply(xml);
 
 		for (ET ent : entitiesToRemove) {
@@ -361,9 +365,8 @@ public class XmlDataProvider implements DataProvider {
         entitiesToRemove.forEach(allEntities::removeItem);
     }
 
-	private InstituteXmlBuilder defaultXmlBuilder() {
-		return new InstituteXmlBuilder(new NameGetter(), GET_ASSG_ID_FUNC);
+	private AbstractInstituteXmlBuilder<?> defaultXmlBuilder() {
+		return release.newXmlBuilder(new NameGetter(), GET_ASSG_ID_FUNC);
 	}
-
 	
 }

@@ -30,9 +30,9 @@ import org.confetti.fet.engine.solution.SolutionFAO;
 import org.confetti.fet.engine.solution.SolutionXML;
 import org.confetti.util.Tuple;
 import org.confetti.xml.FAOException;
-import org.confetti.xml.InstituteFAO;
-import org.confetti.xml.core.InstituteXml;
-import org.confetti.xml.core.InstituteXmlBuilder;
+import org.confetti.xml.Institute_v5_24_0_FAO;
+import org.confetti.xml.core.Institute_v5_24_0_Xml;
+import org.confetti.xml.core.Institute_v5_24_0_XmlBuilder;
 import org.confetti.xml.core.NameGetter;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -73,10 +73,10 @@ public class FETRunnable implements IRunnableWithProgress {
 	@Override
 	public void run(IProgressMonitor arg0) throws InvocationTargetException, InterruptedException {
 		try {
-			Tuple<InstituteXml, List<Tuple<Long, Assignment>>> res = 
-					new InstituteXmlBuilder(new NameGetter(), this::generateAssgId)
+			Tuple<Institute_v5_24_0_Xml, List<Tuple<Long, Assignment>>> res = 
+					new Institute_v5_24_0_XmlBuilder(new NameGetter(), this::generateAssgId)
 												.buildWithAssignmentMap(mDataProvider);
-			InstituteXml inst = res.getFirst();
+			Institute_v5_24_0_Xml inst = res.getFirst();
 			
 			Tuple<List<String>, File> command = buildCommand(inst, mCopyingUrl);
 			Process process = new ProcessBuilder(command.getFirst()).start();
@@ -100,7 +100,7 @@ public class FETRunnable implements IRunnableWithProgress {
 		return assgId++;
 	}
 	
-	private static Tuple<List<String>, File> buildCommand(InstituteXml inst, URL copyingUrl) 
+	private static Tuple<List<String>, File> buildCommand(Institute_v5_24_0_Xml inst, URL copyingUrl) 
 			throws IOException, FAOException {
 		//Executable
 		URL fileURL = FileLocator.toFileURL(copyingUrl);
@@ -111,7 +111,7 @@ public class FETRunnable implements IRunnableWithProgress {
 		//Input file
 		Path tmpDir = Files.createTempDirectory("confetti");
 		String inputFile = new File(tmpDir.toFile(), "input.fet").toString();
-		new InstituteFAO().exportTo(inst, inputFile);
+		new Institute_v5_24_0_FAO().exportTo(inst, inputFile);
 		command.add("--inputfile=" + inputFile.toString());
 		
 		//Output dir

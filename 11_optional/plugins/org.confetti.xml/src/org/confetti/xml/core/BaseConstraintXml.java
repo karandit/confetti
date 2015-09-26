@@ -39,7 +39,7 @@ public abstract class BaseConstraintXml {
 	public abstract <R, P> R accept(ConstraintXmlVisitor<R, P> visitor, P param);
 
 	//------------------------ static methods --------------------------------------------------------------------------
-	public static BaseConstraintXml newXmlConstraint(InstituteXml instXml, final String type, 
+	public static BaseConstraintXml newXmlConstraint(AbstractInstituteXml instXml, final String type, 
 			ConstraintAttributes attrs, ConstraintSetter constraintSetter) {
 		
 		//create xml constraint depending on the type

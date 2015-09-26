@@ -10,6 +10,7 @@ import org.confetti.dataprovider.xml.XmlDataProvider;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.InstituteXml;
+import org.confetti.xml.core.InstituteXmlRelease;
 import org.junit.Test;
 
 /**
@@ -19,8 +20,8 @@ public class CompatibilityTest {
 
 	public static XmlDataProvider readFromFet(final String path) throws FAOException {
 		try (InputStream is = openStream(path)) {
-			InstituteXml  inst =  new InstituteFAO().importFrom(is);
-			return new XmlDataProvider(inst, new File(path));
+			InstituteXml inst = new InstituteFAO().importFrom(is);
+			return new XmlDataProvider(inst, InstituteXmlRelease.v5_23_4, new File(path));
 		} catch (IOException e) {
 			throw new FAOException(e);
 		} 
