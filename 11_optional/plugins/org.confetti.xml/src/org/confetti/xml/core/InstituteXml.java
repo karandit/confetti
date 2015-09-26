@@ -1,7 +1,11 @@
 package org.confetti.xml.core;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "fet")
@@ -17,7 +21,6 @@ public class InstituteXml extends AbstractInstituteXml {
 	private DaysXml days;
 
 	// --------------- constructors ------------------------------------------------------------------------------------
-	
 	InstituteXml() {
 	}
 	
@@ -33,5 +36,17 @@ public class InstituteXml extends AbstractInstituteXml {
 	@XmlElement(name = "Days_List")
 	public DaysXml getDays() 										{ return days; }
 	public void setDays(DaysXml days) 								{ this.days = days; }
+
+	@Override
+	@XmlTransient
+	public List<String> getDayNames() {
+		return getDays().getDays().stream().map(x -> x.getName()).collect(Collectors.toList());
+	}
+
+	@Override
+	@XmlTransient
+	public List<String> getHourNames() {
+		return getHours().getHours().stream().map(x -> x.getName()).collect(Collectors.toList());
+	}
 
 }

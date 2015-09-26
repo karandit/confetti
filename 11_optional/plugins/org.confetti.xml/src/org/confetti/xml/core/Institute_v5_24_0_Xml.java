@@ -2,6 +2,7 @@ package org.confetti.xml.core;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -43,6 +44,16 @@ public class Institute_v5_24_0_Xml extends AbstractInstituteXml {
 	@XmlElement(name = "GroupActivitiesInInitialOrder")
 	public List<GenerationOptionXml> getGenerationOptions() { return generationOptions; }
 	public void setGenerationOptions(List<GenerationOptionXml> values) { this.generationOptions = values; }
+
+	@Override
+	public List<String> getDayNames() {
+		return getDays().getDays().stream().map(x -> x.getName()).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<String> getHourNames() {
+		return getHours().getHours().stream().map(x -> x.getName()).collect(Collectors.toList());
+	}
 
 
 }

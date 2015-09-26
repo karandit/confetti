@@ -35,6 +35,7 @@ import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
+import org.confetti.xml.core.AbstractInstituteXml;
 import org.confetti.xml.core.ActivityXml;
 import org.confetti.xml.core.BaseConstraintXml;
 import org.confetti.xml.core.ConstraintFactory;
@@ -83,17 +84,13 @@ public class XmlDataProvider implements DataProvider {
     private int colorCounter = 0;
     
 	//----------------------------- constructors -----------------------------------------------------------------------
-    public XmlDataProvider(File file) throws FAOException {
-		this(new InstituteFAO().importFrom(file), file);
-	}
-	
-	public XmlDataProvider(InstituteXml inst, File file) {
+	public XmlDataProvider(AbstractInstituteXml inst, File file) {
 		this.version = inst.getVersion();
         this.file = file;
 		instName.setValue(this, inst.getName());
 		instComment.setValue(this, inst.getComment());
-		inst.getDays().getDays()	.forEach(day -> days.addItem(new DayImpl(day.getName())));
-		inst.getHours().getHours()	.forEach(hour -> hours.addItem(new HourImpl(hour.getName())));
+		inst.getDayNames()			.forEach(dayName -> days.addItem(new DayImpl(dayName)));
+		inst.getHourNames()			.forEach(hourName -> hours.addItem(new HourImpl(hourName)));
         inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName(), this.getNextColorId())));
 		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
 		inst.getBuildings()			.forEach(building -> buildings.addItem(new BuildingImpl(building.getName())));

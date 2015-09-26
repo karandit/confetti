@@ -124,7 +124,6 @@ public abstract class AbstractInstituteXml {
 	private List<SpaceConstraint> spaceConstraints = new LinkedList<>();
 	
 	// --------------- constructors ------------------------------------------------------------------------------------
-	
 	AbstractInstituteXml() {
 	}
 	
@@ -133,6 +132,10 @@ public abstract class AbstractInstituteXml {
 		this.version = version;
 		this.comment = comment;
 	}
+	
+	// --------------- abstract methods --------------------------------------------------------------------------------
+	public abstract List<String> getDayNames();
+	public abstract List<String> getHourNames();
 	
 	// --------------- getters and setters -----------------------------------------------------------------------------
 	@XmlAttribute(name = "version")
