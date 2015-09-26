@@ -142,10 +142,10 @@ public class Compatibility_v5_24_0_Test {
 		importFet("Namibia/by-Bobby/set-2/may-take-hours/CONCORDIA.fet");
 	}
 	
-//	@Test
-//	public void test_ConcordiaY15T1a() throws FAOException {
-//		importFet("Namibia/by-Bobby/set-4/ConcordiaY15T1a.fet");
-//	}
+	@Test
+	public void test_ConcordiaY15T1a() throws FAOException {
+		importFet("Namibia/by-Bobby/set-4/ConcordiaY15T1a.fet");
+	}
 	
 	@Test
 	public void test_de_secondary_school() throws FAOException {
@@ -207,10 +207,10 @@ public class Compatibility_v5_24_0_Test {
 		importFet("Algeria/Mechanical-Batna_Univ/ET2012-2013-S2.fet");
 	}
 
-//	@Test
-//	public void test_EXAM_2013_2014_S1() throws FAOException {
-//		importFet("Algeria/Mechanical-Batna_Univ/EXAM-2013-2014-S1.fet");
-//	}
+	@Test
+	public void test_EXAM_2013_2014_S1() throws FAOException {
+		importFet("Algeria/Mechanical-Batna_Univ/EXAM-2013-2014-S1.fet");
+	}
 
 	@Test
 	public void test_FGPS() throws FAOException {
@@ -462,29 +462,29 @@ public class Compatibility_v5_24_0_Test {
 		importFet("Namibia/by-Bobby/set-2/WTHS.fet");
 	}
 
-//	@Test
-//	public void test_anonymous_2007() throws FAOException {
-//		importFet("anonymous/1/2007/anonymous-1-2007.fet");
-//	}
-//
-//	@Test
-//	public void test_anonymous_2008() throws FAOException {
-//		importFet("anonymous/1/2008/anonymous-1-2008.fet");
-//	}
-//
-//	@Test
-//	public void test_Vietnam_Khoi_chieu() throws FAOException {
-//		importFet("Vietnam/1-Le-Qui-Don_Lam-Ha/Khoi-chieu.fet");
-//	}
-//
-//	@Test
-//	public void test_Vietnam_Khoi_sang() throws FAOException {
-//		importFet("Vietnam/1-Le-Qui-Don_Lam-Ha/Khoi-sang.fet");
-//	}
-//
-//	@Test
-//	public void test_VietNam_HungYen() throws FAOException {
-//		importFet("Vietnam/2-secondary-school/VietNamHungYen.fet");
-//	}
+	@Test
+	public void test_anonymous_2007() throws FAOException {
+		importFet("anonymous/1/2007/anonymous-1-2007.fet");
+	}
+
+	@Test
+	public void test_anonymous_2008() throws FAOException {
+		importFet("anonymous/1/2008/anonymous-1-2008.fet");
+	}
+
+	@Test
+	public void test_Vietnam_Khoi_chieu() throws FAOException {
+		importFet("Vietnam/1-Le-Qui-Don_Lam-Ha/Khoi-chieu.fet");
+	}
+
+	@Test
+	public void test_Vietnam_Khoi_sang() throws FAOException {
+		importFet("Vietnam/1-Le-Qui-Don_Lam-Ha/Khoi-sang.fet");
+	}
+
+	@Test
+	public void test_VietNam_HungYen() throws FAOException {
+		importFet("Vietnam/2-secondary-school/VietNamHungYen.fet");
+	}
 	
 }
