@@ -636,7 +636,7 @@
       <view
             allowMultiple="false"
             class="org.confetti.rcp.views.InstituteView"
-            icon="icons/university-16-fill.png"
+            icon="icons/University-16-fill.png"
             id="org.confetti.rcp.instituteView"
             name="Institute"
             restorable="true">
