@@ -1,9 +1,14 @@
 package org.confetti.fet.engine;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+
 import java.net.URL;
+import java.util.Optional;
 
 import org.confetti.core.DataProvider;
 import org.confetti.rcp.ConfettiPlugin;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.Wizard;
@@ -64,11 +69,19 @@ public class FETEngineWizard extends Wizard {
 		if (container instanceof WizardDialog) {
 			WizardDialog dlg = (WizardDialog) container;
 			Composite buttonBar = (Composite) dlg.buttonBar;
-			Composite composite = (Composite)buttonBar.getChildren()[1];
-			Control finishButton = composite.getChildren()[0];
-			finishButton.setVisible(false);
-			Button cancelButton = (Button) composite.getChildren()[1];
-			cancelButton.setText("Close");
+			Composite composite = (Composite) buttonBar.getChildren()[1];
+			
+			findButton(composite, IDialogConstants.FINISH_ID).ifPresent(finishButton -> finishButton.setVisible(false));
+			findButton(composite, IDialogConstants.CANCEL_ID).ifPresent(cancelButton -> cancelButton.setText("Close"));
 		}
+	}
+	
+	private Optional<Button> findButton(Composite comp, Integer buttonId) {
+		for (Control ctrl : comp.getChildren()) {
+			if (ctrl instanceof Button && buttonId.equals(ctrl.getData())) {
+				return of((Button) ctrl);
+			}
+		}
+		return empty();
 	}
 }
