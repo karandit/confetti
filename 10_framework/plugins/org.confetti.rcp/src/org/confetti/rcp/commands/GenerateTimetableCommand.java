@@ -45,6 +45,7 @@ public class GenerateTimetableCommand extends AbstractHandler {
 				table.setHeaderVisible(true);
 				AbstractEntityTableView.createColumn(table, Messages.General_Name, 150);
 				AbstractEntityTableView.createColumn(table, Messages.GenerateTimetableCommand_Column_Author, 100);
+				getTableViewer().setLabelProvider(new EngineLabelProvider());
 				return createDialogArea;
 			}
 			@Override 
