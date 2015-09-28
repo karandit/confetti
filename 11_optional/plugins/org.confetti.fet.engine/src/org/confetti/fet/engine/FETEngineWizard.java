@@ -71,7 +71,7 @@ public class FETEngineWizard extends Wizard {
 			Composite buttonBar = (Composite) dlg.buttonBar;
 			Composite composite = (Composite) buttonBar.getChildren()[1];
 			
-			findButton(composite, IDialogConstants.FINISH_ID).ifPresent(finishButton -> finishButton.setVisible(false));
+			findButton(composite, IDialogConstants.FINISH_ID).ifPresent(finishButton -> finishButton.setEnabled(false));
 			findButton(composite, IDialogConstants.CANCEL_ID).ifPresent(cancelButton -> cancelButton.setText("Close"));
 		}
 	}
