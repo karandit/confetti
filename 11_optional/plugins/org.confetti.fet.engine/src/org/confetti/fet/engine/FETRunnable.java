@@ -88,6 +88,7 @@ public class FETRunnable implements IRunnableWithProgress {
 					print(line);
 				}
 			}
+			process.waitFor();
 			if (process.exitValue() == 0) {
 				storeSolution(res.getSecond(), command.getSecond());
 			}
