@@ -20,7 +20,7 @@ public class FETRunnableTest {
 	static void importFetAndSolve(final String path) throws Exception {
 		XmlDataProvider xmlDataProvider = CompatibilityTest.readFromFet(path);
 		URL copyingUrl = FETEngineWizard.class.getResource("COPYING");
-		FETRunnable runnable = new FETRunnable(xmlDataProvider, copyingUrl);
+		FETRunnable runnable = new FETRunnable(xmlDataProvider, copyingUrl, false);
 		runnable.attachPrintListener(event -> System.out.println((String) event.data));
 		runnable.run(null);
 		assertNotNull(runnable.getSolution());
