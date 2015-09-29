@@ -41,7 +41,8 @@ public abstract class AbstractInstituteXmlBuilder<T extends AbstractInstituteXml
 	//--------------------------- Abstract methods ---------------------------------------------------------------------
 	protected abstract T newXml(String name, String version, String comment);
 	protected abstract void setMembers(T inst, DataProvider dp);
-
+	protected abstract String getVersion();
+	
 	//--------------------------- public API methods -------------------------------------------------------------------
 	public AbstractInstituteXmlBuilder<T> updateConstraint(Constraint constraint, ConstraintAttributes attrs) {
 		this.GET_CONSTR_ATTRS=  constr -> constr == constraint ? attrs : constr.getAttributes().getValue();
@@ -54,7 +55,7 @@ public abstract class AbstractInstituteXmlBuilder<T extends AbstractInstituteXml
 	
 	public Tuple<T, List<Tuple<Long, Assignment>>> buildWithAssignmentMap(DataProvider dp) {
 	
-		T inst = newXml(dp.getName().getValue(), "5.22.0", dp.getComment().getValue());
+		T inst = newXml(dp.getName().getValue(), getVersion(), dp.getComment().getValue());
 		
 		//Transforming Subjects, Teachers, StudentGroups, Buildings, Rooms, Days, Hours, Tags for FET
 		inst.setSubjects(dp.getSubjects()			.toList(GET_NAME.andThen(SubjectXml::new)));

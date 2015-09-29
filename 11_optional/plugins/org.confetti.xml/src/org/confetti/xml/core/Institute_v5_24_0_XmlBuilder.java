@@ -22,4 +22,9 @@ public class Institute_v5_24_0_XmlBuilder extends AbstractInstituteXmlBuilder<In
 		inst.setHours(new Hours_v5_24_0_Xml(dp.getHours()	.toList(GET_NAME.andThen(Hour_v5_24_0_Xml::new))));
 	}
 
+	@Override
+	protected String getVersion() {
+		return "5.24.0";
+	}
+
 }
