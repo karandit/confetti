@@ -7,6 +7,8 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -15,6 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 public class FETEngineWizardPage extends WizardPage {
 	
 	private StyledText console;
+	private Button verbose;
 	
 	FETEngineWizardPage(String pageName) {
 		super("Generate", "FET", getImageDescriptor(ConfettiPlugin.IMG_BIG_ENGINE));
@@ -24,14 +27,31 @@ public class FETEngineWizardPage extends WizardPage {
 
 	@Override
 	public void createControl(Composite parent) {
-		console = new StyledText(parent, SWT.READ_ONLY | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayout(new GridLayout(1, false));
+		
+		console = new StyledText(composite, SWT.READ_ONLY | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL);
 		console.setLayoutData(new GridData(GridData.FILL_BOTH));
 		console.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_BLACK));
 		console.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_GREEN));
-		setControl(console);
+
+		verbose = new Button(composite, SWT.CHECK);
+		verbose.setText("Verbose");
+		
+		setControl(composite);
+	}
+	
+	
+	boolean isVerbose() {
+		return verbose.getSelection();
+	}
+	
+	void setReadOnly() {
+		verbose.setEnabled(false);
 	}
 	
 	void print(final String text) {
 		console.setText(console.getText() + text + "\n");
+		console.setTopIndex(console.getLineCount() - 1);
 	}
 }

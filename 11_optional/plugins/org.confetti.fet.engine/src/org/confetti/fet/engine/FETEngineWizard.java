@@ -41,13 +41,14 @@ public class FETEngineWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		try {
+			mConsolePage.setReadOnly();
 			URL copyingUrl = FETEngineWizard.class.getResource("COPYING");
 			if (copyingUrl == null) {
 				MessageDialog.openWarning(this.getShell(), "Warning", "Unfortunatelly FET client not found.");
 				return true;
 			}
 			
-			FETRunnable fetRunnable = new FETRunnable(mDataProvider, copyingUrl);
+			FETRunnable fetRunnable = new FETRunnable(mDataProvider, copyingUrl, mConsolePage.isVerbose());
 			Display display = this.getShell().getDisplay();
 			fetRunnable.attachPrintListener(event -> display.asyncExec(() -> mConsolePage.print((String) event.data)));
 			getContainer().run(true, false, fetRunnable);

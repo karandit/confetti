@@ -45,19 +45,21 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class FETRunnable implements IRunnableWithProgress {
 
-	private DataProvider mDataProvider;
-	private URL mCopyingUrl;
-	private List<Listener> listeners = new LinkedList<>();
-	private Iterable<SolutionSlot> solution;
+	private final DataProvider mDataProvider;
+	private final URL mCopyingUrl;
+	private final boolean mVerbose;
+	private final List<Listener> listeners = new LinkedList<>();
+	private Iterable<SolutionSlot> mSolution;
 	private long assgId = 1;
 	
-	public FETRunnable(DataProvider dp, URL copyingUrl) {
+	public FETRunnable(DataProvider dp, URL copyingUrl, boolean verbose) {
 		this.mDataProvider = dp;
 		this.mCopyingUrl = copyingUrl;
+		this.mVerbose = verbose;
 	}
 
 	public Iterable<SolutionSlot> getSolution() {
-		return solution;
+		return mSolution;
 	}
 
 	public void attachPrintListener(Listener listener) {
@@ -78,7 +80,7 @@ public class FETRunnable implements IRunnableWithProgress {
 												.buildWithAssignmentMap(mDataProvider);
 			Institute_v5_24_0_Xml inst = res.getFirst();
 			
-			Tuple<List<String>, File> command = buildCommand(inst, mCopyingUrl);
+			Tuple<List<String>, File> command = buildCommand(inst, mCopyingUrl, mVerbose);
 			Process process = new ProcessBuilder(command.getFirst()).start();
 			InputStream is = process.getInputStream();
 			try (InputStreamReader isr = new InputStreamReader(is);
@@ -101,7 +103,7 @@ public class FETRunnable implements IRunnableWithProgress {
 		return assgId++;
 	}
 	
-	private static Tuple<List<String>, File> buildCommand(Institute_v5_24_0_Xml inst, URL copyingUrl) 
+	private static Tuple<List<String>, File> buildCommand(Institute_v5_24_0_Xml inst, URL copyingUrl, boolean verbose) 
 			throws IOException, FAOException {
 		//Executable
 		URL fileURL = FileLocator.toFileURL(copyingUrl);
@@ -119,6 +121,9 @@ public class FETRunnable implements IRunnableWithProgress {
 		File resultsDir = new File(tmpDir.toFile(), "results");
 		Files.createDirectory(resultsDir.toPath());
 		command.add("--outputdir=" + resultsDir.toString());
+		if (verbose) {
+			command.add("--verbose=true");
+		}
 		return new Tuple<>(command, resultsDir);
 	}
 	
@@ -137,7 +142,7 @@ public class FETRunnable implements IRunnableWithProgress {
 			//TODO: check if the id is not too long, because it could add a comma
 			assignmentsByIdStr.put(tuple.getFirst().toString(), tuple.getSecond()); 
 		}
-		solution = transform(solutionXml.getActivities(), (ResultActivityXML act) -> {
+		mSolution = transform(solutionXml.getActivities(), (ResultActivityXML act) -> {
 		    	Assignment assignment = assignmentsByIdStr.get(act.getId());
 		    	Day day = daysByName.get(act.getDay());
 		    	Hour hour = hoursByName.get(act.getHour());
