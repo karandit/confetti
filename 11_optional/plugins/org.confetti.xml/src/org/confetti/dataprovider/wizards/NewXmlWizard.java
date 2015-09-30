@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
-import org.confetti.dataprovider.xml.XmlDataProvider;
+import org.confetti.dataprovider.xml.FETDataProvider;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.xml.core.Day_v5_24_0_Xml;
 import org.confetti.xml.core.Days_v5_24_0_Xml;
@@ -50,7 +50,7 @@ public class NewXmlWizard extends Wizard {
             }
             xml.setHours(new Hours_v5_24_0_Xml(hours));
             
-            XmlDataProvider dp = new XmlDataProvider(xml, InstituteXmlRelease.v5_24_0, model.getFile());
+            FETDataProvider dp = new FETDataProvider(xml, InstituteXmlRelease.v5_24_0, model.getFile());
             dp.save();
             
             ConfettiPlugin.getDefault().setDataProvider(dp, dp);

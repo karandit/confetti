@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.confetti.dataprovider.xml.XmlDataProvider;
+import org.confetti.dataprovider.xml.FETDataProvider;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.Institute_v5_24_0_FAO;
 import org.confetti.xml.core.InstituteXmlRelease;
@@ -19,17 +19,17 @@ public class Compatibility_v5_24_0_Test {
 		return uri.openStream();
 	}
 
-	public static XmlDataProvider readFromFet(final String path) throws FAOException {
+	public static FETDataProvider readFromFet(final String path) throws FAOException {
 		try (InputStream is = openStream(path)) {
 			Institute_v5_24_0_Xml inst = new Institute_v5_24_0_FAO().importFrom(is);
-			return new XmlDataProvider(inst, InstituteXmlRelease.v5_24_0, new File(path));
+			return new FETDataProvider(inst, InstituteXmlRelease.v5_24_0, new File(path));
 		} catch (IOException e) {
 			throw new FAOException(e);
 		} 
 	}
 	
 	private static void importFet(final String path) throws FAOException {
-		XmlDataProvider dp = readFromFet(path);
+		FETDataProvider dp = readFromFet(path);
 		System.out.println(dp.getVersion() + "\t" + dp.getName().getValue());
 	}
 

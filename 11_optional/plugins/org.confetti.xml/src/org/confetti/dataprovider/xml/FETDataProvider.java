@@ -57,7 +57,7 @@ import com.google.common.collect.Lists;
  * @author Bubla Gabor
  * @author Kárándi Tamás
  */
-public class XmlDataProvider implements DataProvider {
+public class FETDataProvider implements DataProvider {
 	
 	private static final Function<Assignment, Long> GET_ASSG_ID_FUNC = assg -> ((AssignmentImpl) assg).getId();
 	private static final ConstraintSetter CONSTRAINT_SETTER = new ConstraintSetter(new NameGetter(), GET_ASSG_ID_FUNC);
@@ -85,7 +85,7 @@ public class XmlDataProvider implements DataProvider {
 	private InstituteXmlRelease<?> release;
     
 	//----------------------------- constructors -----------------------------------------------------------------------
-	public <T extends AbstractInstituteXml> XmlDataProvider(T inst, InstituteXmlRelease<T> release, File file) {
+	public <T extends AbstractInstituteXml> FETDataProvider(T inst, InstituteXmlRelease<T> release, File file) {
 		this.release = release;
 		this.version = inst.getVersion();
         this.file = file;

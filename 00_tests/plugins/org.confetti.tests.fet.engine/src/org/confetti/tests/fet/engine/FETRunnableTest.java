@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.net.URL;
 
-import org.confetti.dataprovider.xml.XmlDataProvider;
+import org.confetti.dataprovider.xml.FETDataProvider;
 import org.confetti.fet.engine.FETEngineWizard;
 import org.confetti.fet.engine.FETRunnable;
 import org.confetti.tests.fet.engine.SpeedCategories.Failing;
@@ -18,7 +18,7 @@ import org.junit.experimental.categories.Category;
 public class FETRunnableTest {
 
 	static void importFetAndSolve(final String path) throws Exception {
-		XmlDataProvider xmlDataProvider = CompatibilityTest.readFromFet(path);
+		FETDataProvider xmlDataProvider = CompatibilityTest.readFromFet(path);
 		URL copyingUrl = FETEngineWizard.class.getResource("COPYING");
 		FETRunnable runnable = new FETRunnable(xmlDataProvider, copyingUrl, false);
 		runnable.attachPrintListener(event -> System.out.println((String) event.data));
