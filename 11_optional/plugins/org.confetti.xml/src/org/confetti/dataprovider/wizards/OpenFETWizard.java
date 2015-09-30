@@ -16,14 +16,14 @@ import org.osgi.framework.Version;
 /**
  * @author Bubla Gabor
  */
-public class OpenXmlWizard extends Wizard {
+public class OpenFETWizard extends Wizard {
 
-	private final OpenXmlWizardModel model = new OpenXmlWizardModel();
+	private final OpenFETWizardModel model = new OpenFETWizardModel();
 	
 	@Override
 	public void addPages() {
 		setWindowTitle("Open");
-		addPage(new ChooseFileWizardPage(model));
+		addPage(new ChooseFETFileWizardPage(model));
 	}
 
 	@Override

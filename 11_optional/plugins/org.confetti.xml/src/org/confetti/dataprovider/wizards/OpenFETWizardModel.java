@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * @author Bubla Gabor
  */
-public class OpenXmlWizardModel {
+public class OpenFETWizardModel {
 
 	private File mFile;
 

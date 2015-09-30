@@ -25,11 +25,11 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Gabor Bubla
  */
-public class ChooseFileWizardPage extends WizardPage {
+public class ChooseFETFileWizardPage extends WizardPage {
 
-	private OpenXmlWizardModel model;
+	private OpenFETWizardModel model;
 
-	protected ChooseFileWizardPage(OpenXmlWizardModel model) {
+	protected ChooseFETFileWizardPage(OpenFETWizardModel model) {
 		super("Choose", "FET", getImageDescriptor(ConfettiPlugin.IMG_BIG_FILE));
 		this.model = model;
 		setDescription("Choose a FET file");

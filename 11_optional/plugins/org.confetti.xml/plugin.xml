@@ -11,7 +11,7 @@
    <extension
          point="org.confetti.rcp.openWizard">
       <openWizard
-            factory="org.confetti.dataprovider.wizards.OpenXmlWizardFactory"
+            factory="org.confetti.dataprovider.wizards.OpenFETWizardFactory"
             name="FET">
       </openWizard>
    </extension>
