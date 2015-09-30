@@ -7,12 +7,12 @@ import org.confetti.core.DataProvider;
 /**
  * @author Gabor Bubla
  */
-public class NewXmlWizardModel {
+public class NewFETWizardModel {
 
     private DataProvider dp;
     private File mFile;
 
-    public NewXmlWizardModel(DataProvider dp) {
+    public NewFETWizardModel(DataProvider dp) {
         this.dp = dp;
     }
     

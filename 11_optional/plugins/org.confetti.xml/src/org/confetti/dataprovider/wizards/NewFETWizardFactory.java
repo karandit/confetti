@@ -7,12 +7,12 @@ import org.eclipse.jface.wizard.IWizard;
 /**
  * @author Gabor Bubla
  */
-public class NewXmlWizardFactory implements NewWizardFactory {
+public class NewFETWizardFactory implements NewWizardFactory {
 
     @Override
     public IWizard createWizard(DataProvider dp) {
-        NewXmlWizardModel model = new NewXmlWizardModel(dp);
-        return new NewXmlWizard(model);
+        NewFETWizardModel model = new NewFETWizardModel(dp);
+        return new NewFETWizard(model);
     }
 
 }

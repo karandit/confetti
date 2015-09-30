@@ -18,18 +18,18 @@ import org.eclipse.jface.wizard.Wizard;
 /**
  * @author Gabor Bubla
  */
-public class NewXmlWizard extends Wizard {
+public class NewFETWizard extends Wizard {
 
-    private NewXmlWizardModel model;
+    private NewFETWizardModel model;
 
-    public NewXmlWizard(NewXmlWizardModel model) {
+    public NewFETWizard(NewFETWizardModel model) {
         this.model = model;
     }
     
     @Override
     public void addPages() {
         setWindowTitle("New");
-        addPage(new SaveFileWizardPage(model));
+        addPage(new SaveFETFileWizardPage(model));
     }
 
     @Override

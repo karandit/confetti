@@ -4,7 +4,7 @@
    <extension
          point="org.confetti.rcp.newWizard">
       <newWizard
-            factory="org.confetti.dataprovider.wizards.NewXmlWizardFactory"
+            factory="org.confetti.dataprovider.wizards.NewFETWizardFactory"
             name="FET">
       </newWizard>
    </extension>

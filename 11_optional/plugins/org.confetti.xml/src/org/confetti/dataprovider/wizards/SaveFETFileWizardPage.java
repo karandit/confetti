@@ -25,11 +25,11 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Gabor Bubla
  */
-public class SaveFileWizardPage extends WizardPage {
+public class SaveFETFileWizardPage extends WizardPage {
 
-    private NewXmlWizardModel model;
+    private NewFETWizardModel model;
 
-    public SaveFileWizardPage(NewXmlWizardModel model) {
+    public SaveFETFileWizardPage(NewFETWizardModel model) {
         super("Choose", "FET", getImageDescriptor(ConfettiPlugin.IMG_BIG_FILE));
         this.model = model;
         setDescription("Choose a location and a name for a FET file");
