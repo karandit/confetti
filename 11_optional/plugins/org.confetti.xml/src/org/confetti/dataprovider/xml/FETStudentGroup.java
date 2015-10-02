@@ -9,17 +9,17 @@ import org.confetti.observable.ValueMutator;
 /**
  * @author Kárándi Tamás
  */
-class StudentGroupImpl extends EntityImpl implements StudentGroup {
+class FETStudentGroup extends FETEntity implements StudentGroup {
 	
 	private final ValueMutator<Integer> nrOfStudents;
 	private final ListMutator<StudentGroup> children = new ListMutator<>();
-	private final StudentGroupImpl parent;
+	private final FETStudentGroup parent;
 	
-	public StudentGroupImpl(String name, int nrOfStudents) {
+	public FETStudentGroup(String name, int nrOfStudents) {
 		this(name, nrOfStudents, null);
 	}
 
-	public StudentGroupImpl(String name, int nrOfStudents, StudentGroupImpl parent) {
+	public FETStudentGroup(String name, int nrOfStudents, FETStudentGroup parent) {
 		super(name);
 		this.nrOfStudents = new ValueMutator<>(this, nrOfStudents);
 		this.parent = parent;

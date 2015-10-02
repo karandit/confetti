@@ -11,13 +11,13 @@ import org.confetti.observable.ValueMutator;
 /**
  * @author Kárándi Tamás
  */
-abstract class EntityImpl implements Entity {
+abstract class FETEntity implements Entity {
 
 	private final ValueMutator<String> name;
 	private final ListMutator<Assignment> assignments = new ListMutator<>();
 	private final ListMutator<Constraint> constraints = new ListMutator<>();
 	
-	public EntityImpl(String name) {
+	public FETEntity(String name) {
 		this.name = new ValueMutator<>(this, name);
 	}
 	

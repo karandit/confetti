@@ -93,13 +93,13 @@ public class FETDataProvider implements DataProvider {
 		instComment.setValue(this, inst.getComment());
 		inst.getDayNames()			.forEach(dayName -> days.addItem(new FETDay(dayName)));
 		inst.getHourNames()			.forEach(hourName -> hours.addItem(new FETHour(hourName)));
-        inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName(), this.getNextColorId())));
-		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
+        inst.getSubjects()			.forEach(subj -> subjects.addItem(new FETSubject(subj.getName(), this.getNextColorId())));
+		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new FETTeacher(teacher.getName())));
 		inst.getBuildings()			.forEach(building -> buildings.addItem(new FETBuilding(building.getName())));
 		Repo repo_ = new Repo()
 					.withBuildings(buildings.getObservableList().getList());
 		
-		inst.getRooms().forEach(room -> rooms.addItem(new RoomImpl(room.getName(), room.getCapacity(),
+		inst.getRooms().forEach(room -> rooms.addItem(new FETRoom(room.getName(), room.getCapacity(),
 				ofNullable(repo_.maybeFindBuilding(room.getBuilding())))));
 		inst.getYears()				.forEach(year -> stdGroups.addItem(createStudentGroup(year)));
 		inst.getActivityTags()		.forEach(actTag -> tags.addItem(new FETTag(actTag.getName())));
@@ -144,13 +144,13 @@ public class FETDataProvider implements DataProvider {
 		return ass;
 	}
 
-	private StudentGroupImpl createStudentGroup(YearXml year) {
-		StudentGroupImpl studGr1 = new StudentGroupImpl(year.getName(), year.getNrOfStudents());
+	private FETStudentGroup createStudentGroup(YearXml year) {
+		FETStudentGroup studGr1 = new FETStudentGroup(year.getName(), year.getNrOfStudents());
 		for (GroupXml group : year.getGroups()) {
-			StudentGroupImpl studGr2 = new StudentGroupImpl(group.getName(), group.getNrOfStudents(), studGr1);
+			FETStudentGroup studGr2 = new FETStudentGroup(group.getName(), group.getNrOfStudents(), studGr1);
 			studGr1.addChild(studGr2);
 			for (SubgroupXml subgroup : group.getSubgroups()) {
-				StudentGroupImpl studGr3 = new StudentGroupImpl(subgroup.getName(), subgroup.getNrOfStudents(), studGr2);
+				FETStudentGroup studGr3 = new FETStudentGroup(subgroup.getName(), subgroup.getNrOfStudents(), studGr2);
 				studGr2.addChild(studGr3);
 			}
 		}
@@ -193,7 +193,7 @@ public class FETDataProvider implements DataProvider {
 	    names.forEach(name -> xml.getSubjects().add(new SubjectXml(name)));
 	    marshall(xml);
 
-	    names.forEach(name -> subjects.addItem(new SubjectImpl(name, this.getNextColorId())));
+	    names.forEach(name -> subjects.addItem(new FETSubject(name, this.getNextColorId())));
 	}
 	
     @Override
@@ -202,14 +202,14 @@ public class FETDataProvider implements DataProvider {
         names.forEach(name -> xml.getTeachers().add(new TeacherXml(name)));
         marshall(xml);
 
-        names.forEach(name -> teachers.addItem(new TeacherImpl(name)));
+        names.forEach(name -> teachers.addItem(new FETTeacher(name)));
 	}
 	
 	@Override
 	public void addStudentGroups(StudentGroup parent, List<String> names) {
 		AbstractInstituteXml xml = defaultXmlBuilder().build(this);
 		if (parent == null) {
-	        List<StudentGroupImpl> groups = Lists.transform(names, name -> new StudentGroupImpl(name, 0));
+	        List<FETStudentGroup> groups = Lists.transform(names, name -> new FETStudentGroup(name, 0));
             groups.forEach(group -> xml.getYears().add(new YearXml(group.getName().getValue(), group)));
             marshall(xml);
 	    
@@ -224,7 +224,7 @@ public class FETDataProvider implements DataProvider {
 		names.forEach(name -> xml.getRooms().add(new RoomXml(name, null, 0)));
         marshall(xml);
         
-        names.forEach(name -> rooms.addItem(new RoomImpl(name, 0, Optional.empty())));
+        names.forEach(name -> rooms.addItem(new FETRoom(name, 0, Optional.empty())));
 	}
 	
 	@Override
@@ -311,7 +311,7 @@ public class FETDataProvider implements DataProvider {
 		AbstractInstituteXml xml = release.newXmlBuilder(nameGetter, GET_ASSG_ID_FUNC).build(this);
 	    marshall(xml);
 
-	    ((EntityImpl) entity).getNameMutator().setValue(entity, newName);
+	    ((FETEntity) entity).getNameMutator().setValue(entity, newName);
 	}
 
 	@Override

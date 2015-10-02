@@ -27,29 +27,29 @@ public class FieldTypeAddToVisitor implements FieldTypeVisitor<Object, String, C
 
 	@Override
 	public Object visitSubject(String key, Constraint target) {
-		((SubjectImpl) attrs.asSubject(key)).addConstraint(target);
+		((FETSubject) attrs.asSubject(key)).addConstraint(target);
 		return null;
 	}
 	@Override
 	public Object visitTeacher(String key, Constraint target) {
-		((TeacherImpl) attrs.asTeacher(key)).addConstraint(target);
+		((FETTeacher) attrs.asTeacher(key)).addConstraint(target);
 		return null;
 	}
 
 	@Override
 	public Object visitStudentGroup(String key, Constraint target) {
-		((StudentGroupImpl) attrs.asStudentGroup(key)).addConstraint(target);
+		((FETStudentGroup) attrs.asStudentGroup(key)).addConstraint(target);
 		return null;
 	}
 	@Override
 	public Object visitRoom(String key, Constraint target) {
-		((RoomImpl) attrs.asRoom(key)).addConstraint(target);
+		((FETRoom) attrs.asRoom(key)).addConstraint(target);
 		return null;
 	}
 
 	@Override
 	public Object visitRoomsSet(String key, Constraint target) {
-		attrs.asRoomsSet(key).forEach(room -> ((RoomImpl) room).addConstraint(target));
+		attrs.asRoomsSet(key).forEach(room -> ((FETRoom) room).addConstraint(target));
 		return null;
 	}
 
@@ -69,13 +69,13 @@ public class FieldTypeAddToVisitor implements FieldTypeVisitor<Object, String, C
 	public Object visitAssignmentsCriteria(String key, Constraint target) {
 		Triple<Subject, Teacher, StudentGroup> crit = attrs.asAssignmentsCriteria(key);
 		if (crit.getFirst() != null) {
-			((SubjectImpl) crit.getFirst()).addConstraint(target);
+			((FETSubject) crit.getFirst()).addConstraint(target);
 		}
 		if (crit.getSecond() != null) {
-			((TeacherImpl) crit.getSecond()).addConstraint(target);
+			((FETTeacher) crit.getSecond()).addConstraint(target);
 		}
 		if (crit.getThird() != null) {
-			((StudentGroupImpl) crit.getThird()).addConstraint(target);
+			((FETStudentGroup) crit.getThird()).addConstraint(target);
 		}
 		return null;
 	}

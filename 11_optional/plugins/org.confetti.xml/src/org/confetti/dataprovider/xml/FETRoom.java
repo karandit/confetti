@@ -10,12 +10,12 @@ import org.confetti.observable.ValueMutator;
 /**
  * @author Kárándi Tamás
  */
-class RoomImpl extends EntityImpl implements Room {
+class FETRoom extends FETEntity implements Room {
 	
 	private final ValueMutator<Integer> capacity;
 	private final ValueMutator<Optional<Building>> building;
 	
-	public RoomImpl(String name, int capacity, Optional<Building> building) {
+	public FETRoom(String name, int capacity, Optional<Building> building) {
 		super(name);
 		this.capacity = new ValueMutator<>(this, capacity);
 		this.building = new ValueMutator<>(this, building);

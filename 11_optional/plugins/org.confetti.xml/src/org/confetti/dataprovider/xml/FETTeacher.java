@@ -5,8 +5,8 @@ import org.confetti.core.Teacher;
 /**
  * @author Kárándi Tamás
  */
-class TeacherImpl extends EntityImpl implements Teacher {
+class FETTeacher extends FETEntity implements Teacher {
 
-	public TeacherImpl(String name) { super(name); }
+	public FETTeacher(String name) { super(name); }
 
 }
