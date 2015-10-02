@@ -257,7 +257,7 @@ public class FETDataProvider implements DataProvider {
 		BaseConstraintXml.newXmlConstraint(xml, type, attrs, CONSTRAINT_SETTER);
 		marshall(xml);
 		
-		Constraint constr = new ConstraintImpl(type, attrs);
+		Constraint constr = new FETConstraint(type, attrs);
 		constraints.addItem(constr);
 		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);
 		FieldTypeAddToVisitor visitor = new FieldTypeAddToVisitor(attrs);
@@ -319,7 +319,7 @@ public class FETDataProvider implements DataProvider {
 		AbstractInstituteXml xml = defaultXmlBuilder().updateConstraint(constraint, attrs).build(this);
 		marshall(xml);
 		
-		ConstraintImpl constraintImpl = (ConstraintImpl) constraint;
+		FETConstraint constraintImpl = (FETConstraint) constraint;
 		constraintImpl.getAttrsMutator().setValue(constraint, attrs);
 		//TODO: not symmetric with addConstraint, maybe not necessary, check it
 //		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(type);

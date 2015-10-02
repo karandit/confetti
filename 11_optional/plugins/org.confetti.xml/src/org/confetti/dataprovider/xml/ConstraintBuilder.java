@@ -28,7 +28,7 @@ public class ConstraintBuilder {
 	
 	public Constraint build() {
 		String fullType = FET_CONSTRAINTS_NAMESPACE + type;
-		ConstraintImpl constr = new ConstraintImpl(fullType, attrs);
+		FETConstraint constr = new FETConstraint(fullType, attrs);
 		
 		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(fullType);
 		if (constraintDescr != null) {
