@@ -3,6 +3,7 @@ package org.confetti.fet.xml;
 import java.net.URL;
 
 import org.confetti.fet.xml.header.InstituteHeaderXml;
+import org.confetti.xml.GenericFAO;
 
 public class InstituteHeaderFAO extends GenericFAO<InstituteHeaderXml> {
 

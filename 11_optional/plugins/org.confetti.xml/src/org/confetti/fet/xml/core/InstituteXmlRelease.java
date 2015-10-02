@@ -3,9 +3,9 @@ package org.confetti.fet.xml.core;
 import java.util.function.Function;
 
 import org.confetti.core.Assignment;
-import org.confetti.fet.xml.GenericFAO;
 import org.confetti.fet.xml.InstituteFAO;
 import org.confetti.fet.xml.Institute_v5_24_0_FAO;
+import org.confetti.xml.GenericFAO;
 
 public interface InstituteXmlRelease<T extends AbstractInstituteXml> {
 

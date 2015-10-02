@@ -1,4 +1,4 @@
-package org.confetti.fet.xml;
+package org.confetti.xml;
 
 /**
  * Represents an exception that appears during a FAO(File Access Object) operation.

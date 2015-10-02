@@ -4,12 +4,12 @@ import static org.confetti.fet.xml.core.InstituteXmlRelease.v5_23_4;
 import static org.confetti.fet.xml.core.InstituteXmlRelease.v5_24_0;
 
 import org.confetti.fet.dataprovider.FETDataProvider;
-import org.confetti.fet.xml.FAOException;
 import org.confetti.fet.xml.InstituteHeaderFAO;
 import org.confetti.fet.xml.core.AbstractInstituteXml;
 import org.confetti.fet.xml.core.InstituteXmlRelease;
 import org.confetti.fet.xml.header.InstituteHeaderXml;
 import org.confetti.rcp.ConfettiPlugin;
+import org.confetti.xml.FAOException;
 import org.eclipse.jface.wizard.Wizard;
 import org.osgi.framework.Version;
 

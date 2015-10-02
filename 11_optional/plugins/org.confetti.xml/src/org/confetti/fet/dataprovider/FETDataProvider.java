@@ -27,8 +27,6 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
-import org.confetti.fet.xml.FAOException;
-import org.confetti.fet.xml.GenericFAO;
 import org.confetti.fet.xml.core.AbstractInstituteXml;
 import org.confetti.fet.xml.core.AbstractInstituteXmlBuilder;
 import org.confetti.fet.xml.core.ActivityXml;
@@ -50,6 +48,8 @@ import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
+import org.confetti.xml.FAOException;
+import org.confetti.xml.GenericFAO;
 
 import com.google.common.collect.Lists;
 

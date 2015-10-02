@@ -4,6 +4,8 @@ import java.net.URL;
 import java.text.MessageFormat;
 
 import org.confetti.fet.xml.core.Institute_v5_24_0_Xml;
+import org.confetti.xml.FAOException;
+import org.confetti.xml.GenericFAO;
 
 public class Institute_v5_24_0_FAO extends GenericFAO<Institute_v5_24_0_Xml> {
 

@@ -29,5 +29,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.confetti.rcp,
  org.confetti.rcp.constraints,
  org.confetti.rcp.extensions,
+ org.confetti.xml,
  org.eclipse.jface.wizard,
  org.osgi.framework

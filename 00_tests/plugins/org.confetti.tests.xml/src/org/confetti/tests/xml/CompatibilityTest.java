@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.confetti.fet.dataprovider.FETDataProvider;
-import org.confetti.fet.xml.FAOException;
 import org.confetti.fet.xml.InstituteFAO;
 import org.confetti.fet.xml.core.InstituteXml;
 import org.confetti.fet.xml.core.InstituteXmlRelease;
+import org.confetti.xml.FAOException;
 import org.junit.Test;
 
 /**

@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.confetti.fet.xml.FAOException;
 import org.confetti.fet.xml.InstituteFAO;
 import org.confetti.fet.xml.core.ActivityTagXml;
 import org.confetti.fet.xml.core.ActivityXml;
@@ -29,6 +28,7 @@ import org.confetti.fet.xml.core.TeacherXml;
 import org.confetti.fet.xml.core.YearXml;
 import org.confetti.fet.xml.core.space.SpaceConstraint;
 import org.confetti.fet.xml.core.time.TimeConstraint;
+import org.confetti.xml.FAOException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

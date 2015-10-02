@@ -11,3 +11,4 @@ Require-Bundle: org.confetti.fet.engine,
  org.confetti.core,
  org.eclipse.core.runtime,
  org.eclipse.jface
+Import-Package: org.confetti.xml

@@ -15,7 +15,8 @@ Export-Package: de.kupzog.ktable,
  org.confetti.rcp,
  org.confetti.rcp.constraints,
  org.confetti.rcp.extensions,
- org.confetti.rcp.views
+ org.confetti.rcp.views,
+ org.confetti.xml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .,
  lib/KTable.jar

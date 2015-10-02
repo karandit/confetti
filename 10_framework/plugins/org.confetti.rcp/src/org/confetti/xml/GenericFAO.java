@@ -1,4 +1,4 @@
-package org.confetti.fet.xml;
+package org.confetti.xml;
 
 import static javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI;
 
