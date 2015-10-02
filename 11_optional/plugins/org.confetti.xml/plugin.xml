@@ -4,14 +4,14 @@
    <extension
          point="org.confetti.rcp.newWizard">
       <newWizard
-            factory="org.confetti.dataprovider.wizards.NewFETWizardFactory"
+            factory="org.confetti.fet.dataprovider.wizards.NewFETWizardFactory"
             name="FET">
       </newWizard>
    </extension>
    <extension
          point="org.confetti.rcp.openWizard">
       <openWizard
-            factory="org.confetti.dataprovider.wizards.OpenFETWizardFactory"
+            factory="org.confetti.fet.dataprovider.wizards.OpenFETWizardFactory"
             name="FET">
       </openWizard>
    </extension>

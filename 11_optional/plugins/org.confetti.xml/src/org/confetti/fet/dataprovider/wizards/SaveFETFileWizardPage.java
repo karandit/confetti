@@ -1,4 +1,4 @@
-package org.confetti.dataprovider.wizards;
+package org.confetti.fet.dataprovider.wizards;
 
 import static com.google.common.io.Files.getFileExtension;
 import static org.confetti.rcp.ConfettiPlugin.getImageDescriptor;

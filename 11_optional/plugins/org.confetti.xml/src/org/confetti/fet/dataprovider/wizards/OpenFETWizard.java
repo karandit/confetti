@@ -1,4 +1,4 @@
-package org.confetti.dataprovider.wizards;
+package org.confetti.fet.dataprovider.wizards;
 
 import static org.confetti.xml.core.InstituteXmlRelease.v5_23_4;
 import static org.confetti.xml.core.InstituteXmlRelease.v5_24_0;

@@ -1,4 +1,4 @@
-package org.confetti.dataprovider.wizards;
+package org.confetti.fet.dataprovider.wizards;
 
 import java.io.File;
 
