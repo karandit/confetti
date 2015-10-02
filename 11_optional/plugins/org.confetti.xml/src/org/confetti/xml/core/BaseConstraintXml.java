@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.confetti.core.ConstraintAttributes;
-import org.confetti.dataprovider.xml.ConstraintBuilder;
+import org.confetti.fet.dataprovider.ConstraintBuilder;
 import org.confetti.xml.core.space.SpaceConstraint;
 import org.confetti.xml.core.time.TimeConstraint;
 import org.confetti.xml.internal.DoubleWithoutFractionalAdapter;

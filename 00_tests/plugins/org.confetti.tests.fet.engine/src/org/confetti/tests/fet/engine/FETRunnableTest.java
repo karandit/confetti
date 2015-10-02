@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.net.URL;
 
-import org.confetti.dataprovider.xml.FETDataProvider;
+import org.confetti.fet.dataprovider.FETDataProvider;
 import org.confetti.fet.engine.FETEngineWizard;
 import org.confetti.fet.engine.FETRunnable;
 import org.confetti.tests.fet.engine.SpeedCategories.Failing;

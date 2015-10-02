@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.confetti.dataprovider.xml.FETDataProvider;
+import org.confetti.fet.dataprovider.FETDataProvider;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.Institute_v5_24_0_FAO;
 import org.confetti.xml.core.InstituteXmlRelease;

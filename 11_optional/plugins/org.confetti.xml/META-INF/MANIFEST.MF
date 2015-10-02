@@ -4,7 +4,7 @@ Bundle-Name: FET Dataprovider
 Bundle-SymbolicName: org.confetti.xml;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Export-Package: org.confetti.dataprovider.xml,
+Export-Package: org.confetti.fet.dataprovider,
  org.confetti.xml,
  org.confetti.xml.core,
  org.confetti.xml.core.space,

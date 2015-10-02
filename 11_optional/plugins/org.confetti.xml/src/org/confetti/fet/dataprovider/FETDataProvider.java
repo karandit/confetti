@@ -1,4 +1,4 @@
-package org.confetti.dataprovider.xml;
+package org.confetti.fet.dataprovider;
 
 import static java.util.Arrays.asList;
 import static java.util.Optional.empty;

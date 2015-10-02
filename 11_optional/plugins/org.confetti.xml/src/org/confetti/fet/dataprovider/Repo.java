@@ -1,4 +1,4 @@
-package org.confetti.dataprovider.xml;
+package org.confetti.fet.dataprovider;
 
 import java.util.HashMap;
 import java.util.Map;

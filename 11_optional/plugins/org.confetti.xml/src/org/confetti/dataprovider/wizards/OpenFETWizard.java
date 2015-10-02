@@ -3,7 +3,7 @@ package org.confetti.dataprovider.wizards;
 import static org.confetti.xml.core.InstituteXmlRelease.v5_23_4;
 import static org.confetti.xml.core.InstituteXmlRelease.v5_24_0;
 
-import org.confetti.dataprovider.xml.FETDataProvider;
+import org.confetti.fet.dataprovider.FETDataProvider;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteHeaderFAO;

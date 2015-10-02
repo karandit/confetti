@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.confetti.dataprovider.xml.FETDataProvider;
+import org.confetti.fet.dataprovider.FETDataProvider;
 import org.confetti.xml.FAOException;
 import org.confetti.xml.InstituteFAO;
 import org.confetti.xml.core.InstituteXml;

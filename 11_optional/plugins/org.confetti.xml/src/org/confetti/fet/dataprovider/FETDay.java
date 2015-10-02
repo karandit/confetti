@@ -1,16 +1,16 @@
-package org.confetti.dataprovider.xml;
+package org.confetti.fet.dataprovider;
 
-import org.confetti.core.Hour;
+import org.confetti.core.Day;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
 /**
  * @author Kárándi Tamás
  */
-class FETHour implements Hour {
+class FETDay implements Day {
 
 	private final ValueMutator<String> name;
-	public FETHour(String name) {
+	public FETDay(String name) {
 		this.name = new ValueMutator<>(this, name);
 	}
 	

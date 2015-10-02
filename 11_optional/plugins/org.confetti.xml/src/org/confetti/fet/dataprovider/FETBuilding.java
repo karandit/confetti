@@ -1,4 +1,4 @@
-package org.confetti.dataprovider.xml;
+package org.confetti.fet.dataprovider;
 
 import org.confetti.core.Building;
 import org.confetti.observable.ObservableValue;

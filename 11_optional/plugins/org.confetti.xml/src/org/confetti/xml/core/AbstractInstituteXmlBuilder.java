@@ -16,7 +16,7 @@ import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.NameableVisitee;
-import org.confetti.dataprovider.xml.FETAssignmentGroup;
+import org.confetti.fet.dataprovider.FETAssignmentGroup;
 import org.confetti.util.Tuple;
 
 /**

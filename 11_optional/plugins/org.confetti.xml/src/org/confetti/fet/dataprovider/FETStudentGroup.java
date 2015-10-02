@@ -1,4 +1,4 @@
-package org.confetti.dataprovider.xml;
+package org.confetti.fet.dataprovider;
 
 import org.confetti.core.StudentGroup;
 import org.confetti.observable.ListMutator;

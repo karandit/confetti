@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
-import org.confetti.dataprovider.xml.FETDataProvider;
+import org.confetti.fet.dataprovider.FETDataProvider;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.xml.core.Day_v5_24_0_Xml;
 import org.confetti.xml.core.Days_v5_24_0_Xml;
