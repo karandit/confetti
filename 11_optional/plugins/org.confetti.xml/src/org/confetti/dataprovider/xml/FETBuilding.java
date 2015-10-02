@@ -4,11 +4,11 @@ import org.confetti.core.Building;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
-public class BuildingImpl implements Building {
+public class FETBuilding implements Building {
 	
 	private final ValueMutator<String> name;
 
-	public BuildingImpl(String name) {
+	public FETBuilding(String name) {
 		this.name = new ValueMutator<>(this, name);
 	}
 	

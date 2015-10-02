@@ -95,14 +95,14 @@ public class FETDataProvider implements DataProvider {
 		inst.getHourNames()			.forEach(hourName -> hours.addItem(new HourImpl(hourName)));
         inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName(), this.getNextColorId())));
 		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
-		inst.getBuildings()			.forEach(building -> buildings.addItem(new BuildingImpl(building.getName())));
+		inst.getBuildings()			.forEach(building -> buildings.addItem(new FETBuilding(building.getName())));
 		Repo repo_ = new Repo()
 					.withBuildings(buildings.getObservableList().getList());
 		
 		inst.getRooms().forEach(room -> rooms.addItem(new RoomImpl(room.getName(), room.getCapacity(),
 				ofNullable(repo_.maybeFindBuilding(room.getBuilding())))));
 		inst.getYears()				.forEach(year -> stdGroups.addItem(createStudentGroup(year)));
-		inst.getActivityTags()		.forEach(actTag -> tags.addItem(new TagImpl(actTag.getName())));
+		inst.getActivityTags()		.forEach(actTag -> tags.addItem(new FETTag(actTag.getName())));
 		
 		Repo repo = repo_
 			.withSubjects(subjects.getObservableList().getList())
@@ -139,7 +139,7 @@ public class FETDataProvider implements DataProvider {
 			act.getTeachers().forEach(teacherRef -> ass.addTeacher(repo.findTeacher(teacherRef.getName())));
 		}
 		if (act.getActivityTag() != null) {
-			act.getActivityTag().forEach(tagName -> ass.addTag((TagImpl) repo.findTag(tagName)));
+			act.getActivityTag().forEach(tagName -> ass.addTag((FETTag) repo.findTag(tagName)));
 		}
 		return ass;
 	}

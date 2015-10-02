@@ -7,12 +7,12 @@ import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
-public class TagImpl implements Tag {
+public class FETTag implements Tag {
 
 	private final ValueMutator<String> name;
 	private final ListMutator<Assignment> assignments = new ListMutator<>();
 
-	public TagImpl(String name) {
+	public FETTag(String name) {
 		this.name = new ValueMutator<>(this, name);
 	}
 	

@@ -42,7 +42,7 @@ public class AssignmentImpl implements Assignment {
 	public void addTeacher(Teacher teacher) 			{ teachers.addItem(teacher); teacher.addAssignment(this);} 
 	public void addStudentGroup(StudentGroup group) 	{ stGroups.addItem(group); group.addAssignment(this);} 
 	public void addConstraint(Constraint cnstr) 		{ constraints.addItem(cnstr);} 
-	public void addTag(TagImpl tag) 					{ tags.addItem(tag); tag.addAssignment(this); } 
+	public void addTag(FETTag tag) 					{ tags.addItem(tag); tag.addAssignment(this); } 
 	
 	public Long getId() { return id; }
 	@Override public ObservableValue<Integer> getDuration() 			{ return duration.getObservableValue(); }
