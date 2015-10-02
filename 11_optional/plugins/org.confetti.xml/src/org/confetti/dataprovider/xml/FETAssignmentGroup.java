@@ -5,12 +5,12 @@ import org.confetti.core.AssignmentGroup;
 import org.confetti.observable.ListMutator;
 import org.confetti.observable.ObservableList;
 
-public class AssignmentGroupImpl implements AssignmentGroup {
+public class FETAssignmentGroup implements AssignmentGroup {
 
 	private Integer id;
 	private final ListMutator<Assignment> assignments = new ListMutator<>();
 
-	public AssignmentGroupImpl(final Integer id) {
+	public FETAssignmentGroup(final Integer id) {
 		this.id = id;
 	}
 	

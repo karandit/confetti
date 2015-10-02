@@ -59,7 +59,7 @@ import com.google.common.collect.Lists;
  */
 public class FETDataProvider implements DataProvider {
 	
-	private static final Function<Assignment, Long> GET_ASSG_ID_FUNC = assg -> ((AssignmentImpl) assg).getId();
+	private static final Function<Assignment, Long> GET_ASSG_ID_FUNC = assg -> ((FETAssignment) assg).getId();
 	private static final ConstraintSetter CONSTRAINT_SETTER = new ConstraintSetter(new NameGetter(), GET_ASSG_ID_FUNC);
 	
 	//----------------------------- fields for UI client----------------------------------------------------------------
@@ -121,7 +121,7 @@ public class FETDataProvider implements DataProvider {
 		inst.getSpaceConstraints()	.forEach(x -> constraints.addItem(x.accept(factory, null).build()));
 	}
 	
-	private AssignmentImpl createAssignment(ActivityXml act, Repo repo) {
+	private FETAssignment createAssignment(ActivityXml act, Repo repo) {
 	    if (act.getId() > currentMaxId) {
 	        currentMaxId = act.getId();
 	    }
@@ -130,7 +130,7 @@ public class FETDataProvider implements DataProvider {
 	    		? empty() 
 	    		: of(repo.findAssignmentGroup(act.getActivityGroupId()));
 	    
-		AssignmentImpl ass = new AssignmentImpl(act.getId(), act.getDuration(), act.getNrOfStudents(),
+		FETAssignment ass = new FETAssignment(act.getId(), act.getDuration(), act.getNrOfStudents(),
 				repo.findSubject(act.getSubject().getName()), group);
 		if (act.getStudents() != null) {
 			act.getStudents().forEach(stGroupName -> ass.addStudentGroup(repo.findStudentGroup(stGroupName)));
@@ -244,7 +244,7 @@ public class FETDataProvider implements DataProvider {
 		xml.getActivities().add(activityXml);
 	    marshall(xml);
 	    
-	    AssignmentImpl assignment = new AssignmentImpl(currentMaxId, duration, 0, subject, Optional.empty());
+	    FETAssignment assignment = new FETAssignment(currentMaxId, duration, 0, subject, Optional.empty());
 	    teachers.forEach(assignment::addTeacher);
 	    studentGroups.forEach(assignment::addStudentGroup);
         assignments.addItem(assignment);
@@ -292,7 +292,7 @@ public class FETDataProvider implements DataProvider {
 	@Override
 	public void removeAssignment(Assignment assignment) {
 	    AbstractInstituteXml xml = defaultXmlBuilder().build(this);
-		Long assgId = ((AssignmentImpl) assignment).getId();
+		Long assgId = ((FETAssignment) assignment).getId();
 		Optional<ActivityXml> foundActivity = xml.getActivities().stream()
 	    		.filter(act -> act.getId().equals(assgId))
 	    		.findFirst();

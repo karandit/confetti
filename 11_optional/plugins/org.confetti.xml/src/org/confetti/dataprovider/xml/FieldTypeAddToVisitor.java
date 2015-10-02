@@ -55,13 +55,13 @@ public class FieldTypeAddToVisitor implements FieldTypeVisitor<Object, String, C
 
 	@Override
 	public Object visitAssignment(String key, Constraint target) {
-		((AssignmentImpl) attrs.asAssignment(key)).addConstraint(target);
+		((FETAssignment) attrs.asAssignment(key)).addConstraint(target);
 		return null;
 	}
 
 	@Override
 	public Object visitAssignmentsSet(String key, Constraint target) {
-		attrs.asAssignmentsSet(key).forEach(assg -> ((AssignmentImpl) assg).addConstraint(target));
+		attrs.asAssignmentsSet(key).forEach(assg -> ((FETAssignment) assg).addConstraint(target));
 		return null;
 	}
 	

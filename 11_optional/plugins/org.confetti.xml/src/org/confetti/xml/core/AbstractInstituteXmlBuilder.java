@@ -16,7 +16,7 @@ import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.NameableVisitee;
-import org.confetti.dataprovider.xml.AssignmentGroupImpl;
+import org.confetti.dataprovider.xml.FETAssignmentGroup;
 import org.confetti.util.Tuple;
 
 /**
@@ -94,7 +94,7 @@ public abstract class AbstractInstituteXmlBuilder<T extends AbstractInstituteXml
 		Assignment assg = tuple.getSecond();
 		int duration = assg.getDuration().getValue();
 		long activityGroupId = assg.getGroup().getValue()
-				.flatMap((AssignmentGroup x) -> of(((AssignmentGroupImpl) x).getId()))
+				.flatMap((AssignmentGroup x) -> of(((FETAssignmentGroup) x).getId()))
 				.orElse(0);
 		int totalDuration = assg.getGroup().getValue()
 				.flatMap(assGroup -> of(assGroup.getAssignments().stream()

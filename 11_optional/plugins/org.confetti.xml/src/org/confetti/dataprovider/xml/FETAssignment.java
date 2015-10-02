@@ -17,7 +17,7 @@ import org.confetti.observable.ValueMutator;
 /**
  * @author Kárándi Tamás
  */
-public class AssignmentImpl implements Assignment {
+public class FETAssignment implements Assignment {
 
     private final Long id;
     private final ValueMutator<Integer> duration;
@@ -29,7 +29,7 @@ public class AssignmentImpl implements Assignment {
 	private final ListMutator<Tag> tags = new ListMutator<>();
     private final ValueMutator<Optional<AssignmentGroup>> group;
 
-	public AssignmentImpl(Long id, int duration, int nrOfStudents, Subject subj, Optional<AssignmentGroup> group) {
+	public FETAssignment(Long id, int duration, int nrOfStudents, Subject subj, Optional<AssignmentGroup> group) {
         this.id = id;
         this.duration = new ValueMutator<>(this, duration);
         this.nrOfStudents = new ValueMutator<>(this, nrOfStudents);
