@@ -6,10 +6,10 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.confetti.fet.dataprovider.FETDataProvider;
-import org.confetti.xml.FAOException;
-import org.confetti.xml.Institute_v5_24_0_FAO;
-import org.confetti.xml.core.InstituteXmlRelease;
-import org.confetti.xml.core.Institute_v5_24_0_Xml;
+import org.confetti.fet.xml.FAOException;
+import org.confetti.fet.xml.Institute_v5_24_0_FAO;
+import org.confetti.fet.xml.core.InstituteXmlRelease;
+import org.confetti.fet.xml.core.Institute_v5_24_0_Xml;
 import org.junit.Test;
 
 public class Compatibility_v5_24_0_Test {

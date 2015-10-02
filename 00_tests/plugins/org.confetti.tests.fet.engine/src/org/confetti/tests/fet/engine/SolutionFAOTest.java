@@ -11,7 +11,7 @@ import java.util.Map;
 import org.confetti.fet.engine.solution.ResultActivityXML;
 import org.confetti.fet.engine.solution.SolutionFAO;
 import org.confetti.fet.engine.solution.SolutionXML;
-import org.confetti.xml.FAOException;
+import org.confetti.fet.xml.FAOException;
 import org.junit.Assert;
 import org.junit.Test;
 

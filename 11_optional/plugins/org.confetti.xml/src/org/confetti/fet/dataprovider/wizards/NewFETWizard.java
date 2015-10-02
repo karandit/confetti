@@ -6,13 +6,13 @@ import java.util.List;
 import org.confetti.core.Day;
 import org.confetti.core.Hour;
 import org.confetti.fet.dataprovider.FETDataProvider;
+import org.confetti.fet.xml.core.Day_v5_24_0_Xml;
+import org.confetti.fet.xml.core.Days_v5_24_0_Xml;
+import org.confetti.fet.xml.core.Hour_v5_24_0_Xml;
+import org.confetti.fet.xml.core.Hours_v5_24_0_Xml;
+import org.confetti.fet.xml.core.InstituteXmlRelease;
+import org.confetti.fet.xml.core.Institute_v5_24_0_Xml;
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.xml.core.Day_v5_24_0_Xml;
-import org.confetti.xml.core.Days_v5_24_0_Xml;
-import org.confetti.xml.core.Hour_v5_24_0_Xml;
-import org.confetti.xml.core.Hours_v5_24_0_Xml;
-import org.confetti.xml.core.InstituteXmlRelease;
-import org.confetti.xml.core.Institute_v5_24_0_Xml;
 import org.eclipse.jface.wizard.Wizard;
 
 /**

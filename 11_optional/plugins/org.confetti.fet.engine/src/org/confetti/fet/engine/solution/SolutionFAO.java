@@ -3,8 +3,8 @@ package org.confetti.fet.engine.solution;
 import java.net.URL;
 import java.text.MessageFormat;
 
-import org.confetti.xml.FAOException;
-import org.confetti.xml.GenericFAO;
+import org.confetti.fet.xml.FAOException;
+import org.confetti.fet.xml.GenericFAO;
 
 /**
  * @author Gabor Bubla

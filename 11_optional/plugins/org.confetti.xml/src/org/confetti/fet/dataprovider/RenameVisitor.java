@@ -5,7 +5,7 @@ import org.confetti.core.Room;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
-import org.confetti.xml.core.NameGetter;
+import org.confetti.fet.xml.core.NameGetter;
 
 /**
  * @author Gabor Bubla

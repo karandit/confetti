@@ -1,15 +1,15 @@
 package org.confetti.fet.dataprovider.wizards;
 
-import static org.confetti.xml.core.InstituteXmlRelease.v5_23_4;
-import static org.confetti.xml.core.InstituteXmlRelease.v5_24_0;
+import static org.confetti.fet.xml.core.InstituteXmlRelease.v5_23_4;
+import static org.confetti.fet.xml.core.InstituteXmlRelease.v5_24_0;
 
 import org.confetti.fet.dataprovider.FETDataProvider;
+import org.confetti.fet.xml.FAOException;
+import org.confetti.fet.xml.InstituteHeaderFAO;
+import org.confetti.fet.xml.core.AbstractInstituteXml;
+import org.confetti.fet.xml.core.InstituteXmlRelease;
+import org.confetti.fet.xml.header.InstituteHeaderXml;
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.xml.FAOException;
-import org.confetti.xml.InstituteHeaderFAO;
-import org.confetti.xml.core.AbstractInstituteXml;
-import org.confetti.xml.core.InstituteXmlRelease;
-import org.confetti.xml.header.InstituteHeaderXml;
 import org.eclipse.jface.wizard.Wizard;
 import org.osgi.framework.Version;
 
