@@ -7,10 +7,10 @@ import org.confetti.observable.ValueMutator;
 /**
  * @author Kárándi Tamás
  */
-class DayImpl implements Day {
+class FETDay implements Day {
 
 	private final ValueMutator<String> name;
-	public DayImpl(String name) {
+	public FETDay(String name) {
 		this.name = new ValueMutator<>(this, name);
 	}
 	

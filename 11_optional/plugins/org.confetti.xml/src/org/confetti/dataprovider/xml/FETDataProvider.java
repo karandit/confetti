@@ -91,8 +91,8 @@ public class FETDataProvider implements DataProvider {
         this.file = file;
 		instName.setValue(this, inst.getName());
 		instComment.setValue(this, inst.getComment());
-		inst.getDayNames()			.forEach(dayName -> days.addItem(new DayImpl(dayName)));
-		inst.getHourNames()			.forEach(hourName -> hours.addItem(new HourImpl(hourName)));
+		inst.getDayNames()			.forEach(dayName -> days.addItem(new FETDay(dayName)));
+		inst.getHourNames()			.forEach(hourName -> hours.addItem(new FETHour(hourName)));
         inst.getSubjects()			.forEach(subj -> subjects.addItem(new SubjectImpl(subj.getName(), this.getNextColorId())));
 		inst.getTeachers()			.forEach(teacher -> teachers.addItem(new TeacherImpl(teacher.getName())));
 		inst.getBuildings()			.forEach(building -> buildings.addItem(new FETBuilding(building.getName())));

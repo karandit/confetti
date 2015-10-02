@@ -7,10 +7,10 @@ import org.confetti.observable.ValueMutator;
 /**
  * @author Kárándi Tamás
  */
-class HourImpl implements Hour {
+class FETHour implements Hour {
 
 	private final ValueMutator<String> name;
-	public HourImpl(String name) {
+	public FETHour(String name) {
 		this.name = new ValueMutator<>(this, name);
 	}
 	
