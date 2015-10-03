@@ -298,9 +298,9 @@ public class FETDataProvider implements DataProvider {
 		foundActivity.ifPresent(xml.getActivities()::remove);
 	    marshall(xml);
 	    
-	    assignment.getSubject().removeAssignment(assignment);
-        assignment.getTeachers().getList().forEach(teacher -> teacher.removeAssignment(assignment));
-        assignment.getStudentGroups().getList().forEach(studentGroup -> studentGroup.removeAssignment(assignment));
+	    ((FETSubject) assignment.getSubject()).removeAssignment(assignment);
+        assignment.getTeachers().getList().forEach(teacher -> ((FETTeacher) teacher).removeAssignment(assignment));
+        assignment.getStudentGroups().getList().forEach(sg -> ((FETStudentGroup) sg).removeAssignment(assignment));
         assignments.removeItem(assignment);
 	}
 	

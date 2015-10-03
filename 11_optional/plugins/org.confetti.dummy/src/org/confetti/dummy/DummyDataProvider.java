@@ -203,12 +203,12 @@ public class DummyDataProvider implements DataProvider {
 	
 	@Override
 	public void removeAssignment(Assignment assignment) {
-	    assignment.getSubject().removeAssignment(assignment);
+	    ((DummySubject) assignment.getSubject()).removeAssignment(assignment);
         for (Teacher teacher : assignment.getTeachers().getList()) {
-            teacher.removeAssignment(assignment);
+            ((DummyTeacher) teacher).removeAssignment(assignment);
         }
         for (StudentGroup studentGroup : assignment.getStudentGroups().getList()) {
-            studentGroup.removeAssignment(assignment);
+            ((DummyStudentGroup) studentGroup).removeAssignment(assignment);
         }
         assignments.removeItem(assignment);
 	}

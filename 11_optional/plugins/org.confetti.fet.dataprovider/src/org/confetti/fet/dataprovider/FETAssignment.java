@@ -34,13 +34,21 @@ public class FETAssignment implements Assignment {
         this.duration = new ValueMutator<>(this, duration);
         this.nrOfStudents = new ValueMutator<>(this, nrOfStudents);
         this.subj = subj;
-        subj.addAssignment(this);
+        ((FETSubject) subj).addAssignment(this);
         this.group = new ValueMutator<>(this, group);
-		group.ifPresent(x -> x.addAssignment(this));
+		group.ifPresent(x -> ((FETAssignmentGroup) x).addAssignment(this));
 	}
 
-	public void addTeacher(Teacher teacher) 			{ teachers.addItem(teacher); teacher.addAssignment(this);} 
-	public void addStudentGroup(StudentGroup group) 	{ stGroups.addItem(group); group.addAssignment(this);} 
+	public void addTeacher(Teacher teacher) {
+		teachers.addItem(teacher);
+		((FETTeacher) teacher).addAssignment(this);
+	}
+
+	public void addStudentGroup(StudentGroup group) {
+		stGroups.addItem(group);
+		((FETStudentGroup) group).addAssignment(this);
+	}
+
 	public void addConstraint(Constraint cnstr) 		{ constraints.addItem(cnstr);} 
 	public void addTag(FETTag tag) 					{ tags.addItem(tag); tag.addAssignment(this); } 
 	

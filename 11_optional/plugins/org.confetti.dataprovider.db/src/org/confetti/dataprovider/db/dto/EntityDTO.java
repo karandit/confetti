@@ -25,11 +25,11 @@ public abstract class EntityDTO implements Entity, Assignable {
     public Long getId() { return id; }
     
     @Override public ObservableValue<String> getName() { return name.getObservableValue(); }
-    @Override public void addAssignment(Assignment assignment) { assignments.addItem(assignment); }
-    @Override public void removeAssignment(Assignment assignment) { assignments.removeItem(assignment); }
     @Override public ObservableList<Assignment> getAssignments() { return assignments.getObservableList(); }
 	@Override public ObservableList<Constraint> getConstraints()  { return constraints.getObservableList(); }
 
     public ValueMutator<String> getNameMutator() { return name; }
+    public void addAssignment(Assignment assignment) { assignments.addItem(assignment); }
+    public void removeAssignment(Assignment assignment) { assignments.removeItem(assignment); }
 
 }

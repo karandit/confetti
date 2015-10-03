@@ -34,12 +34,12 @@ public class DummyAssignment implements Assignment {
 			this.studentGroups.addItem(studentGroup);
 		}
 
-		subject.addAssignment(this);
+		((DummySubject) subject).addAssignment(this);
 		for (Teacher teacher : teachers) {
-			teacher.addAssignment(this);
+			((DummyTeacher) teacher).addAssignment(this);
 		}
 		for (StudentGroup studentGroup : studentGroups) {
-			studentGroup.addAssignment(this);
+			((DummyStudentGroup) studentGroup).addAssignment(this);
 		}
 	}
 

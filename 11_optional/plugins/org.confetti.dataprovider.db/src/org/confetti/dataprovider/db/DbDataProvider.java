@@ -258,12 +258,12 @@ public class DbDataProvider implements DataProvider {
             }
         });
         
-        assignment.getSubject().removeAssignment(assignment);
+        ((SubjectDTO) assignment.getSubject()).removeAssignment(assignment);
         for (Teacher teacher : assignment.getTeachers().getList()) {
-            teacher.removeAssignment(assignment);
+            ((TeacherDTO) teacher).removeAssignment(assignment);
         }
         for (StudentGroup studentGroup : assignment.getStudentGroups().getList()) {
-            studentGroup.removeAssignment(assignment);
+            ((StudentGroupDTO) studentGroup).removeAssignment(assignment);
         }
         assignments.removeItem(assignment);
     }

@@ -15,8 +15,8 @@ public class FETAssignmentGroup implements AssignmentGroup {
 	}
 	
 	public Integer getId() { return id; }
-	@Override public void addAssignment(Assignment assignment) 	  { assignments.addItem(assignment);}
-	@Override public void removeAssignment(Assignment assignment) { assignments.removeItem(assignment); }
 	@Override public ObservableList<Assignment> getAssignments()  { return assignments.getObservableList(); }
 
+	public void addAssignment(Assignment assignment) 	  { assignments.addItem(assignment);}
+	public void removeAssignment(Assignment assignment) { assignments.removeItem(assignment); }
 }

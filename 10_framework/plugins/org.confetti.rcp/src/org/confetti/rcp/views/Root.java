@@ -17,8 +17,6 @@ public enum Root implements Nameable, Assignable, Constraintable {
 
 	//-------------- Assignable ----------------------------------------------------------------------------------------
 	@Override public ObservableList<Assignment> getAssignments() 	{ return getDataProvider().getAssignments(); }
-	@Override public void addAssignment(Assignment assignment) 		{ }
-	@Override public void removeAssignment(Assignment assignment) 	{ }
 
 	//-------------- Constraintable ------------------------------------------------------------------------------------
 	@Override

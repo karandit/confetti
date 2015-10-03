@@ -29,7 +29,7 @@ public class AssignmentDTO implements Assignment {
     public AssignmentDTO(Long id, Subject subj) {
         this.id = id;
         this.subj = subj;
-        subj.addAssignment(this);
+        ((SubjectDTO) subj).addAssignment(this);
     }
 
     public Long getId() {
@@ -38,12 +38,12 @@ public class AssignmentDTO implements Assignment {
     
     public void addTeacher(Teacher teacher) {
         teachers.addItem(teacher);
-        teacher.addAssignment(this);
+        ((TeacherDTO) teacher).addAssignment(this);
     }
 
     public void addStudentGroup(StudentGroup group) {
         stGroups.addItem(group);
-        group.addAssignment(this);
+        ((StudentGroupDTO) group).addAssignment(this);
     }
 
     @Override public ObservableValue<Integer> getDuration() { return duration.getObservableValue(); }
