@@ -9,7 +9,7 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>org.confetti.xml</artifactId>
+	<artifactId>org.confetti.fet.dataprovider</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
 </project>
