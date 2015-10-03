@@ -1,6 +1,6 @@
-package org.confetti.tests.xml;
+package org.confetti.tests.fet.dataprovider;
 
-import static org.confetti.tests.xml.StructureTest.openStream;
+import static org.confetti.tests.fet.dataprovider.StructureTest.openStream;
 
 import java.io.File;
 import java.io.IOException;

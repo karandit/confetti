@@ -1,4 +1,4 @@
-package org.confetti.tests.xml.v5_24_0;
+package org.confetti.tests.fet.dataprovider.v5_24_0;
 
 import java.io.File;
 import java.io.IOException;

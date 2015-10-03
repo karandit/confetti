@@ -7,8 +7,8 @@ import java.net.URL;
 import org.confetti.fet.dataprovider.FETDataProvider;
 import org.confetti.fet.engine.FETEngineWizard;
 import org.confetti.fet.engine.FETRunnable;
+import org.confetti.tests.fet.dataprovider.CompatibilityTest;
 import org.confetti.tests.fet.engine.SpeedCategories.Failing;
-import org.confetti.tests.xml.CompatibilityTest;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 

@@ -1,4 +1,4 @@
-package org.confetti.tests.xml;
+package org.confetti.tests.fet.dataprovider;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
