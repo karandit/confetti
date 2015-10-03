@@ -6,9 +6,9 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.confetti.rcp,
  org.confetti.core,
  org.eclipse.ui,
- org.confetti.xml,
  com.google.guava,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.confetti.fet.dataprovider
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.confetti.fet.engine;x-friends:="org.confetti.tests.fet.engine",
  org.confetti.fet.engine.solution;x-friends:="org.confetti.tests.fet.engine"
