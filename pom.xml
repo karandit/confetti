@@ -14,7 +14,7 @@
 		<module>./10_framework/plugins/org.confetti.core</module>
 		<module>./10_framework/plugins/org.confetti.rcp</module>
 		<module>./10_framework/features/org.confetti.feature.rcp</module>
-		<module>./11_optional/plugins/org.confetti.xml</module>
+		<module>./11_optional/plugins/org.confetti.fet.dataprovider</module>
 		<module>./11_optional/plugins/org.confetti.fet.engine</module>
 		<module>./11_optional/plugins/org.confetti.fet.constraints</module>
 		<module>./11_optional/plugins/org.confetti.dataprovider.db</module>
