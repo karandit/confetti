@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="ttm" type="ttm_type"/>
+
+  <xs:complexType name="ttm_type">
+    <xs:sequence>
+      <xs:element name="info" type="info_type" minOccurs="0"/>
+      <xs:element name="modules" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="module" type="module_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="resources" type="resources_type" minOccurs="0"/>
+      <xs:element name="events" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="event" type="event_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="version" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="info_type">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string" minOccurs="0"/>
+      <xs:element name="author" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="module_type">
+    <xs:sequence>
+      <xs:element name="option" type="option_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="mandatory" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="weight" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="option_type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="resources_type">
+    <xs:sequence>
+      <xs:element name="constant" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="resourcetype" type="resourcetype_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="variable" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="resourcetype" type="resourcetype_type" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="resourcetype_type">
+    <xs:sequence>
+      <xs:element name="resource" type="resourcedef_type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="matrix" type="matrix_type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="linear" type="linear_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="resourcedef_type">
+    <xs:sequence>
+      <xs:element name="restriction" type="restriction_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="restriction_type">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="type" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="matrix_type">
+    <xs:sequence/>
+    <xs:attribute name="height" type="xs:int" use="required"/>
+    <xs:attribute name="width" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="linear_type">
+    <xs:sequence>
+      <xs:element name="restriction" type="restriction_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="from" type="xs:int" use="required"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="to" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="event_type">
+    <xs:sequence>
+      <xs:element name="resource" type="resource_type" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="restriction" type="restriction_type" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="repeats" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="resource_type">
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="type" type="xs:string"/>
+  </xs:complexType>
+</xs:schema>
+

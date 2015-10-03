@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tablix Dataprovider
+Bundle-SymbolicName: org.confetti.tablix.dataprovider;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.swt,
+ org.eclipse.ui,
+ com.google.guava,
+ org.confetti.rcp
+Import-Package: org.confetti.core,
+ org.confetti.observable,
+ org.eclipse.jface.wizard
+Export-Package: org.confetti.tablix.dataprovider;x-friends:="org.confetti.tests.tablix.dataprovider",
+ org.confetti.tablix.xml;x-friends:="org.confetti.tests.tablix.dataprovider"
