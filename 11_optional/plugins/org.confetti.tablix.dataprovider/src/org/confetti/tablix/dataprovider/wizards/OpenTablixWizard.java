@@ -1,5 +1,7 @@
 package org.confetti.tablix.dataprovider.wizards;
 
+import static java.util.Optional.empty;
+
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.tablix.dataprovider.TablixDataProvider;
 import org.confetti.tablix.xml.TablixFAO;
@@ -22,7 +24,7 @@ public class  OpenTablixWizard extends Wizard {
 		try {
 			TablixXml xml = new TablixFAO().importFrom(model.getFile());
 			TablixDataProvider dp = new TablixDataProvider(xml, model.getFile());
-			ConfettiPlugin.getDefault().setDataProvider(dp, dp);
+			ConfettiPlugin.getDefault().setDataProvider(dp, empty());
 			return true;
 		} catch (FAOException e) {
 			e.printStackTrace();

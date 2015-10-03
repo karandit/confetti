@@ -1,6 +1,7 @@
 package org.confetti.rcp.commands;
 
-import org.confetti.rcp.ConfettiPlugin;
+import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
+
 import org.confetti.rcp.dialogs.AddAssignmentDialog;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -18,6 +19,6 @@ public class NewAssignmentCommand extends AbstractHandler {
         return null;
     }
 
-    @Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
+    @Override public boolean isEnabled() { return isWritable(); }
     
 }

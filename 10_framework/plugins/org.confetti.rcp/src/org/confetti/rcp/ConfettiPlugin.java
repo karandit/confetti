@@ -1,8 +1,11 @@
 package org.confetti.rcp;
 
+import static java.util.Optional.empty;
+
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
@@ -59,7 +62,7 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	//The shared instance.
 	private static ConfettiPlugin plugin;
 	private ValueMutator<DataProvider> dpMutator = new ValueMutator<>();
-    private DataPersister dataPersister;
+    private ValueMutator<Optional<DataPersister>> dataPersisterMutator = new ValueMutator<>(this, empty());
 	
 	/**
 	 * The constructor.
@@ -156,13 +159,13 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 		return dpMutator.getObservableValue();
 	}
 
-	public DataPersister getDataPersister() {
-	    return dataPersister;
+	public Optional<DataPersister> getDataPersister() {
+	    return dataPersisterMutator.getObservableValue().getValue();
 	}
 
-	public void setDataProvider(DataProvider value, DataPersister dataPersister) {
-		this.dataPersister = dataPersister;
-        dpMutator.setValue(this, value);
+	public void setDataProvider(DataProvider value, Optional<DataPersister> dataPersister) {
+		this.dataPersisterMutator.setValue(this, dataPersister);
+        this.dpMutator.setValue(this, value);
         if (value != null) {
             PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
             	.setText("Confetti - " + value.getInformation()); //$NON-NLS-1$

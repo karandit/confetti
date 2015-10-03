@@ -1,5 +1,7 @@
 package org.confetti.rcp.commands;
 
+import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
+
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
@@ -44,5 +46,6 @@ public class EditConstraintCommand extends AbstractHandler {
 
 	    return null;
 	}
-
+	
+	@Override public boolean isEnabled() { return isWritable(); }
 }

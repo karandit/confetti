@@ -2,6 +2,7 @@ package org.confetti.rcp.commands;
 
 import static com.google.common.collect.Iterables.isEmpty;
 import static java.util.Arrays.asList;
+import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
 
 import org.confetti.core.Entity;
 import org.confetti.core.EntityVisitor;
@@ -49,6 +50,8 @@ public class DeleteEntityCommand extends AbstractHandler {
 	    return null;
 	}
 
+	@Override public boolean isEnabled() { return isWritable(); }
+	
 	private enum DeleteEntityVisitor implements EntityVisitor<Boolean, Void> {
         
 	    INSTANCE;

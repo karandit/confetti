@@ -1,5 +1,7 @@
 package org.confetti.rcp.commands;
 
+import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
+
 import org.confetti.core.Assignment;
 import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.core.commands.AbstractHandler;
@@ -33,5 +35,6 @@ public class DeleteAssignmentCommand extends AbstractHandler {
         
         return null;
     }
-
+    
+    @Override public boolean isEnabled() { return isWritable(); }
 }

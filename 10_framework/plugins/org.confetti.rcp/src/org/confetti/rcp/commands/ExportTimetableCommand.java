@@ -1,6 +1,7 @@
 package org.confetti.rcp.commands;
 
-import org.confetti.core.DataProvider;
+import static java.util.Optional.ofNullable;
+
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.ExportTimetableWizard;
@@ -25,11 +26,9 @@ public class ExportTimetableCommand extends AbstractHandler {
 
     @Override
     public boolean isEnabled() {
-        DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
-        if (dp != null && dp.getSolution().getValue() != null) {
-            return true;
-        }
-        return false;
+    	return ofNullable(ConfettiPlugin.getDefault().getDataProvider().getValue())
+	    	.flatMap(dp -> ofNullable(dp.getSolution().getValue()))
+	    	.isPresent();
     }
     
 }

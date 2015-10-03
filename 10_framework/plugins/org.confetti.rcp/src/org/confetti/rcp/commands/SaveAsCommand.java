@@ -59,7 +59,7 @@ public class SaveAsCommand extends AbstractHandler {
 
     @Override
     public boolean isEnabled() {
-        return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true;
+        return ConfettiPlugin.getDefault().getDataProvider().getValue() != null;
     }
 
 }

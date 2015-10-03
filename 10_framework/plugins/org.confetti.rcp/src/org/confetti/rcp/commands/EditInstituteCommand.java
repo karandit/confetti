@@ -1,5 +1,7 @@
 package org.confetti.rcp.commands;
 
+import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
+
 import org.confetti.core.DataProvider;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.wizards.EditInstituteWizard;
@@ -36,4 +38,5 @@ public class EditInstituteCommand extends AbstractHandler {
 	    return null;
 	}
 
+	@Override public boolean isEnabled() { return isWritable(); }
 }

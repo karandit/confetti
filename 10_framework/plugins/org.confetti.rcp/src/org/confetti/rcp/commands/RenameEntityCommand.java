@@ -1,5 +1,7 @@
 package org.confetti.rcp.commands;
 
+import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,7 +61,9 @@ public class RenameEntityCommand extends AbstractHandler {
 		}
 		return null;
 	}
-
+	
+	@Override public boolean isEnabled() { return isWritable(); }
+	
 	protected boolean isUnique(Entity sel, String newText) {
 		DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
 		Set<String> allNames = sel.accept(GetAllNamesVisitor.INSTANCE, dp);

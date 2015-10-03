@@ -77,7 +77,7 @@ public class GenerateTimetableCommand extends AbstractHandler {
 		return null;
 	}
 
-	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
+	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() != null; }
 	
 	private class EngineLabelProvider extends LabelProvider implements ITableLabelProvider {
 

@@ -1,5 +1,7 @@
 package org.confetti.dataprovider.db.wizards;
 
+import static java.util.Optional.of;
+
 import java.util.List;
 
 import org.confetti.dataprovider.db.DbConnectionDescriptor;
@@ -61,7 +63,7 @@ public class OpenDatabaseWizard extends Wizard {
             InstituteDb inst = institutes.get(0);
             String info = selConn.getSecond() + " : " + selConn.getFirst();
             DbDataProvider dp = new DbDataProvider(sessFact, inst, info);
-            ConfettiPlugin.getDefault().setDataProvider(dp, dp);
+            ConfettiPlugin.getDefault().setDataProvider(dp, of(dp));
             return true;
         } finally {
             session.close();

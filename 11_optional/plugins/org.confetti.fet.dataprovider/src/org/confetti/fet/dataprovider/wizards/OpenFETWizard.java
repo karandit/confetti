@@ -1,5 +1,6 @@
 package org.confetti.fet.dataprovider.wizards;
 
+import static java.util.Optional.of;
 import static org.confetti.fet.xml.core.InstituteXmlRelease.v5_23_4;
 import static org.confetti.fet.xml.core.InstituteXmlRelease.v5_24_0;
 
@@ -34,7 +35,7 @@ public class OpenFETWizard extends Wizard {
 			
 			InstituteXmlRelease<?> release = semver.compareTo(new Version(5, 24, 0)) < 0 ? v5_23_4 : v5_24_0;
 			FETDataProvider dp = newDataProvider(release);
-            ConfettiPlugin.getDefault().setDataProvider(dp, dp);
+            ConfettiPlugin.getDefault().setDataProvider(dp, of(dp));
 		} catch (FAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

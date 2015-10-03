@@ -1,5 +1,7 @@
 package org.confetti.rcp.commands;
 
+import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
+
 import java.util.List;
 
 import org.confetti.core.ConstraintAttributes;
@@ -68,7 +70,7 @@ public class NewConstraintCommand extends AbstractHandler {
         return null;
     }
 
-	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
+	@Override public boolean isEnabled() { return isWritable(); }
 
     private static enum ConstraintElementContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 		INSTANCE;

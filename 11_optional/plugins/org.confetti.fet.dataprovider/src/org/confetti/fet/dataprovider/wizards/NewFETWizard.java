@@ -1,5 +1,7 @@
 package org.confetti.fet.dataprovider.wizards;
 
+import static java.util.Optional.of;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,7 +55,7 @@ public class NewFETWizard extends Wizard {
             FETDataProvider dp = new FETDataProvider(xml, InstituteXmlRelease.v5_24_0, model.getFile());
             dp.save();
             
-            ConfettiPlugin.getDefault().setDataProvider(dp, dp);
+            ConfettiPlugin.getDefault().setDataProvider(dp, of(dp));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

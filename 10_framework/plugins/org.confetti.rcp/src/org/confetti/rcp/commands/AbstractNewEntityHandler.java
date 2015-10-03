@@ -31,7 +31,8 @@ abstract class AbstractNewEntityHandler<T> extends AbstractHandler {
 
 	protected abstract NewEntityWizardModel<T> createModel();
 
-	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() == null ? false : true; }
+	@Override public boolean isEnabled() { return isWritable(); }
+
 	@Override public void dispose() { }
 	
 	protected static List<String> getNames(Iterable<? extends Entity> entities) {
@@ -41,4 +42,7 @@ abstract class AbstractNewEntityHandler<T> extends AbstractHandler {
 		}
 		return names;
 	}
+
+	static boolean isWritable() { return ConfettiPlugin.getDefault().getDataPersister().isPresent(); }
+	
 }
