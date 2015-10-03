@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.confetti.fet.engine,
  org.junit,
- org.confetti.tests.xml,
+ org.confetti.tests.fet.dataprovider,
  org.confetti.core,
  org.eclipse.core.runtime,
  org.eclipse.jface,
