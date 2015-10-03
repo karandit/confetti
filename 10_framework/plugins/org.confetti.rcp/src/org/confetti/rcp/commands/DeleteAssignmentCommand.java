@@ -24,12 +24,13 @@ public class DeleteAssignmentCommand extends AbstractHandler {
         Shell shell = Display.getDefault().getActiveShell();
         
         ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-        if (!selection.toString().equals("<empty selection>") && selection != null && selection instanceof IStructuredSelection) {
+        if (selection != null 
+        		&& !selection.isEmpty() && selection instanceof IStructuredSelection) {
             IStructuredSelection strucSelection = (IStructuredSelection) selection;
             final Assignment selectedAssignment = (Assignment) strucSelection.getFirstElement();
             
             if (MessageDialog.openConfirm(shell, "Delete", "The selected Assignment will be deleted! \n Are you sure?")) {
-                ConfettiPlugin.getDefault().getDataProvider().getValue().removeAssignment(selectedAssignment);
+                ConfettiPlugin.getDefault().getDataPersister().get().removeAssignment(selectedAssignment);
             }
         }
         

@@ -8,6 +8,7 @@ import org.confetti.core.Assignment;
 import org.confetti.core.Building;
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -23,7 +24,7 @@ import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 import org.confetti.observable.ValueMutator;
 
-public class DummyDataProvider implements DataProvider {
+public class DummyDataProvider implements DataProvider, DataPersister {
 
 	private final ValueMutator<String> instName = new ValueMutator<>();
 	private final ValueMutator<String> instComment = new ValueMutator<>();

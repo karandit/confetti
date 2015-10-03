@@ -180,7 +180,7 @@ public class AddAssignmentDialog extends Dialog {
 			List<StudentGroup> studentGroups = selection.toList();
             
             //create the assignment
-            ConfettiPlugin.getDefault().getDataProvider().getValue().addAssignment(subject, teachers, studentGroups);
+            ConfettiPlugin.getDefault().getDataPersister().get().addAssignment(subject, teachers, studentGroups);
             MessageDialog.openInformation(shell, "Success", "Selected assignment succesfully added");
             
             //reset viewers' selection

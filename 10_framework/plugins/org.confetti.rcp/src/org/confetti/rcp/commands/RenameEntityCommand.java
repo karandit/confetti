@@ -5,6 +5,7 @@ import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Entity;
 import org.confetti.core.EntityVisitor;
@@ -41,7 +42,10 @@ public class RenameEntityCommand extends AbstractHandler {
 	    }
 		IStructuredSelection strucSelection = (IStructuredSelection) selection;
 		final Entity sel = (Entity) strucSelection.getFirstElement();
-		InputDialog inputDialog = new InputDialog(Display.getDefault().getActiveShell(), Messages.RenameEntityCommand_Title, Messages.RenameEntityCommand_Description, sel.getName().getValue(), 
+		InputDialog inputDialog = new InputDialog(Display.getDefault().getActiveShell(), 
+				Messages.RenameEntityCommand_Title, 
+				Messages.RenameEntityCommand_Description, 
+				sel.getName().getValue(), 
 				new IInputValidator() {
 					@Override
 					public String isValid(String newText) {
@@ -54,9 +58,8 @@ public class RenameEntityCommand extends AbstractHandler {
 						return null;
 					}
 				});
-		int button = inputDialog.open();
-		if (button == Window.OK) {
-			DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		if (inputDialog.open() == Window.OK) {
+			DataPersister dp = ConfettiPlugin.getDefault().getDataPersister().get();
 			dp.rename(sel, inputDialog.getValue());
 		}
 		return null;

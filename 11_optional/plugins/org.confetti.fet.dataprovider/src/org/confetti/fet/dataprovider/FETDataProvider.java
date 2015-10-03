@@ -17,6 +17,7 @@ import org.confetti.core.AssignmentGroup;
 import org.confetti.core.Building;
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -56,7 +57,7 @@ import com.google.common.collect.Lists;
  * @author Bubla Gabor
  * @author Kárándi Tamás
  */
-public class FETDataProvider implements DataProvider {
+public class FETDataProvider implements DataProvider, DataPersister {
 	
 	private static final Function<Assignment, Long> GET_ASSG_ID_FUNC = assg -> ((FETAssignment) assg).getId();
 	private static final ConstraintSetter CONSTRAINT_SETTER = new ConstraintSetter(new NameGetter(), GET_ASSG_ID_FUNC);

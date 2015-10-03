@@ -1,6 +1,5 @@
 package org.confetti.dummy.generateWizard;
 
-import org.confetti.core.DataProvider;
 import org.eclipse.jface.wizard.Wizard;
 
 /**
@@ -8,7 +7,7 @@ import org.eclipse.jface.wizard.Wizard;
  */
 public class DummyEngineWizard extends Wizard {
 
-	public DummyEngineWizard(DataProvider dp) {
+	public DummyEngineWizard() {
 		addPage(new DummyEngineWizardPage("GeneratePage"));
 	}
 

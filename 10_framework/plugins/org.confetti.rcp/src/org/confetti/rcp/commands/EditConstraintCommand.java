@@ -4,7 +4,7 @@ import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
 
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
-import org.confetti.core.DataProvider;
+import org.confetti.core.DataPersister;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.constraints.ConstraintDialog;
 import org.confetti.rcp.extensions.ConstraintDescr;
@@ -41,7 +41,7 @@ public class EditConstraintCommand extends AbstractHandler {
         if (Window.OK != constraintDialog.open()) {
         	return null;
         }
-		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		final DataPersister dp = ConfettiPlugin.getDefault().getDataPersister().get();
 		dp.updateConstraint(constraint, newAttrs);
 
 	    return null;

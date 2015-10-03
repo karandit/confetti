@@ -1,5 +1,6 @@
 package org.confetti.dummy.generateWizard;
 
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.rcp.extensions.EngineWizardFactory;
 import org.eclipse.jface.wizard.IWizard;
@@ -13,8 +14,8 @@ public class DummyEngineWizardFactory implements EngineWizardFactory {
 	}
 
 	@Override
-	public IWizard createWizard(DataProvider dp) {
-		return new DummyEngineWizard(dp);
+	public IWizard createWizard(DataProvider dp, DataPersister dataPersister) {
+		return new DummyEngineWizard();
 	}
 
 }

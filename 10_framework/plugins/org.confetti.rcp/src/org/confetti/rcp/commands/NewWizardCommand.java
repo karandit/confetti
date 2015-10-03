@@ -9,10 +9,8 @@ import java.util.List;
 import org.confetti.core.Assignment;
 import org.confetti.core.Building;
 import org.confetti.core.Constraint;
-import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
-import org.confetti.core.Entity;
 import org.confetti.core.Hour;
 import org.confetti.core.Room;
 import org.confetti.core.SolutionSlot;
@@ -140,21 +138,6 @@ public class NewWizardCommand extends AbstractHandler {
         @Override public ObservableList<Constraint> getConstraints() { return null; }
         @Override public ObservableList<Tag> getTags() { return null; }
         @Override public ObservableValue<Iterable<SolutionSlot>> getSolution() { return null; }
-        @Override public void addSubjects(List<String> names) { }
-        @Override public void addTeachers(List<String> names) { }
-        @Override public void addStudentGroups(StudentGroup parent, List<String> names) { }
-        @Override public void addRooms(List<String> names) { }
-        @Override public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) { return null; }
-        @Override public void addConstraint(String type, ConstraintAttributes attrs) { }
-        @Override public void setSolution(Iterable<SolutionSlot> solution) { }
-        @Override public void removeSubjects(List<Subject> subjects) { }
-        @Override public void removeTeachers(List<Teacher> teachers) { }
-        @Override public void removeStudentGroups(List<StudentGroup> studentGroups) { }
-        @Override public void removeRooms(List<Room> rooms) { }
-        @Override public void removeAssignment(Assignment assignment) { }
-        @Override public void rename(Entity entity, String newName) { }
-		@Override public void updateConstraint(Constraint constraint, ConstraintAttributes attrs) { }
-		@Override public void updateInstituteNameAndComment(String newName, String newComment) { }
     }
 
 }

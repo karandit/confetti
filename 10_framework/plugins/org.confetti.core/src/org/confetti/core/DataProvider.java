@@ -3,7 +3,7 @@ package org.confetti.core;
 import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableValue;
 
-public interface DataProvider extends Nameable, Constraintable, DataPersister {
+public interface DataProvider extends Nameable, Constraintable {
     
     String getInformation();
 	ObservableValue<String> getComment();

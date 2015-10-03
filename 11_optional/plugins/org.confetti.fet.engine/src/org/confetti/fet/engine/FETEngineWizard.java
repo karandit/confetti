@@ -6,8 +6,8 @@ import static java.util.Optional.of;
 import java.net.URL;
 import java.util.Optional;
 
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
-import org.confetti.rcp.ConfettiPlugin;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizardContainer;
@@ -24,10 +24,12 @@ import org.eclipse.swt.widgets.Display;
 public class FETEngineWizard extends Wizard {
 
 	private final DataProvider mDataProvider;
+	private final DataPersister mDataPersister;
 	private FETEngineWizardPage mConsolePage;
 	
-	public FETEngineWizard(DataProvider dp) {
-		this.mDataProvider = dp;
+	public FETEngineWizard(DataProvider dataProvider, DataPersister dataPersister) {
+		this.mDataProvider = dataProvider;
+		this.mDataPersister = dataPersister;
 		setNeedsProgressMonitor(true);
 	}
 
@@ -53,7 +55,7 @@ public class FETEngineWizard extends Wizard {
 			fetRunnable.attachPrintListener(event -> display.asyncExec(() -> mConsolePage.print((String) event.data)));
 			getContainer().run(true, false, fetRunnable);
 			if (fetRunnable.getSolution() != null) {
-				ConfettiPlugin.getDefault().getDataProvider().getValue().setSolution(fetRunnable.getSolution());
+				mDataPersister.setSolution(fetRunnable.getSolution());
 			}
 			changeButtons();
 			return false;

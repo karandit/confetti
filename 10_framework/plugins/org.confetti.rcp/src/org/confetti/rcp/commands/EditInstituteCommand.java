@@ -22,19 +22,19 @@ public class EditInstituteCommand extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-	    if (selection == null || selection.isEmpty()
-	    		|| !(selection instanceof IStructuredSelection) ) {
+	    if (selection == null || selection.isEmpty() || !(selection instanceof IStructuredSelection) ) {
 	    	return null;
 	    }
         Shell shell = Display.getDefault().getActiveShell();
-		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		ConfettiPlugin confettiActvator = ConfettiPlugin.getDefault();
+		final DataProvider dp = confettiActvator.getDataProvider().getValue();
         
 		EditInstituteModel model = new EditInstituteModel(dp.getName().getValue(), dp.getComment().getValue());
         WizardDialog dialog = new WizardDialog(shell, new EditInstituteWizard(model));
         if (Window.OK != dialog.open()) {
             return null;
         }
-		dp.updateInstituteNameAndComment(model.getName(), model.getComment());
+        confettiActvator.getDataPersister().get().updateInstituteNameAndComment(model.getName(), model.getComment());
 	    return null;
 	}
 

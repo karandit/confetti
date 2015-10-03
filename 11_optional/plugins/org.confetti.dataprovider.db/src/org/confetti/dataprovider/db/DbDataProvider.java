@@ -12,6 +12,7 @@ import org.confetti.core.Assignment;
 import org.confetti.core.Building;
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Day;
 import org.confetti.core.Entity;
@@ -56,7 +57,7 @@ import com.google.common.collect.Iterables;
 /**
  * @author Gabor Bubla
  */
-public class DbDataProvider implements DataProvider {
+public class DbDataProvider implements DataProvider, DataPersister {
 
 	//----------------------------- fields -----------------------------------------------------------------------------
 	private final ValueMutator<String> instName = new ValueMutator<>();

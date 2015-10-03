@@ -1,9 +1,12 @@
 package org.confetti.rcp.commands;
 
+import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
 import static org.confetti.rcp.wizards.WizardUtil.watchWizardDialog;
 
 import java.util.List;
 
+import org.confetti.core.DataPersister;
+import org.confetti.core.DataProvider;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.extensions.EngineWizardDescr;
 import org.confetti.rcp.extensions.EngineWizardFactory;
@@ -70,14 +73,16 @@ public class GenerateTimetableCommand extends AbstractHandler {
 		//open the selected extension's wizard
 		EngineWizardDescr selectedDescr = (EngineWizardDescr) selected[0];
 		EngineWizardFactory wizardFactory = selectedDescr.getWizardFactory();
-		WizardDialog dialog = new WizardDialog(shell, wizardFactory.createWizard(ConfettiPlugin.getDefault().getDataProvider().getValue()));
+		DataProvider dataProvider = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		DataPersister dataPersister = ConfettiPlugin.getDefault().getDataPersister().get();
+		WizardDialog dialog = new WizardDialog(shell, wizardFactory.createWizard(dataProvider, dataPersister));
 		watchWizardDialog(dialog);
 		dialog.open();
 		
 		return null;
 	}
 
-	@Override public boolean isEnabled() { return ConfettiPlugin.getDefault().getDataProvider().getValue() != null; }
+	@Override public boolean isEnabled() { return isWritable(); }
 	
 	private class EngineLabelProvider extends LabelProvider implements ITableLabelProvider {
 

@@ -2,6 +2,7 @@ package org.confetti.rcp.commands;
 
 import java.util.List;
 
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Subject;
 import org.confetti.rcp.ConfettiPlugin;
@@ -13,9 +14,11 @@ public class NewSubjectCommand extends AbstractNewEntityHandler<Subject> {
 
 	@Override
 	protected NewEntityWizardModel<Subject> createModel() {
-		final DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
+		ConfettiPlugin plugin = ConfettiPlugin.getDefault();
+		DataPersister dp = plugin.getDataPersister().get();
+		DataProvider dataProvider = plugin.getDataProvider().getValue();
 		return new NewEntityWizardModel<>(
-				getNames(dp.getSubjects().getList()),
+				getNames(dataProvider.getSubjects().getList()),
 				new EntityCreator<Subject>() { @Override public void createEntities(List<String> names) { dp.addSubjects(names); }}, 
 				Messages.NewSubjectCommand_Title, 
 				Messages.NewSubjectCommand_Description, 

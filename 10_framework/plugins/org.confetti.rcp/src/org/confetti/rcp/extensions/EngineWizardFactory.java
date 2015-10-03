@@ -1,5 +1,6 @@
 package org.confetti.rcp.extensions;
 
+import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.eclipse.jface.wizard.IWizard;
 
@@ -8,6 +9,6 @@ import org.eclipse.jface.wizard.IWizard;
  */
 public interface EngineWizardFactory {
 
-	IWizard createWizard(DataProvider dp);
+	IWizard createWizard(DataProvider dp, DataPersister dataPersister);
 	
 }
