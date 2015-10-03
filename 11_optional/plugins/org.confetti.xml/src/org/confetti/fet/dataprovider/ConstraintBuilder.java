@@ -10,14 +10,13 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
+import org.confetti.fet.xml.core.BaseConstraintXml;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
 import org.confetti.util.Triple;
 import org.confetti.util.Tuple;
 
 public class ConstraintBuilder {
-	//----------------------------- constants --------------------------------------------------------------------------
-	public static final String FET_CONSTRAINTS_NAMESPACE = "org.confetti.fet.constraints.";
 
 	private final String type;
 	private final ConstraintAttributes attrs = new ConstraintAttributes();
@@ -27,7 +26,7 @@ public class ConstraintBuilder {
 	}
 	
 	public Constraint build() {
-		String fullType = FET_CONSTRAINTS_NAMESPACE + type;
+		String fullType = BaseConstraintXml.FET_CONSTRAINTS_NAMESPACE + type;
 		FETConstraint constr = new FETConstraint(fullType, attrs);
 		
 		ConstraintDescr constraintDescr = ConstraintRegistry.INSTANCE.getConstraintDescrById(fullType);

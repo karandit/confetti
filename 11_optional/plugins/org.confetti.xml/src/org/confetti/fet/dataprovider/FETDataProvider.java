@@ -31,7 +31,6 @@ import org.confetti.fet.xml.core.AbstractInstituteXml;
 import org.confetti.fet.xml.core.AbstractInstituteXmlBuilder;
 import org.confetti.fet.xml.core.ActivityXml;
 import org.confetti.fet.xml.core.BaseConstraintXml;
-import org.confetti.fet.xml.core.ConstraintFactory;
 import org.confetti.fet.xml.core.ConstraintSetter;
 import org.confetti.fet.xml.core.GroupXml;
 import org.confetti.fet.xml.core.INameBean;

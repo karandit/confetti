@@ -1,4 +1,4 @@
-package org.confetti.fet.xml.core;
+package org.confetti.fet.dataprovider;
 
 import static com.google.common.collect.Iterables.transform;
 
@@ -7,8 +7,8 @@ import org.confetti.core.Hour;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
-import org.confetti.fet.dataprovider.ConstraintBuilder;
-import org.confetti.fet.dataprovider.Repo;
+import org.confetti.fet.xml.core.BaseConstraintXml;
+import org.confetti.fet.xml.core.ConstraintXmlVisitor;
 import org.confetti.fet.xml.core.space.activities.ConstraintActivitiesOccupyMaxDifferentRooms;
 import org.confetti.fet.xml.core.space.activities.ConstraintActivitiesSameRoomIfConsecutive;
 import org.confetti.fet.xml.core.space.activities.ConstraintActivityPreferredRoom;

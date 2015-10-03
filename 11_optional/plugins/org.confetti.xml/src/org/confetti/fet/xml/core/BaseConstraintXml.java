@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.confetti.core.ConstraintAttributes;
-import org.confetti.fet.dataprovider.ConstraintBuilder;
 import org.confetti.fet.xml.core.space.SpaceConstraint;
 import org.confetti.fet.xml.core.time.TimeConstraint;
 import org.confetti.fet.xml.internal.DoubleWithoutFractionalAdapter;
@@ -18,7 +17,10 @@ import org.confetti.fet.xml.internal.DoubleWithoutFractionalAdapter;
  */
 @XmlTransient
 public abstract class BaseConstraintXml {
-	
+
+	//----------------------------- constants --------------------------------------------------------------------------
+	public static final String FET_CONSTRAINTS_NAMESPACE = "org.confetti.fet.constraints.";
+
 	private double weight = 100.0;
 	private boolean active = true;
 	private String comment = "";
@@ -43,7 +45,7 @@ public abstract class BaseConstraintXml {
 			ConstraintAttributes attrs, ConstraintSetter constraintSetter) {
 		
 		//create xml constraint depending on the type
-		String shortType = type.substring(ConstraintBuilder.FET_CONSTRAINTS_NAMESPACE.length());
+		String shortType = type.substring(FET_CONSTRAINTS_NAMESPACE.length());
 		BaseConstraintXml xmlConstr = shortType.startsWith("time")
 			? newXmlConstraint(instXml.getTimeConstraints(), TimeConstraint::newTimeXmlConstraint, shortType)
 			: newXmlConstraint(instXml.getSpaceConstraints(), SpaceConstraint::newSpaceXmlConstraint, shortType);
