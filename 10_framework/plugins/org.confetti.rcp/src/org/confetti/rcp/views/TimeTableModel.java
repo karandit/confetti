@@ -3,6 +3,7 @@ package org.confetti.rcp.views;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.transform;
 import static de.kupzog.ktable.renderers.DefaultCellRenderer.STYLE_PUSH;
+import static java.util.stream.IntStream.range;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +24,7 @@ import org.confetti.core.StudentGroup;
 import org.confetti.core.Subject;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
+import org.eclipse.swt.graphics.Point;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -39,14 +41,18 @@ import de.kupzog.ktable.renderers.FixedCellRenderer;
  */
 public class TimeTableModel extends KTableNoScrollModel {
 
+	//----------------------------- constants --------------------------------------------------------------------------
+	private static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
+	private static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
+
+	//----------------------------- fields -----------------------------------------------------------------------------
 	private final String[] days;
 	private final String[] hours;
 	private final Entity entity;
 	private final Assignment[][] assignments;
-	
-	private static final KTableCellRenderer RENDERER = new DefaultCellRenderer(STYLE_PUSH);
-	private static final FixedCellRenderer FIXED_RENDERER = new FixedCellRenderer(STYLE_PUSH);
-	
+	private final Map<Point, Point> belongsTo = new HashMap<>();
+
+	//----------------------------- constructors -----------------------------------------------------------------------
 	public TimeTableModel(KTable table, DataProvider dp) {
 		this(table, dp, null);
 	}
@@ -65,11 +71,18 @@ public class TimeTableModel extends KTableNoScrollModel {
 			slots.forEach(slot -> {
 				int day =  daysArr.indexOf(slot.getDay());
 				int hour = hoursArr.indexOf(slot.getHour());
-				this.assignments[day + 1][hour + 1] = slot.getAssignment();
+				this.assignments[day + getFixedHeaderColumnCount()][hour + getFixedHeaderRowCount()] = slot.getAssignment();
+				
+				Point target = new Point(day + getFixedHeaderColumnCount(), hour + getFixedHeaderRowCount());
+				
+				range(0, slot.getAssignment().getDuration().getValue())
+				.mapToObj(offset -> new Point(target.x, target.y + offset))
+				.forEach(source  -> this.belongsTo.put(source, target));
 			});
 		}
 	}
 
+	//----------------------------- KTableNoScrollModel's API ----------------------------------------------------------
 	@Override public int getFixedHeaderColumnCount() 							{ return 1; }
 	@Override public int getFixedHeaderRowCount() 								{ return 1; }
 	@Override public int getFixedSelectableColumnCount() 						{ return 0; }
@@ -124,7 +137,14 @@ public class TimeTableModel extends KTableNoScrollModel {
 	public String doGetTooltipAt(int col, int row) {
 		return (String) doGetContentAt(col, row);
 	}
-	
+
+	@Override
+	public Point belongsToCell(int col, int row) {
+		Point point = new Point(col, row);
+		return belongsTo.getOrDefault(point, point);
+	}
+
+	//----------------------------- helpers ----------------------------------------------------------------------------
 	private String[] toArray(List<String> names) {
 		return names.toArray(new String[names.size()]);
 	}

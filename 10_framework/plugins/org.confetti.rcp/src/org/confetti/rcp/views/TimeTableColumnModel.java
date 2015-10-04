@@ -236,8 +236,11 @@ public class TimeTableColumnModel extends KTableNoScrollModel {
 					getFixedHeaderRowCount() + day * hours.size() + hour);
 			this.assignments.put(point, ass);
 			
+			Integer duration = foundSolutionSlot.getAssignment().getDuration().getValue();
 			range(0, sgWidth)
-			.forEach(offset -> this.belongsTo.put(new Point(point.x + offset, point.y), point));
+			.forEach(offsetX -> 
+				range(0, duration)
+				.forEach(offsetY -> this.belongsTo.put(new Point(point.x + offsetX, point.y + offsetY), point)));
 		}
 	}
 
