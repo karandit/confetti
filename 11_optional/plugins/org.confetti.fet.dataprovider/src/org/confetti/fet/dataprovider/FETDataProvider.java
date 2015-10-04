@@ -30,6 +30,7 @@ import org.confetti.core.Tag;
 import org.confetti.core.Teacher;
 import org.confetti.fet.xml.core.AbstractInstituteXml;
 import org.confetti.fet.xml.core.AbstractInstituteXmlBuilder;
+import org.confetti.fet.xml.core.ActivityTagXml;
 import org.confetti.fet.xml.core.ActivityXml;
 import org.confetti.fet.xml.core.BaseConstraintXml;
 import org.confetti.fet.xml.core.ConstraintSetter;
@@ -226,7 +227,16 @@ public class FETDataProvider implements DataProvider, DataPersister {
         
         names.forEach(name -> rooms.addItem(new FETRoom(name, 0, Optional.empty())));
 	}
-	
+
+	@Override
+	public void addTags(List<String> names) {
+		AbstractInstituteXml xml = defaultXmlBuilder().build(this);
+		names.forEach(name -> xml.getActivityTags().add(new ActivityTagXml(name)));
+        marshall(xml);
+        
+        names.forEach(name -> tags.addItem(new FETTag(name)));
+	}
+
 	@Override
 	public Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups) {
 		AbstractInstituteXml xml = defaultXmlBuilder().build(this);

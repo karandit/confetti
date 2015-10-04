@@ -334,4 +334,9 @@ public class DbDataProvider implements DataProvider, DataPersister {
 		throw new RuntimeException("Not implemented yet.");
 	}
 
+	@Override
+	public void addTags(List<String> names) {
+		throw new RuntimeException("Not implemented yet: DbDataProvider.addTags()");
+	}
+
 }

@@ -12,7 +12,7 @@ public interface DataPersister {
     void addRooms(List<String> names);
     Assignment addAssignment(Subject subject, Iterable<Teacher> teachers, Iterable<StudentGroup> studentGroups);
     void addConstraint(String type, ConstraintAttributes attrs);
-    //TODO: void addTags(String names);
+    void addTags(List<String> names);
     //TODO: void addBuildings(String names);
     void setSolution(Iterable<SolutionSlot> solution);
     

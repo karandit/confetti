@@ -176,6 +176,12 @@
             name="New Room">
       </command>
       <command
+            defaultHandler="org.confetti.rcp.commands.NewTagCommand"
+            description="New Tag"
+            id="org.confetti.rcp.commands.newTagCommand"
+            name="New Tag">
+      </command>
+      <command
             defaultHandler="org.confetti.rcp.commands.NewAssignmentCommand"
             description="New Assignment"
             id="org.confetti.rcp.commands.newAssignmentCommand"
@@ -298,6 +304,15 @@
                   commandId="org.confetti.rcp.commands.newRoomCommand"
                   icon="icons/room-16-fill.png"
                   label="New Room"
+                  style="push">
+            </command>
+            <separator
+                  name="org.confetti.rcp.separator0"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="org.confetti.rcp.commands.newTagCommand"
+                  label="New Tag"
                   style="push">
             </command>
             <separator

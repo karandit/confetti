@@ -5,7 +5,7 @@ import static org.confetti.rcp.wizards.WizardUtil.watchWizardDialog;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.confetti.core.Entity;
+import org.confetti.core.Nameable;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.wizards.NewEntityWizard;
 import org.confetti.rcp.wizards.models.NewEntityWizardModel;
@@ -35,9 +35,9 @@ abstract class AbstractNewEntityHandler<T> extends AbstractHandler {
 
 	@Override public void dispose() { }
 	
-	protected static List<String> getNames(Iterable<? extends Entity> entities) {
+	protected static List<String> getNames(Iterable<? extends Nameable> entities) {
 		List<String> names = new LinkedList<>();
-		for (Entity entity : entities) {
+		for (Nameable entity : entities) {
 			names.add(entity.getName().getValue());
 		}
 		return names;

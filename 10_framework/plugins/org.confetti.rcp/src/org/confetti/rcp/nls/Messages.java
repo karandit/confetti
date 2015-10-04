@@ -111,6 +111,9 @@ public class Messages extends NLS {
 	public static String NewTeacherCommand_Description;
 	public static String NewTeacherCommand_Summary;
 	public static String NewTeacherCommand_Title;
+	public static String NewTagCommand_Description;
+	public static String NewTagCommand_Summary;
+	public static String NewTagCommand_Title;
 
 	public static String NewTimetableModel_Days_Description;
 
