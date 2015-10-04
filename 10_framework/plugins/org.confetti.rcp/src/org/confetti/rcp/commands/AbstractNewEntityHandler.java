@@ -2,9 +2,8 @@ package org.confetti.rcp.commands;
 
 import static org.confetti.rcp.wizards.WizardUtil.watchWizardDialog;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import org.confetti.core.DataPersister;
+import org.confetti.core.DataProvider;
 import org.confetti.core.Nameable;
 import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.wizards.NewEntityWizard;
@@ -17,11 +16,15 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-abstract class AbstractNewEntityHandler<T> extends AbstractHandler {
+abstract class AbstractNewEntityHandler<T extends Nameable> extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWizard wizard = new NewEntityWizard(createModel());
+		ConfettiPlugin plugin = ConfettiPlugin.getDefault();
+		DataProvider dataProvider = plugin.getDataProvider().getValue();
+		DataPersister dataPersister = plugin.getDataPersister().get();
+
+		IWizard wizard = new NewEntityWizard(createModel(dataProvider, dataPersister));
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		watchWizardDialog(dialog);
@@ -29,20 +32,12 @@ abstract class AbstractNewEntityHandler<T> extends AbstractHandler {
 		return null;
 	}
 
-	protected abstract NewEntityWizardModel<T> createModel();
+	protected abstract NewEntityWizardModel<T> createModel(DataProvider dataProvider, DataPersister dataPersister);
 
 	@Override public boolean isEnabled() { return isWritable(); }
 
 	@Override public void dispose() { }
 	
-	protected static List<String> getNames(Iterable<? extends Nameable> entities) {
-		List<String> names = new LinkedList<>();
-		for (Nameable entity : entities) {
-			names.add(entity.getName().getValue());
-		}
-		return names;
-	}
-
 	static boolean isWritable() { return ConfettiPlugin.getDefault().getDataPersister().isPresent(); }
 	
 }

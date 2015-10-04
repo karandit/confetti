@@ -1,25 +1,19 @@
 package org.confetti.rcp.commands;
 
-import java.util.List;
-
 import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Teacher;
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.rcp.wizards.models.NewEntityWizardModel;
-import org.confetti.rcp.wizards.models.NewEntityWizardModel.EntityCreator;
 import org.confetti.rcp.nls.Messages;
+import org.confetti.rcp.wizards.models.NewEntityWizardModel;
 
 public class NewTeacherCommand extends AbstractNewEntityHandler<Teacher> {
 
 	@Override
-	protected NewEntityWizardModel<Teacher> createModel() {
-		ConfettiPlugin plugin = ConfettiPlugin.getDefault();
-		DataPersister dp = plugin.getDataPersister().get();
-		DataProvider dataProvider = plugin.getDataProvider().getValue();
+	protected NewEntityWizardModel<Teacher> createModel(DataProvider dataProvider, DataPersister dataPersister) {
 		return new NewEntityWizardModel<>(
-				getNames(dataProvider.getTeachers().getList()),
-				new EntityCreator<Teacher>() { @Override public void createEntities(List<String> names) { dp.addTeachers(names); }}, 
+				dataProvider.getTeachers(),
+				dataPersister::addTeachers, 
 				Messages.NewTeacherCommand_Title, 
 				Messages.NewTeacherCommand_Description, 
 				Messages.NewTeacherCommand_Summary,

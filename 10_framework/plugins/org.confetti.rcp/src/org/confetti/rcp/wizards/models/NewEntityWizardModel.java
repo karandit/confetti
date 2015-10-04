@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.confetti.core.Nameable;
+import org.confetti.observable.ObservableList;
 import org.confetti.rcp.nls.Messages;
 import org.confetti.util.Tuple;
 
-public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntriesModel {
+public class NewEntityWizardModel<T extends Nameable> implements InsertEntriesModel, VerifyEntriesModel {
 	
 	public interface EntityCreator<T> {
 		void createEntities(List<String> names);
 	}
-	
+
 	//------------------------ fields ----------------------------------------------------------------------------------
 	private final String mWizardTitle;
 	private final String mAddNamePageDescr;
@@ -29,10 +31,10 @@ public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntrie
 	private String mImageKey;
 	
 	//------------------------ constructors ----------------------------------------------------------------------------
-	public NewEntityWizardModel(final List<String> originalNames, EntityCreator<T> creator,
+	public NewEntityWizardModel(final ObservableList<T> originalItems, EntityCreator<T> creator,
 			final String wizardTitle, final String addNamePageDescr, final String verifyNamePageDescr,
 			final String imageKey) {
-		this.mOriginalNames = originalNames;
+		this.mOriginalNames = getNames(originalItems.getList());
 		this.mCreator = creator;
 		this.mWizardTitle = wizardTitle;
 		this.mAddNamePageDescr = addNamePageDescr;
@@ -75,5 +77,14 @@ public class NewEntityWizardModel<T> implements InsertEntriesModel, VerifyEntrie
 		namesMinusName.remove(name);
 		return namesMinusName.contains(name);
 	}
+	
+	private static List<String> getNames(Iterable<? extends Nameable> entities) {
+		List<String> names = new LinkedList<>();
+		for (Nameable entity : entities) {
+			names.add(entity.getName().getValue());
+		}
+		return names;
+	}
+
 
 }
