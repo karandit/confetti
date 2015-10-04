@@ -182,6 +182,12 @@
             name="New Tag">
       </command>
       <command
+            defaultHandler="org.confetti.rcp.commands.NewBuildingCommand"
+            description="New Building"
+            id="org.confetti.rcp.commands.newBuildingCommand"
+            name="New Building">
+      </command>
+      <command
             defaultHandler="org.confetti.rcp.commands.NewAssignmentCommand"
             description="New Assignment"
             id="org.confetti.rcp.commands.newAssignmentCommand"
@@ -313,6 +319,11 @@
             <command
                   commandId="org.confetti.rcp.commands.newTagCommand"
                   label="New Tag"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.confetti.rcp.commands.newBuildingCommand"
+                  label="New Building"
                   style="push">
             </command>
             <separator

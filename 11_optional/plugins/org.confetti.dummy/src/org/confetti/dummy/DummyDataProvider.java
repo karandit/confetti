@@ -239,4 +239,9 @@ public class DummyDataProvider implements DataProvider, DataPersister {
 		throw new RuntimeException("Not implemented yet: DummyDataProvider.addTags()");
 	}
 
+	@Override
+	public void addBuildings(List<String> names) {
+		throw new RuntimeException("Not implemented yet: DummyDataProvider.addBuildings()");
+	}
+
 }

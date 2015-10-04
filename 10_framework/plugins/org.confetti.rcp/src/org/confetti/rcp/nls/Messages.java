@@ -91,6 +91,8 @@ public class Messages extends NLS {
 
 	public static String InstituteView_All_Teachers;
 
+	public static String InstituteView_All_Buildings;
+
 	public static String NewConstraintCommand_Message;
 
 	public static String NewConstraintCommand_Title;
@@ -114,6 +116,9 @@ public class Messages extends NLS {
 	public static String NewTagCommand_Description;
 	public static String NewTagCommand_Summary;
 	public static String NewTagCommand_Title;
+	public static String NewBuildingCommand_Description;
+	public static String NewBuildingCommand_Summary;
+	public static String NewBuildingCommand_Title;
 
 	public static String NewTimetableModel_Days_Description;
 
