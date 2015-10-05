@@ -32,6 +32,8 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	public static final String IMG_SMALL_TEACHER 		= "small_teacher"; //$NON-NLS-1$
 	public static final String IMG_SMALL_STUDENTGROUP 	= "small_studentgroup"; //$NON-NLS-1$
 	public static final String IMG_SMALL_ROOM 			= "small_room"; //$NON-NLS-1$
+	public static final String IMG_SMALL_TAG 			= "small_tag"; //$NON-NLS-1$
+	public static final String IMG_SMALL_BUILDING 		= "small_building"; //$NON-NLS-1$
 
 	public static final String IMG_BIG_SUBJECT			= "big_subject"; //$NON-NLS-1$
 	public static final String IMG_BIG_TEACHER			= "big_teacher"; //$NON-NLS-1$
@@ -103,6 +105,8 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 		registerImage(reg, IMG_SMALL_TEACHER, 		"teacher-16.png"); //$NON-NLS-1$
 		registerImage(reg, IMG_SMALL_STUDENTGROUP,	"studentgroup-16.png"); //$NON-NLS-1$
 		registerImage(reg, IMG_SMALL_ROOM, 			"room-16.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_SMALL_TAG, 			"tag-16.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_SMALL_BUILDING, 		"building-16.png"); //$NON-NLS-1$
 
 		registerImage(reg, IMG_BIG_SUBJECT, 		"subject-48-2.png"); //$NON-NLS-1$
 		registerImage(reg, IMG_BIG_TEACHER, 		"teacher-48.png"); //$NON-NLS-1$

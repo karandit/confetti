@@ -318,11 +318,13 @@
             </separator>
             <command
                   commandId="org.confetti.rcp.commands.newTagCommand"
+                  icon="icons/tag-16-fill.png"
                   label="New Tag"
                   style="push">
             </command>
             <command
                   commandId="org.confetti.rcp.commands.newBuildingCommand"
+                  icon="icons/building-16-fill.png"
                   label="New Building"
                   style="push">
             </command>
@@ -332,11 +334,13 @@
             </separator>
             <command
                   commandId="org.confetti.rcp.commands.newAssignmentCommand"
+                  icon="icons/assignment-16-fill.png"
                   label="New Assignment"
                   style="push">
             </command>
             <command
                   commandId="org.confetti.rcp.newConstraintCommand"
+                  icon="icons/constraint-16-fill.png"
                   label="New Constraint"
                   style="push">
             </command>
@@ -702,7 +706,7 @@
       <view
             allowMultiple="false"
             class="org.confetti.rcp.views.AssignmentsView"
-            icon="icons/sample.gif"
+            icon="icons/assignment-16-fill.png"
             id="org.confetti.rcp.assignmentsView"
             name="Assignments"
             restorable="true">
@@ -710,7 +714,7 @@
       <view
             allowMultiple="false"
             class="org.confetti.rcp.views.ConstraintsView"
-            icon="icons/sample3.gif"
+            icon="icons/constraint-16-fill.png"
             id="org.confetti.rcp.constraintsView"
             name="Constraints"
             restorable="true">
