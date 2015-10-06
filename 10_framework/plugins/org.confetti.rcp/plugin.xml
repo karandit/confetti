@@ -110,7 +110,7 @@
                value="product_icon.png"/>
          <property
                name="aboutText"
-               value="Confetti&#x0A;Non-released version (2014.12.15)&#x0A;by Gábor Bubla&#x0A;&#x0A;For later releases the project can be found at:&#x0A;https://github.com/bublag/confetti"/>
+               value="Confetti&#x0A;Check https://github.com/karandit/confetti/releases"/>
          <property
                name="appName"
                value="Confetti">
