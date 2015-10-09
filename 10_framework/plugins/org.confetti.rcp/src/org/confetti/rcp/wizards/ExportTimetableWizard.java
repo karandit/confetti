@@ -23,7 +23,6 @@ import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
-import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.models.ExportTimetableModel;
 import org.confetti.rcp.wizards.pages.FolderChooseWizardPage;
@@ -93,9 +92,11 @@ public class ExportTimetableWizard extends Wizard {
     }
     
     private ExportTimetableModel model;
+	private DataProvider dp;
 
-    public ExportTimetableWizard() {
-        model = new ExportTimetableModel(null);
+    public ExportTimetableWizard(DataProvider dp) {
+    	this.dp = dp;
+		model = new ExportTimetableModel(null);
         setWindowTitle(Messages.ExportTimetableWizard_Title);
     }
     
@@ -119,7 +120,6 @@ public class ExportTimetableWizard extends Wizard {
 
     private void exportTimetables(File folderPath) throws IOException {
         //get DataProvider's days, hours
-        DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
         List<String> days = newArrayList(Iterables.transform(dp.getDays().getList(), new Function<Day, String>() {
             @Override
             public String apply(Day day) {

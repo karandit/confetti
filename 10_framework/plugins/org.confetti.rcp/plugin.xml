@@ -6,6 +6,7 @@
    <extension-point id="engineWizard" name="Engine Wizard" schema="schema/engineWizard.exsd"/>
    <extension-point id="connection" name="Database Connection" schema="schema/connection.exsd"/>
    <extension-point id="constraint" name="Timetable constraints" schema="schema/constraint.exsd"/>
+   <extension-point id="exportWizard" name="Export wizard" schema="schema/exportWizard.exsd"/>
    <extension
          point="org.eclipse.core.expressions.definitions">
       <definition
@@ -719,6 +720,13 @@
             name="Constraints"
             restorable="true">
       </view>
+   </extension>
+   <extension
+         point="org.confetti.rcp.exportWizard">
+      <exportWizard
+            factory="org.confetti.rcp.wizards.HtmlExportWizardFactory"
+            name="Html">
+      </exportWizard>
    </extension>
 
 </plugin>
