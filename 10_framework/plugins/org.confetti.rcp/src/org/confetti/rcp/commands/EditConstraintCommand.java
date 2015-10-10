@@ -1,20 +1,22 @@
 package org.confetti.rcp.commands;
 
 import static org.confetti.rcp.commands.AbstractNewEntityHandler.isWritable;
+import static org.confetti.rcp.wizards.WizardUtil.watchWizardDialog;
 
 import org.confetti.core.Constraint;
 import org.confetti.core.ConstraintAttributes;
 import org.confetti.core.DataPersister;
 import org.confetti.rcp.ConfettiPlugin;
-import org.confetti.rcp.constraints.ConstraintDialog;
 import org.confetti.rcp.extensions.ConstraintDescr;
 import org.confetti.rcp.extensions.ConstraintRegistry;
+import org.confetti.rcp.wizards.ConstraintWizard;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -37,8 +39,11 @@ public class EditConstraintCommand extends AbstractHandler {
         ConstraintRegistry reg = ConstraintRegistry.INSTANCE;
 		ConstraintDescr constraintDescr = reg.getConstraintDescrById(constraint.getConstraintType());
 		ConstraintAttributes newAttrs = new ConstraintAttributes(constraint.getAttributes().getValue());
-		ConstraintDialog constraintDialog = new ConstraintDialog(shell, constraintDescr, newAttrs);
-        if (Window.OK != constraintDialog.open()) {
+		
+        ConstraintWizard wizard = new ConstraintWizard(constraintDescr, newAttrs, false);
+        WizardDialog wizardDialog = new WizardDialog(shell, wizard);
+        watchWizardDialog(wizardDialog);
+        if (Window.OK != wizardDialog.open()) {
         	return null;
         }
 		final DataPersister dp = ConfettiPlugin.getDefault().getDataPersister().get();
