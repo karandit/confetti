@@ -1,10 +1,5 @@
 package org.confetti.rcp.views;
 
-import static com.google.common.collect.Iterables.isEmpty;
-import static com.google.common.collect.Iterables.toArray;
-
-import java.util.List;
-
 import org.confetti.core.Assignment;
 import org.confetti.core.DataProvider;
 import org.confetti.core.StudentGroup;
@@ -12,11 +7,8 @@ import org.confetti.observable.ObservableList;
 import org.confetti.observable.ObservableListener;
 import org.confetti.rcp.nls.Messages;
 import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.TreeViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeColumn;
@@ -57,7 +49,7 @@ public class StudentGroupsView extends AbstractView<TreeViewer> {
 	}
 	
 	@Override protected Object getInput(DataProvider dp) 		{ return dp.getStudentGroups().getList(); }
-	@Override protected IContentProvider getContentProvider() 	{ return new StudentGroupContentProvider(); }
+	@Override protected IContentProvider getContentProvider() 	{ return StudentGroupContentProvider.INSTANCE; }
 
 	@Override
 	protected void dataProviderChanged(DataProvider oldDp, DataProvider newDp) {
@@ -85,16 +77,6 @@ public class StudentGroupsView extends AbstractView<TreeViewer> {
 		TreeColumn name = new TreeViewerColumn(viewer, SWT.LEFT).getColumn();
 		name.setText(title);
 		name.setWidth(width);
-	}
-	
-	class StudentGroupContentProvider implements IStructuredContentProvider, ITreeContentProvider {
-		
-		@Override public void inputChanged(Viewer v, Object oldInput, Object newInput) 	{ }
-		@Override public void dispose() 												{ }
-		@Override public Object[] getElements(Object parent) 							{ return ((List<?>) parent).toArray(); }
-		@Override public Object getParent(Object child) 								{ return ((StudentGroup) child).getParent(); }
-		@Override public boolean hasChildren(Object parent) 							{ return !isEmpty(((StudentGroup) parent).getChildren().getList()); }
-		@Override public Object[] getChildren(Object parent)							{ return toArray(((StudentGroup) parent).getChildren().getList(), StudentGroup.class); }
 	}
 
 }

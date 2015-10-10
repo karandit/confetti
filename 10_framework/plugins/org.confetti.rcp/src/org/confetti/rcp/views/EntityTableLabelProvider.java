@@ -43,11 +43,22 @@ public class EntityTableLabelProvider extends LabelProvider implements ITableLab
 		@Override public String visitBuilding(Building building, Void p) 	{ return IMG_SMALL_BUILDING; }
 	}
 	
-	@Override public Image getColumnImage(Object element, int columnIndex) { 
+	@Override
+	public String getText(Object element) {
+		return element instanceof Nameable 
+				? ((Nameable) element).getName().getValue() 
+				: ""; //$NON-NLS-1$	
+	}
+	@Override
+	public Image getImage(Object element) {
 		ImageRegistry imageRegistry = ConfettiPlugin.getDefault().getImageRegistry();
+		return imageRegistry.get(getImageKey(element));
+	}
+	
+	@Override public Image getColumnImage(Object element, int columnIndex) { 
 		switch (columnIndex) {
-		case 0:  	return imageRegistry.get(getImageKey(element));
-		default: 	return null;
+			case 0:  	return getImage(element);
+			default: 	return null;
 		}
 	}
 
@@ -61,9 +72,7 @@ public class EntityTableLabelProvider extends LabelProvider implements ITableLab
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		switch (columnIndex) {
-			case 0: return element instanceof Nameable 
-					? ((Nameable) element).getName().getValue() 
-					: ""; //$NON-NLS-1$
+			case 0: return getText(element);
 			case 1: return element instanceof Assignable 
 					? Integer.toString(Iterables.size(((Assignable) element).getAssignments().getList())) 
 					: ""; //$NON-NLS-1$
