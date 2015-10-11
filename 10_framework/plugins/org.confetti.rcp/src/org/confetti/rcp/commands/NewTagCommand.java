@@ -3,6 +3,7 @@ package org.confetti.rcp.commands;
 import org.confetti.core.DataPersister;
 import org.confetti.core.DataProvider;
 import org.confetti.core.Tag;
+import org.confetti.rcp.ConfettiPlugin;
 import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.models.NewEntityWizardModel;
 
@@ -16,7 +17,7 @@ public class NewTagCommand extends AbstractNewEntityHandler<Tag> {
 				Messages.NewTagCommand_Title, 
 				Messages.NewTagCommand_Description, 
 				Messages.NewTagCommand_Summary,
-				null); //TODO: create an image for tags
+				ConfettiPlugin.IMG_BIG_TAG);
 	}
 
 }

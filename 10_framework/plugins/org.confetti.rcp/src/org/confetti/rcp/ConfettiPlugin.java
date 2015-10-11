@@ -34,32 +34,26 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	public static final String IMG_SMALL_ROOM 			= "small_room"; //$NON-NLS-1$
 	public static final String IMG_SMALL_TAG 			= "small_tag"; //$NON-NLS-1$
 	public static final String IMG_SMALL_BUILDING 		= "small_building"; //$NON-NLS-1$
-
+	
 	public static final String IMG_BIG_SUBJECT			= "big_subject"; //$NON-NLS-1$
 	public static final String IMG_BIG_TEACHER			= "big_teacher"; //$NON-NLS-1$
 	public static final String IMG_BIG_STUDENTGROUP		= "big_studentgroup"; //$NON-NLS-1$
 	public static final String IMG_BIG_ROOM 			= "big_room"; //$NON-NLS-1$
-
+	public static final String IMG_BIG_ASSIGNMENT 		= "big_assignment"; //$NON-NLS-1$
+	public static final String IMG_BIG_CONSTRAINT 		= "big_constraint"; //$NON-NLS-1$
 	public static final String IMG_BIG_HOUR 			= "big_hour"; //$NON-NLS-1$
 	public static final String IMG_BIG_DAY 				= "big_day"; //$NON-NLS-1$
+	public static final String IMG_BIG_BUILDING 		= "big_building"; //$NON-NLS-1$
+	public static final String IMG_BIG_TAG 				= "big_tag"; //$NON-NLS-1$
 	public static final String IMG_BIG_INSTITUTE		= "big_institute"; //$NON-NLS-1$
-	public static final String IMG_BIG_TIMETABLE		= "big_timetable"; //$NON-NLS-1$
-	
 	public static final String IMG_BIG_CLOUD 			= "big_cloud"; //$NON-NLS-1$
 	public static final String IMG_BIG_FILE				= "big_file"; //$NON-NLS-1$
 	public static final String IMG_BIG_DB				= "big_db"; //$NON-NLS-1$
 	public static final String IMG_BIG_ENGINE			= "big_engine"; //$NON-NLS-1$
 	
-	//TODO remove these sample icons
-	public static final String IMG_SAMPLE				= "sample"; //$NON-NLS-1$
-	public static final String IMG_SAMPLE2				= "sample2"; //$NON-NLS-1$
-	public static final String IMG_SAMPLE3				= "sample3"; //$NON-NLS-1$
-
-	
 	//---preference related stuff ----------------------------
     public static final String KEY_CONNECTIONS = "CONNECTIONS"; //$NON-NLS-1$
     public static final String KEY_TYPE = "TYPE"; //$NON-NLS-1$
-
 	
 	//The shared instance.
 	private static ConfettiPlugin plugin;
@@ -99,8 +93,6 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 	
 	@Override
 	protected void initializeImageRegistry(ImageRegistry reg) {
-		//Library-Books-16.png
-		//Teacher-02-16.png
 		registerImage(reg, IMG_SMALL_SUBJECT, 		"subject-16.png"); //$NON-NLS-1$
 		registerImage(reg, IMG_SMALL_TEACHER, 		"teacher-16.png"); //$NON-NLS-1$
 		registerImage(reg, IMG_SMALL_STUDENTGROUP,	"studentgroup-16.png"); //$NON-NLS-1$
@@ -108,24 +100,21 @@ public class ConfettiPlugin extends AbstractUIPlugin {
 		registerImage(reg, IMG_SMALL_TAG, 			"tag-16.png"); //$NON-NLS-1$
 		registerImage(reg, IMG_SMALL_BUILDING, 		"building-16.png"); //$NON-NLS-1$
 
-		registerImage(reg, IMG_BIG_SUBJECT, 		"subject-48-2.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_TEACHER, 		"teacher-48.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_STUDENTGROUP,	"studentgroup-48.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_ROOM, 			"room-48.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_HOUR, 			"hour-48.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_DAY, 			"day-48.png"); //$NON-NLS-1$
-		
-		registerImage(reg, IMG_BIG_INSTITUTE, 		"university-48.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_TIMETABLE, 		"timetable-48.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_CLOUD, 			"cloud-48.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_FILE, 			"file-48.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_DB, 				"db-48.png"); //$NON-NLS-1$
-		registerImage(reg, IMG_BIG_ENGINE, 			"engine-48.png"); //$NON-NLS-1$
-		
-		//TODO remove these sample icons
-		registerImage(reg, IMG_SAMPLE, 				"sample.gif"); //$NON-NLS-1$
-		registerImage(reg, IMG_SAMPLE2, 			"sample2.gif"); //$NON-NLS-1$
-		registerImage(reg, IMG_SAMPLE3, 			"sample3.gif"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_SUBJECT, 		"subject-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_TEACHER, 		"teacher-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_STUDENTGROUP,	"studentgroup-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_ROOM, 			"room-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_HOUR, 			"hour-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_DAY, 			"day-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_BUILDING, 		"building-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_TAG, 			"tag-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_ASSIGNMENT, 		"assignment-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_CONSTRAINT, 		"constraint-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_INSTITUTE, 		"university-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_CLOUD, 			"cloud-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_FILE, 			"file-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_DB, 				"db-84.png"); //$NON-NLS-1$
+		registerImage(reg, IMG_BIG_ENGINE, 			"engine-84.png"); //$NON-NLS-1$
 	}
 
 	/**

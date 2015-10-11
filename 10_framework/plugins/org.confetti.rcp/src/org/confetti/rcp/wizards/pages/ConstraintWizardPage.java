@@ -1,5 +1,8 @@
 package org.confetti.rcp.wizards.pages;
 
+import static org.confetti.rcp.ConfettiPlugin.IMG_BIG_CONSTRAINT;
+import static org.confetti.rcp.ConfettiPlugin.getImageDescriptor;
+
 import org.confetti.core.ConstraintAttribute;
 import org.confetti.rcp.constraints.ConstraintField;
 import org.confetti.rcp.constraints.FieldTypeApplyLayoutVisitor;
@@ -15,7 +18,7 @@ import org.eclipse.swt.widgets.Label;
 public class ConstraintWizardPage extends ModelableWizardPage<ConstraintWizardModel> implements IWizardPageNavigatable {
 
 	public ConstraintWizardPage(ConstraintWizardModel model) {
-		super("constraint-details", "Constraint", null, model);
+		super("constraint-details", "Constraint", getImageDescriptor(IMG_BIG_CONSTRAINT), model);
 		setDescription(model.getDescr().getName());
 	}
 

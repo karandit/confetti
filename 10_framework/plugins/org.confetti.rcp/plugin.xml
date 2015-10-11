@@ -351,6 +351,7 @@
             </separator>
             <command
                   commandId="org.confetti.rcp.generateCommand"
+                  icon="icons/engine-16-fill.png"
                   label="Generate"
                   mnemonic="G"
                   style="push">
@@ -414,7 +415,7 @@
             locationURI="toolbar:org.confetti.rcp.subjectsView">
          <command
                commandId="org.confetti.rcp.commands.newSubjectCommand"
-               icon="icons/sample2.gif"
+               icon="icons/add.gif"
                label="New Subject"
                style="push">
          </command>
@@ -424,7 +425,7 @@
             locationURI="toolbar:org.confetti.rcp.teachersView">
          <command
                commandId="org.confetti.rcp.commands.newTeacherCommand"
-               icon="icons/sample2.gif"
+               icon="icons/add.gif"
                label="New Teacher"
                style="push">
          </command>
@@ -434,7 +435,7 @@
             locationURI="toolbar:org.confetti.rcp.studentGroupsView">
          <command
                commandId="org.confetti.rcp.commands.newStudentGroupCommand"
-               icon="icons/sample2.gif"
+               icon="icons/add.gif"
                label="New Student Group"
                style="push">
          </command>
@@ -444,7 +445,7 @@
             locationURI="toolbar:org.confetti.rcp.roomsView">
          <command
                commandId="org.confetti.rcp.commands.newRoomCommand"
-               icon="icons/sample2.gif"
+               icon="icons/add.gif"
                label="New Room"
                style="push">
          </command>
@@ -454,7 +455,7 @@
             locationURI="toolbar:org.confetti.rcp.assignmentsView">
          <command
                commandId="org.confetti.rcp.commands.newAssignmentCommand"
-               icon="icons/sample2.gif"
+               icon="icons/add.gif"
                label="New Assignment"
                style="push">
          </command>
@@ -620,7 +621,7 @@
             locationURI="toolbar:org.confetti.rcp.constraintsView">
          <command
                commandId="org.confetti.rcp.newConstraintCommand"
-               icon="icons/sample2.gif"
+               icon="icons/add.gif"
                id="org.confetti.rcp.baseConstraints.pulldown"
                label="New Constraint"
                style="push">

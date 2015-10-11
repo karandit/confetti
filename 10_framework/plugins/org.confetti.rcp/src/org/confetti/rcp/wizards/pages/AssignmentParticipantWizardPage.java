@@ -1,5 +1,8 @@
 package org.confetti.rcp.wizards.pages;
 
+import static org.confetti.rcp.ConfettiPlugin.IMG_BIG_ASSIGNMENT;
+import static org.confetti.rcp.ConfettiPlugin.getImageDescriptor;
+
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -31,7 +34,7 @@ implements IWizardPageNavigatable {
 	private TreeViewer studentGroupsViewer;
 
 	public AssignmentParticipantWizardPage(AssignmentModel model) {
-		super("assignment-participants", "Assignment", null, model);
+		super("assignment-participants", "Assignment", getImageDescriptor(IMG_BIG_ASSIGNMENT), model);
 		setDescription(
 				"Select a subject, one or more teacher and one or more student group. " + 
                 "Use the Ctrl and Shift keys for multiple selection.");
