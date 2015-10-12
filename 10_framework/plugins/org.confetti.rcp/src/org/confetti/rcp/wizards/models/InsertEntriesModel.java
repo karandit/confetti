@@ -9,7 +9,7 @@ public interface InsertEntriesModel {
 
 	String getInsertEntriesPageTitle();
 	String getInsertEntriesPageDescription();
-	String getInsertEntriesPageImageKey();
+	String getPageImageKey();
 	void addEntries(List<String> extractNames);
 
 }

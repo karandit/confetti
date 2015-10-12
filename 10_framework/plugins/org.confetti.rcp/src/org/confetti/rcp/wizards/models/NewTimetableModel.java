@@ -48,7 +48,7 @@ public class NewTimetableModel implements EditNameAndCommentModel {
 		@Override public String getVerifyEntriesPageTitle() 		{ return mVerTitle; }
 		@Override public String getVerifyEntriesPageDescription() 	{ return mVerDescr; }
 		@Override public List<Tuple<String, Problem>> getResult() 	{ return mEntriesAndProblems; }
-		@Override public String getInsertEntriesPageImageKey() 		{ return mImageKey; }
+		@Override public String getPageImageKey() 		{ return mImageKey; }
 	}
 	
 	private String instituteName;

@@ -45,7 +45,7 @@ public class NewEntityWizardModel<T extends Nameable> implements InsertEntriesMo
 	//------------------------ InsertEntriesModel ----------------------------------------------------------------------
 	@Override public String getInsertEntriesPageDescription() 	{ return mAddNamePageDescr; }
 	@Override public String getInsertEntriesPageTitle() 		{ return Messages.NewEntityWizardModel_Names; }
-	@Override public String getInsertEntriesPageImageKey() 		{ return mImageKey; }
+	@Override public String getPageImageKey() 		{ return mImageKey; }
 
 	@Override
 	public void addEntries(List<String> names) {

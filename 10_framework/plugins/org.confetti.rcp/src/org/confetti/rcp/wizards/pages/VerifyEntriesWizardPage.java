@@ -1,5 +1,7 @@
 package org.confetti.rcp.wizards.pages;
 
+import static org.confetti.rcp.ConfettiPlugin.getImageDescriptor;
+
 import org.confetti.rcp.nls.Messages;
 import org.confetti.rcp.wizards.models.Problem;
 import org.confetti.rcp.wizards.models.VerifyEntriesModel;
@@ -20,7 +22,7 @@ public class VerifyEntriesWizardPage extends ModelableWizardPage<VerifyEntriesMo
 	private Table table;
 
 	public VerifyEntriesWizardPage(VerifyEntriesModel model) {
-		super("Verify", model.getVerifyEntriesPageTitle(), null, model); //$NON-NLS-1$
+		super("Verify", model.getVerifyEntriesPageTitle(), getImageDescriptor(model.getPageImageKey()), model); //$NON-NLS-1$
 		setDescription(getModel().getVerifyEntriesPageDescription());
 		setPageComplete(false);
 	}

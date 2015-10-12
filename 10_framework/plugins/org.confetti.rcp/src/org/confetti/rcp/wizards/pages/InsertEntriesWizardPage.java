@@ -17,7 +17,7 @@ public class InsertEntriesWizardPage extends ModelableWizardPage<InsertEntriesMo
 	private Text text;
 	
 	public InsertEntriesWizardPage(InsertEntriesModel model) {
-		super("Input", model.getInsertEntriesPageTitle(), getImageDescriptor(model.getInsertEntriesPageImageKey()), model); //$NON-NLS-1$
+		super("Input", model.getInsertEntriesPageTitle(), getImageDescriptor(model.getPageImageKey()), model); //$NON-NLS-1$
 		setDescription(getModel().getInsertEntriesPageDescription());
 		setPageComplete(false);
 	}

@@ -12,6 +12,7 @@ public interface VerifyEntriesModel {
 
 	String getVerifyEntriesPageDescription();
 	String getVerifyEntriesPageTitle();
+	String getPageImageKey();
 	List<Tuple<String, Problem>> getResult();
 
 }
