@@ -41,6 +41,18 @@ public class FETEngineWizard extends Wizard {
 	}
 	
 	@Override
+	public void createPageControls(Composite pageContainer) {
+		super.createPageControls(pageContainer);
+		IWizardContainer container = getContainer();
+		if (container instanceof WizardDialog) {
+			WizardDialog dlg = (WizardDialog) container;
+			Composite buttonBar = (Composite) dlg.buttonBar;
+			Composite composite = (Composite) buttonBar.getChildren()[1];
+			findButton(composite, IDialogConstants.FINISH_ID).ifPresent(finishButton -> finishButton.setText("Generate"));
+		}
+	}
+	
+	@Override
 	public boolean performFinish() {
 		try {
 			mConsolePage.setReadOnly();
