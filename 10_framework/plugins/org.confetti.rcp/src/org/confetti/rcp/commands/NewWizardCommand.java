@@ -50,17 +50,6 @@ public class NewWizardCommand extends AbstractHandler {
     @Override
     public Object execute(ExecutionEvent event) throws ExecutionException {
         Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-        //wizard for getting the Institute name, comment, List of days, List of hours
-        NewTimetableModel model = new NewTimetableModel();
-        {
-            WizardDialog dialog = new WizardDialog(shell, new NewTimetableWizard(model));
-            watchWizardDialog(dialog);
-            dialog.setTitle(Messages.NewWizardCommand_Label);
-            if (Window.OK != dialog.open()) {
-                return null;
-            }
-        }
-        
         //dialog with all the extensions
         ListDialog dlg = new ListDialog(shell);
         dlg.setContentProvider(new ArrayContentProvider());
@@ -76,6 +65,18 @@ public class NewWizardCommand extends AbstractHandler {
         if (selected == null || selected.length == 0) {
             return null;
         }
+        
+        //wizard for getting the Institute name, comment, List of days, List of hours
+        NewTimetableModel model = new NewTimetableModel();
+        {
+            WizardDialog dialog = new WizardDialog(shell, new NewTimetableWizard(model));
+            watchWizardDialog(dialog);
+            dialog.setTitle(Messages.NewWizardCommand_Label);
+            if (Window.OK != dialog.open()) {
+                return null;
+            }
+        }
+        
         //open the selected extension's wizard
         NewWizardDescr selectedDescr = (NewWizardDescr) selected[0];
         NewWizardFactory wizardFactory = selectedDescr.getWizardFactory();
