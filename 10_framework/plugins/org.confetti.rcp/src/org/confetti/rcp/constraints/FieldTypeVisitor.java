@@ -18,5 +18,6 @@ public interface FieldTypeVisitor<R, P1, P2> {
 	R visitRoom(P1 p1, P2 p2);
 	R visitRoomsSet(P1 p1, P2 p2);
 	R visitSubject(P1 p1, P2 p2);
+	R visitTag(P1 p1, P2 p2);
 
 }

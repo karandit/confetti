@@ -91,6 +91,11 @@ public class FieldTypePutValueVisitor implements FieldTypeVisitor<ConstraintAttr
 	public ConstraintAttributes visitSubject(String key, Control ctrl) {
 		return attrs.withSubject(key, this.<Subject>getItemFromCombo(ctrl));
 	}
+	@Override
+	public ConstraintAttributes visitTag(String p1, Control p2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	//---------------helpers -------------------------------------------------------------------------------------------
 	private <T> T getItemFromCombo(Control ctrl) {
@@ -100,4 +105,5 @@ public class FieldTypePutValueVisitor implements FieldTypeVisitor<ConstraintAttr
 		Iterable<T> list = (Iterable<T>) combo.getData();
     	return (T) Iterables.get(list, selectionIndex);
 	}
+
 }

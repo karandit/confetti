@@ -24,6 +24,7 @@ public class FieldTypeAddToVisitor implements FieldTypeVisitor<Object, String, C
 	@Override public Object visitWeek(String key, Constraint target) { return null; }
 	@Override public Object visitPeriod(String key, Constraint target) { return null; }
 	@Override public Object visitInterval(String key, Constraint target) { return null; }
+	@Override public Object visitTag(String key, Constraint target) { return null; }
 
 	@Override
 	public Object visitSubject(String key, Constraint target) {

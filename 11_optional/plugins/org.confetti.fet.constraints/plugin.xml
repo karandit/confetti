@@ -48,6 +48,7 @@
             </constraint>
             <constraint id="time.MaxHoursPerDayWithAnActivityTagForATeacher" name="Max hours daily with an activity tag for a teacher">
                <teacher-field label="Teacher" name="teacher"/>
+               <tag-field label="Tag" name="tag"/>
                <hour-field label="Max hours daily" name="hours"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
@@ -64,6 +65,7 @@
             </constraint>
             <constraint id="time.MaxHoursContinuouslyWithAnActivityTagForATeacher" name="Max hours continuously with an activity tag for a teacher">
                <teacher-field label="Teacher" name="teacher"/>
+               <tag-field label="Tag" name="tag"/>
                <hour-field label="Max hours continuously" name="hours"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
@@ -97,6 +99,7 @@
             </constraint>
             <constraint id="time.MaxHoursPerDayWithAnActivityTagForAllTeachers" name="Max hours daily with an activity tag for all teachers">
                <hour-field label="Max hours daily" name="hours"/>
+               <tag-field label="Tag" name="tag"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
             <constraint id="time.MinHoursPerDayForAllTeachers" name="Min hours daily for all teachers">
@@ -110,6 +113,7 @@
             </constraint>
             <constraint id="time.MaxHoursContinuouslyWithAnActivityTagForAllTeachers" name="Max hours continuously with an activity tag for all teachers">
                <hour-field label="Max hours continuously" name="hours"/>
+               <tag-field label="Tag" name="tag"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
             <constraint id="time.HourlyIntervalMaxDaysPerWeekForAllTeachers" name="All teachers work in an hourly interval max days per week">
@@ -143,6 +147,9 @@
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxBeginningsAtSecondHourForAStudentGroup" name="A student group begins early (max beginnings at second hour)">
+               <integer-field label="Max beginnings at second hour" name="maxBeginnings"/>
+               <studentgroup-field label="Student group" name="studentgroup"/>
+               <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxHoursPerDayForAStudentGroup" name="Max hours daily for a student group">
                <studentgroup-field label="Student group" name="studentgroup"/>
@@ -152,6 +159,7 @@
              <constraint id="time.MaxHoursPerDayWithAnActivityTagForAStudentGroup" name="Max hours daily with an activity tag for a student group">
 			   <studentgroup-field label="Student group" name="studentgroup"/>
                <hour-field label="Max hours daily" name="hours"/>
+               <tag-field label="Tag" name="tag"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MinHoursPerDayForAStudentGroup" name="Min hours daily for a student group">
@@ -168,6 +176,7 @@
              <constraint id="time.MaxHoursContinuouslyWithAnActivityTagForAStudentGroup" name="Max hours continuously with an activity tag for a student group">
                <studentgroup-field label="Student group" name="studentgroup"/>
                <hour-field label="Max hours continuously" name="hours"/>
+               <tag-field label="Tag" name="tag"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.HourlyIntervalMaxDaysPerWeekForAStudentGroup" name="A student group works in an hourly interval max days per week">
@@ -191,6 +200,8 @@
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxBeginningsAtSecondHourForAllStudentGroups" name="All student groups begin early (max beginnings at second hour)">
+               <integer-field label="Max beginnings at second hour" name="maxBeginAt2ndHour"/>
+               <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MaxHoursPerDayForAllStudentGroups" name="Max hours daily for all student groups">
                <hour-field label="Max hours daily" name="hours"/>
@@ -198,6 +209,7 @@
             </constraint>
              <constraint id="time.MaxHoursPerDayWithAnActivityTagForAllStudentGroups" name="Max hours daily with an activity tag for all student groups">
                <hour-field label="Max hours daily" name="hours"/>
+               <tag-field label="Tag" name="tag"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.MinHoursPerDayForAllStudentGroups" name="Min hours daily for all student groups">
@@ -211,6 +223,7 @@
             </constraint>
              <constraint id="time.MaxHoursContinuouslyWithAnActivityTagForAllStudentGroups" name="Max hours continuously with an activity tag for all student groups">
                <hour-field label="Max hours continuously" name="hours"/>
+               <tag-field label="Tag" name="tag"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
              <constraint id="time.HourlyIntervalMaxDaysPerWeekForAllStudentGroups" name="All student groups work in an hourly interval max days per week">
@@ -241,20 +254,32 @@
          	<constraint id="time.MoreActivitiesHaveSomePreferredStartingTimes" name="A set of activities has a set of preferred starting times">
          	   <assignments-criteria-field label="Assignment" name="assignment"/>
          	   <week-field label="Starting times" name="starting-times"/>
+         	   <tag-field label="Tag" name="tag"/>
                <!--boolean-field label="Duration" name="duration-enabled"/-->
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
          	<constraint id="time.MoreActivitiesHaveSomePreferredTimeSlots" name="A set of activities has a set of preferred time slots">
          	   <assignments-criteria-field label="Assignment" name="assignment"/>
          	   <week-field label="Time slots" name="time-slots"/>
+         	   <tag-field label="Tag" name="tag"/>
                <!--boolean-field label="Duration" name="duration-enabled"/-->
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
 
 			<separator/>
          	<constraint id="time.MoreSubActivitiesHaveSomePreferredStartingTimes" name="A set of subactivities has a set of preferred starting times">
+               <assignments-criteria-field label="Assignments" name="assignment"/>
+               <week-field label="Starting times" name="starting-times"/>
+               <tag-field label="Tag" name="tag"/>
+               <integer-field label="Component" name="component"/>
+               <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
          	<constraint id="time.MoreSubActivitiesHaveSomePreferredTimeSlots" name="A set of subactivities has a set of preferred time slots">
+               <assignments-criteria-field label="Assignments" name="assignment"/>
+               <week-field label="Time slots" name="time-slots"/>
+               <tag-field label="Tag" name="tag"/>
+               <integer-field label="Component" name="component"/>
+               <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
 			         
 			<separator/>
@@ -277,6 +302,7 @@
             </constraint>
          	<constraint id="time.MoreActivitiesEndStudentsDay" name="A set of activities end students day">
                <assignments-criteria-field label="Assignments" name="assignments"/>
+               <tag-field label="Tag" name="tag"/>
                <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
 
@@ -461,14 +487,28 @@
          </category>
          <category name="Activity tags">
             <constraint id="space.ActivityTagHasAPreferredRoom" name="An activity tag has a preferred room">
+               <room-field label="Room" name="room"/>
+               <tag-field label="Tag" name="tag"/>
+               <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
             <constraint id="space.ActivityTagHasSomePreferredRooms" name="An activity tag has a set of preferred rooms">
+               <rooms-set-field label="Rooms" name="rooms"/>
+               <tag-field label="Tag" name="tag"/>
+               <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
          </category>
          <category name="Subjects and activity tags">
             <constraint id="space.SubjectAndActivityTagHaveAPreferredRoom" name="A subject and an activity tag have a preferred room">
+               <room-field label="Room" name="room"/>
+               <subject-field label="Subject" name="subject"/>
+               <tag-field label="Tag" name="tag"/>
+               <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
             <constraint id="space.SubjectAndActivityTagHaveSomePreferredRooms" name="A subject and an activity tag have a set of preferred rooms">
+               <rooms-set-field label="Rooms" name="rooms"/>
+               <subject-field label="Subject" name="subject"/>
+               <tag-field label="Tag" name="tag"/>
+               <double-field label="Weight percentage" name="weight-percentage"/>
             </constraint>
          </category>
          <category name="Activities">

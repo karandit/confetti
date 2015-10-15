@@ -98,6 +98,12 @@ public enum FieldType {
 		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
 			return visitor.visitSubject(p1, p2);
 		}
+    },
+    Tag("tag-field") { //$NON-NLS-1$
+		@Override
+		public <R, P1, P2> R accept(FieldTypeVisitor<R, P1, P2> visitor, P1 p1, P2 p2) {
+			return visitor.visitTag(p1, p2);
+		}
     };
 
     private String type;

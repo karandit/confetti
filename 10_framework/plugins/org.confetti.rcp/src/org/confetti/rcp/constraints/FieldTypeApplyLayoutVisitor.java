@@ -22,6 +22,7 @@ public enum FieldTypeApplyLayoutVisitor implements FieldTypeVisitor<Object, Cont
 	@Override public Object visitRoom(Control ctrl, Object p2) 					{ return applyTo(ctrl); }
 	@Override public Object visitRoomsSet(Control ctrl, Object p2) 				{ return applyTo(ctrl); }
 	@Override public Object visitSubject(Control ctrl, Object p2) 				{ return applyTo(ctrl); }
+	@Override public Object visitTag(Control ctrl, Object p2) 					{ return applyTo(ctrl); }
 	
 	//----------- helpers ----------------------------------------------------------------------------------------------
 	private static Object applyTo(Control ctrl, boolean hor, boolean ver) {

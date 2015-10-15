@@ -171,6 +171,13 @@ public enum FieldTypeCreateControlVisitor implements FieldTypeVisitor<Control, C
     	DataProvider dp = ConfettiPlugin.getDefault().getDataProvider().getValue();
         return createComboField(parent, dp.getSubjects().getList(), this.<Subject>safeGet(attribute, null));
     }
+
+	@Override
+	public Control visitTag(Composite parent, ConstraintAttribute<?> attribute) {
+    	Button button = new Button(parent, SWT.PUSH);
+		button.setText("Tag Field NOT IMPLEMENTED"); //$NON-NLS-1$
+    	return button;
+	}
     //---------------- helpers -----------------------------------------------------------------------------------------
     static String safeGetName(Nameable ent) {
     	String name = AssignmentsView.getName(ent);

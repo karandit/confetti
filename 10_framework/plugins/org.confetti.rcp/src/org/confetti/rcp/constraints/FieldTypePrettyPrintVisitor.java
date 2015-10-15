@@ -106,6 +106,11 @@ public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor<String, Stri
     	return safeGetName(attrs.asSubject(key));
     }
 
+	@Override
+	public String visitTag(String key, ConstraintAttributes attrs) {
+    	return safeGetName(attrs.asTag(key));
+	}
+
 	//---------------- helpers -----------------------------------------------------------------------------------------
     private static String convertAssignmentToString(Assignment ass) {
 		StringBuilder sb = new StringBuilder()
@@ -120,5 +125,5 @@ public enum FieldTypePrettyPrintVisitor implements FieldTypeVisitor<String, Stri
     	sb.append("}"); //$NON-NLS-1$
 		return sb.toString();
 	}
-	
+
 }
