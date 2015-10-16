@@ -1,4 +1,4 @@
-package org.confetti.rcp.wizards;
+package org.confetti.exporter.html;
 
 import org.confetti.core.DataProvider;
 import org.confetti.rcp.extensions.ExportWizardFactory;

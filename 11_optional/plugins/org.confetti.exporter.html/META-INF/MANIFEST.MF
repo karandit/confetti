@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Confetti Exporter Html
+Bundle-SymbolicName: org.confetti.exporter.html;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.confetti.rcp,
+ com.google.guava,
+ org.eclipse.swt
+Import-Package: org.confetti.core,
+ org.confetti.observable,
+ org.eclipse.jface.dialogs,
+ org.eclipse.jface.preference,
+ org.eclipse.jface.wizard

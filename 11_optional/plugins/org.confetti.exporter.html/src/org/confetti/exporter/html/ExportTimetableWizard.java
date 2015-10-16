@@ -1,7 +1,7 @@
-package org.confetti.rcp.wizards;
+package org.confetti.exporter.html;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.confetti.rcp.wizards.ExportTimetableWizard.PrintersToHTML.MATRIX;
+import static org.confetti.exporter.html.ExportTimetableWizard.PrintersToHTML.MATRIX;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +23,6 @@ import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Teacher;
 import org.confetti.observable.ObservableList;
-import org.confetti.rcp.nls.Messages;
-import org.confetti.rcp.wizards.models.ExportTimetableModel;
-import org.confetti.rcp.wizards.pages.FolderChooseWizardPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
@@ -97,7 +94,7 @@ public class ExportTimetableWizard extends Wizard {
     public ExportTimetableWizard(DataProvider dp) {
     	this.dp = dp;
 		model = new ExportTimetableModel(null);
-        setWindowTitle(Messages.ExportTimetableWizard_Title);
+        setWindowTitle("Export timetables");
     }
     
     @Override
@@ -112,7 +109,9 @@ public class ExportTimetableWizard extends Wizard {
             folderPath.mkdir();
             exportTimetables(folderPath);
         } catch (IOException e) {
-            MessageDialog.openError(Display.getDefault().getActiveShell(), Messages.ExportTimetableWizard_Error, Messages.ExportTimetableWizard_Warning_CouldNotCreateFiles + e.getMessage());
+            MessageDialog.openError(Display.getDefault().getActiveShell(), 
+            		"Error",
+            		"Could not create the files\n\n" + e.getMessage());
             e.printStackTrace();
         }
         return true;

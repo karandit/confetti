@@ -1,4 +1,4 @@
-package org.confetti.rcp.wizards.models;
+package org.confetti.exporter.html;
 
 import java.io.File;
 

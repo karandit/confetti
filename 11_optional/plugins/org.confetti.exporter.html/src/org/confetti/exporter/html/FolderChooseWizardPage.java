@@ -1,8 +1,7 @@
-package org.confetti.rcp.wizards.pages;
+package org.confetti.exporter.html;
 
 import java.io.File;
 
-import org.confetti.rcp.wizards.models.ExportTimetableModel;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;

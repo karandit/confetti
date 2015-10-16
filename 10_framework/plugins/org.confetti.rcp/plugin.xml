@@ -722,12 +722,5 @@
             restorable="true">
       </view>
    </extension>
-   <extension
-         point="org.confetti.rcp.exportWizard">
-      <exportWizard
-            factory="org.confetti.rcp.wizards.HtmlExportWizardFactory"
-            name="Html">
-      </exportWizard>
-   </extension>
 
 </plugin>

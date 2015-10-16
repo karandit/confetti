@@ -22,6 +22,7 @@
 		<module>./11_optional/plugins/org.confetti.dataprovider.db.mysql</module>
 		<module>./11_optional/plugins/org.confetti.dataprovider.db.mssql</module>
 		<module>./11_optional/plugins/org.confetti.tablix.dataprovider</module>
+		<module>./11_optional/plugins/org.confetti.exporter.html</module>
 	</modules>
 
 	<properties>
