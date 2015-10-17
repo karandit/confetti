@@ -63,12 +63,6 @@ public class Messages extends NLS {
 
 	public static String ExportTimetableCommand_Title;
 
-	public static String ExportTimetableWizard_Error;
-
-	public static String ExportTimetableWizard_Title;
-
-	public static String ExportTimetableWizard_Warning_CouldNotCreateFiles;
-
 	public static String General_Comment;
 
 	public static String General_Name;

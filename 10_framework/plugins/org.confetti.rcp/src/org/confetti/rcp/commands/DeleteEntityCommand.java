@@ -36,7 +36,7 @@ public class DeleteEntityCommand extends AbstractHandler {
 	        IStructuredSelection strucSelection = (IStructuredSelection) selection;
 	        final Entity firstSelected = (Entity) strucSelection.getFirstElement();
             if (MessageDialog.openConfirm(shell, "Delete", "The selected Entity will be deleted! \n Are you sure?")) {
-	        	DataPersister dataPersister = ConfettiPlugin.getDefault().getDataPersister().get();;
+	        	DataPersister dataPersister = ConfettiPlugin.getDefault().getDataPersister().get();
             	if (!firstSelected.accept(DeleteEntityVisitor.INSTANCE, dataPersister)) {
 	        	    MessageDialog.openError(shell, "Delete", 
 	        	    		"The selected Entity could not be deleted, because it has Assignments. \n"

@@ -22,6 +22,7 @@ import org.confetti.core.Nameable;
 import org.confetti.core.SolutionSlot;
 import org.confetti.core.StudentGroup;
 import org.confetti.core.Teacher;
+import org.confetti.exporter.html.nls.Messages;
 import org.confetti.observable.ObservableList;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
@@ -94,7 +95,7 @@ public class ExportTimetableWizard extends Wizard {
     public ExportTimetableWizard(DataProvider dp) {
     	this.dp = dp;
 		model = new ExportTimetableModel(null);
-        setWindowTitle("Export timetables");
+        setWindowTitle(Messages.ExportTimetableWizard_Title);
     }
     
     @Override
@@ -110,8 +111,8 @@ public class ExportTimetableWizard extends Wizard {
             exportTimetables(folderPath);
         } catch (IOException e) {
             MessageDialog.openError(Display.getDefault().getActiveShell(), 
-            		"Error",
-            		"Could not create the files\n\n" + e.getMessage());
+            		Messages.ExportTimetableWizard_Error,
+            		Messages.ExportTimetableWizard_CouldNotCreateFiles + e.getMessage());
             e.printStackTrace();
         }
         return true;
