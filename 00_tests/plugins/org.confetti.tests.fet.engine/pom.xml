@@ -6,7 +6,7 @@
 		<relativePath>../../../pom.xml</relativePath>
 		<groupId>org.confetti</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>0.1.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>org.confetti.tests.fet.engine</artifactId>
