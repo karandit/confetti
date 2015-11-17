@@ -7,11 +7,7 @@
       <image path="/org.confetti.rcp/product_icon.png"/>
       <text>
          Confetti
-Non-released version (2014.12.15)
-by Gábor Bubla
-
-For later releases the project can be found at:
-https://github.com/bublag/confetti
+Check https://github.com/karandit/confetti/releases
       </text>
    </aboutInfo>
 
@@ -35,6 +31,7 @@ https://github.com/bublag/confetti
             winMediumHigh="/org.confetti.rcp/product_icon_32x32.bmp"/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
@@ -102,12 +99,19 @@ https://github.com/bublag/confetti
    </plugins>
 
    <features>
-      <feature id="org.confetti.feature.rcp" version="1.0.0.qualifier"/>
+      <feature id="org.confetti.feature.rcp"/>
       <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.emf.ecore"/>
       <feature id="org.eclipse.e4.rcp"/>
       <feature id="org.eclipse.emf.common"/>
    </features>
 
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
 
 </product>
